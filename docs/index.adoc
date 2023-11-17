@@ -1,0 +1,48 @@
+:toc: left
+:toclevels: 3
+:sectnums:
+:attachmentsdir: /dookug/java/dookug-backend/{release_version}/generated
+
+= DookuG
+
+Version: {release_version}
+
+
+A projekt célja hogy általános template alapú dokumentum generálást tegyen lehetővé a kliensei számára.
+
+A projekt microservice alapon tartalmaz minta service-ket:
+
+* REST Service - Csak REST szükségleteket szolgál ki.
+
+== Általános
+A technológiák melyeken alapszik:
+
+include::tech-stack.adoc[]
+
+== Tartalom
+
+.Projekt struktúra
+
+* `/docs` - Dokumentációk tárhelye
+* `/etc` - Konfigurációk, fejlesztési környezet scriptek, stb.
+* `/dookug-bom` - Maven dependency definíciók
+* `/dookug-api` - modul API
+* `/dookug-common` - Közös, általános kódok melyeket a service-k használnak
+* `/dookug-client` - Kliens a modulhoz
+* `/dookug-engine` - Feldolgozást segítő tool implementációk
+* `/dookug-document` - Dokumentum generálást összefogó REST szolgáltatások
+* `/dookug-testsuite` - Fejlesztői tesztesetek gyűjtő könyvtára
+
+include::client.adoc[leveloffset=+1]
+
+include::service/document.adoc[leveloffset=+1]
+
+include::customfont/customization.adoc[leveloffset=+1]
+
+include::digitalsign/signing.adoc[leveloffset=+1]
+
+include::install.adoc[leveloffset=+1]
+
+include::openapi.adoc[leveloffset=+1]
+
+include::release-notes.adoc[leveloffset=+1]

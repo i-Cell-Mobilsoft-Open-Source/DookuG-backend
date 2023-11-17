@@ -1,0 +1,8 @@
+.Service (jar, war)
+- Java 11+
+- Maven 3.3.0+
+- Java EE 8
+- Wildfly 26.1.1Final
+
+.Környezet
+- Docker compose, Docker

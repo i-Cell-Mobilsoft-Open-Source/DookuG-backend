@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.icellmobilsoft.pom</groupId>
+        <artifactId>parent-oss-pom</artifactId>
+        <version>1.4.0</version>
+    </parent>
+
+    <groupId>hu.icellmobilsoft.dookug</groupId>
+    <artifactId>dookug</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+	<description>Document generator and template management service</description>
+	<url>https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend</url>
+	<inceptionYear>2023</inceptionYear>
+
+	<properties>
+		<project.scm.id>icell-github-server</project.scm.id>
+		<sonar.junit.reportPaths>${surefire.reportsDir}, ${failsafe.reportsDir}</sonar.junit.reportPaths>
+		<sonar.jacoco.reportPaths>${jacoco.ut.execution.data.file}, ${jacoco.it.execution.data.file}</sonar.jacoco.reportPaths>
+	</properties>
+
+	<scm>
+		<connection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/coffee.git</connection>
+		<developerConnection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/DookuG-backend.git</developerConnection>
+		<url>https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend</url>
+	</scm>
+
+	<issueManagement>
+		<system>github issues</system>
+		<url>https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend/issues</url>
+	</issueManagement>
+
+    <modules>
+        <module>dookug-bom</module>
+        <module>dookug-api</module>
+        <module>dookug-api-jee10</module>
+        <module>dookug-common</module>
+        <module>dookug-engine</module>
+        <module>dookug-document</module>
+        <module>dookug-client</module>
+        <module>dookug-client-jee10</module>
+        <module>dookug-testsuite</module>
+<!--
+-->
+    </modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<git-commit>${buildNumber}</git-commit>
+								<git-branch>${scmBranch}</git-branch>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<git-commit>${buildNumber}</git-commit>
+								<git-branch>${scmBranch}</git-branch>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<configuration>
+						<releaseProfiles>release</releaseProfiles>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>io.smallrye</groupId>
+					<artifactId>jandex-maven-plugin</artifactId>
+					<version>3.1.5</version>
+					<executions>
+						<execution>
+							<id>make-index</id>
+							<goals>
+								<goal>jandex</goal>
+							</goals>
+							<!-- phase is 'process-classes by default' -->
+							<configuration>
+								<fileSets>
+									<fileSet>
+										<directory>${project.build.directory}</directory>
+									</fileSet>
+								</fileSets>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+                <plugin>
+                    <groupId>io.smallrye</groupId>
+                    <artifactId>smallrye-open-api-maven-plugin</artifactId>
+                    <version>3.1.0-RC1</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate-schema</goal>
+                            </goals>
+                            <!-- default process-classes, ami keso gitlab ci "compile" szamara -->
+                            <phase>compile</phase>
+                            <!-- sajnos a https://github.com/smallrye/smallrye-open-api/tree/main/tools/maven-plugin#m2e-integration
+                                 valamiert kirorli a "paths" reszt az openapi fajlban, de konzolbol a maven jol kezeli.
+                                 Problema a 'package' maven phase, ami valahogy elrontja-->
+                            <configuration>
+                                <outputDirectory>${project.build.directory}/openapi</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.transformer</groupId>
+                    <artifactId>transformer-maven-plugin</artifactId>
+                    <version>0.5.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <rules>
+                            <jakartaDefaults>true</jakartaDefaults>
+                        </rules>
+                    </configuration>
+                </plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*.java</include>
+					</includes>
+					<ignoreNoFileToScan>true</ignoreNoFileToScan>
+					<projectName>DookuG</projectName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.smallrye</groupId>
+				<artifactId>jandex-maven-plugin</artifactId>
+			</plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Acoffee.configDoc.outputDir=${project.basedir}/target</arg>
+                        <arg>-Acoffee.configDoc.outputToClassPath=false</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>ossrh</id>
+			<name>Internal Release Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</repository>
+		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
+
+	<profiles>
+		<profile>
+			<id>check-javadoc</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<failOnError>true</failOnError>
+<!--
+-->
+							<failOnWarnings>true</failOnWarnings>
+							<excludePackageNames>hu.icellmobilsoft.dookug.schemas.*</excludePackageNames>
+							<sourceFileExcludes>**/*_.java</sourceFileExcludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<gpgArguments>
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>${nexus-staging-maven-plugin.version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<serverId>ossrh</serverId>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+							<keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

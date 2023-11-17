@@ -1,0 +1,26 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.dookug.hu/COMMON/1.0/rest/common"
+	targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common" xmlns:common="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+	xmlns:coffeeCommonService="http://common.dto.coffee.icellmobilsoft.hu/commonservice" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" />
+	<xs:import namespace="http://common.dto.coffee.icellmobilsoft.hu/commonservice" />
+
+	<!-- REQUEST/RESPONSE COMPLEX TYPES -->
+	<xs:complexType name="BaseRequestType">
+		<xs:annotation>
+			<xs:documentation>Alapértelmezett request típus</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="coffeeCommonService:BaseRequestType" />
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BaseResponseType">
+		<xs:annotation>
+			<xs:documentation>Alapértelmezett response típus</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="coffeeCommonService:BaseResponseType" />
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

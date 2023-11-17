@@ -1,0 +1,17 @@
+{
+  "HIS_PATIENT_ID": "111111111",
+  "BIRTH_NAME": "Gipsz Jakab",
+  "BLOOD_TYPE": "AB",
+  "BI_CITY": "BUDAPEST",
+  "BI_BIRTH_DATE": "1989.06.13",
+  "TIME_OF_DEATH": "2023.02.20",
+  "MOTHER_NAME": "",
+  "SOCIAL_SECURITY_NUMBER": "111111111",
+  "BUILDING": "B épület",
+  "FLOOR": "2",
+  "ROOM": "10",
+  "BED": "20",
+  "TREATING_DOCTOR_NAME": "Dr. Legjobb Orvos",
+  "CONTACT_NAME": "Gipsz Jakab",
+  "CONTACT_TYPE": "Gondviselő"
+}

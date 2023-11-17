@@ -1,0 +1,52 @@
+#-------------------------------
+# Maven config
+#-------------------------------
+#service.name=${service.name}
+#-------------------------------
+# Coffee config
+#-------------------------------
+coffee:
+  config:
+    resource:
+      bundles: i18n.messages
+    xml:
+      catalog:
+        path: xsd/hu/icellmobilsoft/dookug/super.catalog.xml
+
+dookug:
+  service:
+    engine:
+      pdf:
+        digitalsign:
+          signature:
+            default:
+              name: Default Llc.
+              reason: Original document
+              keystore: /home/icellmobilsoft/keys/keystore.p12
+              keystorePass: 123456
+              keystoreType: PKCS12
+              keyAlias: test 
+            sampleProfile:
+              name: Sample Llc.
+              reason: Original
+              keystore: /home/icellmobilsoft/keys/keystore.p12
+              keystorePass: 123456
+              keystoreType: PKCS12
+              keyAlias: test
+      saxon:
+        fopconfig: /home/icellmobilsoft/fop-config/fop-config.xml
+        xslt:
+          language:
+            variable: lang
+            default: HU
+      handlebars:
+        helper:
+          javascript:
+            directory: /home/icellmobilsoft/handlebars/helper/js
+#-------------------------------
+# XML security settings
+#-------------------------------
+org.xml.sax.parser: com.sun.org.apache.xerces.internal.parsers.SAXParser
+javax.xml.parsers.DocumentBuilderFactory: com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
+javax.xml.parsers.SAXParserFactory: com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl
+entityExpansionLimit: 100

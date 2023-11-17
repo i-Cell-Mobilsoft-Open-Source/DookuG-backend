@@ -1,0 +1,98 @@
+/*-
+ * #%L
+ * DookuG
+ * %%
+ * Copyright (C) 2023 i-Cell Mobilsoft Zrt.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+package hu.icellmobilsoft.dookug.document.service.action;
+
+import javax.enterprise.inject.Model;
+import javax.enterprise.inject.spi.CDI;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
+import hu.icellmobilsoft.dookug.common.cdi.document.Document;
+import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
+
+/**
+ * Stored template based document generation action
+ *
+ * @author laszlo.padar
+ * @since 0.1.0
+ */
+@Model
+public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAction {
+
+    /**
+     * Document generation with stored template data. Storage of template depends on implementation.
+     * 
+     * @param request
+     *            {@link StoredTemplateDocumentGenerateRequest} Request dto
+     * @return Generated PDF
+     * @throws BaseException
+     *             on error
+     */
+    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+        if (request == null) {
+            throw newInvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
+        }
+
+        Document document = generateAndGetDocument(request.getGeneratorSetup());
+
+        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+    }
+
+    /**
+     * Document generation with stored template data. Storage of template depends on implementation.
+     *
+     * @param request
+     *            {@link StoredTemplateDocumentGenerateRequest} Request dto
+     * @return {@link DocumentMetadataResponse}
+     * @throws BaseException
+     *             on error
+     */
+    public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+        if (request == null) {
+            throw newInvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
+        }
+
+        Document document = generateAndGetDocument(request.getGeneratorSetup());
+
+        return toDocumentMetadataResponse(document);
+    }
+
+    private Document generateAndGetDocument(StoredTemplateGeneratorSetupType generatorSetup) throws BaseException {
+
+        ITemplateStore store = CDI.current()
+                .select(ITemplateStore.class, new StorageMethodQualifier.Literal(generatorSetup.getTemplateStorageMethod().name()))
+                .get();
+
+        // Így előtöltöttünk minden - az adott requesthez szükséges - templatet. A template motor resolvere/loadere ezután ebből a containerből
+        // gazdálkodik.
+        store.loadTemplatesByNameAndValidity(
+                generatorSetup.getTemplate().getTemplateName(),
+                generatorSetup.getTemplate().getTemplateLanguage().name(),
+                generatorSetup.getTemplate().getValidityDate());
+
+        return generateDocument(generatorSetup);
+    }
+}

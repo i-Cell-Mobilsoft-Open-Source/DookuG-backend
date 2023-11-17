@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		html, body {
+		    width:  180mm;
+		    height: 297mm;
+		    font-family: Roboto;
+		  font-size: 10px;
+		}
+	
+	    table { page-break-inside:auto }
+	    tr    { page-break-inside:avoid; page-break-after:auto }
+	    thead { display:table-header-group }
+	    tfoot { display:table-footer-group }
+	
+		table {
+		  margin-bottom: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+<table style="height: 161px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 161px;">
+<td style="width: 50%; height: 161px; text-align: center;"><img src="data:image/png;base64,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" alt="" /></td>
+<td style="width: 50%; height: 161px;">
+<div style="text-align: center;" data-font-name="g_d1_f1" data-angle="0" data-canvas-width="205.11999999999998">Siófoki kórház</div>
+<div style="text-align: center;" data-font-name="g_d1_f2" data-angle="0" data-canvas-width="251.55999999999995">3456 City, Street</div>
+<div style="text-align: center;" data-font-name="g_d1_f2" data-angle="0" data-canvas-width="214.34">nőgyógyászat</div>
+<div style="text-align: center;" data-font-name="g_d1_f2" data-angle="0" data-canvas-width="418.9799999999999">3456 Albertirsa, Fő</div>
+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p style="text-align: center; font-size: 20px;"><strong>ÁPOLÁSI DOKUMENTÁCIÓ</strong></p>
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="15">
+<tbody>
+<tr>
+<td style="width: 80%;">
+<table style="width: 100%; border-collapse: collapse; height: 72px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Név: </strong>Gipsz Jakab</td>
+<td style="width: 100%; height: 18px;"><strong>HIS azonosító: </strong>{{HIS_PATIENT_ID}}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Születési név: </strong>${BIRTH_NAME}</td>
+<td style="width: 100%; height: 18px;"><strong>Vércsoport: </strong>${BLOOD_TYPE}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Születési hely, idő: </strong>${BI_CITY} ${BI_BIRTH_DATE}</td>
+<td style="width: 100%; height: 18px;"><strong>Elhalálozás időpontja: </strong>${TIME_OF_DEATH}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Anyja neve: </strong>${MOTHER_NAME}</td>
+<td style="width: 100%; height: 18px;"><strong>TAJ: </strong>${SOCIAL_SECURITY_NUMBER}</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 36px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 36px;">
+<td style="width: 100%; height: 36px;"><strong>Lakcím: </strong>${PA_SIMPLE_ADDRESS} ${PA_COUNTRY} ${PA_REGION} ${PA_AREA} ${PA_ZIP_CODE} ${PA_CITY} ${PA_NAME_OF_OUTSKIRTS} ${PA_LAND_REGISTER_REFERENCE} ${PA_PUBLIC_SPACE} ${PA_PUBLIC_TYPE} ${PA_APARTMENT_NUMBER} ${PA_BUILDING} ${PA_STAIRWAYS} ${PA_FLOOR} ${PA_DOOR}</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style="width: 20%; text-align: center;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkAQAAAABYmaj5AAAA8klEQVR4XtXTsa3DIBAG4LMoXGYBJK9Bx0qwQHhZ4GUld17DkheAjgL5f2fjp6Qx5zJBLvxV3P13EN5OpA9WJHK23EbqJCWUAKSJfySN2mfyE/kLcgbPi6K5uyKUu9X+VdmpuD8/af/q9lR8VjP7I7OWIhWP2dlaS0tpWn4tHqAgabU6gOegb5IiLYnTxXzcdy5kuhv89DWJllZa+EschiijidMFnpISFkBFU6tuCSC31T48ZCH2Kh2ZtcSzDePwX3VL+14PCcM+26ZGHbKKpPZaBPEKdLnUG9ryWXGXNZeWUFyPuAUsaHvTPa+MrLfzNfoDLkrCCMoxKzEAAAAASUVORK5CYII=" /></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; height: 72px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong><u>Épület, szint, kórterem, ágy</u></strong>: ${PATIENT_PLACEMENT} ${BUILDING} ${FLOOR} ${ROOM} ${BED}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Kezelőorvos neve:</strong> ${TREATING_DOCTOR_NAME}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Legközelebbi hozzátartozó, gondnok neve, lakcíme,telefonszáma:</strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">${CONTACT_NAME}</td>
+<td style="width: 50%;">Hozzátartozó típusa: ${CONTACT_TYPE}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 14px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 14px;">${COUNTRY} ${REGION} ${TERRITORY}<br />${ZIP_CODE} ${PC_CITY} ${PC_STREET} ${STREET_TYPE} ${STREET_NUMBER} ${PC_BUILDING} ${PC_FLOOR} ${DOOR} ${ADDRESS1} ${ADDRESS2}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">Email: ${CONTACT_EMAIL}</td>
+<td style="width: 50%;">Telefon: ${CONTACT_PHONE}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 18px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Háziorvos neve:</strong> ${FAMILY_DOCTOR_NAME}</td>
+<td style="width: 50%; height: 18px;"><strong>Családi állapota:</strong> ${MARITAL_STATE}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 108px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Felvétel ideje és módja:</strong> ${NURSING_CARE_START}, ${NURSING_CARE_START_TYPE}<br />${NURSING_CARE_START_DETAIL}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>A felvétel oka a beteg, és/vagy kísérő elmondása szerint: </strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">${ADMISSION_REASON}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">Anamnézis felvételének ideje: ${ANAMNESIS_RECORDING_DATE}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">Anamnézis felvételének típusa: ${ANAMNESIS_RECORDING_TYPE}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">Anamnézis: ${ANAMNESIS_RECORDING_DETAIL}</td>
+</tr>
+<tr>
+<td style="width: 100%;"><strong><u>Felvételi diagnózis: /orvosi/</u></strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">${BNO_CODE}</td>
+<td style="width: 50%;">${BNO_COMMENT}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellspacing="10" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Allergia:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;">${ALLERGY}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Szokások:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">Dohányzás: ${ADDICTION_SMOKE}</td>
+<td style="width: 50%;">Kávé: ${ADDICTION_COFFEE}</td>
+</tr>
+<tr>
+<td style="width: 50%;">Alkohol: ${ADDICTION_ALCOHOL}</td>
+<td style="width: 50%;">Egyéb: ${ADDICTION_OTHER}, ${OTHER_ADDICTION_DETAIL}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Szociális anamnézis</strong>:</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 18px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Gondnok neve</strong>: ${CARETAKER_NAME}</td>
+<td style="width: 50%; height: 18px;"> Telefonszáma: ${CARETAKER_PHONE}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Szociális helyzet: </strong>${SOCIAL_SITUATION}, ${SOCIAL_SITUATION_DETAIL}</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 36px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Gyermekkel kísérő</strong>: ${CHILD_HAS_ATTENDANT}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Iskolai végzettsége</strong>: ${EDUCATIONAL_ATTAINMENT}</td>
+</tr>
+<tr>
+<td style="width: 100%;"><strong>Iskolai végzettség leírása:</strong> ${EDUCATIONAL_ATTAINMENT_DETAIL}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Tudatállapot:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 144px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Tudatállapot: </strong>${CONSCIOUSNESS}</td>
+<td style="width: 50%; height: 18px;"><strong>Sopor: </strong>${SOPOR_ABNORMALITY}</td>
+</tr>
+<tr style="height: 36px;">
+<td style="width: 50%; height: 36px;"><strong>Térben dezorientált: </strong>${DISORIENTED_IN_SPACE}</td>
+<td style="width: 50%; height: 36px;"><strong>Coma: </strong>${COMA_ABNORMALITY}</td>
+</tr>
+<tr style="height: 36px;">
+<td style="width: 50%; height: 36px;"><strong>Időben dezorientált: </strong>${DISORIENTED_IN_TIME}</td>
+<td style="width: 50%; height: 36px;"><strong>Delírium: </strong>${DELIRIUM_ABNORMALITY}</td>
+</tr>
+<tr style="height: 36px;">
+<td style="width: 50%; height: 36px;"><strong>Önmagát illetően dezorientált: </strong>${DISORIENTED_IN_SELF}</td>
+<td style="width: 50%; height: 36px;"><strong>Euphoria: </strong>${EUPHORIA_ABNORMALITY}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Somnolens: </strong>${SOMNOLENS_ABNORMALITY}</td>
+<td style="width: 50%; height: 18px;"><strong>Agónia: </strong>${AGONY_ABNORMALITY}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Kültakaróra </strong>(bőr)<strong> állapota, tisztálkodás, öltözködésre vonatkozó információk:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 18px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Nyomási fekély esetén további dokumentáció!</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="height: 18px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Higiéne</strong>:</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;"><strong>Test</strong>: ${BODY_CARE}</td>
+<td style="width: 50%;"><strong>Száj</strong>: ${MOUTH_CARE}</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 18px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Fogazat</strong>: ${TEETH_CARE}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-radius: 10px; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="height: 18px; width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Vitális paraméterek felvételkor:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 54px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Szisztolés: </strong>${SYSTOLE}</td>
+<td style="width: 50%; height: 18px;"><strong>Diasztolés: </strong>${DIASTOLIC}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Testhőmérséklet</strong>: ${BODY_TEMPERATURE}</td>
+<td style="width: 50%; height: 18px;"><strong>Légzés: </strong>${BREATHING}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Pulzus: </strong>${PULSE}</td>
+<td style="width: 50%; height: 18px;"><em><strong>Pacemaker:</strong> ${PACEMAKER}</em></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 54px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Pulzus: ${PULSE_TYPE}</td>
+<td style="width: 50%; height: 18px;">
+<div class="mb-1">
+<div class="mat-caption text-sm caption-color">Kóros pulzus leírása: ${ABNORMAL_PULSE}</div>
+</div>
+</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">
+<div class="mat-caption text-sm caption-color">Pulzus ritmusa: ${PULSE_RHYTHM}</div>
+</td>
+<td style="width: 50%; height: 18px;">Teltsége: ${FULLNESS}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 90px;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;"><em><strong><u>Légzés: </u></strong></em></td>
+<td style="width: 50%;"><em><strong>Dyspnoe:</strong> ${DYSPNOE}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em>Száma</em>: ${BREATHING_COUNT}</td>
+<td style="width: 50%; height: auto;">munka: ${DYSPNOE_WORK}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em>Ritmusa: ${BREATHING_RHYTHM}</em></td>
+<td style="width: 50%; height: auto;">nyugalmi: ${DYSPNOE_RESTING}</td>
+</tr>
+<tr style="height: 36px;">
+<td style="width: 50%; height: 36px;"><em>Ritmus leírása: ${BREATHING_RHYTHM_OTHER}</em></td>
+<td style="width: 50%; height: auto;">ortopnoe: ${DYSPNOE_ORTOPNOE}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em>Hangja: ${BREATHING_VOICE}</em></td>
+<td style="width: 50%; height: auto;">paroxysmalis: ${DYSPNOE_PAROXYSMALIS}</td>
+</tr>
+<tr>
+<td style="width: 50%;"><em> </em></td>
+<td style="width: 50%;">éjszakai: ${DYSPNOE_NIGHT}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;"><em><strong>Köhögés: </strong>${COUGH}<br /></em></td>
+<td style="width: 50%;"><em>Köhögés típusa: ${COUGH_TYPE}</em></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 86px; width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 86px;">
+<td style="width: 100%; height: 86px;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Mozgás:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="height: 36px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;"><em>Mozgás: ${MOBILITY}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><em>segédeszközt igényel: ${REQUIRES_AID}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><em>segédeszközt használ: ${USE_AID}, ${USE_AID_TYPE}</em></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Fájdalom meglétének felmérése</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 162px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em><strong>Fájdalom:</strong> ${IN_PAIN}</em></td>
+<td style="width: 50%; height: 18px;"><em><strong>fájdalom helye:</strong> ${LOCATION_OF_PAIN}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong><em>Fájdalom típusa</em>:</strong></td>
+<td style="width: 50%; height: 18px;"><strong><em>Jellege:</em></strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Izom: ${MUSCLE_PAIN_TYPE}</td>
+<td style="width: 50%; height: 18px;"><em>lüktető: ${PULSATING_PAIN_NATURE}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Csont: ${BONE_PAIN_TYPE}</td>
+<td style="width: 50%; height: 18px;"><em>szorító: ${SQUEEZING_PAIN_NATURE}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Izületi: ${JOINT_PAIN_TYPE}</td>
+<td style="width: 50%; height: 18px;"><em>feszítő: ${STRAINING_PAIN_NATURE}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Ideg: ${NERVE_PAIN_TYPE}</td>
+<td style="width: 50%; height: 18px;"><em>tompa: ${DULL_PAIN_NATURE}</em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Anginás: ${ANGINA_PAIN_TYPE}</td>
+<td style="width: 50%; height: 18px;"><em>egyéb: ${OTHER_PAIN_NATURE}  ${OTHER_PAIN_NATURE_DETAIL}</em></td>
+</tr>
+<tr>
+<td style="width: 50%;">Bőr: ${SKIN_PAIN}</td>
+<td style="width: 50%;"><em> </em></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;">Egyéb: ${OTHER_PAIN_TYPE}  ${OTHER_PAIN_DETAIL}</td>
+<td style="width: 50%; height: 18px;"><em><strong> Időtartama: ${PAIN_PERIOD}</strong></em></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;"><em><strong>Fájdalom gyakorisága: ${PAIN_FREQUENCY}</strong></em></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Látás:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: auto;">
+<td style="width: 50%; height: auto;">Jobb szem: ${RIGHT_EYE}</td>
+<td style="width: 50%; height: auto;">Bal szem: ${LEFT_EYE}</td>
+</tr>
+<tr style="height: auto;">
+<td style="width: 50%; height: auto;">Jobb szem szürkehályog: ${RIGHT_EYE_CATARACT}</td>
+<td style="width: 50%; height: auto;">Bal szem szürkehályog: ${LEFT_EYE_CATARACT}</td>
+</tr>
+<tr style="height: auto;">
+<td style="width: 50%; height: auto;">Jobb szem zöldhályog: ${RIGHT_EYE_GLAUCOMA}</td>
+<td style="width: 50%; height: auto;">Bal szem zöldhályog: ${LEFT_EYE_GLAUCOMA}</td>
+</tr>
+<tr style="height: auto;">
+<td style="width: 50%; height: auto;"><em><strong>Segédeszközt használ:</strong> ${EYE_AID}, ${EYE_AID_OTHER}</em></td>
+<td style="width: 50%; height: 36px;"> </td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Hallás:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">Jobb fül: ${RIGHT_HEARING}</td>
+<td style="width: 50%;">Bal fül: ${LEFT_HEARING}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;">Hallókészüléket használ: ${HEARING_AID}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Alvás, pihenés:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;">Alvásprobléma: ${SLEEP_PROBLEM}</td>
+<td style="width: 50%;"><em>Altatószert szed: ${SLEEPING_PILLS}</em></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Táplálkozás:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 18px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong><u>Diéta:</u> </strong>${DIET}</td>
+</tr>
+<tr>
+<td style="width: 100%;">Diéta leírása: ${DIET_OTHER}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 50%;"><em>Rágási nehézség: ${DIFFICULTY_CHEWING}</em></td>
+<td style="width: 50%;"><em>Nyelési nehézség</em>: ${DIFFICULTY_SWALLOWING}</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong><u>Táplálkozás módja:</u> </strong>${EATING_TYPE}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 79px; width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 79px;">
+<td style="width: 100%; height: 79px;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Kiválasztási szokások,problémák felmérése:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 36px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Vizeletürítési probléma: </strong>${URINATION_PROBLEM}${URINATION_PROBLEM_OTHER}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Bélműködési probléma:</strong> ${INTESTINAL_PROBLEM} ${INTESTINAL_PROBLEM_OTHER}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Reprodukció:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 36px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Nő: </strong>${REPRODUCTION_WOMAN} </td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Férfi: </strong>${REPRODUCTION_MAN}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #ededed; border-style: groove;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="height: 36px; width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Immunműködés:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 54px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><strong>Transzplantációs anamnezés:</strong></td>
+<td style="width: 50%; height: 18px;"><em>szervátültetés</em>: ${HAD_ORGAN_TRANSPLANT}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em>sugárkezelés</em>: ${HAD_RADIOTHERAPY}</td>
+<td style="width: 50%; height: 18px;"><em>kemoterápia</em>: ${HAD_CHEMOTHERAPY}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px;"><em>egyéb: ${OTHER_IMMUNE_FUNCTION_RELATED_THERAPY_DETAIL}</em></td>
+<td style="width: 50%; height: 18px;"><em> </em></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="height: 36px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Közgyógyászati ellátásban részesül-e? </strong>${RECEIVE_PUBLIC_HC}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">érvényesség ideje: ${PUBLIC_HC_END_DATE}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; border-style: groove; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Nyomási fekély rizikó felmérés</strong> / <strong><em>Bővített Norton - skála</em></strong> /</td>
+</tr>
+</tbody>
+</table>
+<table style="height: 180px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Kooperációs készség</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_COOPERATE_ABILITY}</td>
+<td style="width: 36.3924%; height: 18px;"><strong>I. csoport:</strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Bőr állapota</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_SKIN_STATE}</td>
+<td style="width: 36.3924%; height: 36px;" rowspan="2">26 vagy ennél több jó általános állapotú, jól kooperáló mobilis beteg</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Kísérő betegség</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_CONCOMITANT_DISEASE}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Általános állapot</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_GENERAL_STATE}</td>
+<td style="width: 36.3924%; height: 18px;"><strong>II. csoport:</strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Mentális státus</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_MENTAL_STATUS}</td>
+<td style="width: 36.3924%; height: 36px;" rowspan="3">16-25 pont között decubitusos betegségre hajlamos, fokozott figyelmet igényel.</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Aktivitás</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_ACTIVITY}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Mobilitás</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_MOBILITY}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Incontinencia<br /></strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_INCONTINENCE}</td>
+<td style="width: 36.3924%; height: 18px;"><strong>III. csoport:</strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Életkor</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_AGE}</td>
+<td style="width: 36.3924%; height: 18px;" rowspan="2">15 vagy annál kevesebb fokozottan veszélyeztetett, aktív prevenciót igényel</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 27.2152%; height: 18px;"><strong>Összesen</strong></td>
+<td style="width: 36.3924%; height: 18px;">${DECUBITUS_SUMMA}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong>Ápolási tevékenység elvégzéséhez szükséges  ápolási kategória szerinti besorolás:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="height: 90px; width: 100%; border-collapse: collapse;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">A besorolás: ${AS_CLASSIFICATION_A}<br />S besorolás: ${AS_CLASSIFICATION_S}<br />Egyéb besorolás: ${AS_CLASSIFICATION_OTHER}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong><u>Egyéb szükségletek:</u></strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">${OTHER_NEEDS}</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Ápolási diagnózis(ok):</strong></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;">${NURSING_CARE_DIAGNOSIS}</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-style: groove; border-color: #ededed; height: 97px;" border="0" cellpadding="8">
+<tbody>
+<tr style="height: 97px;">
+<td style="width: 100%; height: 97px;">
+<table style="width: 100%; border-collapse: collapse; background-color: #e1e1e1; border-radius: 20px;" border="0" cellpadding="8">
+<tbody>
+<tr>
+<td style="width: 100%;"><strong> Ápolási terv:</strong></td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; border-color: #e1e1e1; border-radius: 20px; ; border-style: solid;" border="1">
+<tbody>
+<tr>
+<td style="width: 20%;"><strong>ápolási probléma</strong></td>
+<td style="width: 20%;"><strong>ápolási cél</strong></td>
+<td style="width: 20%;"><strong>ápolási teendők</strong></td>
+<td style="width: 20%;"><strong>ápolás várható eredménye</strong></td>
+<td style="width: 20%;"><strong>értékelés</strong></td>
+</tr>
+
+<tr>
+<td style="width: 20%;">Problémás</td>
+<td style="width: 20%;">Cél</td>
+<td style="width: 20%;">Feladat</td>
+<td style="width: 20%;">Eredmény</td>
+<td style="width: 20%;">Kiértékelés</td>
+</tr>
+
+<tr>
+<td style="width: 20%;">Betegség</td>
+<td style="width: 20%;">Gyógyulás</td>
+<td style="width: 20%;">Ellátás</td>
+<td style="width: 20%;">Még ismeretlen</td>
+<td style="width: 20%;">Később</td>
+</tr>
+
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse; height: 36px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 100%; height: 18px;"><strong>Tervezett elbocsátás: </strong>${PLANNED_NURSING_CARE_END}</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<table style="width: 100%; border-collapse: collapse; height: 54px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; text-align: center; height: 18px;">…………………………………….</td>
+<td style="width: 50%; text-align: center; height: 18px;">…………………………………….</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; text-align: center; height: 18px;">A felvételt végző ápoló aláírása</td>
+<td style="width: 50%; text-align: center; height: 18px;">Beteg vagy törvényes képviselő aláírása</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<table style="width: 100%; border-collapse: collapse; height: 54px;" border="0">
+<tbody>
+<tr style="height: 18px;">
+<td style="width: 50%; height: 18px; text-align: left;"><strong>Dátum, ellenőrzés: </strong>${DATE}</td>
+<td style="width: 50%; height: 18px; text-align: center;">…………………………………….</td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 50%; text-align: center; height: 18px;"> </td>
+<td style="width: 50%; text-align: center; height: 18px;"><strong>Osztályvezető / részlegvezető főnővér</strong></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

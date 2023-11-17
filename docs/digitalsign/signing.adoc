@@ -1,0 +1,62 @@
+== PDF-ek digitális aláírása
+
+A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a digitális aláíráshoz egy self signed certificate-et használ, melyet a docker-compose 
+fájl segítségével adunk hozzá az image-hez `/home/icellmobilsoft/keys/keystore.p12` fájlként.
+
+A keystore az `/etc/docker-compose/keys` mappában található és 2023. november 7-én az alábbi paranccsal lett létrehozva:
+
+[source,text]
+----
+keytool -genkeypair -storepass 123456 -storetype pkcs12 -alias test -validity 10958 -v -keyalg RSA -keystore keystore.p12
+----
+
+[WARNING]
+====
+Ez egyben azt is jelenti, hogy 2053. november 7-én le fog járni.
+
+====
+
+
+=== Konfiguráció
+
+Az aláírást az API hívásokban a request GeneratorSetup -jában tudjuk kérni. Itt meg tudjuk adni
+a `signatureName`-et, `signatureReason`-t, valamint az private key alias-t (`keyAlias`) arra az esetre, ha a keystore
+fájl több private kulcsot is tartalmazna. 
+
+[source,xml]
+----
+...
+<ns2:generatorSetup>
+    <ns2:generatorEngine>PDF_BOX</ns2:generatorEngine>
+    <ns2:templateEngine>NONE</ns2:templateEngine>
+    <ns2:responseFormat>PDF</ns2:responseFormat>
+    <ns2:addDigitalSignature>
+        <ns2:signatureName>TestSuite name</ns2:signatureName>
+        <ns2:signatureReason>TestSuite teszt reason</ns2:signatureReason>
+        <ns2:signatureProfile>sampleProfile</ns2:signatureProfile>
+    </ns2:addDigitalSignature>
+        ...
+----
+
+Az aláírást a következő konfigurációs kulcsokkal tudjuk testreszabni:
+[source,yaml]
+----
+dookug:
+  service:
+    engine:
+      pdf:
+        digitalsign:
+          signature:
+            sampleProfile: <1>
+              name: Példa kft. <2>
+              reason: Hitelesített <2>
+              keystore: /home/icellmobilsoft/keys/keystore.p12 <3>
+              keystorePass: 123456 <4>
+              keystoreType: PKCS12 <4>
+              keyAlias: kulcs_teszt <5>
+----
+<1> a signatureProfile neve
+<2> a `name` és a `reason` default értékek arra vannak, ha a request nem tartalmazná ezen értékeket.
+<3> a `keystore` kötelezően megadandó, az aláíró kulcsok gyűjtőhelyét tartalmazza.
+<4> a `keystorePass`, `keystoreType` a keystore fájlhoz tartozó jelszót, valamint a keystore típusát adja meg, ezek szintén kötelezően megadandó értékek.
+<5> a keystore-on belül a provát kulcs azonosítója

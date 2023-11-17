@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fop version='1.0'>
+    <renderers>
+        <renderer mime='application/pdf'>
+            <fonts>
+                <!-- TTF fonts -->
+                <font kerning='yes' embed-url='/home/icellmobilsoft/fonts/Roboto/Roboto-Regular.ttf'>
+                    <font-triplet name='Roboto' style='normal' weight='normal' />
+                </font>
+                <font kerning='yes' embed-url='/home/icellmobilsoft/fonts/Roboto/Roboto-Bold.ttf'>
+                    <font-triplet name='Roboto' style='normal' weight='bold' />
+                </font>
+            </fonts>
+        </renderer>
+    </renderers>
+</fop>

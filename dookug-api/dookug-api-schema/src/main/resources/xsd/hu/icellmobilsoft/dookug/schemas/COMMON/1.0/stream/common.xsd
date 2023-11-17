@@ -1,0 +1,75 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common"
+    targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common" xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+    xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common" />
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" />
+
+    <!-- MESSAGE COMPLEX TYPES -->
+
+    <xsd:complexType name="BaseAckMessageType">
+        <xsd:annotation>
+            <xsd:documentation>Base message type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="sourceId" type="coffeeCommon:SimpleText64NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Source id</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sourceSystem" type="coffeeCommon:SimpleText128NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Source system</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="sourceTime" type="coffeeCommon:TimestampType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Source time</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ackTime" type="coffeeCommon:TimestampType">
+                <xsd:annotation>
+                    <xsd:documentation>Ack time</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="IdWrapperMessageType">
+        <xsd:annotation>
+            <xsd:documentation>Message dto with id property</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="id" type="coffeeCommon:SimpleText50NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Identifier value</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- MESSAGE ELEMENTS -->
+
+    <xsd:element name="IdWrapperMessage">
+        <xsd:annotation>
+            <xsd:documentation>Id wrapper message</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="IdWrapperMessageType" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="BaseAckMessage">
+        <xsd:annotation>
+            <xsd:documentation>Base ACK message</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="BaseAckMessageType" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

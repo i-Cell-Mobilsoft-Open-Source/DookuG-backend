@@ -1,0 +1,310 @@
+= DOCUMENT service
+
+* Main: `dookug-document/dookug-document-service`
+
+== Dokumentum generálása
+
+A modul több lehetőséget is biztosít dokumentum generálására.
+Mindegyik lehetőségnél küldenünk kell, hogy a sablon-t, illetve a dokumentumot milyen engine dolgozza fel, milyen formátumban szeretnénk megkapni a fájlt, illetve milyen tárolási metódussal mentsük el a legenerált dokumentumot.
+Ha a generált dokumentumunk formátumának nem STRING értéket adunk meg, de nem adunk meg engine-t, amely feldolgozhatja a dokumentumot, illetve ha STRING formátumot szeretnénk, de engine-nek megadtuk a PDF_BOX-t, akkor INVALID_INPUT hibát adunk vissza.
+A dokumentum generárálásához, ha a kiinduló sablon alapján szükséges, paramétereket is meg kell adni.
+Ennek megadására több lehetőség is van, az egyik, hogy kulcs-érték párokban küldjük.
+A másik esetben egy json szerkezetett várunk el, amit base64binary formában kell küldeni a kérésben.
+
+[[generateInline]]
+=== Dokumentum generálása request body alapján
+
+A generálás során egy request body-ban beküldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat: sablont és a dokumentumot feldolgozó engine-t, a válasz formátumot, illetve a dokumentum tárolási metódusát.
+
+Minta dokumentum generálás request - json paraméterekkel base64binary formában (a jobb olvashatóság érdekében a sablonok tartalmának és a paraméter értékei le lettek vágva):
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/inline
+Headers:		Accept=application/json
+				Content-Type=application/json
+----
+
+[source,json]
+----
+{
+  "context": {
+    "requestId": "431AZYLPPS6LJE01",
+    "timestamp": "2023-02-22T09:12:23.533Z"
+  },
+  "generatorSetup": {
+    "generatorEngine": "PDF_BOX",
+    "templateEngine": "HANDLEBARS",
+    "parametersData": "ewogICAgIklOU1RJVFVURV9OQU1FIjogIlNpw7Nmb2tpIGvDs3Jow...",
+    "responseFormat": "PDF",
+    "documentStorageMethod": "DATABASE"
+  },
+  "templates": [
+    {
+      "templateName": "main_template",
+      "templateContent": "PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KCjxzdHls...",
+      "initial": true
+    },
+    {
+      "templateName": "head_template",
+      "templateContent": "PHRhYmxlIHN0eWxlPSJoZWlnaHQ6IDE2MXB4OyB3aWR0aDog...",
+      "initial": false
+    }
+  ]
+}
+----
+
+A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
+Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/metadata
+Headers:		Accept=application/json
+				Content-Type=application/json
+----
+
+[[generateInlineMultipart]]
+=== Dokumentum generálása multipart form alapján
+
+A generáláshoz be kell küldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat.
+Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal.
+
+Minta dokumentum generálás multipart form request kulcs-érték paraméterekkel:
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/multipart
+Headers:		Accept=application/octet-stream
+				Content-Type=multipart/form-data
+
+Content-Disposition: form-data; name="REQUEST"
+Content-Type: application/json
+{
+    "context": {
+      "requestId": "42ZZBR3LKJZ9IT0X",
+      "timestamp": "2023-02-21T12:57:52.113Z"
+    },
+    "generatorSetup": {
+      "generatorEngine": "PDF_BOX",
+      "templateEngine": "HANDLEBARS",
+      "parameters":[{"key":"first","value":"első"},{"key":"second","value":"í123456789öüóőúűáé-.,<>#&@{};*¤ß$"}],
+      "responseFormat": "PDF",
+      "documentStorageMethod": "DATABASE"
+    }
+}
+--2b17c723-ec5b-4c99-8dcf-c6d8972c4564
+Content-Disposition: form-data; name="TEMPLATE"
+Content-Type: application/octet-stream
+
+DookuG simple test with prameters first: [{{first}}], second: [{{second}}]
+----
+
+A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+Lehetőség van arra is, hogy ne a dokumentumot kapjuk meg, hanem az azt leíró metaadatokat.
+Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/multipart/metadata
+Headers:		Accept=application/json
+				Content-Type=multipart/form-data
+----
+
+[[generateStored]]
+=== Dokumentum generálása mentett sablon alapján
+
+A generáláshoz be kell küldenünk a sablon nevét, amiből generáltatjuk a dokumentumot, valamint a generáláshoz tartozó adatokat.
+Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal, kiegészülve azzal, hogy a sablont milyen tárban tároljuk.
+
+Példa dokumentum generálása mentett sablon alapján request - json paraméterekkel base64binary formában (a jobb olvashatóság érdekében a paraméter értéke le lett vágva):
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/storedTemplate
+Headers:		Accept=application/json
+				Content-Type=application/json
+----
+
+[source,json]
+----
+{
+  "context": {
+    "requestId": "431BIFEOUJ0ODU01",
+    "timestamp": "2023-02-22T09:26:45.121Z"
+  },
+  "generatorSetup": {
+    "templateStorageMethod": "DATABASE",
+    "template": {
+      "templateName": "DEV_TEMPLATE_HANDLEBARS",
+      "templateLanguage": "HU",
+      "validityDate": "2023-02-22T09:26:45.130074Z"
+    },
+    "generatorEngine": "PDF_BOX",
+    "templateEngine": "HANDLEBARS",
+    "parametersData": "ewogICJ0aXRsZSI6ICJwZWxkYSBjaW0iLAogICJjdXJyZW50WWV...",
+    "responseFormat": "PDF",
+    "documentStorageMethod": "DATABASE"
+  }
+}
+----
+
+A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
+Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+
+Az adatbázisban tárolt template kulcsa a templateName és templateLanguage értékéből áll össze.
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/generate/storedTemplate/metadata
+Headers:		Accept=application/json
+				Content-Type=application/json
+----
+
+'''
+
+A dokumentum mentése a `documentStorageMethod` paraméter megadásától függ.
+Két értéket vehet fel jelenleg: `NONE` és `DATABASE`
+Amennyiben a `NONE` értéket adjuk meg, akkor a dokumentumot nem mentjük el, így a későbbiekben nem is lehet lekérdezni.
+A `DATABASE` esetében a generált dokumentumot adatbázis táblába mentjük el, és a későbbi lekérdezéskor, onnan olvassuk ki.
+Az adatbázisba elmentjük még a dokumentumhoz tartozó egyéb adatokat is:
+
+* a kiinduló sablon azonosítóját - abban az esetben, ha nincs elmentve a sablon ezt a paramétert nem töltjük
+* a generált fájl nevét - Három részből generáljuk a fájlnevet: a dokumentum egyedi azonosítója, a kiinduló sablon neve, és a generálás időpontja long értéke
+* a fájl formátuma
+* a dokumentum státusza - DONE, FAILED, PENDING, SYNCING
+* a dokumentumhoz tartozó paraméterek
+* a dokumentum tárolási formája - `DATABASE` esetén ezt a mezőt is DATABASE értékkel töltjük
+
+'''
+
+A generálás során bármilyen formában adjuk meg a kiinduló sablont a válaszban vagy a generált fájlt kapjuk vissza, vagy a dokumentumot leíró metaadatokat, DocumentMetadataResponse típusú objektumként.
+
+Példa DocumentMetadataResponse:
+
+[source,json]
+----
+{
+    "context": {
+      "requestId": "42ZZBQ5K7W43FI6W",
+      "timestamp": "2023-02-21T12:57:50.888Z"
+    },
+    "funcCode": "OK",
+    "metadata": {
+      "documentId": "42ZZBQ3ISCXWVO6V",
+      "storageMethod": "DATABASE",
+      "filename": "filename.pdf",
+      "format": "PDF",
+      "status" : "DONE"
+    }
+}
+----
+[[queryDocumentMetadata]]
+== Dokumentum metaadatainak lekérdezése
+
+A dokumentum metaadatok lekérdezésének célja, hogy a megadott szűrési feltételeknek megfelelő dokumentum adatokat visszaadjuk.
+
+A végpont biztosítja a lapozhatóságot, vagyis az adatokat több oldalon keresztül kaphatjuk meg.
+Ehhez a kérésben beküldhetjük, hogy melyik oldal adatait szeretnénk visszakapni, illetve az oldalról mennyi elemet.
+Ennek megfelelően a válaszban visszaadjuk, hogy összesen hány elem található, illetve, hogy az elemek mennyi oldalon férnek el.
+Amennyiben nem küldjük ezt a paramétert a végpont alapértelmezetten az első 15 elemet fogja visszaadni.
+
+A végponton a következő szűrési feltételek adhatóak meg:
+
+* templateId - a dokumentum generáláshoz használt sablon azonosítója
+* status - a dokumentum státusza
+* format - a dokumentum fájl formátuma
+* storageMethod - a dokumentum tárolási formája
+* storageId - a dokumentum tárolójának egyedi azonosítója
+* filename - a dokumentum fájl neve
+
+A rendezési paraméter lehet:
+
+* filename
+* documentStorageMethod
+* format
+* status
+
+A rendezési paraméterekhez meg lehet adni külön-külön, hogy csökkenő, illetve növekvő rendezést szeretnénk.
+Az előbb említett rendezéseken kívül, van egy alapértelmezett rendezés a dokumentum azonosítójára.
+
+Minta DocumentMetadataQueryRequest:
+
+[source,http request]
+----
+Request method:	POST
+Request URI:	http://localhost:8082/internal/dookug/document/storedTemplate/metadata/query
+Headers:		Accept=application/json
+				Content-Type=application/json; charset=UTF-8
+----
+
+[source,json]
+----
+{
+    "context": {
+      "requestId": "43183LDKQNC2R702",
+      "timestamp": "2023-02-22T09:15:14.168Z"
+    },
+    "paginationParams": {
+      "rows": 10,
+      "page": 1
+    },
+    "queryParams": {
+      "status": "DONE",
+      "storageMethod": "DATABASE",
+      "filename": "filename.pdf",
+      "format": "PDF",
+      "templateId" : "MAIN_TEMPLATE"
+    }
+}
+----
+
+Ha a kérésben beküldött paraméterek alapján található dokumentum metaadat, akkor a válaszban egy maximum 100 elemű listában visszakapjuk az adatokat.
+
+Minta DocumentMetadataQueryResponse:
+
+[source,json]
+----
+{
+    "context": {
+      "requestId": "43183LDKQNC2R702",
+      "timestamp": "2023-02-22T09:15:14.168Z"
+    },
+    "funcCode": "OK",
+    "rowList": {
+      "documentId": "43183KXXW2KCI206",
+      "storageMethod": "DATABASE",
+      "filename": "filename.pdf",
+      "format": "PDF",
+      "status" : "DONE"
+    }
+  }
+----
+
+[[getDocument]]
+== Dokumentum lekérdezése
+
+A végpont célja, hogy a már legenerált és elmentett dokumentumot a megadott azonosító alapján visszaadja.
+
+Minta dokumentum lekérdezés request:
+
+[source]
+----
+Request method:	GET
+Request URI:	http://localhost:8082/internal/dookug/document/content/43183KXXW2KCI206 <1>
+Headers:		Content-Type=application/octet-stream
+----
+
+<1> A generált dokumentum azonosítója
+
+Amennyiben a beküldött azonosítóhoz nem található dokumentum, akkor ENTITY_NOT_FOUND hibát adunk vissza.
+
+A válaszban - létező dokumentum azonosító esetén - visszaküldjük a generált dokumentumot, és HTTP header-ben a fájl nevét is.

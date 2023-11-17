@@ -1,0 +1,9 @@
+dookug:
+    write:
+        document: true
+    service:
+        document:
+            base:
+                uri: http://localhost:8082
+            management:
+                uri: http://localhost:9992

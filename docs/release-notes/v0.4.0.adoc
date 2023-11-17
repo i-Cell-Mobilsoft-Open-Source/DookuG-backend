@@ -1,0 +1,8 @@
+== v0.4.0
+
+Projekt kikerült Open source Github-ra.
+
+* maven pom change:
+** `<groupId>hu.icellmobilsoft.dookug.common</groupId>` -> `<groupId>hu.icellmobilsoft.dookug</groupId>`
+** `<groupId>hu.icellmobilsoft.dookug.document</groupId>` -> `<groupId>hu.icellmobilsoft.dookug</groupId>`
+** `<groupId>hu.icellmobilsoft.dookug.client</groupId>` -> `<groupId>hu.icellmobilsoft.dookug</groupId>`

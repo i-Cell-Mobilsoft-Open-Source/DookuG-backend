@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.icellmobilsoft.dookug</groupId>
+		<artifactId>dookug-common</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>dookug-common-system-jpa</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>hu.icellmobilsoft.dookug</groupId>
+			<artifactId>dookug-common-system-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>hu.icellmobilsoft.dookug</groupId>
+			<artifactId>dookug-common-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>hu.icellmobilsoft.coffee</groupId>
+			<artifactId>coffee-system-jpa</artifactId>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-weldunit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>hu.icellmobilsoft.roaster</groupId>
+			<artifactId>roaster-common-util</artifactId>
+		</dependency>
+	</dependencies>
+</project>

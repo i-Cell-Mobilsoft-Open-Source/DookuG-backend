@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+    
+    @font-face {
+        font-family: 'NotoSansThai';
+        font-style: normal;
+        src: url(file:/home/icellmobilsoft/fonts/NotoSansThai/NotoSansThai-Regular.ttf);
+        -fs-font-subset: complete-font;
+    }
+    @font-face {
+        font-family: 'NotoSansThai-Variable';
+        src: url(file:/home/icellmobilsoft/fonts/NotoSansThai/NotoSansThai-VariableFont_wdth,wght.ttf);
+        -fs-font-subset: complete-font;
+    }
+    @font-face {
+        font-family: 'Cairo-Variable';
+        font-style: normal;
+        src: url(file:/home/icellmobilsoft/fonts/Cairo/Cairo-VariableFont_slnt,wght.ttf);
+        -fs-font-subset: complete-font;
+    }
+    @font-face {
+        font-family: 'Cairo';
+        font-style: normal;
+        src: url(file:/home/icellmobilsoft/fonts/Cairo/Cairo-Regular.ttf);
+        -fs-font-subset: complete-font;
+    }
+    @font-face {
+        font-family: 'IndieFlower';
+        font-style: normal;
+        src: url(file:fonts/IndieFlower/IndieFlower-Regular.ttf);
+        -fs-font-subset: complete-font;
+    }
+
+    html, body {
+        width:  180mm;
+        height: 297mm;
+        font-family: Arial;
+        font-size: 30px;
+    }
+
+    table { page-break-inside:auto }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
+    table {
+        margin-bottom: 20px;
+    }
+    
+    .noto {
+      font-family: 'NotoSansThai';
+    }
+    .notov {
+      font-family: 'NotoSansThai-Variable';
+    }
+    .indie {
+      font-family: 'IndieFlower', Arial;
+    }
+    .cairo {
+      font-family: 'Cairo', Arial;
+    }
+    .cairov { 
+      font-family: 'Cairo-Variable', Arial;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .italic {
+      font-style: italic;   
+    }
+    .quicksand {
+      font-family: 'Quicksand', Arial;
+	  font-weight: 700;
+	  font-style: normal;
+	  font-size: 38px;
+	  line-height: 1.15;
+	  letter-spacing: -.02em;
+	  color: rgba(0, 0, 0, 0.8);
+	  -webkit-font-smoothing: antialiased;
+    }
+</style>
+
+</head>
+
+<body>
+
+
+<p>Default Arial Font {{TEXT_TO_SHOW}}</p>
+<p class="noto">Regular Noto Thai Font {{TEXT_TO_SHOW}}</p>
+<p class="notov bold">Bold Noto Variable Thai Font {{TEXT_TO_SHOW}}</p>
+<p class="noto italic">Italic Noto Thai Font {{TEXT_TO_SHOW}}</p>
+<p class="noto italic bold">Bold Italic Thai Noto Font {{TEXT_TO_SHOW}}</p>
+<p class="cairo">Regular Cairo Font {{TEXT_CAIRO}}</p>
+<p class="cairov">Regular Variable Cairo Font {{TEXT_CAIRO}}</p>
+<p class="indie">IndieFlower Regular Font úőüöóéáyí</p>
+<p class="quicksand">Google Quicksand Font úőüöóéáyí</p>
+
+
+</body>
+</html>

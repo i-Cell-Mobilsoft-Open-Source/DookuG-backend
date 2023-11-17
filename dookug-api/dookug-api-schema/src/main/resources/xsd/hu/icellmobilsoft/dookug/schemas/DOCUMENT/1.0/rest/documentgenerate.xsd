@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:annox="http://annox.dev.java.net"
+            xmlns="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"
+            xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+            xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+            xmlns:apiRestCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"
+            targetNamespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"/>
+    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common"/>
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"/>
+
+    <!-- SIMPLE TYPES -->
+    <xsd:simpleType name="TemplateLanguageType">
+        <xsd:annotation>
+            <xsd:documentation>Template nyelve</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText2NotBlankType">
+            <xsd:enumeration value="HU">
+                <xsd:annotation>
+                    <xsd:documentation>magyar</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EN">
+                <xsd:annotation>
+                    <xsd:documentation>angol</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DE">
+                <xsd:annotation>
+                    <xsd:documentation>német</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="GeneratorEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás 3rd party library szerinti implementációja</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Generálás motor kikapcsolva</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PDF_BOX">
+                <xsd:annotation>
+                    <xsd:documentation>Apache - PDFBox</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SAXON">
+                <xsd:annotation>
+                    <xsd:documentation>SAXON</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TemplateEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Template kezelés 3rd party technológia szerinti implementációja</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Tempate engine kikapcsolva</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HANDLEBARS">
+                <xsd:annotation>
+                    <xsd:documentation>Handlebars template szintax kiegészítése Mustache template-nek. További információ
+                        https://github.com/jknack/handlebars.java
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="ResponseFormatType">
+        <xsd:annotation>
+            <xsd:documentation>Válasz objektum formátum típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="STRING">
+                <xsd:annotation>
+                    <xsd:documentation>Szöveg, karakterlánc</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PDF">
+                <xsd:annotation>
+                    <xsd:documentation>Pdf file</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TemplateStorageMethodType">
+        <xsd:annotation>
+            <xsd:documentation>Template eltárolásának módja</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="DATABASE">
+                <xsd:annotation>
+                    <xsd:documentation>A templateket adatbázisban tároljuk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="DocumentStorageMethodType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum tartalmának eltárolásának módja</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum tartalmát nem tároljuk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DATABASE">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum tartalmát adatbázisban tároljuk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="DocumentMetadataQueryOrderByType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum sorrendezés típusa</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:enumeration value="FILENAME">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum neve</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DOCUMENT_STORAGE_METHOD">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum tárolási metódusa</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FORMAT">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum formátuma</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="STATUS">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum státusza</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="DocumentStatusType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum státusz típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:enumeration value="DONE">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum generálása és mentése sikeresen befejeződött</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FAILED">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum mentése közben hiba történt</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PENDING">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum mentésre vár</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SYNCING">
+                <xsd:annotation>
+                    <xsd:documentation>A dokumentum mentés alatt van</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- COMPLEX TYPES -->
+    <xsd:complexType name="TemplateType">
+        <xsd:annotation>
+            <xsd:documentation>Template típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="templateName" type="apiCommon:TemplateNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Template neve. Egyedi.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templateContent" type="xsd:base64Binary">
+                <xsd:annotation>
+                    <xsd:documentation>Template tartalma</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="initial" type="xsd:boolean" default="false">
+                <xsd:annotation>
+                    <xsd:documentation>A template fastruktúrában gyökér elem</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="StoredTemplateType">
+        <xsd:annotation>
+            <xsd:documentation>Modulban tárolt template típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="templateName" type="apiCommon:TemplateNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Template neve. Egyedi a nyelvvel együtt.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templateLanguage" type="TemplateLanguageType">
+                <xsd:annotation>
+                    <xsd:documentation>Template nyelve. Egyedi a névvel együtt.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validityDate" type="coffeeCommon:TimestampType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Adott nyomtatási kérés érvényességi ideje. Ehhez az időponthoz kell a modulnak adott néven templatet találni.
+                        Ha nincs megadva, jelenlegi dátummal keresi.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DigitalSigningType">
+        <xsd:annotation>
+            <xsd:documentation>Digitális aláíráshoz szükséges típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="signatureName" type="coffeeCommon:SimpleText30NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Aláírás neve</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="signatureReason" type="coffeeCommon:SimpleText128NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Aláírás oka</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="signatureProfile" type="coffeeCommon:SimpleText64NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Aláíró profile, ami be van konfigurálva a modulban</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataQueryOrderType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat sorrendezési típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="order" type="DocumentMetadataQueryOrderByType">
+                <xsd:annotation>
+                    <xsd:documentation>Oszlop szerinti sorba rendezés</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="coffeeCommon:OrderByTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>Sorba rendezés típusa: ASC - Növekvő, DESC - Csokkenő</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- REQUEST/RESPONSE TYPES -->
+    <xsd:complexType name="StoredTemplateDocumentGenerateRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás modulban tárolt templatekkel kérés típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="generatorSetup" type="StoredTemplateGeneratorSetupType">
+                        <xsd:annotation>
+                            <xsd:documentation>Generátor beállítások</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="StoredTemplateGeneratorSetupType">
+        <xsd:annotation>
+            <xsd:documentation>Generálás beállítása modulban tárolt templatekkel típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="BaseGeneratorSetupType">
+                <xsd:sequence>
+                    <xsd:element name="templateStorageMethod" type="TemplateStorageMethodType">
+                        <xsd:annotation>
+                            <xsd:documentation>Template tárolás módja</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="template" type="StoredTemplateType">
+                        <xsd:annotation>
+                            <xsd:documentation>Generáláskor felhasznált fő - root template</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadatait leíró típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="documentId" type="coffeeCommon:EntityIdType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum azonosítója (DOCUMENT.X__ID)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="storageMethod" type="DocumentStorageMethodType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum tárolási metódusa</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="filename" type="coffeeCommon:SimpleText100NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum neve</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="format" type="ResponseFormatType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum formátuma</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="status" type="DocumentStatusType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum státusza</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataQueryParamsType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat szűrő paraméterek</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="templateId" type="coffeeCommon:EntityIdType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum template azonosítója</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="storageMethod" type="DocumentStorageMethodType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum tárolási metódusa</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="storageId" type="coffeeCommon:SimpleText30NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum tárolás azonosítója</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="filename" type="coffeeCommon:SimpleText100NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum neve</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="format" type="ResponseFormatType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum formátuma</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="status" type="DocumentStatusType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum státusza</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="ParametersDataType">
+        <xsd:annotation>
+            <xsd:documentation>Paraméterek összetett típusa</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="templateParameters" type="xsd:base64Binary" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template enginehez szükséges paraméterek json-ként</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="generatorParameters" type="xsd:base64Binary" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Generátor (pl SAXON) enginehez szükséges paraméterek</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+        
+    <xsd:complexType name="BaseGeneratorSetupType">
+        <xsd:annotation>
+            <xsd:documentation>Generálás beállítása típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="generatorEngine" type="GeneratorEngineType">
+                <xsd:annotation>
+                    <xsd:documentation>Generátor library</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templateEngine" type="TemplateEngineType">
+                <xsd:annotation>
+                    <xsd:documentation>Template engine</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="responseFormat" type="ResponseFormatType">
+                <xsd:annotation>
+                    <xsd:documentation>Kimenő vagy válasz formátum</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="addDigitalSignature" type="DigitalSigningType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Digitális aláírás hozzáadása</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="documentStorageMethod" type="DocumentStorageMethodType">
+                <xsd:annotation>
+                    <xsd:documentation>Dokumentum tárolási módja</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="parameters" type="apiCommon:ParameterType" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:annotation>
+                        <xsd:documentation>Generáláskor felhasznált paraméter lista template engine-hez</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="parametersData" type="ParametersDataType" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>Generáláskor felhasznált paraméterek összetett típusa</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="InlineGeneratorSetupType">
+        <xsd:annotation>
+            <xsd:documentation>Inline generálás beállítása típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="BaseGeneratorSetupType">
+                <xsd:sequence>
+                    <xsd:element name="templateLanguage" type="TemplateLanguageType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>Inline requestek esetében a dokumentum nyelve, alapértelmezetten magyar</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentGenerateRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás kérés típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="generatorSetup" type="InlineGeneratorSetupType">
+                        <xsd:annotation>
+                            <xsd:documentation>Generátor beállítások</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentGenerateWithTemplatesRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás templatekkel kérés típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="generatorSetup" type="InlineGeneratorSetupType">
+                        <xsd:annotation>
+                            <xsd:documentation>Generátor beállítások</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="templates" type="TemplateType" maxOccurs="10">
+                        <xsd:annotation>
+                            <xsd:documentation>Template tartalmak</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataResponseType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat válasz típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseResponseType">
+                <xsd:sequence>
+                    <xsd:element name="metadata" type="DocumentMetadataType">
+                        <xsd:annotation>
+                            <xsd:documentation>Dokumentum metaadata</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataQueryRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat lekérdezés kérés típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="paginationParams" type="coffeeCommon:QueryRequestDetails" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>Lapozási adatok</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="queryOrders" type="DocumentMetadataQueryOrderType" minOccurs="0"
+                                 maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Query rendezés beállítása</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="queryParams" type="DocumentMetadataQueryParamsType">
+                        <xsd:annotation>
+                            <xsd:documentation>Query szűrés beállítása</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="DocumentMetadataQueryResponseType">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat lekérdezés válasz típus</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseResponseType">
+                <xsd:sequence>
+                    <xsd:element name="paginationParams" type="coffeeCommon:QueryResponseDetails">
+                        <xsd:annotation>
+                            <xsd:documentation>Lapozási adatok</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="rowList" type="DocumentMetadataType" minOccurs="0" maxOccurs="100">
+                        <xsd:annotation>
+                            <xsd:documentation>Dokumentum metaadatok</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!-- REQUEST/RESPONSE ELEMENTS -->
+    <xsd:element name="DocumentGenerateRequest"> 
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás kérés</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentGenerateRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="DocumentGenerateWithTemplatesRequest"> 
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás templatekkel kérés</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentGenerateWithTemplatesRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="StoredTemplateDocumentGenerateRequest"> 
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum generálás modulban tárolt templatekkel kérés</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="StoredTemplateDocumentGenerateRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="DocumentMetadataQueryRequest">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat query kérés</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentMetadataQueryRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="DocumentMetadataResponse">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat válasz</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentMetadataResponseType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="DocumentMetadataQueryResponse">
+        <xsd:annotation>
+            <xsd:documentation>Dokumentum metaadat query válasz</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentMetadataQueryResponseType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
