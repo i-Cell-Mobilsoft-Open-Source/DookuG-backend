@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug</groupId>
 		<artifactId>dookug</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.4.0-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -25,12 +25,12 @@
 		<dependency>
 			<groupId>hu.icellmobilsoft.dookug</groupId>
 			<artifactId>dookug-api-dto-jee10</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>hu.icellmobilsoft.dookug</groupId>
 			<artifactId>dookug-api-rest-jee10</artifactId>
-			<version>${version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>hu.icellmobilsoft.coffee</groupId>
@@ -57,9 +57,9 @@
 						</goals>
 						<configuration>
 							<artifact>
-								<groupId>hu.icellmobilsoft.dookug.client</groupId>
+								<groupId>hu.icellmobilsoft.dookug</groupId>
 								<artifactId>dookug-client</artifactId>
-								<version>${version}</version>
+								<version>${project.version}</version>
 								<type>jar</type>
 							</artifact>
 						</configuration>
