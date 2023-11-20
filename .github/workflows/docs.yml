@@ -1,0 +1,28 @@
+# This workflow will generate html documentation from asciidoc and publish it to `gh-pages` branch
+name: Deploy documentation
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch [main]
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
+      - name: Generate with asciidoctor image
+        uses: manoelcampos/asciidoctor-ghpages-action@v2
+        with:
+          pdf_build: true
+          # asciidoctor_params: --attribute=nofooter
+          # adoc_file_ext: .ascii # default is .adoc
+          source_dir: docs/ # default is .
+          ebook_main_adoc_file: index
+          # slides_build: true
+          # pre_build:
+          # post_build:
