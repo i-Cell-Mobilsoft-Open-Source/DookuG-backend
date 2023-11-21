@@ -46,6 +46,11 @@ public class RequestContainer {
     private ProjectHeader defaultProjectHeader = new ProjectHeader();
     private BaseGeneratorSetupType generatorSetup;
 
+    /**
+     * Producer for project header bean
+     * 
+     * @return project header bean
+     */
     @Produces
     @RequestScoped
     public ProjectHeader getProjectHeader() {
@@ -57,23 +62,47 @@ public class RequestContainer {
         return projectHeader;
     }
 
+    /**
+     * Setter for project header bean
+     * 
+     * @param projectHeader
+     *            project header bean
+     */
     public void setProjectHeader(ProjectHeader projectHeader) {
         this.projectHeader = projectHeader;
     }
 
+    /**
+     * Getter of request scope common object map
+     * 
+     * @return Request scope common object map
+     */
     public Map<String, Object> getObjectMap() {
         return baseRequestContainer.getObjectMap();
     }
 
+    /**
+     * Getter of request object/entity
+     * 
+     * @return Request object/entity
+     */
     public Object getRequestObject() {
         return baseRequestContainer.getRequestObject();
     }
 
+    /**
+     * Setter of Request object/entity
+     * 
+     * @param requestObject
+     *            Request object/entity
+     */
     public void setRequestObject(Object requestObject) {
         baseRequestContainer.setRequestObject(requestObject);
     }
 
     /**
+     * Getter of base generator setup
+     * 
      * @return the generatorSetup
      */
     public BaseGeneratorSetupType getGeneratorSetup() {
@@ -81,6 +110,8 @@ public class RequestContainer {
     }
 
     /**
+     * Setter of base generator setup
+     * 
      * @param generatorSetup
      *            the generatorSetup to set
      */

@@ -47,11 +47,20 @@ public class ProjectLocaleResolver extends DefaultLocaleResolver {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * {@value #DEFAULT_LANGUAGE} value
+     */
     public static final String DEFAULT_LANGUAGE = "hu";
 
+    /**
+     * Bean of http header
+     */
     @Inject
     private ProjectHeader header;
 
+    /**
+     * Logger
+     */
     @Inject
     @ThisLogger
     private AppLogger log;

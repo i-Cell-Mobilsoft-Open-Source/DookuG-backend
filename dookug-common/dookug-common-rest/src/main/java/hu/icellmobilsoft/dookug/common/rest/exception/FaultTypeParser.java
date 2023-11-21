@@ -31,6 +31,13 @@ import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
  */
 public class FaultTypeParser {
 
+    /**
+     * Try to search enum value by String
+     * 
+     * @param faultTypeString
+     *            error code located on any *FaultType enums
+     * @return Possibly enum of input String
+     */
     public static Enum<?> parseFaultType(String faultTypeString) {
         Enum<?> fault = EnumUtils.getEnum(CoffeeFaultType.class, faultTypeString);
         if (fault != null) {

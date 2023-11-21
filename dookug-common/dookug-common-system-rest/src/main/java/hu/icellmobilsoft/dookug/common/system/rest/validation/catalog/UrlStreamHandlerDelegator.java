@@ -37,7 +37,8 @@ public class UrlStreamHandlerDelegator implements URLStreamHandlerFactory {
     /**
      * Creates a new {@code URLStreamHandler} instance with the specified protocol.
      *
-     * @param protocol the protocol ("{@code ftp}", "{@code http}", "{@code nntp}", etc.).
+     * @param protocol
+     *            the protocol ("{@code ftp}", "{@code http}", "{@code nntp}", etc.).
      * @return a {@code URLStreamHandler} for the specific protocol, or {@code
      * null} if this factory cannot create a handler for the specific protocol
      * @see URLStreamHandler
@@ -53,10 +54,21 @@ public class UrlStreamHandlerDelegator implements URLStreamHandlerFactory {
         return null;
     }
 
+    /**
+     * Get list of registered URLStreamHandlerFactory
+     * 
+     * @return list of registered URLStreamHandlerFactory
+     */
     public List<URLStreamHandlerFactory> getUrlStreamHandlerFactories() {
         return urlStreamHandlerFactories;
     }
 
+    /**
+     * Adding factory to register
+     * 
+     * @param urlStreamHandlerFactory
+     *            URL factory
+     */
     public void addUrlStreamHandlerFactory(URLStreamHandlerFactory urlStreamHandlerFactory) {
         this.urlStreamHandlerFactories.add(urlStreamHandlerFactory);
     }

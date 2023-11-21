@@ -42,6 +42,12 @@ public class Starter {
 
     private static final Logger LOGGER = Logger.getLogger(Starter.class);
 
+    /**
+     * {@code ApplicationScoped} initialization fo URL maven resolving
+     * 
+     * @param init
+     *            dummy object
+     */
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
         String pkgs = System.getProperty("java.protocol.handler.pkgs", "");
         LOGGER.debug(MessageFormat.format("\n\nStarter\n\npkgs: [{0}]\n\n", pkgs));

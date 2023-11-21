@@ -39,6 +39,9 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
 public class ProjectHeader implements IHttpHeaderConstant {
 
     private static final String HOST_PORT_SEPARATOR = ":";
+    /**
+     * {@value #EMPTY_VALUE} value
+     */
     public static final String EMPTY_VALUE = "empty";
     private static final String FORWARDED_FOR_TAG = "for=";
     private static final int HOST_PORT_MAX_LENGTH = 15;
@@ -52,6 +55,13 @@ public class ProjectHeader implements IHttpHeaderConstant {
     private String forwardedForHost;
     private String forwardedForPort;
 
+    /**
+     * Read/Parse http header into context variables
+     * 
+     * @param headers
+     *            http header
+     * @return this
+     */
     public static ProjectHeader readHeaders(HttpHeaders headers) {
         if (headers == null) {
             return null;
@@ -59,6 +69,13 @@ public class ProjectHeader implements IHttpHeaderConstant {
         return readHeaders(headers.getRequestHeaders());
     }
 
+    /**
+     * Read/Parse http header into context variables
+     * 
+     * @param headerMap
+     *            http header map
+     * @return this
+     */
     public static ProjectHeader readHeaders(MultivaluedMap<String, String> headerMap) {
         ProjectHeader projectHeader = new ProjectHeader();
         if (headerMap != null) {
@@ -82,7 +99,8 @@ public class ProjectHeader implements IHttpHeaderConstant {
         String hostPort = headerValue;
         if (StringUtils.isNotBlank(headerValue) && StringUtils.contains(headerValue, FORWARDED_FOR_TAG)) {
             String[] forwarded = StringUtils.split(headerValue, ";");
-            Optional<String> o = Arrays.stream(forwarded).filter(s -> StringUtils.startsWithIgnoreCase(StringUtils.trim(s), FORWARDED_FOR_TAG))
+            Optional<String> o = Arrays.stream(forwarded)
+                    .filter(s -> StringUtils.startsWithIgnoreCase(StringUtils.trim(s), FORWARDED_FOR_TAG))
                     .findFirst();
             if (o.isPresent()) {
                 hostPort = StringUtils.substringAfter(o.get(), FORWARDED_FOR_TAG);
@@ -98,6 +116,17 @@ public class ProjectHeader implements IHttpHeaderConstant {
         setForwardedForPort(StringUtils.defaultString(StringUtils.left(port, HOST_PORT_MAX_LENGTH), EMPTY_VALUE));
     }
 
+    /**
+     * Get http header value from http header
+     * 
+     * @param headers
+     *            http headers
+     * @param key
+     *            searched key in http header map
+     * @param required
+     *            if true and searched key is not in map then logging warn message
+     * @return searched http header value or null if not in map
+     */
     public static String getHeaderValue(HttpHeaders headers, String key, boolean required) {
         if (headers == null || key == null) {
             return null;
@@ -105,6 +134,17 @@ public class ProjectHeader implements IHttpHeaderConstant {
         return getHeaderValue(headers.getRequestHeaders(), key, required);
     }
 
+    /**
+     * Get http header value from map
+     * 
+     * @param headerMap
+     *            map of http header
+     * @param key
+     *            searched key in http header map
+     * @param required
+     *            if true and searched key is not in map then logging warn message
+     * @return searched http header value or null if not in map
+     */
     public static String getHeaderValue(MultivaluedMap<String, String> headerMap, String key, boolean required) {
         Logger log = Logger.getLogger(ProjectHeader.class);
         try {
@@ -130,54 +170,125 @@ public class ProjectHeader implements IHttpHeaderConstant {
         }
     }
 
+    /**
+     * Getter for sessionToken header value
+     * 
+     * @return sessionToken header value
+     */
     public String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * Setter for sessionToken header value
+     * 
+     * @param sessionToken
+     *            sessionToken header value
+     */
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
 
+    /**
+     * Getter for refreshToken header value
+     * 
+     * @return refreshToken header value
+     */
     public String getRefreshToken() {
         return refreshToken;
     }
 
+    /**
+     * Setter for refreshToken header value
+     * 
+     * @param refreshToken
+     *            refreshToken header value
+     */
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_HOST} or if empty then {@value IHttpHeaderConstant#HEADER_XHOST} header value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_HOST} or if empty then {@value IHttpHeaderConstant#HEADER_XHOST} header value
+     */
     public String getHost() {
         return host;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_HOST} or if empty then {@value IHttpHeaderConstant#HEADER_XHOST} header value
+     * 
+     * @param host
+     *            {@value IHttpHeaderConstant#HEADER_HOST} or if empty then {@value IHttpHeaderConstant#HEADER_XHOST} header value
+     */
     public void setHost(String host) {
         this.host = host;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_SOURCE} header value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_SOURCE} header value
+     */
     public String getSource() {
         return source;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_SOURCE} header value
+     * 
+     * @param source
+     *            {@value IHttpHeaderConstant#HEADER_SOURCE} header value
+     */
     public void setSource(String source) {
         this.source = source;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_LANGUAGE} header value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_LANGUAGE} header value
+     */
     public String getLanguage() {
         return language;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_LANGUAGE} header value
+     * 
+     * @param language
+     *            {@value IHttpHeaderConstant#HEADER_LANGUAGE} header value
+     */
     public void setLanguage(String language) {
         this.language = language;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_FORWARDED} header value
+     */
     public String getForwarded() {
         return forwarded;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header value
+     * 
+     * @param forwarded
+     *            {@value IHttpHeaderConstant#HEADER_FORWARDED} header value
+     */
     public void setForwarded(String forwarded) {
         this.forwarded = forwarded;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header header "host" value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_FORWARDED} header header "host" value
+     */
     public String getForwardedForHost() {
         if (forwardedForHost == null && forwarded != null) {
             handleForwardedHeader(forwarded);
@@ -185,10 +296,21 @@ public class ProjectHeader implements IHttpHeaderConstant {
         return forwardedForHost;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header "host" part value
+     * 
+     * @param forwardedForHost
+     *            {@value IHttpHeaderConstant#HEADER_FORWARDED} header "host" value
+     */
     public void setForwardedForHost(String forwardedForHost) {
         this.forwardedForHost = forwardedForHost;
     }
 
+    /**
+     * Getter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header "port" value
+     * 
+     * @return {@value IHttpHeaderConstant#HEADER_FORWARDED} header "port" value
+     */
     public String getForwardedForPort() {
         if (forwardedForPort == null && forwarded != null) {
             handleForwardedHeader(forwarded);
@@ -196,6 +318,12 @@ public class ProjectHeader implements IHttpHeaderConstant {
         return forwardedForPort;
     }
 
+    /**
+     * Setter for {@value IHttpHeaderConstant#HEADER_FORWARDED} header "port" part value
+     * 
+     * @param forwardedForPort
+     *            {@value IHttpHeaderConstant#HEADER_FORWARDED} header "port" value
+     */
     public void setForwardedForPort(String forwardedForPort) {
         this.forwardedForPort = forwardedForPort;
     }

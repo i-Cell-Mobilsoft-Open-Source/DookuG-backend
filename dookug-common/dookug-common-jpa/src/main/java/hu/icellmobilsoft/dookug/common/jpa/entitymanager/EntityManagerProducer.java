@@ -36,6 +36,11 @@ public class EntityManagerProducer {
     @PersistenceContext(unitName = "defaultPU")
     private EntityManager defaultEm;
 
+    /**
+     * Producer for entity manager
+     * 
+     * @return entity manager
+     */
     @Produces
     @Dependent
     public EntityManager createDefaultEntityManager() {

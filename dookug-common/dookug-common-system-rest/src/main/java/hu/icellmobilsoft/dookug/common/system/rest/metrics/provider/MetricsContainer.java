@@ -35,10 +35,21 @@ public class MetricsContainer {
 
     private LocalDateTime startTime;
 
+    /**
+     * Gett for start datetime
+     * 
+     * @return start datetime
+     */
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
+    /**
+     * Setter for start datetime
+     * 
+     * @param startTime
+     *            start datetime
+     */
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }

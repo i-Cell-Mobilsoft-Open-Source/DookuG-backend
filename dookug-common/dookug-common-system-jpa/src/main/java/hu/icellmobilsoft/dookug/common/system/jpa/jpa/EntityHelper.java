@@ -35,6 +35,9 @@ import org.apache.deltaspike.data.api.audit.CurrentUser;
 @Dependent
 public class EntityHelper extends hu.icellmobilsoft.coffee.jpa.sql.entity.EntityHelper {
 
+    /**
+     * Default system user identifier
+     */
     public static final String DEFAULT_SYSTEM_USER = "0";
 
     /**

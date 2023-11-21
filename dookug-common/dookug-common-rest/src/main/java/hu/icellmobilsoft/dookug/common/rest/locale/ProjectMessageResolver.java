@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
 import javax.annotation.Priority;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Alternative;
@@ -63,6 +64,11 @@ import org.apache.deltaspike.core.util.ClassUtils;
 @Priority(Interceptor.Priority.APPLICATION + 10)
 public class ProjectMessageResolver extends DefaultMessageResolver {
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Resource bundle controller instance
+     */
     private final ResourceBundleControl resourceBundleControl = new ResourceBundleControl();
 
     @Override
@@ -126,9 +132,7 @@ public class ProjectMessageResolver extends DefaultMessageResolver {
     private static class ResourceBundleControl extends ResourceBundle.Control {
         @Override
         public Locale getFallbackLocale(String baseName, Locale locale) {
-            return isDefault(locale) ?
-                    null :
-                    getDefaultLocale();
+            return isDefault(locale) ? null : getDefaultLocale();
         }
 
         private boolean isDefault(Locale locale) {

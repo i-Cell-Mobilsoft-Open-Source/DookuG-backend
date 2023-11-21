@@ -35,6 +35,11 @@ public class ApplicationContainer {
 
     private Map<String, Object> objectMap;
 
+    /**
+     * Get Application scope object map
+     * 
+     * @return Application scope object map
+     */
     public Map<String, Object> getObjectMap() {
         if (objectMap == null) {
             objectMap = new HashMap<>();

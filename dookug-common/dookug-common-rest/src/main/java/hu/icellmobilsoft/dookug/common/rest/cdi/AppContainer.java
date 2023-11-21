@@ -36,10 +36,21 @@ public class AppContainer {
     @Inject
     private RequestContainer requestContainer;
 
+    /**
+     * Get Request scope container
+     * 
+     * @return Request scope container
+     */
     public RequestContainer getRequestContainer() {
         return requestContainer;
     }
 
+    /**
+     * Set Request scope container
+     * 
+     * @param requestContainer
+     *            Request scope container
+     */
     public void setRequestContainer(RequestContainer requestContainer) {
         this.requestContainer = requestContainer;
     }
