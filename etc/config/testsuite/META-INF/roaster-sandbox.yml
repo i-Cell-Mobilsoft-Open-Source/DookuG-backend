@@ -1,7 +1,0 @@
-dookug:
-    service:
-        document:
-            base:
-                uri: http://sandbox-url:8082
-            management:
-                uri: http://sandbox-url:9992
