@@ -51,6 +51,34 @@
 				<artifactId>transformer-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>default-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<artifact>
+								<groupId>hu.icellmobilsoft.dookug</groupId>
+								<artifactId>dookug-client</artifactId>
+								<version>${project.version}</version>
+								<classifier>sources</classifier>
+							</artifact>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-javadoc</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<artifact>
+								<groupId>hu.icellmobilsoft.dookug</groupId>
+								<artifactId>dookug-client</artifactId>
+								<version>${project.version}</version>
+								<classifier>javadoc</classifier>
+							</artifact>
+						</configuration>
+					</execution>
+					<execution>
 						<id>default-jar</id>
 						<goals>
 							<goal>jar</goal>
@@ -60,7 +88,6 @@
 								<groupId>hu.icellmobilsoft.dookug</groupId>
 								<artifactId>dookug-client</artifactId>
 								<version>${project.version}</version>
-								<type>jar</type>
 							</artifact>
 						</configuration>
 					</execution>
