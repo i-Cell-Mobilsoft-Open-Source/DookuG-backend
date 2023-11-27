@@ -1,0 +1,20 @@
+= DookuG
+
+Document generátor és template kezelő modul
+
+== Servicek
+
+* dookug-document-service - tartalom:
+** Dokumentum generálás mentett template felhasználásával
+** Dokumentum generálás request alapján
+** Generált dokumentum tartalmának lekérdezése
+** Dokumentum generálás request alapján modulban tárolt templattel
+
+== Fejlesztői környezet
+Fejlesztésre és működésre a következőre van szükség.
+
+* Adatbázis - alapértelmezetten a Oracle XE és Postgres adatbázissal van tesztelve a rendszer
+* Feltöltött tábla szerkezet melyek a `dookug-common-model` entitásainak felel meg
+* Wildfly EE8 alkalmazás szerver, 26.1.1 verzióval van aktívan tesztelve
+* Telepített `dookug-document-service` a WF alkalmazás szerverben
+* Observability (opcionális) - Prometheus + Grafana

@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.icellmobilsoft.dookug</groupId>
+        <artifactId>dookug-bom</artifactId>
+        <version>0.4.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>dookug-bom-test</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <version.hu.icellmobilsoft.roaster>0.5.0</version.hu.icellmobilsoft.roaster>
+        <version.io.smallrye>3.0.4</version.io.smallrye>
+        <version.org.junit.jupiter>5.8.1</version.org.junit.jupiter>
+        <version.weld-api>3.1.SP3</version.weld-api>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- bom imports -->
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-bom</artifactId>
+                <version>${version.hu.icellmobilsoft.roaster}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--Test dependecies -->
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-weldunit</artifactId>
+                <version>${version.hu.icellmobilsoft.roaster}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-runtime</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-common-util</artifactId>
+                <version>${version.hu.icellmobilsoft.roaster}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${version.org.junit.jupiter}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye</groupId>
+                <artifactId>smallrye-metrics</artifactId>
+                <version>${version.io.smallrye}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld</groupId>
+                <artifactId>weld-api</artifactId>
+                <version>${version.weld-api}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,110 @@
+== Saját betűtípusok használata
+
+A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a saját betűtípusok használatáról szól.
+[NOTE]
+====
+Az engine limitációja, hogy csak TTF típusú betűtípusokat tud beágyazni, valamint ha használni szeretnénk a weight,styles,variants beállításokat, akkor érdemes tudni, hogy ezeket a pdfbox nem tudja mindig megfelelően emulálni, hacsak nem töltjük be a font különböző variációit is.
+
+====
+A docker-compose fájlban a `fonts` könyvtárat hozzáadjuk `/home/icellmobilsoft/fonts` -ként az image-ünkhöz, így az ebben a könyvtárban lévő fontokat lokálisan el tudjuk érni a template-ekből.
+
+Két lehetőségünk van arra, hogy saját betűtípusokat tudjunk használni.
+
+. közvetlenül a CSS-ben töltjük be a fontot
+. programozottan töltjük be, majd ezután a CSS-ben meghivatkozzuk a referenciát (`font-family`) használatával
+
+Az első opcióban a CSS-ben a `@font-face` at-rule-on belül az `src: url()` leíróban adhatjuk meg a betűtípus elérhetőségét. 
+
+Ebben az esetben internet elérésre lesz szükségünk a generáláskor, ami nem feltétlenül lehet adott minden esetben, mert tilthatja a vállalat policy-je, hogy a modul külső url-eket érhessen el.
+
+Ez kivédhető vagy úgy, hogy belső URL-en keresztül lehet elérni a használni kívánt fontokat, vagy a modulban előre feltöltünk néhány gyakran használt betűtípust
+és a lokális elérhetőségét adjuk meg file:// url-lel meghivatkozva. 
+Ha a modul tartalmazni fog előre betöltött betűtípusokat, akkor célszerű ezeket a dokumentációban jelezni, vagy egy 
+végponton visszaadni az információkat.  
+
+TEMPLATE:
+[source,xml]
+----
+<style>
+    @font-face {
+        font-family: 'Cairo';
+        font-style: normal;
+        src: url(file:/home/icellmobilsoft/fonts/Cairo/Cairo-Regular.ttf); // <1>
+    }
+
+    @font-face {
+        font-family: 'IndieFlower';
+        font-style: normal;
+        src: url(file:fonts/IndieFlower/IndieFlower-Regular.ttf); // <2>
+    }
+</style>
+----
+<1> a `/home/icellmobilsoft/fonts` könyvtárban található Cairo-Regular.ttf betöltése.
+<2> Itt szintén a fenti könyvtárból töltjük be a fontot. A `/home/icellmobilsoft` -ot tekinti a server root-ként, ezért működik a relativ útvonal megadása. 
+
+[TIP]
+====
+Google fontok használata
+
+[source,xml]
+----
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Quicksand&amp;display=swap'); // <1>
+
+    .quicksand { // <2>
+      font-family: 'Quicksand', Arial;
+      font-weight: 700;
+      font-style: normal;
+      font-size: 38px;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: rgba(0, 0, 0, 0.8);
+      -webkit-font-smoothing: antialiased;
+    }
+</style>
+...
+<p class="quicksand">Google Quicksand Font úőüöóéáyí</p> // <3>
+
+----
+<1> Quicksand betűtípus importja a https://fonts.google.com/[Google Fonts] -ról
+<2> CSS class beállítása a font használatához
+<3> Szöveg kiírása a beállított betűtípussal
+
+====
+
+
+
+Ha fájlrendszerből programozottan szeretnénk betölteni a betűtípusokat, akkor a `builder.useFonts` metódusát tudjuk használni a renderkor, melyekre a CSS-ben hivatkozni tudunk.
+
+JAVA:
+[source,java]
+----
+builder.useFont(new File("fonts/NotoSansThai/NotoSansThai-Regular.ttf"), "notosansthai-regular"); // <1>
+----
+<1> NotoSansThai-Regular.ttf betöltése
+
+TEMPLATE:
+[source,xml]
+----
+<style>
+    @font-face {
+        font-family: 'notosansthai-regular'; // <1>
+        font-style: normal;
+        -fs-font-subset: complete-font; // <2>
+    }
+</style>
+----
+<1> fentebb betöltött betűtípus használata
+<2> ez csak példaként van itt, a beállítást nem igazán szükséges használni, mert így a teljes font beágyazásra kerül, viszont alapértelmezetten csak a subset, ami a helyes működés. 
+
+
+Ennek van egy olyan hátránya, hogy mindegyik fontot betölti a renderkor, azokat is, amiket nem használunk a dokumentum template-ben.
+
+
+[NOTE]
+====
+A PDFBox Fonts Wiki https://github.com/danfickle/openhtmltopdf/wiki/Fonts[itt elérhető]
+
+====
+
+ 

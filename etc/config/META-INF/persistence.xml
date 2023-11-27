@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+          http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+	version="2.2">
+
+    <persistence-unit name="defaultPU" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <jta-data-source>java:jboss/datasources/icellmobilsoftDS</jta-data-source>
+
+        <mapping-file>META-INF/jpa-entity.xml</mapping-file>
+
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+<!--             <property name="hibernate.hbm2ddl.auto" value="none"/> -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" />
+            <property name="hibernate.connection.release_mode" value="auto"/>
+
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+
+            <property name="hibernate.id.new_generator_mappings" value="false" />
+            <!-- ICDEV-4753 hibernate.jpa.compliance.proxy=true esetén hibernate 5.3-tól létrehozza a proxy-t id lekérésnél(LazyInitializer.getIdentifier()), ami lezárja a létező connection-t-->
+            <property name="hibernate.jpa.compliance.proxy" value="false" />
+            <property name="hibernate.criteria.literal_handling_mode" value="BIND"/>
+            <property name="hibernate.jdbc.time_zone" value="UTC"/>
+        </properties>
+    </persistence-unit>
+</persistence>

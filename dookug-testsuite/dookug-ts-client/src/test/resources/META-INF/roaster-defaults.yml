@@ -1,0 +1,7 @@
+dookug:
+    client:
+        document/mp-rest/url: http://localhost:8082
+#        document/mp-rest/connectTimeout: 5000
+#        document/mp-rest/readTimeout: 60000
+    write:
+        document: true

@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.icellmobilsoft.dookug</groupId>
+		<artifactId>dookug</artifactId>
+		<version>0.4.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>dookug-api</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>dookug-api-schema</module>
+		<module>dookug-api-dto</module>
+		<module>dookug-api-rest</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>hu.icellmobilsoft.dookug</groupId>
+				<artifactId>dookug-bom-all</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

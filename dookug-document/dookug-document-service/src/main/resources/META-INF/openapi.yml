@@ -1,0 +1,16 @@
+info:
+  title: DOCUMENT Service
+  description: |
+    DOCUMENT operációkkal kapcsolatos szolgáltatások.
+
+    Általános válaszok hiba esetén:
+    * __400__ - Bad Request
+    * __401__ - Unauthorized
+    * __404__ - Not found
+    * __418__ - Database object not found
+    * __500__ - Internal Server Error
+  version: ${project.version}
+  x-logo:
+    url: logo.png
+    backgroundColor: #FFFFFF
+    altText: Rest logo
