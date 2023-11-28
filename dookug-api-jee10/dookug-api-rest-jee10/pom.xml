@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug</groupId>
 		<artifactId>dookug-api-jee10</artifactId>
-		<version>0.4.0-SNAPSHOT</version>
+		<version>0.5.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dookug-api-rest-jee10</artifactId>
@@ -37,6 +37,34 @@
 				<artifactId>transformer-maven-plugin</artifactId>
 				<executions>
 					<execution>
+						<id>default-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<artifact>
+								<groupId>hu.icellmobilsoft.dookug</groupId>
+								<artifactId>dookug-api-rest</artifactId>
+								<version>${version}</version>
+								<classifier>sources</classifier>
+							</artifact>
+						</configuration>
+					</execution>
+					<execution>
+						<id>default-javadoc</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<artifact>
+								<groupId>hu.icellmobilsoft.dookug</groupId>
+								<artifactId>dookug-api-rest</artifactId>
+								<version>${version}</version>
+								<classifier>javadoc</classifier>
+							</artifact>
+						</configuration>
+					</execution>
+					<execution>
 						<id>default-jar</id>
 						<goals>
 							<goal>jar</goal>
@@ -46,7 +74,6 @@
 								<groupId>hu.icellmobilsoft.dookug</groupId>
 								<artifactId>dookug-api-rest</artifactId>
 								<version>${version}</version>
-								<type>jar</type>
 							</artifact>
 						</configuration>
 					</execution>
