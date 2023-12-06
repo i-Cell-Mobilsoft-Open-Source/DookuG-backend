@@ -167,4 +167,17 @@ public interface ConfigKeys {
         String DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_DEFAULT = "dookug.service.engine.saxon.xslt.language.default";
     }
 
+    interface Cache {
+        /**
+         * Default cache TTL in minutes
+         */
+        @ConfigDoc(exclude = true)
+        String DEFAULT_DOOKUG_SERVICE_TEMPLATE_MEMORY_CACHE_TTL_IN_MINUTES = "60";
+        /**
+         * Cache TTL in minutes
+         */
+        @ConfigDoc(since = "0.5.0", defaultValue = DEFAULT_DOOKUG_SERVICE_TEMPLATE_MEMORY_CACHE_TTL_IN_MINUTES)
+        String DOOKUG_SERVICE_TEMPLATE_MEMORY_CACHE_TTL = "dookug.service.template.memory.cache.ttl";
+    }
+
 }
