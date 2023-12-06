@@ -60,6 +60,11 @@ DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY=/home/icellmobilsof
 DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
 ----
 
+.Memory cache
+[source,properties]
+
+DOOKUG_SERVICE_TEMPLATE_MEMORY_CACHE_TTL Alapértelmezetten 60 perc
+
 === Kubernetes deployment
 * Ajánlott konfiguráció
 
