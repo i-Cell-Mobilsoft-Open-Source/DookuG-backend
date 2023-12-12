@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.common.cdi.template.dto;
+package hu.icellmobilsoft.dookug.document.service.cache.dto;
 
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 
@@ -28,7 +28,7 @@ import hu.icellmobilsoft.dookug.common.cdi.template.Template;
  * @since 0.5.0
  */
 public class TemplatePartCacheItem {
-    private boolean initialTemplate;
+    private final boolean initialTemplate;
     private Template template;
 
     public TemplatePartCacheItem(boolean initialTemplate, Template template) {
@@ -38,10 +38,6 @@ public class TemplatePartCacheItem {
 
     public boolean isInitialTemplate() {
         return initialTemplate;
-    }
-
-    public void setInitialTemplate(boolean initialTemplate) {
-        this.initialTemplate = initialTemplate;
     }
 
     public Template getTemplate() {
@@ -54,9 +50,6 @@ public class TemplatePartCacheItem {
 
     @Override
     public String toString() {
-        return "TemplatePartCacheItem{" +
-                "initialTemplate=" + initialTemplate +
-                ", templateName=" + template.getTemplateName() +
-                '}';
+        return "TemplatePartCacheItem{" + "initialTemplate=" + initialTemplate + ", templateName=" + template.getTemplateName() + '}';
     }
 }

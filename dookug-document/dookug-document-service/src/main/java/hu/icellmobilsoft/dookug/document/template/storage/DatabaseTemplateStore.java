@@ -40,11 +40,11 @@ import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
-import hu.icellmobilsoft.dookug.common.cdi.template.TemplateCache;
+import hu.icellmobilsoft.dookug.document.service.cache.TemplateCache;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
-import hu.icellmobilsoft.dookug.common.cdi.template.dto.TemplateCacheItem;
-import hu.icellmobilsoft.dookug.common.cdi.template.dto.TemplatePartCacheItem;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplatePartCacheItem;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePart;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 import hu.icellmobilsoft.dookug.common.model.template.TemplateTemplatePart;
@@ -102,9 +102,9 @@ public class DatabaseTemplateStore implements ITemplateStore {
         hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
                 .findByNameAndValidity(templateName, templateLanguage, validityDate);
 
-        if (templateCache.containNotExpiredTemplate(template.getId())) {
-            TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(template.getId());
+        TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(template.getId());
 
+        if (templateCacheItem != null) {
             templateDataContainer.setTemplateId(templateCacheItem.getTemplateId());
             templateDataContainer.setTemplateName(templateCacheItem.getTemplateName());
 

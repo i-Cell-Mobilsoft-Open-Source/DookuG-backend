@@ -63,7 +63,8 @@ DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
 .Memory cache
 [source,properties]
 
-DOOKUG_SERVICE_TEMPLATE_MEMORY_CACHE_TTL Alapértelmezetten 60 perc
+DOOKUG_SERVICE_CACHE_TEMPLATE_TTL Alapértelmezetten 60 perc
+DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC Alapértelmezetten false
 
 === Kubernetes deployment
 * Ajánlott konfiguráció

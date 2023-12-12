@@ -17,9 +17,8 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.common.cdi.template.dto;
+package hu.icellmobilsoft.dookug.document.service.cache.dto;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +29,11 @@ import java.util.List;
  * @since 0.5.0
  */
 public class TemplateCacheItem {
-    private String templateId;
-    private String templateName;
+    private final String templateId;
+    private final String templateName;
 
-    private List<TemplatePartCacheItem> templatePartCacheItems;
+    private final List<TemplatePartCacheItem> templatePartCacheItems;
 
-    private LocalDateTime ttlDateTime;
 
     public TemplateCacheItem(String templateId, String templateName) {
         this.templateId = templateId;
@@ -52,24 +50,8 @@ public class TemplateCacheItem {
         return templateId;
     }
 
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
-    }
-
     public String getTemplateName() {
         return templateName;
-    }
-
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
-    }
-
-    public LocalDateTime getTtlDateTime() {
-        return ttlDateTime;
-    }
-
-    public void setTtlDateTime(LocalDateTime ttlDateTime) {
-        this.ttlDateTime = ttlDateTime;
     }
 
     public List<TemplatePartCacheItem> getTemplatePartCacheItems() {
@@ -78,11 +60,7 @@ public class TemplateCacheItem {
 
     @Override
     public String toString() {
-        return "TemplateCacheItem{" +
-                "templateId='" + templateId + '\'' +
-                ", templateName='" + templateName + '\'' +
-                ", templatePartCacheItems=" + templatePartCacheItems +
-                ", ttlDateTime=" + ttlDateTime +
-                '}';
+        return "TemplateCacheItem{" + "templateId='" + templateId + '\'' + ", templateName='" + templateName + '\'' + ", templatePartCacheItems="
+                + templatePartCacheItems + '}';
     }
 }
