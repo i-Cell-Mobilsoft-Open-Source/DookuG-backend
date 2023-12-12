@@ -66,6 +66,8 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
             cache.put(templateCacheItem.getTemplateId(), templateCacheItem);
             updateMetrics();
             log.debug("New templateCacheItem [{0}]", templateCacheItem);
+        } else {
+            throw new InvalidParameterException("templateCacheItem is invalid: " +  templateCacheItem);
         }
     }
 
