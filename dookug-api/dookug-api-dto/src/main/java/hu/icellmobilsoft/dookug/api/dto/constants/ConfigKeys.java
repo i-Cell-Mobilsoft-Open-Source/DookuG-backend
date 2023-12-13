@@ -181,7 +181,7 @@ public interface ConfigKeys {
         String DOOKUG_SERVICE_CACHE_TEMPLATE_TTL = "dookug.service.cache.template.ttl";
 
         /**
-         *
+         * Define to make metrics
          */
         @ConfigDoc(since = "0.5.0", description = "Generálódjanak metrikák a Template cache-hez köthetően. Alapértelmezetten nem generál")
         String DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC = "dookug.service.cache.template.enablestatistic";
