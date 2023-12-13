@@ -177,13 +177,13 @@ public interface ConfigKeys {
         /**
          * Cache TTL in minutes
          */
-        @ConfigDoc(since = "0.5.0", defaultValue = DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
+        @ConfigDoc(since = "0.5.0", defaultValue = DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES, description = "Mennyi idő múlva invalidálja a cache tartalmát a rendszer. Alapértelmezetten 60 perc")
         String DOOKUG_SERVICE_CACHE_TEMPLATE_TTL = "dookug.service.cache.template.ttl";
 
         /**
          *
          */
-        @ConfigDoc(since = "0.5.0")
+        @ConfigDoc(since = "0.5.0", description = "Generálódjanak metrikák a Template cache-hez köthetően. Alapértelmezetten nem generál")
         String DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC = "dookug.service.cache.template.enablestatistic";
     }
 
