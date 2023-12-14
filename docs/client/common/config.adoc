@@ -20,6 +20,8 @@ dookug:
 | dookug.client.document/mp-rest/url | igen | a dookug module elérési útvonala (base url)
 | dookug.client.document/mp-rest/connectTimeout | | Connection Timeout megadása (ha coffee-t használunk, ez alapértelmezetten 5 másodperc)
 | dookug.client.document/mp-rest/readTimeout | | Read Timeout megadása (ha coffee-t használunk, ez alapértelmezetten 1 perc)
+| dookug.service.cache.template.ttl | nem | Template cache lejárati ideje percben, alapértelmezetten 60 perc
+| dookug.service.cache.template.enablestatistic | nem | generálódjanak metrikák, alapértelmezetten nem generálódnak
 |===
 További paraméterek megadása is lehetséges, lásd a https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html#mpconfig:~:text=Client%20CDI%20Support-,Support%20for%20MicroProfile%20Config,-Configuration%20Keys[Microprofile RestClient] dokumentációban.
 

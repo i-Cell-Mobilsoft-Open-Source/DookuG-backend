@@ -21,6 +21,7 @@
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
 
         <version.org.junit.jupiter>5.8.1</version.org.junit.jupiter>
+        <version.com.google.guava>31.1-jre</version.com.google.guava>
     </properties>
 
     <dependencyManagement>
@@ -180,6 +181,12 @@
                 <artifactId>saxon</artifactId>
                 <version>${version.net.sourceforge.saxon.saxon}</version>
             </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.com.google.guava}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

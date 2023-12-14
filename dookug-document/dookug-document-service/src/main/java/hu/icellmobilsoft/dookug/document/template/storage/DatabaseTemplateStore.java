@@ -40,8 +40,11 @@ import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
+import hu.icellmobilsoft.dookug.document.service.cache.TemplateCache;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplatePartCacheItem;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePart;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 import hu.icellmobilsoft.dookug.common.model.template.TemplateTemplatePart;
@@ -60,7 +63,6 @@ import hu.icellmobilsoft.dookug.document.service.service.TemplateTemplatePartSer
 @StorageMethodQualifier(QualifierConstants.StorageMethodType.DATABASE)
 @ApplicationScoped
 public class DatabaseTemplateStore implements ITemplateStore {
-
     @Inject
     private TemplateService templateService;
 
@@ -79,6 +81,9 @@ public class DatabaseTemplateStore implements ITemplateStore {
     @Inject
     private TemplateDataContainer templateDataContainer;
 
+    @Inject
+    private TemplateCache templateCache;
+
     /**
      * Collects the whole template tree by the name of root template and validity date.
      * 
@@ -96,6 +101,22 @@ public class DatabaseTemplateStore implements ITemplateStore {
 
         hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
                 .findByNameAndValidity(templateName, templateLanguage, validityDate);
+
+        TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(template.getId());
+
+        if (templateCacheItem != null) {
+            templateDataContainer.setTemplateId(templateCacheItem.getTemplateId());
+            templateDataContainer.setTemplateName(templateCacheItem.getTemplateName());
+
+            templateCacheItem.getTemplatePartCacheItems().forEach(templatePartCacheItem ->
+                templateContainer.addTemplate(templatePartCacheItem.getTemplate(), templatePartCacheItem.isInitialTemplate())
+            );
+        } else {
+            addNewItemToTemplateCache(template);
+        }
+    }
+
+    private void addNewItemToTemplateCache(hu.icellmobilsoft.dookug.common.model.template.Template template) throws BaseException {
         templateDataContainer.setTemplateId(template.getId());
         templateDataContainer.setTemplateName(template.getName());
         List<TemplateTemplatePart> templateTemplatePartList = templateTemplatePartService.findAllByTemplateId(template.getId());
@@ -121,6 +142,8 @@ public class DatabaseTemplateStore implements ITemplateStore {
                     MessageFormat.format("Content not found for template parts: [{0}]", existingTemplatePartIds));
         }
 
+        TemplateCacheItem templateCacheItem = new TemplateCacheItem(template.getId(), template.getName());
+
         for (TemplatePart templatePart : templatePartList) {
             TemplatePartContent templatePartContent = templatePartContentList.stream()
                     .filter(c -> StringUtils.equals(c.getTemplatePartId(), templatePart.getId()))
@@ -130,10 +153,15 @@ public class DatabaseTemplateStore implements ITemplateStore {
                                     CoffeeFaultType.ENTITY_NOT_FOUND,
                                     MessageFormat.format("Content not found for template part: [{0}]", templatePart.getId())));
 
-            templateContainer.addTemplate(
-                    new Template(templatePart.getKey(), getTemplateContent(templatePartContent)),
-                    templatePart.getTemplatePartType() == TemplateType.MAIN);
+            boolean initialTemplate = templatePart.getTemplatePartType() == TemplateType.MAIN;
+            Template newTemplate = new Template(templatePart.getKey(), getTemplateContent(templatePartContent));
+
+            templateContainer.addTemplate(newTemplate, initialTemplate);
+
+            templateCacheItem.addNewPartItem(new TemplatePartCacheItem(initialTemplate, newTemplate));
         }
+
+        templateCache.newTemplateCacheItem(templateCacheItem);
     }
 
     private byte[] getTemplateContent(TemplatePartContent templatePartContent) throws BaseException {
