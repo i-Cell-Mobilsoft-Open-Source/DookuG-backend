@@ -19,9 +19,7 @@
         <version.jakarta.enterprise>4.0.0</version.jakarta.enterprise>
         <version.jakarta.websocket-api>2.1.0</version.jakarta.websocket-api>
         <version.jakarta.mail-api>2.1.0</version.jakarta.mail-api>
-        <!--
         <version.jakarta.el>5.0.0-M1</version.jakarta.el>
-        -->
 	</properties>
 
     <dependencyManagement>
