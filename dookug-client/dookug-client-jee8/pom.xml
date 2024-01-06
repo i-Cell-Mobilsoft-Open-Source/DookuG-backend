@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.icellmobilsoft.dookug.client</groupId>
+		<artifactId>dookug-client</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+        <version.hu.icellmobisoft.coffee>${version.hu.icellmobilsoft.coffee.ee8}</version.hu.icellmobisoft.coffee>
+        <version.org.jboss.resteasy>4.7.6.Final</version.org.jboss.resteasy>
+
+        <!--
+        <version.jakartaee>8.0.0</version.jakartaee>
+        <version.coffee>1.12.1</version.coffee>
+		<version.apache.deltaspike>1.9.1</version.apache.deltaspike>
+		<version.microprofile.rest-client>2.0</version.microprofile.rest-client>
+		<version.commons-lang3>3.9</version.commons-lang3>
+        -->
+
+	</properties>
+
+	<artifactId>dookug-client-jee8</artifactId>
+
+	<dependencies>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug.client</groupId>
+            <artifactId>dookug-client-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-api-rest-jee8</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-multipart-provider</artifactId>
+            <version>${version.org.jboss.resteasy}</version>
+        </dependency>
+        <!-- ezek a client-commonban opcionalisak, ezert itt implicit be kell huzni -->
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-configdoc</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-mp-restclient</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-tool</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+        </dependency>
+	</dependencies>
+</project>

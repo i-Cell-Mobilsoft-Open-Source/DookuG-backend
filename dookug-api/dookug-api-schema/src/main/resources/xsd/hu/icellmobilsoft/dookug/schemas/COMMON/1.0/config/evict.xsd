@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:annox="http://annox.dev.java.net"
-    xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict" xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict" 
+    xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
     xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
     xmlns:apiRestCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"
     targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict" elementFormDefault="qualified"
-    attributeFormDefault="unqualified" jaxb:version="2.0" jaxb:extensionBindingPrefixes="xjc annox">
+    attributeFormDefault="unqualified">
 
     <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" />
     <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common" />

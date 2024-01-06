@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>hu.icellmobilsoft.dookug</groupId>
+    <artifactId>dookug-bom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dookug-bom-all-jee10</artifactId>
+  <packaging>pom</packaging>
+
+    <properties>
+        <version.hu.icellmobilsoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobilsoft.coffee>
+        <version.org.eclipse.microprofile>5.0</version.org.eclipse.microprofile>
+        <version.hu.icellmobilsoft.roaster>2.1.0</version.hu.icellmobilsoft.roaster>
+        
+        <version.apache.commons.text>1.11.0</version.apache.commons.text>
+        <version.org.junit.jupiter>5.8.2</version.org.junit.jupiter>
+        <version.io.smallrye.config.source.yaml>3.0.0</version.io.smallrye.config.source.yaml>
+        
+        <version.com.github.jknack.handlebars>4.3.1</version.com.github.jknack.handlebars>
+        <version.com.openhtmltopdf.openhtmltopdf-pdfbox>1.0.10</version.com.openhtmltopdf.openhtmltopdf-pdfbox>
+        <version.org.apache.xmlgraphics.fop>2.5</version.org.apache.xmlgraphics.fop>
+        <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
+        <version.com.google.guava>31.1-jre</version.com.google.guava>
+        <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- bom imports -->
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-bom-jee-jee10</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-bom-wf-27</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-bom-project</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile</groupId>
+                <artifactId>microprofile</artifactId>
+                <version>${version.org.eclipse.microprofile}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.coffee</groupId>
+                <artifactId>coffee-bom</artifactId>
+                <version>${version.hu.icellmobilsoft.coffee}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.smallrye.config</groupId>
+                <artifactId>smallrye-config-source-yaml</artifactId>
+                <version>${version.io.smallrye.config.source.yaml}</version>
+            </dependency>
+
+            <!-- Coffee -->
+            <dependency>
+                <groupId>hu.icellmobilsoft.coffee</groupId>
+                <artifactId>coffee-rest</artifactId>
+                <version>${version.hu.icellmobilsoft.coffee}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.coffee</groupId>
+                <artifactId>coffee-dto-base</artifactId>
+                <version>${version.hu.icellmobilsoft.coffee}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.coffee</groupId>
+                <artifactId>coffee-module-configdoc</artifactId>
+                <version>${version.hu.icellmobilsoft.coffee}</version>
+            </dependency>
+            
+            <!-- Project specific -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-text</artifactId>
+                <version>${version.org.apache.commons.commons-text}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.jknack</groupId>
+                <artifactId>handlebars</artifactId>
+                <version>${version.com.github.jknack.handlebars}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.openhtmltopdf</groupId>
+                <artifactId>openhtmltopdf-pdfbox</artifactId>
+                <version>${version.com.openhtmltopdf.openhtmltopdf-pdfbox}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.openhtmltopdf</groupId>
+                <artifactId>openhtmltopdf-slf4j</artifactId>
+                <version>${version.com.openhtmltopdf.openhtmltopdf-pdfbox}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>fop</artifactId>
+                <version>${version.org.apache.xmlgraphics.fop}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sourceforge.saxon</groupId>
+                <artifactId>saxon</artifactId>
+                <version>${version.net.sourceforge.saxon.saxon}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.com.google.guava}</version>
+            </dependency>
+
+            <!-- Roaster -->
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-weldunit</artifactId>
+                <version>${version.hu.icellmobilsoft.roaster}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.roaster</groupId>
+                <artifactId>roaster-common-util</artifactId>
+                <version>${version.hu.icellmobilsoft.roaster}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--Test dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${version.org.junit.jupiter}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${version.org.junit.jupiter}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
