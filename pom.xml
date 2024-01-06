@@ -41,13 +41,11 @@
         <module>dookug-api</module>
         <module>dookug-client</module>
         <module>dookug-model</module>
-        <!--
         <module>dookug-common</module>
+        <!--
         <module>dookug-engine</module>
         <module>dookug-document</module>
 
-        <module>dookug-api-jee10</module>
-        <module>dookug-client-jee10</module>
         <module>dookug-testsuite</module>
         -->
     </modules>

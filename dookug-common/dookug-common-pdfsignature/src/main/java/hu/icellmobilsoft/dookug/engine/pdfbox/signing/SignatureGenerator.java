@@ -32,8 +32,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.io.IOUtils;

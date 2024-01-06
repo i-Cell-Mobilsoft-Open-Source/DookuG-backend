@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug</groupId>
 		<artifactId>dookug-common</artifactId>
-		<version>0.5.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dookug-common-system-jpa</artifactId>
@@ -21,6 +21,10 @@
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-system-jpa</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-model</artifactId>
+        </dependency>
 
 		<!-- TEST -->
 		<dependency>

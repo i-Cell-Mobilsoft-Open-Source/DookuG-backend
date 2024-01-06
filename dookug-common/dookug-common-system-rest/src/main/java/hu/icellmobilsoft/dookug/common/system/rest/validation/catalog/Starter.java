@@ -24,9 +24,9 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.text.MessageFormat;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
 
@@ -50,7 +50,7 @@ public class Starter {
      */
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
         String pkgs = System.getProperty("java.protocol.handler.pkgs", "");
-        LOGGER.debug(MessageFormat.format("\n\nStarter\n\npkgs: [{0}]\n\n", pkgs));
+        LOGGER.debug(MessageFormat.format("Starter pkgs: [{0}]", pkgs));
 
         UrlStreamHandlerDelegator delegator = new UrlStreamHandlerDelegator();
         delegator.addUrlStreamHandlerFactory(new MavenURLStreamHandlerProvider());

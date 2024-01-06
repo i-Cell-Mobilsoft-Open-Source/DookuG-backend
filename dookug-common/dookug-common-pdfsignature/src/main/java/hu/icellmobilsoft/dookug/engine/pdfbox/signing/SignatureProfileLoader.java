@@ -22,8 +22,8 @@ package hu.icellmobilsoft.dookug.engine.pdfbox.signing;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 
