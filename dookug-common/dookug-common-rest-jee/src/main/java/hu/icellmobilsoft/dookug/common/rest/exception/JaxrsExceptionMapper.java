@@ -72,14 +72,11 @@ public class JaxrsExceptionMapper implements ExceptionMapper<WebApplicationExcep
         TechnicalFault dto = new TechnicalFault();
         // status code vagy exception-re figyeljunk? (e.getResponse().getStatus())
         if (e instanceof NotAllowedException) {
-            // Nem létező végpont + HTTP metódus párnál adjuk vissza a natív RESTEASY hibát
-            // HTTP response code: 405
+            // we raise this resteasy error in case of not existing endpoint + HTTP method pair. (HTTP response code: 405)
             exceptionMessageTranslator.addCommonInfo(dto, e, FaultType.REST_METHOD_NOT_ALLOWED);
         } else if (e instanceof NotSupportedException) {
-            // Nem támogatott content-type vagy accept header esetén adjuk vissza a natív RESTEASY hibát
-            // HTTP response code: 415
-
-            // Megvizsgáljuk, hogy csak a Content-Type header invalid, vagy az Accept is
+            // we raise this resteasy error in case of not supported content-type or accept header. (HTTP response code: 415)
+            // check whether only the ContentType invalid is or the Accept header as well
             try {
                 getWildcardContentTypeResourceInvoker();
 
@@ -92,11 +89,11 @@ public class JaxrsExceptionMapper implements ExceptionMapper<WebApplicationExcep
                         .build();
             }
         } else if (e instanceof BadRequestException) {
-            // Rosszul formázott kérésnél adjuk vissza az első rosszul formázott XML taget és a JAX által dobott hibát (mit várt volna)
+            // For a badly formatted request, return the first badly formatted XML tag and the error thrown by JAX (what would you have expected)
             // HTTP response code: 400
             exceptionMessageTranslator.addCommonInfo(dto, e, FaultType.REST_BAD_REQUEST);
         } else if (e instanceof NotFoundException) {
-            // Nem létező URL path
+            // Non-existent URL path
             // HTTP response code: 404
             exceptionMessageTranslator.addCommonInfo(dto, e, FaultType.REST_NOT_FOUND);
         } else if (e instanceof ForbiddenException) {
@@ -104,8 +101,8 @@ public class JaxrsExceptionMapper implements ExceptionMapper<WebApplicationExcep
             exceptionMessageTranslator.addCommonInfo(dto, e, FaultType.REST_FORBIDDEN);
         } else if (e instanceof NotAcceptableException) {
             // HTTP response code: 406
-            // Ebben az esetben nem ismert accept jött be, így a válászban csak sima nyelvesített fordítást lehet bele rakni
-            // a szokásos dto itt nem megfelelő
+            // In this case, incoming Accept isn't known, so only a plain language translation can be added in the answerer.
+            // the usual dto is not relevant here
             return Response.fromResponse(e.getResponse()).entity(getNotAcceptableMessage()).build();
         } else if (e instanceof NotAuthorizedException) {
             // HTTP response code: 401
@@ -117,7 +114,7 @@ public class JaxrsExceptionMapper implements ExceptionMapper<WebApplicationExcep
             // HTTP response code: 503
             exceptionMessageTranslator.addCommonInfo(dto, e, FaultType.REST_SERVICE_UNAVAILABLE);
         } else {
-            // minden más általános hiba, melyet nem kezelünk speciálisan
+            // any other general error which not specifically handled
             exceptionMessageTranslator.addCommonInfo(dto, e, CoffeeFaultType.OPERATION_FAILED);
         }
         return Response.fromResponse(e.getResponse()).entity(dto).build();
@@ -128,10 +125,9 @@ public class JaxrsExceptionMapper implements ExceptionMapper<WebApplicationExcep
     }
 
     /**
-     * Megkeresi a {@code ResourceInvoker}-t, wildcard content type-pal. Arra szolgál, hogy eldöntsük, hogy invalid content type-on kívűl van-e más
-     * hiba a request-tel.
+     * Finds {@code ResourceInvoker} with wildcard content type. It is used to determine whether there is any other error with the request.
      *
-     * @return a talált ResourceInvoker adatok
+     * @return ResourceInvoker datas found
      */
     private ResourceInvoker getWildcardContentTypeResourceInvoker() {
         // resteasy 3.x:

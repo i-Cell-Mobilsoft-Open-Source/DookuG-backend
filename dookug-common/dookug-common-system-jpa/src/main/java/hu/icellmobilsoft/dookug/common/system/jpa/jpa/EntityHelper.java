@@ -41,9 +41,9 @@ public class EntityHelper extends hu.icellmobilsoft.coffee.jpa.sql.entity.Entity
     public static final String DEFAULT_SYSTEM_USER = "0";
 
     /**
-     * Audit user producer
+     * Audit default user producer
      * 
-     * @return customerUser id
+     * @return "0"
      */
     @Produces
     @CurrentUser

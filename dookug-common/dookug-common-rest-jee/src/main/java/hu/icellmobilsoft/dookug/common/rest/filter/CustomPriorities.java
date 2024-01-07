@@ -23,15 +23,15 @@ import jakarta.annotation.Priority;
 import jakarta.ws.rs.Priorities;
 
 /**
- * {@link Priority} annotációkban használt értékek gyüjteménye, a {@link Priorities} osztályhoz hasonlóan.
+ * A collection of values used in {@link Priority} annotations, similar to the {@link Priorities} class.
  *
  * @author martin.nagy
- * @since 0.10.0
+ * @since 1.0.0
  */
 public interface CustomPriorities {
 
     /**
-     * Authentikáció előtt futó filter/interceptor prioritás
+     * Filter/interceptor priority running before authentication
      */
     int PRE_AUTHENTICATION = 500;
 

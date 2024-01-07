@@ -23,7 +23,7 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 
 /**
- * custom DTO privatekey + certchainhez
+ * custom DTO for privatekey + certchain
  * 
  * @author tamas.cserhati
  * @since 0.0.1

@@ -35,7 +35,7 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.config.ConfigKeys;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
 
 /**
- * SignatureProfile dto betöltése
+ * SignatureProfile DTO loader
  * 
  * @author tamas.cserhati
  * @since 0.2.0

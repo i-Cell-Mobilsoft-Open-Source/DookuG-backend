@@ -20,7 +20,7 @@
 package hu.icellmobilsoft.dookug.common.cdi.sign;
 
 /**
- * Custom DTO digitalis alairas parameterekhez
+ * Custom DTO for signature parameters
  * 
  * @author tamas.cserhati
  * @since 0.1.0

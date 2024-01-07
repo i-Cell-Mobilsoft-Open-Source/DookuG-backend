@@ -31,7 +31,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 
 /**
- * Altalanos util filter
+ * Common util filter
  * 
  * @author imre.scheffer
  */

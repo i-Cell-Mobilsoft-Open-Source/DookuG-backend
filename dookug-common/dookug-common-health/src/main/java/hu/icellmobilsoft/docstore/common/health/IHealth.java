@@ -25,8 +25,8 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 /**
  * Provides rediness and liveness check for microprofile-health api
  * 
- * @author czenczl
- * @since 1.10.0
+ * @author laszlo.czencz
+ * @since 1.0.0
  */
 public interface IHealth {
 
@@ -38,7 +38,7 @@ public interface IHealth {
     HealthCheckResponse checkReadiness();
 
     /**
-     * nincs liveness logika jelenleg, default működés
+     * default liveness check - we dont have liveness logic
      * 
      * @return the default liveness check
      */

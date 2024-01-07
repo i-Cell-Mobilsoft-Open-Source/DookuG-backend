@@ -37,7 +37,7 @@ public class EntityManagerProducer {
     private EntityManager defaultEm;
 
     /**
-     * deafult entity manager producer
+     * default entity manager producer
      * 
      * @return the entity manager
      */

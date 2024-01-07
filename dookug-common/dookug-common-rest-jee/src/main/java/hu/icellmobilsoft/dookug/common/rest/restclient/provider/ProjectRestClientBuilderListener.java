@@ -26,7 +26,7 @@ import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import hu.icellmobilsoft.coffee.module.mp.restclient.provider.DefaultRestClientBuilderListener;
 
 /**
- * Projekt szintu REST client listener
+ * REST client listener on project level
  * 
  * @see DefaultRestClientBuilderListener
  * 

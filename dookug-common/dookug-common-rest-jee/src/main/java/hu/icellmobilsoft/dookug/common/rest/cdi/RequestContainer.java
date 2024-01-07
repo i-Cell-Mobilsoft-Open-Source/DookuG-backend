@@ -61,8 +61,7 @@ public class RequestContainer {
     @Produces
     @RequestScoped
     public ProjectHeader getProjectHeader() {
-        // vannak esetek, amikor a header nincs betoltve, es megis szotarhoz nyulunk
-        // ebben az esetben elszalt WELD-000052 hibaval
+        // we may read the dictionary when header is not loaded -> raised WELD-000052 earlier
         if (projectHeader == null) {
             return defaultProjectHeader;
         }

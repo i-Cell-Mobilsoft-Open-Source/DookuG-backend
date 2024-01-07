@@ -62,7 +62,7 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSProcessableInputS
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
 
 /**
- * Pdf-et digitalis alairassal ellato osztaly
+ * PDF signature generator class
  * 
  * @author tamas.cserhati
  * @since 0.1.0
