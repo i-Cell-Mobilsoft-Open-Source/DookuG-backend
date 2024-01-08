@@ -19,10 +19,6 @@
 		<module>dookug-common-jpa</module>
 		<module>dookug-common-system-jpa</module>
 		<module>dookug-common-pdfsignature</module>
-		<!--
-		<module>dookug-common-cdi</module>
-		<module>dookug-common-model</module>
-		-->
 	</modules>
 
 	<dependencyManagement>
