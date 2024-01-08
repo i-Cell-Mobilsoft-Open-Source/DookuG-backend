@@ -165,9 +165,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             // Setup XSLT
             TransformerFactory factory = TransformerFactory
                     .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
-            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
-            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_SCHEMA, false);
-            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, false);
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
 
             // Resulting SAX events (the generated FO) must be piped through to FOP

@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.ts.common.rest.mprestclient;
 
-import javax.ws.rs.Path;
+import jakarta.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 

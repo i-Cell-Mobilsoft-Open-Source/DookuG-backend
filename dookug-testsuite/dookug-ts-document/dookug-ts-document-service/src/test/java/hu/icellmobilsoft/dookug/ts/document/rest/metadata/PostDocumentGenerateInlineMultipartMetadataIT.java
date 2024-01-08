@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.ts.document.rest.metadata;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
