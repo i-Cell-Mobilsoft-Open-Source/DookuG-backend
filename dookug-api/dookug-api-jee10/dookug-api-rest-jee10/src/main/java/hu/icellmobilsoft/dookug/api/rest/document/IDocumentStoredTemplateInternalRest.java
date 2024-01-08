@@ -30,7 +30,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.validation.xml.annotation.ValidateXML;
-import hu.icellmobilsoft.dookug.api.rest.IOpenapiConstants;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryRequest;
@@ -55,9 +55,9 @@ public interface IDocumentStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Megadott szűrési feltételek alapján tárolt template metaadatok visszaadása.",
-            description = "A request body-ban megadott szűrési, rendezési és lapozási paraméterek alapján a tárolt template-ek metaadatainak összegyűjtése "
-                    + "és visszaadása egy lapozható listában.")
+    @Operation(summary = "Return template metadata stored based on specified filtering criteria.",
+            description = "Collect and return the metadata of the stored templates in a scrollable list based on the filtering, sorting "
+                    + "and paging parameters specified in the request body.")
     @POST
     @Path(DocumentGeneratePath.METADATA_QUERY)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })

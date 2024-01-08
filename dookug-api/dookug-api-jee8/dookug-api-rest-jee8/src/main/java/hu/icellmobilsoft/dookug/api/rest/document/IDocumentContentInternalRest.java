@@ -34,7 +34,7 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
-import hu.icellmobilsoft.dookug.api.rest.IOpenapiConstants;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
 /**

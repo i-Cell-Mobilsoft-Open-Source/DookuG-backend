@@ -34,7 +34,7 @@ import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.coffee.rest.validation.xml.annotation.ValidateXML;
-import hu.icellmobilsoft.dookug.api.rest.IOpenapiConstants;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -64,8 +64,8 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása tárolt template és request-ben megadott beállítások alapján",
-            description = "A modul adatbázisában eltárolt template, illetve a request-ben kapott paraméterek és beállítások alapján dokumentum generálása és visszaadása.")
+    @Operation(summary = "Generate a document based on a stored template and settings in a request",
+            description = "Generate and return a document based on stored template in the module's database by parameters and settings received in the request.")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(value = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM })
@@ -83,9 +83,9 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása és metaadatok visszaadása tárolt template és request-ben megadott beállítások alapján",
-            description = "A POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE
-                    + " végponthoz hasonló működés, azonban itt a generált dokumentum metaadataival térünk vissza.")
+    @Operation(summary = "Generate document and return metadata based on stored template and request settings",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE
+                    + " but returns with the metadata of the generated document.")
     @POST
     @Path(DocumentGeneratePath.METADATA)
     @Consumes(MediaType.APPLICATION_JSON)
