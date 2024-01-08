@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.icellmobilsoft.dookug</groupId>
+        <artifactId>dookug-api</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>dookug-api-common</artifactId>
+
+    <properties>
+        <version.hu.icellmobilsoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobilsoft.coffee>
+    </properties>
+
+    <dependencies>
+            <!-- we are using coffee according to JEE version! This must be
+            optional becaue we dont want to include this version as dependency
+            in child modules! -->
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-configdoc</artifactId>
+            <version>${version.hu.icellmobilsoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-dto-base</artifactId>
+            <version>${version.hu.icellmobilsoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

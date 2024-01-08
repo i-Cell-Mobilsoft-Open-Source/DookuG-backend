@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug</groupId>
         <artifactId>dookug-bom</artifactId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>dookug-bom-project</artifactId>
@@ -18,7 +18,12 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-api-dto</artifactId>
+                <artifactId>dookug-api-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-api-dto-jee8</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -28,7 +33,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-api-rest</artifactId>
+                <artifactId>dookug-api-rest-jee8</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -92,12 +97,12 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-client</artifactId>
+                <groupId>hu.icellmobilsoft.dookug.client</groupId>
+                <artifactId>dookug-client-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <groupId>hu.icellmobilsoft.dookug.client</groupId>
                 <artifactId>dookug-client-jee10</artifactId>
                 <version>${project.version}</version>
             </dependency>
