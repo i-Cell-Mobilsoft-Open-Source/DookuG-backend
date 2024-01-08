@@ -23,12 +23,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
@@ -73,7 +74,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      */
     public Response postDocumentGenerate(DocumentGenerateMultipartForm form) throws BaseException {
         if (form == null) {
-            throw newInvalidParameterException("form is null!");
+            throw new InvalidParameterException("form is null!");
         }
         BaseGeneratorSetupType generatorSetup = form.getRequest().getGeneratorSetup();
         byte[] template = readInputStream(form.getTemplate());
@@ -95,16 +96,23 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      */
     public Response postDocumentGenerate(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         if (request == null) {
-            throw newInvalidParameterException("request is null!");
+            throw new InvalidParameterException("request is null!");
         }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();
         return documentGenerate(request.getTemplates(), generatorSetup);
     }
 
+    /**
+     * @param form
+     *            multipart form
+     * @return the document metadata
+     * @throws BaseException
+     *             on error
+     */
     public DocumentMetadataResponse postDocumentGenerateMetadata(DocumentGenerateMultipartForm form) throws BaseException {
         if (form == null) {
-            throw newInvalidParameterException("form is null!");
+            throw new InvalidParameterException("form is null!");
         }
         BaseGeneratorSetupType generatorSetup = form.getRequest().getGeneratorSetup();
         byte[] template = readInputStream(form.getTemplate());
@@ -115,9 +123,16 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
                 generatorSetup);
     }
 
+    /**
+     * @param request
+     *            request object
+     * @return the document metadata
+     * @throws BaseException
+     *             on error
+     */
     public DocumentMetadataResponse postDocumentGenerateMetadata(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         if (request == null) {
-            throw newInvalidParameterException("request is null!");
+            throw new InvalidParameterException("request is null!");
         }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();

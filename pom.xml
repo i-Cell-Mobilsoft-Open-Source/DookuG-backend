@@ -43,9 +43,8 @@
         <module>dookug-model</module>
         <module>dookug-common</module>
         <module>dookug-engine</module>
-        <!--
         <module>dookug-document</module>
-
+        <!--
         <module>dookug-testsuite</module>
         -->
     </modules>

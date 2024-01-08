@@ -37,6 +37,15 @@ import hu.icellmobilsoft.dookug.common.model.template.Template;
 @Repository
 public interface TemplateRepository extends EntityRepository<Template, String>, CriteriaSupport<Template> {
 
+    /**
+     * @param templateName
+     *            name of template
+     * @param templateLanguage
+     *            language of template
+     * @param validityDate
+     *            date of validity
+     * @return {@link Template} object
+     */
     @Query("SELECT t FROM Template t WHERE t.name = ?1 AND t.language=?2 AND "
             + " (?3 BETWEEN t.validityStart AND t.validityEnd OR (t.validityStart < ?3 AND t.validityEnd is null))")
     Template findByNameAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate);

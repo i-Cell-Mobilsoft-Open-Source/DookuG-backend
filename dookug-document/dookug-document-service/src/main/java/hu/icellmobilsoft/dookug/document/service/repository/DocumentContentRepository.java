@@ -35,6 +35,11 @@ import hu.icellmobilsoft.dookug.common.model.template.DocumentContent;
 @Repository
 public interface DocumentContentRepository extends EntityRepository<DocumentContent, String>, CriteriaSupport<DocumentContent> {
 
+    /**
+     * @param documentId
+     *            documentId
+     * @return {@link DocumentContent}
+     */
     @Query("SELECT dc FROM DocumentContent dc JOIN Document d on d.id = dc.documentId WHERE d.id = ?1")
     DocumentContent findByDocumentId(String documentId);
 }

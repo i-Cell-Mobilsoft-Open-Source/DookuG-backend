@@ -19,12 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action;
 
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.spi.CDI;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
@@ -53,7 +54,7 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      */
     public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
-            throw newInvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
+            throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
 
         Document document = generateAndGetDocument(request.getGeneratorSetup());
@@ -72,7 +73,7 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      */
     public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
-            throw newInvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
+            throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
 
         Document document = generateAndGetDocument(request.getGeneratorSetup());

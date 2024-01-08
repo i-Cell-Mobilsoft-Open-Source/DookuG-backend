@@ -19,20 +19,15 @@
  */
 package hu.icellmobilsoft.dookug.document.service.rest;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
 import hu.icellmobilsoft.dookug.document.service.action.DocumentMetadataQueryAction;
-import hu.icellmobilsoft.dookug.document.service.action.StoredTemplateDocumentGenerateAction;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryResponse;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
 
 /**
  * Stored template service rest implementation
