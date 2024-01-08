@@ -43,6 +43,11 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
                 <artifactId>dookug-common-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
