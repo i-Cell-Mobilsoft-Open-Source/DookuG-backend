@@ -59,7 +59,7 @@ public interface DocumentServiceTestConstant {
     /**
      * {@value #PROJECT_STORED_TEMPLATE_NAME}
      */
-    String PROJECT_STORED_TEMPLATE_NAME = "PROJECT_INVOICE_TEMPLATE";
+    String PROJECT_STORED_TEMPLATE_NAME = "HUGO_INVOICE_TEMPLATE";
 
     /**
      * {@value #DEV_ERROR_TEMPLATE_NAME}

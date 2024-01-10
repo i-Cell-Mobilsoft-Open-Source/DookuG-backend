@@ -97,7 +97,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
             contentRestClient.getDocumentContent("   ");
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BaseException);
-            Assertions.assertEquals(CoffeeFaultType.INVALID_INPUT, ((BaseException) e.getCause()).getFaultTypeEnum());
+            Assertions.assertEquals(CoffeeFaultType.WRONG_OR_MISSING_PARAMETERS, ((BaseException) e.getCause()).getFaultTypeEnum());
         }
     }
 

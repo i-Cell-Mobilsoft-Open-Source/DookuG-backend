@@ -72,7 +72,7 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
         DocumentGenerateRequest request = generateRequestBuilder.fullFillHandlebarsPdfBoxDatabase();
         request.getGeneratorSetup()
                 .setParametersData(
-                        templateParameterDataFromFile(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS)));
+                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());

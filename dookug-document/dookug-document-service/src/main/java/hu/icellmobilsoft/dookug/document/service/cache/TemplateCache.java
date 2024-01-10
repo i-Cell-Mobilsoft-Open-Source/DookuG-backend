@@ -53,7 +53,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @Inject
     @ConfigProperty(name = ConfigKeys.Cache.DOOKUG_SERVICE_CACHE_TEMPLATE_TTL,
             defaultValue = ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
-    private Integer cacheTTLInMinutes;
+    private int cacheTTLInMinutes;
 
     /**
      * Add a new {@link TemplateCacheItem} to the Map
