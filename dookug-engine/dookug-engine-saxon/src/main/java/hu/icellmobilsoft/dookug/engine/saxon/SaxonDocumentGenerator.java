@@ -44,9 +44,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
+import org.apache.pdfbox.io.IOUtils;
 import org.apache.xmlgraphics.util.MimeConstants;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
@@ -109,6 +111,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     }
 
     @Override
+    @Traced(component = "SaxonGenerator", kind = "transform-to-pdf")
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, DigitalSigningDto digitalSigningDto)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();
@@ -131,14 +134,61 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "XSLT default language not configured!");
         }
 
-        InputStream templateStream = new ByteArrayInputStream(templateContainer.getCompiledResultAsBytes());
-        Source params = null;
-        if (BooleanUtils.isTrue(saxonParameters.isXmlDatasetCompressed())) {
-            params = new StreamSource(new ByteArrayInputStream(GZIPUtil.decompress(saxonParameters.getXmlDataset())));
-        } else {
-            params = new StreamSource(new ByteArrayInputStream(saxonParameters.getXmlDataset()));
-        }
+        Result result = getFOStream(outputStream, saxonParameters, digitalSigningDto);
+        try (InputStream templateStream = templateContainer.getCompiledResultAsStream();) {
+            // setting up XMLDataset
+            Source params = null;
+            if (BooleanUtils.isTrue(saxonParameters.isXmlDatasetCompressed())) {
+                params = new StreamSource(new ByteArrayInputStream(GZIPUtil.decompress(saxonParameters.getXmlDataset())));
+            } else {
+                params = new StreamSource(new ByteArrayInputStream(saxonParameters.getXmlDataset()));
+            }
 
+            // Saxon transformer initialization
+            TransformerFactory factory = TransformerFactory
+                    .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
+            //
+            // factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            // ez sajnos egy hibat general: 'XTSE0010: xsl:result-document is disabled when extension functions are disabled'
+            //
+            Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
+
+            // Start XSLT transformation and FOP processing
+            transformer.setParameter(xsltLangVarOpt.get(), getLanguage(generatorSetup).toUpperCase());
+            transformer.transform(params, result);
+            // add digital signing if needed by configuration
+            signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSigningDto);
+
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new TechnicalException(
+                    CoffeeFaultType.OPERATION_FAILED,
+                    MessageFormat.format("XSLT PDF transformation failed with error: [{0}]", e.getLocalizedMessage()),
+                    e);
+        } finally {
+            // ezt mindig hivjuk meg a finally blokkban, hogy ha barmilyen hiba tortenne a ket signatureGenerator hivas kozott, akkor is lezarjuk az
+            // eroforrasokat
+            signatureGenerator.closeStreams();
+        }
+    }
+
+    /**
+     * Get the FO stream
+     * 
+     * TODO: this should be cached!
+     * 
+     * @param outputStream
+     *            generate output
+     * @param saxonParameters
+     * @param digitalSigningDto
+     *            nullable, the digital singing parameters in case of digital signing is required
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = "SaxonGenerator", kind = "get-fo-stream")
+    private Result getFOStream(OutputStream outputStream, SaxonGeneratorParametersData saxonParameters, DigitalSigningDto digitalSigningDto)
+            throws BaseException {
         try {
             // create an instance of fop factory
             FopFactory fopFactory = null;
@@ -162,31 +212,13 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
                 fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outputStream);
             }
 
-            // Setup XSLT
-            TransformerFactory factory = TransformerFactory
-                    .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
-            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
-
             // Resulting SAX events (the generated FO) must be piped through to FOP
-            Result result = new SAXResult(fop.getDefaultHandler());
-
-            // Start XSLT transformation and FOP processing
-            // That's where the XML is first transformed to XSL-FO and then PDF is created
-            transformer.setParameter(xsltLangVarOpt.get(), getLanguage(generatorSetup).toUpperCase());
-            transformer.transform(params, result);
-
-            signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSigningDto);
-
+            return new SAXResult(fop.getDefaultHandler());
         } catch (Exception e) {
             throw new TechnicalException(
                     CoffeeFaultType.OPERATION_FAILED,
-                    MessageFormat.format("XSLT transformation to PDF failed with error: [{0}]", e.getLocalizedMessage()),
+                    MessageFormat.format("XSLT FO transformation failed with error: [{0}]", e.getLocalizedMessage()),
                     e);
-        } finally {
-            // ezt mindig hivjuk meg a finally blokkban, hogy ha barmilyen hiba tortenne a ket signatureGenerator hivas kozott, akkor is lezarjuk az
-            // eroforrasokat
-            signatureGenerator.closeStreams();
         }
     }
 
