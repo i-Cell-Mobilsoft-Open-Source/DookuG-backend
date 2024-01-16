@@ -17,8 +17,5 @@
 		<module>dookug-bom-wf</module>
 		<module>dookug-bom-project</module>
 		<module>dookug-bom-test</module>
-		<!-- 
-		dookug-bom-all-coffee20
-		-->
 	</modules>
 </project>

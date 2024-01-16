@@ -28,7 +28,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -44,7 +43,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.pdfbox.io.IOUtils;
 import org.apache.xmlgraphics.util.MimeConstants;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -111,7 +109,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     }
 
     @Override
-    @Traced(component = "SaxonGenerator", kind = "transform-to-pdf")
+    @Traced
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, DigitalSigningDto digitalSigningDto)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();
@@ -186,7 +184,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
      * @throws BaseException
      *             on error
      */
-    @Traced(component = "SaxonGenerator", kind = "get-fo-stream")
+    @Traced
     private Result getFOStream(OutputStream outputStream, SaxonGeneratorParametersData saxonParameters, DigitalSigningDto digitalSigningDto)
             throws BaseException {
         try {
