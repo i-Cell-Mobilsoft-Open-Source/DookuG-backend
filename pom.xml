@@ -40,6 +40,7 @@
         <module>dookug-bom</module>
         <module>dookug-api</module>
         <module>dookug-client</module>
+        <module>dookug-model</module>
         <!--
         <module>dookug-common</module>
         <module>dookug-engine</module>
