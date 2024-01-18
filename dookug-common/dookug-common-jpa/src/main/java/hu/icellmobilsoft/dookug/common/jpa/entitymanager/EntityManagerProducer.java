@@ -19,10 +19,10 @@
  */
 package hu.icellmobilsoft.dookug.common.jpa.entitymanager;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 /**
  * Default entityManager producer
@@ -37,9 +37,9 @@ public class EntityManagerProducer {
     private EntityManager defaultEm;
 
     /**
-     * Producer for entity manager
+     * deafult entity manager producer
      * 
-     * @return entity manager
+     * @return the entity manager
      */
     @Produces
     @Dependent

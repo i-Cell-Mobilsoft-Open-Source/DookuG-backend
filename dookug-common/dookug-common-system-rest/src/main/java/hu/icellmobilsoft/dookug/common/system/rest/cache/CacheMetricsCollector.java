@@ -23,8 +23,8 @@ import java.security.InvalidParameterException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.metrics.Metadata;
@@ -34,6 +34,7 @@ import org.eclipse.microprofile.metrics.Tag;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
+
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 

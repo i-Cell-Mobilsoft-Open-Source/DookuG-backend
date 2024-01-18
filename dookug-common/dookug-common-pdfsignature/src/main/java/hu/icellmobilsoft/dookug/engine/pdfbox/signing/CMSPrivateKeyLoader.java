@@ -30,8 +30,8 @@ import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.util.List;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import org.bouncycastle.asn1.x509.KeyPurposeId;
 

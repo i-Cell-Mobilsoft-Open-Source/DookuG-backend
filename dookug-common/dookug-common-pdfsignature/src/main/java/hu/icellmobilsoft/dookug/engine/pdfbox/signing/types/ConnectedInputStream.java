@@ -48,6 +48,14 @@ public class ConnectedInputStream extends InputStream {
     HttpURLConnection con;
     InputStream is;
 
+    /**
+     * default constructor
+     * 
+     * @param con
+     *            the {@link HttpURLConnection}
+     * @param is
+     *            the inputstream
+     */
     public ConnectedInputStream(HttpURLConnection con, InputStream is) {
         this.con = con;
         this.is = is;

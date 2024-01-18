@@ -53,7 +53,12 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-common-model</artifactId>
+                <artifactId>dookug-common-health</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-common-metrics</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -68,7 +73,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-common-rest</artifactId>
+                <artifactId>dookug-common-rest-jee</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
