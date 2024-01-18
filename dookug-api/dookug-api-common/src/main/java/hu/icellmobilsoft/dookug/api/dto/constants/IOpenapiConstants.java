@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.api.rest;
+package hu.icellmobilsoft.dookug.api.dto.constants;
 
 /**
  * Openapi constants for tags and descriptions

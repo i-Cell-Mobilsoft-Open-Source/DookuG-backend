@@ -29,7 +29,7 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.url.IServicePath;
+import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
 /**
  * REST endpoint for system service functions.
@@ -51,7 +51,7 @@ public interface ISystemRest {
      */
     @Operation(hidden = true)
     @GET
-    @Path(IServicePath.VERSION_INFO)
+    @Path(DocumentGeneratePath.VERSION_INFO)
     @Produces(MediaType.TEXT_PLAIN)
     public String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
 }

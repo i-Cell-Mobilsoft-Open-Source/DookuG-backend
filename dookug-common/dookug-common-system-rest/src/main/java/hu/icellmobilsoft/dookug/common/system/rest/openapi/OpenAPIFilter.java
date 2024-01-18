@@ -27,13 +27,12 @@ import org.eclipse.microprofile.openapi.models.media.Schema;
  * Openapi filter.<br>
  *
  * @author mark.petrenyi
- * @since 1.5.0
+ * @since 1.0.0
  */
 public class OpenAPIFilter implements OASFilter {
 
     /**
-     * Az mp-openapi a pattern-nel rendelkező, de nem String típusu objektumokat (pl.dátum típusok) object type-nak veszi, így nem generálja le a
-     * pattern-t a definícióba.
+     * mp-openapi takes objects with a pattern (not String, e.g. date types) as object type, so it does not generate the pattern into the definition.
      * 
      * @param schema
      *            the {@link org.eclipse.microprofile.openapi.annotations.media.Schema}
@@ -42,7 +41,7 @@ public class OpenAPIFilter implements OASFilter {
     @Override
     public Schema filterSchema(Schema schema) {
         if (schema != null && StringUtils.isNotBlank(schema.getPattern())) {
-            // Ha van pattern, akkor request/response szinten string kell legyen (a dto-ban lehet object pl. XmlGregorianCalendar)
+            // If there is a pattern, it must be a string at request/response level (in dto it can be an object e.g. XmlGregorianCalendar)
             schema.setType(Schema.SchemaType.STRING);
         }
         return schema;

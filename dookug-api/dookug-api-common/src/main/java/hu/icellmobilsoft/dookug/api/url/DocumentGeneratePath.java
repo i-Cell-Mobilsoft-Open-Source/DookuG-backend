@@ -27,7 +27,7 @@ import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
  * @author laszlo.padar
  * @since 0.1.0
  */
-public class DocumentGeneratePath extends BaseServicePath implements IServicePath {
+public class DocumentGeneratePath extends BaseServicePath {
 
     /**
      * {@value #DOCUMENT}
@@ -50,27 +50,27 @@ public class DocumentGeneratePath extends BaseServicePath implements IServicePat
      */
     public static final String STOREDTEMPLATE = "/storedTemplate";
     /**
-     * {@value IServicePath#PREFIX_INTERNAL} + {@value #DOCUMENT}
+     * {@value #INTERNAL_DOCUMENT}
      */
-    public static final String INTERNAL_DOCUMENT = PREFIX_INTERNAL + DOCUMENT;
+    public static final String INTERNAL_DOCUMENT = INTERNAL + DOCUMENT;
     /**
-     * {@value INTERNAL_DOCUMENT} + {@value #GENERATE}
+     * {@value INTERNAL_DOCUMENT_GENERATE}
      */
     public static final String INTERNAL_DOCUMENT_GENERATE = INTERNAL_DOCUMENT + GENERATE;
     /**
-     * {@value #INTERNAL_DOCUMENT_GENERATE} + {@value #INLINE}
+     * {@value #INTERNAL_DOCUMENT_GENERATE_INLINE}
      */
     public static final String INTERNAL_DOCUMENT_GENERATE_INLINE = INTERNAL_DOCUMENT_GENERATE + INLINE;
     /**
-     * {@value #INTERNAL_DOCUMENT_GENERATE} + {@value #STOREDTEMPLATE}
+     * {@value #INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE}
      */
     public static final String INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE = INTERNAL_DOCUMENT_GENERATE + STOREDTEMPLATE;
     /**
-     * {@value #INTERNAL_DOCUMENT} + {@value #STOREDTEMPLATE}
+     * {@value #INTERNAL_DOCUMENT_STOREDTEMPLATE}
      */
     public static final String INTERNAL_DOCUMENT_STOREDTEMPLATE = INTERNAL_DOCUMENT + STOREDTEMPLATE;
     /**
-     * {@value #INTERNAL_DOCUMENT} + {@value #CONTENT}
+     * {@value #INTERNAL_DOCUMENT_CONTENT}
      */
     public static final String INTERNAL_DOCUMENT_CONTENT = INTERNAL_DOCUMENT + CONTENT;
     /**
@@ -84,12 +84,18 @@ public class DocumentGeneratePath extends BaseServicePath implements IServicePat
     public static final String METADATA = "/metadata";
 
     /**
-     * {@value #METADATA} + {@value IServicePath#QUERY}
+     * {@value #METADATA_QUERY}
      */
-    public static final String METADATA_QUERY = METADATA + IServicePath.QUERY;
+    public static final String METADATA_QUERY = METADATA + QUERY;
 
     /**
-     * {@value #METADATA}
+     * {@value #MULTIPART_METADATA}
      */
     public static final String MULTIPART_METADATA = MULTIPART + METADATA;
+    
+    /**
+     * Rest path common constant for META-INF/MANIFET.MF file content in response
+     */
+    public static final String VERSION_INFO = "/versionInfo";
+
 }

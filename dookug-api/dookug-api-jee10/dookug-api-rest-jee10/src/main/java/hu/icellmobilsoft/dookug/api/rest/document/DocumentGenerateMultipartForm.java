@@ -30,7 +30,7 @@ import org.jboss.resteasy.annotations.providers.multipart.PartType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
 
 /**
- * DocumentGenerate REST Multipart from
+ * DocumentGenerate REST Multipart form
  * 
  * @author laszlo.padar
  * @since 0.1.0

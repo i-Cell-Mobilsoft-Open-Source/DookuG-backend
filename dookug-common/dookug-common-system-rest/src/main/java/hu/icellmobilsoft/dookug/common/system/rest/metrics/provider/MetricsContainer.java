@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import jakarta.enterprise.inject.Model;
 
 /**
- * Microprofile-metrics szamara RequestScope kontener
+ * RequestScoped container for microprofile metrics
  * 
  * @author imre.scheffer
  * 

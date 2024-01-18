@@ -35,7 +35,7 @@ import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.coffee.rest.validation.xml.annotation.ValidateXML;
-import hu.icellmobilsoft.dookug.api.rest.IOpenapiConstants;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
@@ -65,9 +65,8 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása multipart request-ben megadott értékek alapján",
-            description = "A POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
-                    + " végponthoz hasonló működésű végpont, azonban a request-et multipart formában fogadjuk.")
+    @Operation(summary = "Generate document based on values specified in multipart request",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + " but request is coming in multipart format")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -87,10 +86,10 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása request-ben megadott értékek alapján",
-            description = "Inline generálás esetén a template-et, a paramétereket és a beállításokat is fogadjuk a végponton, majd ezek alapján generáljuk a dokumentumot.\n\n"
-                    + "Több, hierarchikusan rendezett template feldolgozására is van lehetőség, amely HTML alapú dokumentumgenerálás esetén hasznosítható.\n\n"
-                    + "A template-et base64binary formátumban fogadjuk. A paramétereket kulcs-érték párosokként, vagy JSON struktúrában base64binary formátumban fogadjuk.")
+    @Operation(summary = "Generate document based on values specified in request",
+            description = "In the case of inline generation, the template, parameters and settings are also received at the endpoint, and the document is generated based on them.\n"
+                    + " It is possible to process multiple, hierarchically ordered templates, which can be used for HTML-based document generation.\n\n"
+                    + " The template is received in base64binary format. Parameters are received as key-value pairs or in JSON structure in base64binary format.")
     @POST
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })
@@ -110,9 +109,9 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása és metaadatok visszaadása multipart request-ben megadott template és beállítások alapján",
-            description = "A POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + DocumentGeneratePath.METADATA
-                    + " végponthoz hasonló működésű végpont, azonban a request-et multipart formában fogadjuk.")
+    @Operation(summary = "Generate document and return metadata based on template and settings specified in multipart request",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + DocumentGeneratePath.METADATA
+                    + " but request is coming in multipart format")
     @Path(DocumentGeneratePath.MULTIPART_METADATA)
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -130,9 +129,9 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Dokumentum generálása és metaadatok visszaadása request-ben megadott template és beállítások alapján",
-            description = "A POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
-                    + " végponthoz hasonló működés, azonban itt a generált dokumentum metaadataival térünk vissza.")
+    @Operation(summary = "Generate document and return metadata based on template and settings specified in request",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
+                    + " but returns with the metadata of the generated document.")
     @POST
     @Path(DocumentGeneratePath.METADATA)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })

@@ -20,7 +20,7 @@
 package hu.icellmobilsoft.dookug.common.metrics.constants;
 
 /**
- * Minden microprofile-metrics konstansok gyujtoje
+ * Every microprofile-metrics constants
  *
  * @author tamas.cserhati
  * @since 1.0.0
@@ -28,15 +28,13 @@ package hu.icellmobilsoft.dookug.common.metrics.constants;
 public interface MetricsConstants {
 
     /**
-     * microprofile-metrics @Timed annotacioval vagy csak kodban kezelt metrics
-     * timer konstansok
+     * microprofile-metrics with @Timed annotation or code-only metrics timer constants
      */
     interface Timer {
 
         /**
          * application_http_response_time_ms <br>
-         * Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők
-         * mérésének metrika neve.<br>
+         * Number of incoming HTTP requests and their response times measuring metric name<br>
          * {@value Description#HTTP_RESPONSE_TIME_DESCRIPTION}
          *
          * @see Tag#RESPONSE_CODE
@@ -45,7 +43,7 @@ public interface MetricsConstants {
     }
 
     /**
-     * microprofile-metrics kezelesnel felhasznalt tag konstansok
+     * tag constants used with microprofile-metrics
      */
     interface Tag {
 
@@ -68,57 +66,56 @@ public interface MetricsConstants {
     }
 
     /**
-     * microprofile-metrics kezelesnel felhasznalt description konstansok
+     * description constants used with microprofile-metrics
      */
     interface Description {
 
         /**
-         * Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.
+         * Number of incoming HTTP requests and their response times.
          */
         String HTTP_RESPONSE_TIME_DESCRIPTION = "Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.";
 
         /**
-         * Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.
+         * Number of incoming HTTP requests and their response times.
          */
         String STORAGE_DELETE_OBJECT_ERROR_TOTAL_DESCRIPTION = "Hibás törlési események számlálója.";
 
         /**
-         * Aktiv redis pool kapcsolatok
+         * Active redis pool connections
          */
         String JEDIS_POOL_ACTIVE_DESCRIPTION = "Active connection number";
 
         /**
-         * Idle redis pool kapcsolatok
+         * Idle redis pool connections
          */
         String JEDIS_POOL_IDLE_DESCRIPTION = "Idle connection number";
     }
 
     /**
-     * microprofile-metrics @Counted kodban kezelt metrics counter konstansok
+     * metrics counter constants handled in microprofile-metrics @Counted
      */
     interface Counter {
 
         /**
          * storage_delete_object_error_total<br>
-         * Hibás törlési események<br>
+         * Incorrect delete events<br>
          * {@value Description#STORAGE_DELETE_OBJECT_ERROR_TOTAL_DESCRIPTION}
          */
         String STORAGE_DELETE_OBJECT_ERROR_TOTAL = "storage_delete_object_error_total";
     }
 
     /**
-     * Gauge konstansok
-     *
+     * Gauge constants
      */
     interface Gauge {
 
         /**
-         * Aktiv redis pool kapcsolatok
+         * Active redis pool connections
          */
         String JEDIS_POOL_ACTIVE = "jedis_pool_active";
 
         /**
-         * Idle redis pool kapcsolatok
+         * Idle redis pool connections
          */
         String JEDIS_POOL_IDLE = "jedis_pool_idle";
 

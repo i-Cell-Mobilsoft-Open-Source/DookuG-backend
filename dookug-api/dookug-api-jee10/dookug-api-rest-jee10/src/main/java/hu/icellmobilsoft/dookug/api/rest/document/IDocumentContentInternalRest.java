@@ -34,9 +34,8 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
-import hu.icellmobilsoft.dookug.api.rest.IOpenapiConstants;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
-import hu.icellmobilsoft.dookug.api.url.IServicePath;
 
 /**
  * REST endpoint for requesting generated document content
@@ -62,10 +61,10 @@ public interface IDocumentContentInternalRest {
             description = "Generált és modulban tárolt dokumentum visszaadása octet-stream formátumban, illetve a fájl nevének visszaadása HTTP header-ben.\n\n"
                     + "Nem található azonosító esetén ENTITY_NOT_FOUND hibával térünk vissza.\n\n"
                     + "Adatbázisban történő dokumentumtároláshoz a dokumentum generálása során a generatorSetup.documentStorageMethod=DATABASE beállítást kell használni.")
-    @Path(IServicePath.ID)
+    @Path(DocumentGeneratePath.ID)
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response getDocumentContent(@PathParam(IServicePath.PARAM_ID) @Parameter(name = IServicePath.PARAM_ID,
+    Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
             description = "Generált dokumentum azonosító") String documentId) throws BaseException;
 }

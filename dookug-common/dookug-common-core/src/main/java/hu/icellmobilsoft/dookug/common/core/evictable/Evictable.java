@@ -20,8 +20,7 @@
 package hu.icellmobilsoft.dookug.common.core.evictable;
 
 /**
- * Belső állapot törlés funkciót jelölő interface.
- *
+ * Interface for evictable classes
  *
  * @author tamas.cserhati
  * @since 1.0.0
@@ -29,7 +28,7 @@ package hu.icellmobilsoft.dookug.common.core.evictable;
 public interface Evictable {
 
     /**
-     * Belső állapot törlés müvelet. A szolgáltatás a saját belső állapotaira vonatkozó törlő logikát implementálja ezzel.
+     * Implement the delete/refresh logic for internal state. (invalidate cache)
      *
      */
     void evict();

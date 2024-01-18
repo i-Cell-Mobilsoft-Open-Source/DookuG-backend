@@ -35,20 +35,21 @@ import com.google.common.cache.CacheBuilder;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
- * Általános cache-elést támogató osztály
+ * Class supporting common caching
  * 
  * @param <KEY>
- *            cache kulcs típusa, ami alapján keresünk
+ *            cache key type, ami alapján keresünk
  * @param <VALUE>
- *            a cache-ben tárolt elemek típusa
+ *            the type of items stored in the cache
  *
  * @author istvan.peli
  * @since 0.5.0
  */
-public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
+public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Evictable {
     /**
      * {@value #CONFIG_PATTERN}
      */
@@ -72,16 +73,16 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
     private final Config config = ConfigProvider.getConfig();
 
     /**
-     * Visszaadja a használt guava cache objektumot
+     * Return the guava cache object
      *
-     * @return a használt guava cache objektumot
+     * @return the guava cache object
      */
     protected abstract Cache<KEY, VALUE> getCache();
 
     /**
-     * Létrehoz egy cache builder-t ami tartalmazza a cache beállításait
+     * Create a cache builder that contains the cache settings
      *
-     * @return a létrehozott cache builder
+     * @return the cache builder
      */
     protected CacheBuilder<Object, Object> createCacheBuilder() {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
@@ -101,19 +102,19 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
     }
 
     /**
-     * Beállítja a cacheBuilder-en a default értékeket
+     * Set default values on cacheBuilder
      *
      * @param cacheBuilder
-     *            a konfigurálandó cacheBuilder
+     *            cacheBuilder to configure
      */
     protected void configureDefault(CacheBuilder<Object, Object> cacheBuilder) {
         cacheBuilder.expireAfterWrite(Duration.ofHours(12));
     }
 
     /**
-     * Visszaadja a konfigban használt nevet
+     * Return the name used in the config
      *
-     * @return a konfigban használt név
+     * @return the name
      */
     protected abstract String getCacheName();
 
@@ -125,12 +126,12 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
     }
 
     /**
-     * Törli a kulcshoz tárolt adatokat a cache-ből
+     * Remove the data stored for the key from the cache
      *
      * @param key
-     *            a keresett kulcs
+     *            the key to remove
      * @throws BaseException
-     *             hiba esetén
+     *             if key is empty
      */
     protected void evict(KEY key) throws BaseException {
         if (key == null) {

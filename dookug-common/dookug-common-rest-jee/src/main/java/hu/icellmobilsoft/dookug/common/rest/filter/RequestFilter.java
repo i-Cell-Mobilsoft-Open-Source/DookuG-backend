@@ -36,9 +36,9 @@ import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.common.rest.header.ProjectHeader;
 
 /**
- * Altalanos util filter, a request header-ek feldolgozása az elsődleges feladata
+ * Common util filter, primary task is processing headers
  * <p>
- * Az exception handler-ek előtt kell futnia, hogy a hibaüzenetek nyelvesítése megfelelő legyen. (lásd: {@link PreMatching})
+ * It should run before exception handlers to ensure that the error message language is correct (see {@link PreMatching})
  *
  * @author imre.scheffer
  */

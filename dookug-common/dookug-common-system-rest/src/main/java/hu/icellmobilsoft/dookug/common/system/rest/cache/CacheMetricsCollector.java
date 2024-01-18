@@ -39,7 +39,7 @@ import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
- * Cache metrikákat gyűjtő action
+ * Action to collect cache metrics
  *
  * @author istvan.peli
  * @since 0.5.0
@@ -58,11 +58,14 @@ public class CacheMetricsCollector extends BaseAction {
     private MetricRegistry metricRegistry;
 
     /**
-     * Kigyűjti az átadott cache objektumból a metrikákat
+     * Collect metrics from the cache object
      *
-     * @param cache     vizsgált cache példány
-     * @param cacheName az átadott cache neve
-     * @throws BaseException hiba esetén
+     * @param cache
+     *            the cache instance
+     * @param cacheName
+     *            the name of cache
+     * @throws BaseException
+     *             on error
      */
     public void updateMetrics(Cache<?, ?> cache, String cacheName) throws BaseException {
         if (cache == null || StringUtils.isBlank(cacheName)) {
