@@ -83,7 +83,7 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
         // set openhtmltopdf logger (without this its logging to System.err) https://github.com/danfickle/openhtmltopdf/wiki/Logging
         XRLog.setLoggerImpl(new Slf4jLogger());
 
-        // must be HTML format we dont care escaping
+        // must be HTML format we dont care about escape handling
         String compiledHtml = templateContainer.getCompiledResult();
         pdfRendererBuilder.withHtmlContent(compiledHtml, "");
         pdfRendererBuilder.withProducer(StringUtils.EMPTY);
