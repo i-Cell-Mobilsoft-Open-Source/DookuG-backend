@@ -22,6 +22,10 @@
             <artifactId>coffee-dto-impl</artifactId>
         </dependency>
         <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-cdi</artifactId>
+        </dependency>
+        <dependency>
             <!-- jaxb30-maven-plugin needs this in eclipse! (provided, version conflict!) -->
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>

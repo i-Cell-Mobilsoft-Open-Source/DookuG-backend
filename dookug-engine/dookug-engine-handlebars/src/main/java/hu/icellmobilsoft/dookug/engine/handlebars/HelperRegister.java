@@ -24,8 +24,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -40,7 +40,7 @@ import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.engine.handlebars.helper.DookugHelpers;
 
 /**
- * Handlebars - Hepler handler action
+ * Handlebars - Helper handler action
  *
  * @author laszlo.padar
  * @since 0.1.0
@@ -92,7 +92,7 @@ public class HelperRegister {
     }
 
     private List<File> findJavascriptsInDirectory(String dirPath) throws BaseException {
-        List<File> list = new ArrayList<File>();
+        List<File> list = new ArrayList<>();
         File classDir = new File(dirPath);
         if (!classDir.exists() || !classDir.isDirectory()) {
             String msg = MessageFormat.format("Path of Javascript Helpers [{0}] must be an existing directory!", dirPath);

@@ -20,8 +20,9 @@
         
         <version.com.github.jknack.handlebars>4.3.1</version.com.github.jknack.handlebars>
         <version.com.openhtmltopdf.openhtmltopdf-pdfbox>1.0.10</version.com.openhtmltopdf.openhtmltopdf-pdfbox>
-        <version.org.apache.xmlgraphics.fop>2.5</version.org.apache.xmlgraphics.fop>
+        <version.org.apache.xmlgraphics.fop>2.9</version.org.apache.xmlgraphics.fop>
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
+        <version.net.sourceforge.saxon.he>12.4</version.net.sourceforge.saxon.he>
         <version.com.google.guava>31.1-jre</version.com.google.guava>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 
@@ -128,6 +129,11 @@
                 <groupId>net.sourceforge.saxon</groupId>
                 <artifactId>saxon</artifactId>
                 <version>${version.net.sourceforge.saxon.saxon}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.saxon</groupId>
+                <artifactId>Saxon-HE</artifactId>
+                <version>${version.net.sourceforge.saxon.he}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>

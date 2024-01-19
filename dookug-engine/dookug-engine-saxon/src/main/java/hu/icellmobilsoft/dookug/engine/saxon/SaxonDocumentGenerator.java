@@ -28,13 +28,15 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -129,7 +131,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
         }
 
         InputStream templateStream = new ByteArrayInputStream(templateContainer.getCompiledResultAsBytes());
-        StreamSource params;
+        Source params = null;
         if (BooleanUtils.isTrue(saxonParameters.isXmlDatasetCompressed())) {
             params = new StreamSource(new ByteArrayInputStream(GZIPUtil.decompress(saxonParameters.getXmlDataset())));
         } else {

@@ -26,12 +26,13 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.EscapingStrategy;
 import com.github.jknack.handlebars.Handlebars;
@@ -62,6 +63,8 @@ import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 @ApplicationScoped
 public class HandlebarsTemplateCompiler implements ITemplateCompiler {
 
+    private static final String EMPTY_JSON = "{}";
+
     @Inject
     @ThisLogger
     private AppLogger log;
@@ -78,33 +81,40 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
     @Inject
     private EscapingStrategyFactory escapingStrategyFactory;
 
-    private Handlebars handlebars;
-
     @Inject
     @ConfigProperty(name = ConfigKeys.Handlebars.EscapingStrategy.DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY)
     private Optional<String> strategyKeyOptional;
+
+    private Handlebars handlebars;
 
     @Override
     public void compile(Map<String, String> parameters) throws BaseException {
         Template compiledTemplate = compile();
         if (parameters != null && !parameters.isEmpty()) {
-
             try {
                 templateContainer.setCompiledResult(compiledTemplate.apply(parameters));
             } catch (IOException e) {
-                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, MessageFormat.format(
-                        "Handlebars parameters map [{0}] apply failed with error: [{1}]", StringUtils.join(parameters), e.getLocalizedMessage()), e);
+                throw new TechnicalException(
+                        CoffeeFaultType.OPERATION_FAILED,
+                        MessageFormat.format(
+                                "Handlebars parameters map [{0}] apply failed with error: [{1}]",
+                                StringUtils.join(parameters),
+                                e.getLocalizedMessage()),
+                        e);
             }
         } else {
             try {
                 templateContainer.setCompiledResult(compiledTemplate.apply(getEmptyContext()));
             } catch (IOException e) {
-                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, MessageFormat.format(
-                        "Handlebars parameters map [{0}] apply failed with error: [{1}]", StringUtils.join(parameters), e.getLocalizedMessage()), e);
+                throw new TechnicalException(
+                        CoffeeFaultType.OPERATION_FAILED,
+                        MessageFormat.format(
+                                "Handlebars parameters map [{0}] apply failed with error: [{1}]",
+                                StringUtils.join(parameters),
+                                e.getLocalizedMessage()),
+                        e);
             }
-
         }
-
     }
 
     @Override
@@ -126,8 +136,10 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
         } catch (IOException e) {
             String msg;
             if (parameterData != null) {
-                msg = MessageFormat.format("Handlebars parameterData [{0}] apply failed with error: [{1}]",
-                        new String(parameterData, StandardCharsets.UTF_8), e.getLocalizedMessage());
+                msg = MessageFormat.format(
+                        "Handlebars parameterData [{0}] apply failed with error: [{1}]",
+                        new String(parameterData, StandardCharsets.UTF_8),
+                        e.getLocalizedMessage());
             } else {
                 msg = MessageFormat.format("Handlebars empty parameterData apply failed with error: [{0}]", e.getLocalizedMessage());
             }
@@ -135,6 +147,12 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
         }
     }
 
+    /**
+     * default init
+     * 
+     * @throws BaseException
+     *             on error
+     */
     @PostConstruct
     public void init() throws BaseException {
         EscapingStrategy escapingStrategy = escapingStrategyFactory.createEscapingStrategy(strategyKeyOptional);
@@ -153,13 +171,15 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
             log.debug("...Handlebars compile done.");
             return compiledTemplate;
         } catch (IOException e) {
-            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED,
-                    MessageFormat.format("Handlebars templates compile failed with error: [{0}]", e.getLocalizedMessage()), e);
+            throw new TechnicalException(
+                    CoffeeFaultType.OPERATION_FAILED,
+                    MessageFormat.format("Handlebars templates compile failed with error: [{0}]", e.getLocalizedMessage()),
+                    e);
         }
     }
 
     private Context getEmptyContext() {
-        Object obj = JsonUtil.toObject("{}", Map.class);
+        Object obj = JsonUtil.toObject(EMPTY_JSON, Map.class);
         return Context.newBuilder(obj).build();
     }
 }

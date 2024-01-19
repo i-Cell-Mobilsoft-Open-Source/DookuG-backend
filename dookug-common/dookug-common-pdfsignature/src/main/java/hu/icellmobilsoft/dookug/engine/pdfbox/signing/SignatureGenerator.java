@@ -98,7 +98,7 @@ public class SignatureGenerator implements SignatureInterface {
      */
     public OutputStream getOutputStreamForUnsignedPdf() throws BaseException {
         try {
-            // letrehozzuk a temporalis fajlt az alairando pdf szamara
+            // creating temporal file for the signing
             tempFile = Files.createTempFile(null, null);
             tempFileStream = new BufferedOutputStream(Files.newOutputStream(tempFile));
             return tempFileStream;
@@ -124,10 +124,10 @@ public class SignatureGenerator implements SignatureInterface {
         if (digitalSigningDto != null) {
             pdDocument = null;
             try {
-                // a tempFileStream tartalmat - ami a legeneralt alairatlan pdf - kiirjuk egy temporalis fajlba
+                // content of tempFileStream (unsigned pdf) is written to temporal file
                 tempFileStream.flush();
                 IOUtils.closeQuietly(tempFileStream);
-                // ...es alairjuk
+                // ...and sign
                 pdDocument = PDDocument.load(tempFile.toFile());
                 signDetached(pdDocument, signedPdfOutputStream, digitalSigningDto);
             } catch (IOException e) {
@@ -149,7 +149,7 @@ public class SignatureGenerator implements SignatureInterface {
         }
         if (tempFile != null && tempFile.toFile() != null) {
             try {
-                // ha nem kell tobbe toroljuk le, ne varjunk a JVM exitre
+                // dont wait for JVM exit
                 Files.delete(tempFile);
             } catch (IOException e) {
                 log.warn("Cannot delete the temporaly pdf file: [{0}]", tempFile);
@@ -205,7 +205,7 @@ public class SignatureGenerator implements SignatureInterface {
             gen.addCertificates(new JcaCertStore(Arrays.asList(cmsPrivateKey.getCertificateChain())));
             CMSProcessableInputStream msg = new CMSProcessableInputStream(content);
             CMSSignedData signedData = gen.generate(msg, false);
-            // ha timestamp validationt is akarunk:
+            // if we need imestamp validation
             // https://svn.apache.org/repos/asf/pdfbox/trunk/examples/src/main/java/org/apache/pdfbox/examples/signature/
             //
             // if (tsaUrl != null && tsaUrl.length() > 0) {
