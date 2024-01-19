@@ -28,6 +28,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -43,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
+import org.apache.xmlgraphics.util.MimeConstants;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
@@ -164,6 +165,9 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             // Setup XSLT
             TransformerFactory factory = TransformerFactory
                     .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
+            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
+            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_SCHEMA, false);
+            factory.setFeature(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, false);
             Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
 
             // Resulting SAX events (the generated FO) must be piped through to FOP
@@ -190,12 +194,10 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
 
     private String getLanguage(BaseGeneratorSetupType baseGeneratorSetup) {
         String requestLanguage = null;
-        if (baseGeneratorSetup instanceof StoredTemplateGeneratorSetupType) {
-            StoredTemplateGeneratorSetupType generatorSetup = (StoredTemplateGeneratorSetupType) baseGeneratorSetup;
+        if (baseGeneratorSetup instanceof StoredTemplateGeneratorSetupType generatorSetup) {
             requestLanguage = generatorSetup.getTemplate().getTemplateLanguage() == null ? null
                     : generatorSetup.getTemplate().getTemplateLanguage().name();
-        } else if (baseGeneratorSetup instanceof InlineGeneratorSetupType) {
-            InlineGeneratorSetupType generatorSetup = (InlineGeneratorSetupType) baseGeneratorSetup;
+        } else if (baseGeneratorSetup instanceof InlineGeneratorSetupType generatorSetup) {
             requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage().name();
         }
 

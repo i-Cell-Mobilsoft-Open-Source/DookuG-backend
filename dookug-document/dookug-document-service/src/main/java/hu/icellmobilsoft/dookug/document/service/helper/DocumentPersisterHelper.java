@@ -19,13 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.document.service.helper;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.jpa.annotation.Transactional;
 import hu.icellmobilsoft.dookug.common.model.template.Document;
 import hu.icellmobilsoft.dookug.common.model.template.DocumentContent;
-import hu.icellmobilsoft.dookug.common.system.transaction.Transactional;
 import hu.icellmobilsoft.dookug.document.service.service.DocumentContentService;
 import hu.icellmobilsoft.dookug.document.service.service.DocumentService;
 

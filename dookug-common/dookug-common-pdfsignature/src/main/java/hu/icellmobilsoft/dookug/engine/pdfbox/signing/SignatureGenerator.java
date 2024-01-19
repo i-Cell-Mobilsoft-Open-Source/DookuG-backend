@@ -205,7 +205,7 @@ public class SignatureGenerator implements SignatureInterface {
             gen.addCertificates(new JcaCertStore(Arrays.asList(cmsPrivateKey.getCertificateChain())));
             CMSProcessableInputStream msg = new CMSProcessableInputStream(content);
             CMSSignedData signedData = gen.generate(msg, false);
-            // if we need imestamp validation
+            // if we need timestamp validation
             // https://svn.apache.org/repos/asf/pdfbox/trunk/examples/src/main/java/org/apache/pdfbox/examples/signature/
             //
             // if (tsaUrl != null && tsaUrl.length() > 0) {

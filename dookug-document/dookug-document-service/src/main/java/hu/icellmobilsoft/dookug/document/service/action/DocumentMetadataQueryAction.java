@@ -19,11 +19,12 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
 import hu.icellmobilsoft.dookug.common.model.template.Document;
@@ -60,7 +61,7 @@ public class DocumentMetadataQueryAction extends BaseAction {
      */
     public DocumentMetadataQueryResponse postDocumentMetadataQuery(DocumentMetadataQueryRequest queryRequest) throws BaseException {
         if (queryRequest == null) {
-            throw newInvalidParameterException("queryRequest cannot be null!");
+            throw new InvalidParameterException("queryRequest cannot be null!");
         }
 
         PagingResult<Document> pagingResult = documentQueryService.findByQueryParams(queryRequest.getQueryParams(),

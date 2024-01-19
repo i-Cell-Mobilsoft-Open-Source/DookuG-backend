@@ -24,32 +24,50 @@ import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 /**
  * Template part item DTO
  *
- * @author istvan.peli *
+ * @author istvan.peli 
  * @since 0.5.0
  */
 public class TemplatePartCacheItem {
     private final boolean initialTemplate;
     private Template template;
 
+    /**
+     * default constructor
+     * 
+     * @param initialTemplate
+     *            is initial template?
+     * @param template
+     *            {@link Template} object
+     */
     public TemplatePartCacheItem(boolean initialTemplate, Template template) {
         this.initialTemplate = initialTemplate;
-        this.template = template;
-    }
-
-    public boolean isInitialTemplate() {
-        return initialTemplate;
-    }
-
-    public Template getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(Template template) {
-        this.template = template;
+        this.setTemplate(template);
     }
 
     @Override
     public String toString() {
-        return "TemplatePartCacheItem{" + "initialTemplate=" + initialTemplate + ", templateName=" + template.getTemplateName() + '}';
+        return "TemplatePartCacheItem{" + "initialTemplate=" + isInitialTemplate() + ", templateName=" + getTemplate().getTemplateName() + '}';
+    }
+
+    /**
+     * @return the initialTemplate
+     */
+    public boolean isInitialTemplate() {
+        return initialTemplate;
+    }
+
+    /**
+     * @return the template
+     */
+    public Template getTemplate() {
+        return template;
+    }
+
+    /**
+     * @param template
+     *            the template to set
+     */
+    public void setTemplate(Template template) {
+        this.template = template;
     }
 }

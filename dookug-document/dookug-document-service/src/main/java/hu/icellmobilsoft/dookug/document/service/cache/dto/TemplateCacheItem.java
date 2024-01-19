@@ -34,7 +34,14 @@ public class TemplateCacheItem {
 
     private final List<TemplatePartCacheItem> templatePartCacheItems;
 
-
+    /**
+     * default constructor
+     * 
+     * @param templateId
+     *            temaplte identifier
+     * @param templateName
+     *            template name
+     */
     public TemplateCacheItem(String templateId, String templateName) {
         this.templateId = templateId;
         this.templateName = templateName;
@@ -42,25 +49,40 @@ public class TemplateCacheItem {
         templatePartCacheItems = new ArrayList<>();
     }
 
+    /**
+     * add a new {@link TemplatePartCacheItem}
+     * 
+     * @param templatePartCacheItem
+     *            the item to add
+     */
     public void addNewPartItem(TemplatePartCacheItem templatePartCacheItem) {
-        templatePartCacheItems.add(templatePartCacheItem);
-    }
-
-    public String getTemplateId() {
-        return templateId;
-    }
-
-    public String getTemplateName() {
-        return templateName;
-    }
-
-    public List<TemplatePartCacheItem> getTemplatePartCacheItems() {
-        return templatePartCacheItems;
+        getTemplatePartCacheItems().add(templatePartCacheItem);
     }
 
     @Override
     public String toString() {
-        return "TemplateCacheItem{" + "templateId='" + templateId + '\'' + ", templateName='" + templateName + '\'' + ", templatePartCacheItems="
-                + templatePartCacheItems + '}';
+        return "TemplateCacheItem{" + "templateId='" + getTemplateId() + '\'' + ", templateName='" + getTemplateName() + '\''
+                + ", templatePartCacheItems=" + getTemplatePartCacheItems() + '}';
+    }
+
+    /**
+     * @return the templateId
+     */
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    /**
+     * @return the templateName
+     */
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    /**
+     * @return the templatePartCacheItems
+     */
+    public List<TemplatePartCacheItem> getTemplatePartCacheItems() {
+        return templatePartCacheItems;
     }
 }

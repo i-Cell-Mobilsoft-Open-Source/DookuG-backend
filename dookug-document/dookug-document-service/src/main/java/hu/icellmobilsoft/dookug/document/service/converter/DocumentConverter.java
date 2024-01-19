@@ -21,7 +21,7 @@ package hu.icellmobilsoft.dookug.document.service.converter;
 
 import java.util.Objects;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.BusinessException;
