@@ -45,7 +45,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Temp
  * DookuG client ososztaly
  * 
  * @author tamas.cserhati
- * @since 0.0.1
+ * @since 1.0.0
  */
 public abstract class AbstractBaseDookugClient {
 

@@ -32,7 +32,7 @@ import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
  * REST client interface for template based document generation
  *
  * @author tamas.cserhati
- * @since 0.0.1
+ * @since 1.0.0
  */
 @RegisterRestClient(configKey = ConfigKeys.Client.DOOKUG_CLIENT_DOCUMENT)
 @RegisterProvider(CustomJsonbContextResolver.class)

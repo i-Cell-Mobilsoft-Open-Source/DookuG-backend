@@ -33,8 +33,8 @@ import jakarta.ws.rs.ext.ContextResolver;
 /**
  * Custom default JSON-B config for MP-rest client
  *
- * @author mate.biro
- * @since 0.2.0
+ * @author tamas.cserhati
+ * @since 1.0.0
  */
 @Dependent
 public class CustomJsonbContextResolver implements ContextResolver<Jsonb> {

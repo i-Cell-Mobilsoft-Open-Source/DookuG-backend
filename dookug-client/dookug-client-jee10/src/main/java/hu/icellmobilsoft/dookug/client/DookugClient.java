@@ -48,7 +48,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Temp
  * Client for handling DookuG Service methods
  *
  * @author tamas.cserhati
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Dependent
 public class DookugClient extends AbstractDookugClient {
