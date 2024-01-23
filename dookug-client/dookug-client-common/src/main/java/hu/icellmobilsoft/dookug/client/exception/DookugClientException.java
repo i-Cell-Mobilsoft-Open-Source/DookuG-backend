@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.dookug.client.exception;
 
-import javax.enterprise.inject.Vetoed;
-
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 
 /**
@@ -29,7 +27,6 @@ import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
  * @author tamas.cserhati
  * @since 0.0.1
  */
-@Vetoed
 public class DookugClientException extends TechnicalException {
 
     private static final long serialVersionUID = 1L;

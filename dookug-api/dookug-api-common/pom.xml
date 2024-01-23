@@ -30,6 +30,12 @@
             <version>${version.hu.icellmobilsoft.coffee}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-cdi</artifactId>
+            <version>${version.hu.icellmobilsoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
 </project>

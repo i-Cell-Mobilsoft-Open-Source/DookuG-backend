@@ -39,7 +39,13 @@ import hu.icellmobilsoft.roaster.common.util.FileUtil;
  */
 public interface DookugClientRequestHelper {
 
+    /**
+     * default template
+     */
     public static final String TEMPLATE = "DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]";
+    /**
+     * default parameters as json
+     */
     public static final String SIMPLE_PARAMETERS_JSON = "{\"first\": \"első\", \"second\": \"í123456789öüóőúűáé-.,<>#&@{};*¤ß$\", \"three\": [{\"sub1\": \"level2-1\"},{\"sub1\": \"level2-2\"}]}";
 
     /**
@@ -47,7 +53,7 @@ public interface DookugClientRequestHelper {
      */
     public interface SimpleKeyValue {
         /**
-         * @return
+         * @return List of {@link ParameterType} objects
          */
         static Collection<ParameterType> createParameters() {
             ParameterType parameter1 = new ParameterType().withKey("first").withValue("első");
@@ -56,7 +62,7 @@ public interface DookugClientRequestHelper {
         }
 
         /**
-         * @return
+         * @return a list of {@link TemplateType} objects
          */
         static Collection<TemplateType> createTemplate() {
             TemplateType template = new TemplateType().withTemplateName("main")
@@ -65,6 +71,9 @@ public interface DookugClientRequestHelper {
             return List.of(template);
         }
 
+        /**
+         * @return default template as input stream
+         */
         static InputStream createTemplateAsStream() {
             return new ByteArrayInputStream(TEMPLATE.getBytes(StandardCharsets.UTF_8));
         }
@@ -76,19 +85,22 @@ public interface DookugClientRequestHelper {
      */
     public interface SimpleJson {
         /**
-         * @return
+         * @return {@link ParametersDataType} object with default params
          */
         static ParametersDataType createParametersData() {
             return ParametersDataBuilder.newBuilder().withTemplateParameters(SIMPLE_PARAMETERS_JSON).build();
         }
 
         /**
-         * @return
+         * @return List of {@link TemplateType} objects
          */
         static Collection<TemplateType> createTemplate() {
             return SimpleKeyValue.createTemplate();
         }
 
+        /**
+         * @return default template as input stream
+         */
         static InputStream createTemplateAsStream() {
             return SimpleKeyValue.createTemplateAsStream();
         }
@@ -101,12 +113,18 @@ public interface DookugClientRequestHelper {
         public static final String PDF_BOX_TEMPLATE = "pdfbox/pdfbox_template.html";
         public static final String PDF_BOX_TEMPLATE_ERROR = "pdfbox/pdfbox_template_error.html";
 
+        /**
+         * @return default pdf template read from file
+         */
         static Collection<TemplateType> readPdfTemplate() {
             TemplateType template = new TemplateType().withTemplateName("pdfbox_template")
                     .withTemplateContent(FileUtil.readFileFromResource(PDF_BOX_TEMPLATE).getBytes(StandardCharsets.UTF_8));
             return List.of(template);
         }
 
+        /**
+         * @return a pdf template with errors read from file
+         */
         static Collection<TemplateType> readPdfTemplateError() {
             TemplateType template = new TemplateType().withTemplateName("pdfbox_template")
                     .withTemplateContent(FileUtil.readFileFromResource(PDF_BOX_TEMPLATE_ERROR).getBytes(StandardCharsets.UTF_8));

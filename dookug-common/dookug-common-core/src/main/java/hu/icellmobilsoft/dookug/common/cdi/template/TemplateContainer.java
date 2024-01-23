@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.common.cdi.template;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,6 +140,15 @@ public class TemplateContainer {
      */
     public void setCompiledResult(String compiledResult) {
         this.compiledResult = compiledResult;
+    }
+
+    /**
+     * get the compiledResult field as {@link ByteArrayInputStream}
+     * 
+     * @return the compiled template
+     */
+    public ByteArrayInputStream getCompiledResultAsStream() {
+        return new ByteArrayInputStream(compiledResult.getBytes(StandardCharsets.UTF_8));
     }
 
 }

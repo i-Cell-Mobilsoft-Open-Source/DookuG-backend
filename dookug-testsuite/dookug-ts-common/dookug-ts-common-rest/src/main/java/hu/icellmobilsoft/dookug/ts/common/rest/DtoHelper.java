@@ -23,11 +23,12 @@ import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 
-/*
+/**
  * DTO helper
- * 
- * @author Imre Scheffer
+ *
+ * @author imre.scheffer
  * @since 0.1.0
+ *
  */
 public class DtoHelper {
 

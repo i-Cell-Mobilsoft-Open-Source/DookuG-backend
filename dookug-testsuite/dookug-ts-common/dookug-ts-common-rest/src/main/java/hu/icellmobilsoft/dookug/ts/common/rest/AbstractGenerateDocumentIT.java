@@ -29,9 +29,9 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -54,6 +54,9 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  */
 public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT {
 
+    /**
+     * empty json
+     */
     protected static final byte[] EMPTY_JSON = "{}".getBytes();
     private static final Pattern FILENAME_PATTERN = Pattern.compile("filename=\"([^\"]*)\"");
     private ByteArrayOutputStream resultContent = new ByteArrayOutputStream();
@@ -62,6 +65,13 @@ public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT 
     @ConfigProperty(name = TsConfigKey.DOOKUG_WRITE_DOCUMENT)
     private Optional<Boolean> writeDocument;
 
+    /**
+     * get the file name from HTTP response
+     * 
+     * @param response
+     *            the HTTP response
+     * @return the filename
+     */
     protected String getFilename(Response response) {
         String header = response.getHeaderString(HttpHeaders.CONTENT_DISPOSITION);
 
@@ -72,10 +82,23 @@ public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT 
         return null;
     }
 
+    /**
+     * @return true if file persising is enabled in configuration
+     */
     protected boolean isWriteDocumentEnabled() {
         return writeDocument.isPresent() && BooleanUtils.isTrue(writeDocument.get());
     }
 
+    /**
+     * write file to disk when enabled
+     * 
+     * @param inputStream
+     *            the input stream
+     * @param filename
+     *            the file name
+     * @throws BaseException
+     *             on error
+     */
     protected void writeFileIfEnabled(InputStream inputStream, String filename) throws BaseException {
         try {
             inputStream.transferTo(resultContent);
@@ -90,6 +113,9 @@ public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT 
         }
     }
 
+    /**
+     * check the result whether it PDF is
+     */
     protected void assertIsResultPdf() {
         String generatedPdfString = resultContent.toString(StandardCharsets.UTF_8);
         Assertions.assertTrue(StringUtils.startsWith(generatedPdfString, "%PDF"), "Response object is not PDF!");
