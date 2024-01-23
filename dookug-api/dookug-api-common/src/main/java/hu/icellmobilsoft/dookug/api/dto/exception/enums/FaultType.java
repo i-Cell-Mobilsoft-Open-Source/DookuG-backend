@@ -19,6 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.api.dto.exception.enums;
 
+import hu.icellmobilsoft.coffee.cdi.annotation.FaultTypeCode;
 import hu.icellmobilsoft.coffee.dto.error.IFaultType;
 
 /**
@@ -27,6 +28,7 @@ import hu.icellmobilsoft.coffee.dto.error.IFaultType;
  * @author imre.scheffer
  * @since 0.1.0
  */
+@FaultTypeCode
 public enum FaultType implements IFaultType<FaultType> {
     /**
      * HTTP 400 Response.Status.BAD_REQUEST<br>
