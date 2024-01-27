@@ -21,8 +21,8 @@
         <project.scm.id>icell-github-server</project.scm.id>
         <sonar.junit.reportPaths>${surefire.reportsDir}, ${failsafe.reportsDir}</sonar.junit.reportPaths>
         <sonar.jacoco.reportPaths>${jacoco.ut.execution.data.file}, ${jacoco.it.execution.data.file}</sonar.jacoco.reportPaths>
-        <version.hu.icellmobilsoft.coffee.ee8>1.16.0-SNAPSHOT</version.hu.icellmobilsoft.coffee.ee8>
-        <version.hu.icellmobilsoft.coffee.ee10>2.5.0-SNAPSHOT</version.hu.icellmobilsoft.coffee.ee10>
+        <version.hu.icellmobilsoft.coffee.ee8>1.16.0</version.hu.icellmobilsoft.coffee.ee8>
+        <version.hu.icellmobilsoft.coffee.ee10>2.5.0</version.hu.icellmobilsoft.coffee.ee10>
     </properties>
 
     <scm>

@@ -20,7 +20,6 @@
 package hu.icellmobilsoft.dookug.api.dto.exception.enums;
 
 import hu.icellmobilsoft.coffee.cdi.annotation.FaultTypeCode;
-import hu.icellmobilsoft.coffee.dto.error.IFaultType;
 
 /**
  * Project specific faults
@@ -29,7 +28,7 @@ import hu.icellmobilsoft.coffee.dto.error.IFaultType;
  * @since 0.1.0
  */
 @FaultTypeCode
-public enum FaultType implements IFaultType<FaultType> {
+public enum FaultType {
     /**
      * HTTP 400 Response.Status.BAD_REQUEST<br>
      * TechnicalFault nyelvesített lekezelése<br>
