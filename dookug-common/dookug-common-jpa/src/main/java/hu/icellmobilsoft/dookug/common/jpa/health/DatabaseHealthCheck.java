@@ -29,8 +29,8 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Startup;
 
+import hu.icellmobilsoft.coffee.cdi.config.IConfigKey;
 import hu.icellmobilsoft.coffee.jpa.health.DatabaseHealth;
-import hu.icellmobilsoft.coffee.jpa.health.DatabaseHealthConstant;
 import hu.icellmobilsoft.coffee.jpa.health.DatabaseHealthResourceConfig;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
@@ -92,7 +92,8 @@ public class DatabaseHealthCheck {
             healthConfig.setBuilderName("postgre");
             healthConfig.setDatasourceUrl(config.getOptionalValue(POSTGRESQL_DS_CONNECTION_URL, String.class).orElse(DEFAULT_PU));
         }
-        healthConfig.setDsName(DatabaseHealthConstant.Database.DEFAULT_DATASOURCE_NAME);
+        healthConfig.setDsName(
+                config.getOptionalValue(IConfigKey.DATASOURCE_DEFAULT_NAME, String.class).orElse(IConfigKey.DATASOURCE_DEFAULT_NAME_VALUE));
 
     }
 
