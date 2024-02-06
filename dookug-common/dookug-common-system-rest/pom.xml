@@ -19,6 +19,10 @@
             <groupId>hu.icellmobilsoft.dookug</groupId>
             <artifactId>dookug-common-rest</artifactId>
         </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-common-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.eclipse.microprofile.opentracing</groupId>

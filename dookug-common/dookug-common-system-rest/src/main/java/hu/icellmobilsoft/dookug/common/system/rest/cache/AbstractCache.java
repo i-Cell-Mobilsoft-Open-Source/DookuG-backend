@@ -31,9 +31,11 @@ import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
@@ -47,9 +49,18 @@ import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
  * @author istvan.peli
  * @since 0.5.0
  */
-public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
+public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Evictable {
+    /**
+     * {@value #CONFIG_PATTERN}
+     */
     protected static final String CONFIG_PATTERN = "dookug.service.cache.{0}.{1}";
+    /**
+     * {@value #EXPIRE_AFTER_WRITE_IN_MINUTES}
+     */
     protected static final String EXPIRE_AFTER_WRITE_IN_MINUTES = "ttl";
+    /**
+     * {@value #ENABLE_STATISTICS}
+     */
     protected static final String ENABLE_STATISTICS = "enablestatistic";
 
     @Inject
@@ -107,6 +118,9 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
      */
     protected abstract String getCacheName();
 
+    /**
+     * invalidate cache
+     */
     public void evict() {
         getCache().invalidateAll();
     }
@@ -126,6 +140,9 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction {
         getCache().invalidate(key);
     }
 
+    /**
+     * update metrics
+     */
     protected void updateMetrics() {
         if (isStatisticsEnabled()) {
             try {
