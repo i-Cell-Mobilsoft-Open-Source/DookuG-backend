@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.hu.icellmobilsoft.coffee>1.12.1</version.hu.icellmobilsoft.coffee>
+        <version.hu.icellmobilsoft.coffee>1.16.0</version.hu.icellmobilsoft.coffee>
         <version.apache.deltaspike>1.9.6</version.apache.deltaspike>
         <version.org.eclipse.microprofile>4.1</version.org.eclipse.microprofile>
         <version.hu.icellmobilsoft.roaster>0.8.0</version.hu.icellmobilsoft.roaster>
