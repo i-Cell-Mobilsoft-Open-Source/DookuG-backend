@@ -6,8 +6,8 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 /**
  * Provides rediness and liveness check for microprofile-health api
  * 
- * @author czenczl
- * @since 1.10.0
+ * @author tamas.cserhati
+ * @since 0.5.0
  */
 public interface IHealth {
 

@@ -6,8 +6,8 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 /**
  * Provide base functionality for health checks
  * 
- * @author czenczl
- * @since 1.10.0
+ * @author tamas.cserhati
+ * @since 0.5.0
  *
  */
 public abstract class AbstractBaseHealthCheck {
