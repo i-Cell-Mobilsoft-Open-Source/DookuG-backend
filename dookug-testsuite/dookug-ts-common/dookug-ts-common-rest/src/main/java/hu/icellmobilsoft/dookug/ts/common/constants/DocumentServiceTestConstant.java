@@ -19,8 +19,6 @@
  */
 package hu.icellmobilsoft.dookug.ts.common.constants;
 
-import java.util.Locale;
-
 /**
  * Constants for tests
  * 
