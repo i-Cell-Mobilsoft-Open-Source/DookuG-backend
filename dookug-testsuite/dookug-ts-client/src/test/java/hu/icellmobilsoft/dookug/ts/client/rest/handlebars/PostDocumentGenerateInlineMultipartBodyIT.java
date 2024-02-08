@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.client.DookugClient;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.ts.client.rest.builder.DookugClientRequestHelper;

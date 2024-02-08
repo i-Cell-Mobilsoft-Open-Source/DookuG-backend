@@ -36,7 +36,6 @@ import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.dookug.client.DookugClient;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.ts.common.builder.StoredTemplateDocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
@@ -60,7 +59,7 @@ class PostStoredTemplateDocumentGenerateMetadataIT extends AbstractGenerateDocum
     void testStoredTemplateDocumentGenerateMetadata() throws BaseException {
         DocumentMetadataResponse response = client.postDatabaseStoredTemplateDocumentGenerateMetadata(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
-                TemplateLanguageType.HU,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now(),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertEquals(FunctionCodeType.OK, response.getFuncCode());
@@ -73,7 +72,7 @@ class PostStoredTemplateDocumentGenerateMetadataIT extends AbstractGenerateDocum
         try {
             client.postDatabaseStoredTemplateDocumentGenerateMetadata(
                     RandomUtil.generateId(),
-                    TemplateLanguageType.HU,
+                    DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now(),
                     templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         } catch (RestClientResponseException e) {

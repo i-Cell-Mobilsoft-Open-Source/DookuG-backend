@@ -19,6 +19,8 @@
  */
 package hu.icellmobilsoft.dookug.ts.common.constants;
 
+import java.util.Locale;
+
 /**
  * Constants for tests
  * 
@@ -115,5 +117,10 @@ public interface DocumentServiceTestConstant {
      * FOP_CONFIG
      */
     String FOP_CONFIG = "saxon/xslt/fop-config.xml";
+
+    /**
+     * default hungarian locale
+     */
+    String DEFAULT_LANGUAGE_HU = "HU";
 
 }
