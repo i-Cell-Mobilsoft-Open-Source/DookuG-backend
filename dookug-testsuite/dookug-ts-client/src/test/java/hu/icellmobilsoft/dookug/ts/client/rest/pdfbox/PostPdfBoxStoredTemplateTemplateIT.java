@@ -38,7 +38,6 @@ import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
@@ -65,7 +64,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
 
         GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
-                TemplateLanguageType.HU,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now(),
                 emptyParameterData());
 
@@ -84,7 +83,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
         try {
             client.postDatabaseStoredTemplateDocumentGenerate(
                     DocumentServiceTestConstant.DEV_ERROR_TEMPLATE_NAME,
-                    TemplateLanguageType.HU,
+                    DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now(),
                     emptyParameterData());
             Assertions.fail("Nem hibás válasz (elvárt http státuszkód: 500)");

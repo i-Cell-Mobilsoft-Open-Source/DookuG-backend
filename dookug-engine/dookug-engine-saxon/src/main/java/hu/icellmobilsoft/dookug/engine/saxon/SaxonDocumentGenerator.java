@@ -191,10 +191,10 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
         if (baseGeneratorSetup instanceof StoredTemplateGeneratorSetupType) {
             StoredTemplateGeneratorSetupType generatorSetup = (StoredTemplateGeneratorSetupType) baseGeneratorSetup;
             requestLanguage = generatorSetup.getTemplate().getTemplateLanguage() == null ? null
-                    : generatorSetup.getTemplate().getTemplateLanguage().name();
+                    : generatorSetup.getTemplate().getTemplateLanguage();
         } else if (baseGeneratorSetup instanceof InlineGeneratorSetupType) {
             InlineGeneratorSetupType generatorSetup = (InlineGeneratorSetupType) baseGeneratorSetup;
-            requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage().name();
+            requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage();
         }
 
         if (StringUtils.isBlank(requestLanguage)) {
