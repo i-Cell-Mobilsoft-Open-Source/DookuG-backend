@@ -91,7 +91,7 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
         // gazdálkodik.
         store.loadTemplatesByNameAndValidity(
                 generatorSetup.getTemplate().getTemplateName(),
-                generatorSetup.getTemplate().getTemplateLanguage().name(),
+                generatorSetup.getTemplate().getTemplateLanguage(),
                 generatorSetup.getTemplate().getValidityDate());
 
         return generateDocument(generatorSetup);

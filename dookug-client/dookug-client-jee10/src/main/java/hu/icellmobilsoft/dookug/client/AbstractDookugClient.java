@@ -49,7 +49,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Para
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateStorageMethodType;
 
 /**
@@ -203,7 +202,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, TemplateLanguageType templateLanguage,
+    public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,
             ParametersDataType parametersData) throws BaseException {
         if (StringUtils.isBlank(templateName) || templateStorageMethodType == null) {
@@ -267,7 +266,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @throws BaseException
      *             on error
      */
-    public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(String templateName, TemplateLanguageType templateLanguage,
+    public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,
             ParametersDataType parametersData) throws BaseException {
         if (StringUtils.isBlank(templateName) || templateStorageMethodType == null) {
@@ -305,7 +304,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @return the new {@link StoredTemplateDocumentGenerateRequest}
      */
     protected StoredTemplateDocumentGenerateRequest createRequest(TemplateStorageMethodType templateStorageMethodType,
-            Collection<ParameterType> parameters, ParametersDataType parametersData, String templateName, TemplateLanguageType templateLanguage,
+            Collection<ParameterType> parameters, ParametersDataType parametersData, String templateName, String templateLanguage,
             OffsetDateTime templateValidity) {
         StoredTemplateDocumentGenerateRequest request = new StoredTemplateDocumentGenerateRequest();
         request.setContext(createContext());

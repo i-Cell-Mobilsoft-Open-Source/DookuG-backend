@@ -17,22 +17,10 @@
         <xsd:annotation>
             <xsd:documentation>Template nyelve</xsd:documentation>
         </xsd:annotation>
-        <xsd:restriction base="coffeeCommon:SimpleText2NotBlankType">
-            <xsd:enumeration value="HU">
-                <xsd:annotation>
-                    <xsd:documentation>magyar</xsd:documentation>
-                </xsd:annotation>
-            </xsd:enumeration>
-            <xsd:enumeration value="EN">
-                <xsd:annotation>
-                    <xsd:documentation>angol</xsd:documentation>
-                </xsd:annotation>
-            </xsd:enumeration>
-            <xsd:enumeration value="DE">
-                <xsd:annotation>
-                    <xsd:documentation>német</xsd:documentation>
-                </xsd:annotation>
-            </xsd:enumeration>
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2"/>
+            <xsd:maxLength value="30"/>
+            <xsd:pattern value=".*\S.*"/>
         </xsd:restriction>
     </xsd:simpleType>
 

@@ -35,8 +35,8 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Stor
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateStorageMethodType;
+import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.DtoHelper;
 import hu.icellmobilsoft.roaster.api.dto.BaseBuilder;
 
@@ -51,8 +51,7 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
 
     @Override
     public StoredTemplateDocumentGenerateRequest createEmpty() {
-        StoredTemplateDocumentGenerateRequest request = new StoredTemplateDocumentGenerateRequest();
-        return request;
+        return new StoredTemplateDocumentGenerateRequest();
     }
 
     /**
@@ -79,7 +78,7 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
         generatorSetup.setTemplateStorageMethod(TemplateStorageMethodType.DATABASE);
         StoredTemplateType template = new StoredTemplateType();
         template.setTemplateName("TMPL01");
-        template.setTemplateLanguage(TemplateLanguageType.HU);
+        template.setTemplateLanguage(DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU);
         generatorSetup.setTemplate(template);
         generatorSetup.setParametersData(ParametersDataBuilder.newBuilder().build());
         request.setGeneratorSetup(generatorSetup);
@@ -101,7 +100,7 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
         generatorSetupType.setGeneratorEngine(GeneratorEngineType.PDF_BOX);
         StoredTemplateType templateType = new StoredTemplateType().withTemplateName(templateName)
                 .withValidityDate(DateUtil.nowUTCTruncatedToMillis())
-                .withTemplateLanguage(TemplateLanguageType.HU);
+                .withTemplateLanguage(DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU);
         generatorSetupType.setTemplate(templateType);
         generatorSetupType.setTemplateEngine(TemplateEngineType.HANDLEBARS);
         generatorSetupType.withResponseFormat(ResponseFormatType.PDF);

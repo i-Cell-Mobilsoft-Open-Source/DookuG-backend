@@ -1,3 +1,10 @@
 == v0.5.0
 
 * Caching of templates in memory https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend/issues/4
+* TemplateLanguage type has been changed from enum to string (`EN` -> `EN` or `en_GB`). 
+
+=== Migration
+
+Replace `TemplateLanguageType.*` occurrences with the string value of the language.
+
+

@@ -37,7 +37,6 @@ import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
@@ -65,7 +64,7 @@ class PostSaxonStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
 
         GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.PROJECT_STORED_TEMPLATE_NAME,
-                TemplateLanguageType.HU,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 ParametersDataBuilder.getSaxonParameters(
                         FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8)));
 

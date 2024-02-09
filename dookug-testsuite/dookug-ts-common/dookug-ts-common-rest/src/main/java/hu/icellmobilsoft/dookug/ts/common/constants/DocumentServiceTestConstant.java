@@ -116,4 +116,9 @@ public interface DocumentServiceTestConstant {
      */
     String FOP_CONFIG = "saxon/xslt/fop-config.xml";
 
+    /**
+     * default hungarian locale
+     */
+    String DEFAULT_LANGUAGE_HU = "HU";
+
 }

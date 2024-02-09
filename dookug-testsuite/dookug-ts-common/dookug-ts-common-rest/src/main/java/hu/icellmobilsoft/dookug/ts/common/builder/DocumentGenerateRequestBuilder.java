@@ -45,8 +45,7 @@ public class DocumentGenerateRequestBuilder extends BaseBuilder<DocumentGenerate
 
     @Override
     public DocumentGenerateRequest createEmpty() {
-        DocumentGenerateRequest request = new DocumentGenerateRequest();
-        return request;
+        return new DocumentGenerateRequest();
     }
 
     /**

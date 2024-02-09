@@ -224,9 +224,9 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
         String requestLanguage = null;
         if (baseGeneratorSetup instanceof StoredTemplateGeneratorSetupType generatorSetup) {
             requestLanguage = generatorSetup.getTemplate().getTemplateLanguage() == null ? null
-                    : generatorSetup.getTemplate().getTemplateLanguage().name();
+                    : generatorSetup.getTemplate().getTemplateLanguage();
         } else if (baseGeneratorSetup instanceof InlineGeneratorSetupType generatorSetup) {
-            requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage().name();
+            requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage();
         }
 
         if (StringUtils.isBlank(requestLanguage)) {

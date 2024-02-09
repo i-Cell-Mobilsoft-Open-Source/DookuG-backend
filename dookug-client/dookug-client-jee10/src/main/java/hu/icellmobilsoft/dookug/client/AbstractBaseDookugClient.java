@@ -39,7 +39,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 
 /**
  * DookuG client ososztaly
@@ -54,7 +53,7 @@ public abstract class AbstractBaseDookugClient {
     private GeneratorEngineType generatorEngineType = GeneratorEngineType.PDF_BOX;
     private TemplateEngineType templateEngineType = TemplateEngineType.HANDLEBARS;
     private ResponseFormatType responseFormatType = ResponseFormatType.PDF;
-    private TemplateLanguageType templateLanguageType = TemplateLanguageType.HU;
+    private String templateLanguage = "HU";
     private DigitalSigningType digitalSigningType;
 
     private DocumentStorageMethodType documentStorageMethodType = DocumentStorageMethodType.NONE;
@@ -181,18 +180,18 @@ public abstract class AbstractBaseDookugClient {
     }
 
     /**
-     * @return the templateLanguageType
+     * @return the templateLanguage
      */
-    public TemplateLanguageType getTemplateLanguageType() {
-        return templateLanguageType;
+    public String getTemplateLanguage() {
+        return templateLanguage;
     }
 
     /**
-     * @param templateLanguageType
-     *            the templateLanguageType to set
+     * @param templateLanguage
+     *            the templateLanguage to set
      */
-    public void setTemplateLanguageType(TemplateLanguageType templateLanguageType) {
-        this.templateLanguageType = templateLanguageType;
+    public void setTemplateLanguage(String templateLanguage) {
+        this.templateLanguage = templateLanguage;
     }
 
     /**
