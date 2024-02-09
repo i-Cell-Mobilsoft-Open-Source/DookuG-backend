@@ -40,7 +40,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateStorageMethodType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateType;
 
@@ -301,10 +300,11 @@ public class DookugClient extends AbstractDookugClient {
     }
 
     private InlineGeneratorSetupType createGeneratorSetup() {
-        return new InlineGeneratorSetupType().withTemplateLanguage(getTemplateLanguageType())
+        return new InlineGeneratorSetupType().withTemplateLanguage(getTemplateLanguage())
                 .withGeneratorEngine(getGeneratorEngineType())
                 .withTemplateEngine(getTemplateEngineType())
                 .withAddDigitalSignature(getDigitalSigningType())
+                .withTemplateLanguage(getTemplateLanguage())
                 .withResponseFormat(getResponseFormatType());
     }
 
@@ -324,7 +324,7 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, TemplateLanguageType templateLanguage,
+    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
@@ -351,7 +351,7 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, TemplateLanguageType templateLanguage,
+    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
@@ -376,7 +376,7 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, TemplateLanguageType templateLanguage,
+    public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             ParametersDataType parametersData) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
@@ -403,7 +403,7 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, TemplateLanguageType templateLanguage,
+    public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException {
         return postStoredTemplateDocumentGenerateMetadata(
                 templateName,
@@ -430,7 +430,7 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, TemplateLanguageType templateLanguage,
+    public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException {
         return postStoredTemplateDocumentGenerateMetadata(
                 templateName,

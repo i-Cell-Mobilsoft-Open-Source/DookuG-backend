@@ -39,7 +39,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateLanguageType;
 import hu.icellmobilsoft.dookug.ts.common.builder.StoredTemplateDocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
@@ -78,7 +77,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         client.setDocumentStorageMethodType(DocumentStorageMethodType.DATABASE);
         DocumentMetadataResponse metadataResponse = client.postDatabaseStoredTemplateDocumentGenerateMetadata(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
-                TemplateLanguageType.HU,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now(),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertEquals(FunctionCodeType.OK, metadataResponse.getFuncCode());
@@ -98,7 +97,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         client.setDocumentStorageMethodType(DocumentStorageMethodType.DATABASE);
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
-                TemplateLanguageType.HU,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now(),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertNotNull(documentDto.getFileName());
