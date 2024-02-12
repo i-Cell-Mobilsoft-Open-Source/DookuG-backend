@@ -1,0 +1,3 @@
+== v0.6.0
+
+* New helpers (formatDate, formatTime) and rename formatDate -> formatDateTime.
