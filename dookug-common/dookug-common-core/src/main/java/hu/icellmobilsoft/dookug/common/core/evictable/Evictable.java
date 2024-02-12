@@ -23,7 +23,7 @@ package hu.icellmobilsoft.dookug.common.core.evictable;
  * Interface for evictable classes
  *
  * @author tamas.cserhati
- * @since 1.0.0
+ * @since 0.5.0
  */
 public interface Evictable {
 

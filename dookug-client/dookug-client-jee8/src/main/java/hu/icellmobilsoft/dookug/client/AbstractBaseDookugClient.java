@@ -180,7 +180,7 @@ public abstract class AbstractBaseDookugClient {
     }
 
     /**
-     * @return the templateLanguageType
+     * @return the templateLanguage
      */
     public String getTemplateLanguage() {
         return templateLanguage;

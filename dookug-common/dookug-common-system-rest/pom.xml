@@ -10,28 +10,30 @@
 
     <dependencies>
         <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-rest-jee</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-metrics</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.eclipse.microprofile.health</groupId>
             <artifactId>microprofile-health-api</artifactId>
+            <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-common-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-common-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.eclipse.microprofile.opentracing</groupId>
             <artifactId>microprofile-opentracing-api</artifactId>
+            <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.eclipse.microprofile.metrics</groupId>
             <artifactId>microprofile-metrics-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.smallrye.config</groupId>
-            <artifactId>smallrye-config-source-yaml</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

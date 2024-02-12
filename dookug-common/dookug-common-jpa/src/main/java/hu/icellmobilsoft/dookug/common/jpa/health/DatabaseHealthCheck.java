@@ -38,7 +38,7 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
  * Health check for database availability
  * 
  * @author tamas.cserhati
- * @since 1.0.0
+ * @since 0.5.0
  *
  */
 @ApplicationScoped

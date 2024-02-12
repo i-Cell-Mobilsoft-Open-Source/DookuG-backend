@@ -1,6 +1,9 @@
 == v0.5.0
 
+=== Changes / updates
+ 
 * Caching of templates in memory https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend/issues/4
+* Observability: DB health check added
 * TemplateLanguage type has been changed from enum to string (`EN` -> `EN` or `en_GB`). 
 
 === Migration

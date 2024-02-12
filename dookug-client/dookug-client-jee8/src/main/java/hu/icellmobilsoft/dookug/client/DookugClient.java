@@ -305,6 +305,7 @@ public class DookugClient extends AbstractDookugClient {
                 .withTemplateEngine(getTemplateEngineType())
                 .withTemplateLanguage(getTemplateLanguage())
                 .withAddDigitalSignature(getDigitalSigningType())
+                .withTemplateLanguage(getTemplateLanguage())
                 .withResponseFormat(getResponseFormatType());
     }
 
