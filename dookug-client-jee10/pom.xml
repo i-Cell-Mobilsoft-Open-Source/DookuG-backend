@@ -88,6 +88,9 @@
 								<groupId>hu.icellmobilsoft.dookug</groupId>
 								<artifactId>dookug-client</artifactId>
 								<version>${project.version}</version>
+								<excludes>
+									<exclude>META-INF/jandex.idx</exclude>
+								</excludes>
 							</artifact>
 						</configuration>
 					</execution>
