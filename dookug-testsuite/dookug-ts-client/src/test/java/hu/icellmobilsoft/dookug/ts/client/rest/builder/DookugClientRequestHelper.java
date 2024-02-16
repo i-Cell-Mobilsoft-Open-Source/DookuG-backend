@@ -42,6 +42,8 @@ public interface DookugClientRequestHelper {
     public static final String TEMPLATE = "DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]";
     public static final String SIMPLE_PARAMETERS_JSON = "{\"first\": \"első\", \"second\": \"í123456789öüóőúűáé-.,<>#&@{};*¤ß$\", \"three\": [{\"sub1\": \"level2-1\"},{\"sub1\": \"level2-2\"}]}";
 
+    String BUILT_IN_HELPER = "{{join \"a\" \"b\" \"c\"}} {{substring \"0123456789\" 2 5}}";
+
     /**
      * methods for simple key-value tests
      */
@@ -110,6 +112,15 @@ public interface DookugClientRequestHelper {
         static Collection<TemplateType> readPdfTemplateError() {
             TemplateType template = new TemplateType().withTemplateName("pdfbox_template")
                     .withTemplateContent(FileUtil.readFileFromResource(PDF_BOX_TEMPLATE_ERROR).getBytes(StandardCharsets.UTF_8));
+            return List.of(template);
+        }
+    }
+
+    interface InBoundHelpers {
+        static Collection<TemplateType> createTemplate() {
+            TemplateType template = new TemplateType().withTemplateName("main")
+                    .withTemplateContent(BUILT_IN_HELPER.getBytes(StandardCharsets.UTF_8))
+                    .withInitial(true);
             return List.of(template);
         }
     }
