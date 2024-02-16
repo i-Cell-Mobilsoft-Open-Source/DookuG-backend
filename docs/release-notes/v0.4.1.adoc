@@ -1,0 +1,3 @@
+== v0.4.1
+
+* jandex.idx file removed from dookug-client-jee10. It caused Unsatisfied Dependency Exception during the deployment. 
