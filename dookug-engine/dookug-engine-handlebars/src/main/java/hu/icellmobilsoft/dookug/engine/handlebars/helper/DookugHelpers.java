@@ -257,9 +257,9 @@ public enum DookugHelpers implements Helper<Object> {
     /**
      * DateTime conversion to custom format. Result could be converted to given time zone.
      * usage:
-     * 1. {{formatDate '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss'}}
-     * 2. {{formatDate '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss' 'CET'}}
-     * 3. {{formatDate '2024-01-09T15:30:04Z' 'MM.dd-HH:mm'}}
+     * 1. {{formatDateTime '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss'}}
+     * 2. {{formatDateTime '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss' 'CET'}}
+     * 3. {{formatDateTime '2024-01-09T15:30:04Z' 'MM.dd-HH:mm'}}
      * returns:
      * 1. '2023-08-13 06:40:55'
      * 2. '2023-08-13 08:40:55'
@@ -286,9 +286,11 @@ public enum DookugHelpers implements Helper<Object> {
      * usage:
      * 1. {{formatTime '15:30:55Z' 'HH:mm:ss'}}
      * 2. {{formatTime '15:30:55Z' 'h:mm a'}}
+     * 3. {{formatTime '15:30:55Z' 'HH:mm:ss', 'CET'}}
      * returns:
      * 1. '15:30:55'
      * 2. '3:30 PM'
+     * 3. '16:30:55'
      */
     formatTime {
         @Override

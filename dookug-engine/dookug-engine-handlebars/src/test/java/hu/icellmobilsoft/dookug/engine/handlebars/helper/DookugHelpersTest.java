@@ -19,22 +19,21 @@
  */
 package hu.icellmobilsoft.dookug.engine.handlebars.helper;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import com.github.jknack.handlebars.Options;
-
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import com.github.jknack.handlebars.Options;
 /**
  * DookugHelper methods test
  *
  * @author istvan.peli
- * @since 0.5.0
+ * @since 0.6.0
  */
 class DookugHelpersTest {
 
