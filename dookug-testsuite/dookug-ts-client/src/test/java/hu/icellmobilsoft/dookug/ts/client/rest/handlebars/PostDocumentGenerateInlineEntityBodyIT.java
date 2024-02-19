@@ -102,7 +102,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     void BuiltInHelperTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.InBoundHelpers.createTemplate(), //
+        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), //
                 DookugClientRequestHelper.SimpleKeyValue.createParameters());
 
         Assertions.assertEquals(200, response.getHttpStatus());

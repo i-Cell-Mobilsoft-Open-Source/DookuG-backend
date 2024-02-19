@@ -116,7 +116,10 @@ public interface DookugClientRequestHelper {
         }
     }
 
-    interface InBoundHelpers {
+    /**
+     * methods for BuiltIn helpers
+     */
+    interface BuiltInHelpers {
         static Collection<TemplateType> createTemplate() {
             TemplateType template = new TemplateType().withTemplateName("main")
                     .withTemplateContent(BUILT_IN_HELPER.getBytes(StandardCharsets.UTF_8))
