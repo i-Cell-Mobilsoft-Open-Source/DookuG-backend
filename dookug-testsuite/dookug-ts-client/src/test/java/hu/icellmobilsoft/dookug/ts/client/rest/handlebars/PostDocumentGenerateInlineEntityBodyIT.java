@@ -52,7 +52,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     public static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
     public static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
 
-    public static final String EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER = "acb 234";
+    public static final String EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER = "<!DOCTYPE html><html><head></head><body><ul><li>1100 Ft</li><li>1100 </li><li>2024.02.29</li><li>2024-02-29</li></ul></body></html>";
 
     @Inject
     private DookugClient client;
@@ -103,7 +103,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), //
-                DookugClientRequestHelper.SimpleKeyValue.createParameters());
+                DookugClientRequestHelper.BuiltInHelpers.createParameters());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);

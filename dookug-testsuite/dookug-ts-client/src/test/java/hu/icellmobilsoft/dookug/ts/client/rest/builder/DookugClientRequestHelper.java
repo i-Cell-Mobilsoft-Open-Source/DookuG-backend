@@ -121,6 +121,16 @@ public interface DookugClientRequestHelper {
 
         String BUILT_IN_HELPER = "inline/built_in_helper.html";
 
+        static Collection<ParameterType> createParameters() {
+            ParameterType parameter1 = new ParameterType().withKey("formatNumberParam1").withValue("1100");
+            ParameterType parameter2 = new ParameterType().withKey("formatNumberParam2").withValue("1100");
+            ParameterType parameter3 = new ParameterType().withKey("formatNumberParam3").withValue("# ###");
+            ParameterType parameter4 = new ParameterType().withKey("formatDateParam1").withValue("2024-02-29T13:59:59Z");
+            ParameterType parameter5 = new ParameterType().withKey("formatDateParam2").withValue("2024-02-29T13:59:59Z");
+            ParameterType parameter6 = new ParameterType().withKey("formatDateParam3").withValue("yyyy-MM-dd");
+            return List.of(parameter1, parameter2, parameter3,parameter4,parameter5,parameter6);
+        }
+
         static Collection<TemplateType> createTemplate() {
             TemplateType template = new TemplateType().withTemplateName("build_in_helper")
                     .withTemplateContent(FileUtil.readFileFromResource(BUILT_IN_HELPER).getBytes(StandardCharsets.UTF_8))
