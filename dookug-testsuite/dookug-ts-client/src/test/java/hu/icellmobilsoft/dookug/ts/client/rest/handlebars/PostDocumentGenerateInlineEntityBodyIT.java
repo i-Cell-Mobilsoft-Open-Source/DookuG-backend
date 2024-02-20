@@ -99,7 +99,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
 
     @Test
     @DisplayName("built-in helpers test")
-    void BuiltInHelperTest() throws BaseException, IOException {
+    void builtInHelperTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), //
