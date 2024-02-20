@@ -52,7 +52,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     public static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
     public static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
 
-    public static final String EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER = "<!DOCTYPE html><html><head></head><body><ul><li>1100 Ft</li><li>1100 </li><li>2024.02.29</li><li>2024-02-29</li></ul></body></html>";
+    public static final String EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER = "<!DOCTYPE html><html><head></head><body>\n1100 Ft\n1100 \n2024.02.29\n2024-02-29\na // b // c\n</body></html>";
 
     @Inject
     private DookugClient client;
