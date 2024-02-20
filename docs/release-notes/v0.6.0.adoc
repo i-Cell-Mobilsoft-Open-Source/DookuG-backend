@@ -1,3 +1,7 @@
 == v0.6.0
 
+=== Changes / updates
+
+* Documentation fixes (formatting, missing 0.5.0 release notes include)
+
 * Use of built-in helpers from com.github.jknack.handlebars.helper.StringHelpers
