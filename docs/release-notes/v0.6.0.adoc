@@ -4,3 +4,6 @@
 
 * Documentation fixes (formatting, missing 0.5.0 release notes include)
 * Add https://github.com/jknack/handlebars.java/blob/v4.3.1/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java[com.github.jknack.handlebars.helper.StringHelpers] built in helper to helpers
+* Rename formatDate to formatDateTime
+* Create formatDate which handles date format
+* Create formatTime which handles time format

@@ -22,7 +22,9 @@ package hu.icellmobilsoft.dookug.engine.handlebars.helper;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -253,38 +255,90 @@ public enum DookugHelpers implements Helper<Object> {
     },
 
     /**
-     * Date conversion to custom format. Result could be converted to given time zone.
+     * DateTime conversion to custom format. Result could be converted to given time zone.
      * usage:
-     * 1. {{formatDate '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss'}}
-     * 2. {{formatDate '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss' 'CET'}}
+     * 1. {{formatDateTime '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss'}
+     * 2. {{formatDateTime '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss' 'CET'}}
+     * 3. {{formatDateTime '2024-01-09T15:30:04Z' 'MM.dd-HH:mm'}}
      * returns:
-     * 1. '2023-08-13 06:40:55'
-     * 2. '2023-08-13 08:40:55'
+     * 1. '2023-08-13 05:40:55'
+     * 2. '2023-08-13 05:40:55'
+     * 3. '01.09-15:30'
      */
-    formatDate {
+    formatDateTime {
         @Override
         public CharSequence apply(final Object context, final Options options) {
             Object[] params = options.params;
-            OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
+            OffsetDateTime inputDateTime = OffsetDateTime.parse(context.toString());
             String pattern = params[0].toString();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
             if (params.length > 1) {
                 String zoneId = params[1].toString();
-                ZonedDateTime zoned =  inputDate.toInstant().atZone(ZoneId.of(zoneId.toString()));
-                inputDate = zoned.toOffsetDateTime();
+                ZonedDateTime zoned =  inputDateTime.toInstant().atZone(ZoneId.of(zoneId.toString()));
+                inputDateTime = zoned.toOffsetDateTime();
             }
-            return inputDate.format(formatter);
+            return inputDateTime.format(formatter);
+        }
+    },
+
+    /**
+     * Time conversion to custom format usage:
+     * 1. {{formatTime '15:30:55Z' 'HH:mm:ss'}}
+     * 2. {{formatTime '15:30:55Z' 'h:mm a'}}
+     * 3. {{formatTime '15:30:55Z' 'HH:mm:ss', 'CET'}}
+     * returns:
+     * 1. '15:30:55'
+     * 2. '3:30 PM'
+     * 3. '16:30:55'
+     */
+    formatTime {
+        @Override
+        public CharSequence apply(final Object context, final Options options) {
+            OffsetTime inputTime = OffsetTime.parse(context.toString());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(options.param(0));
+            if (options.params.length > 1) {
+                String zoneId = options.param(1).toString();
+                OffsetDateTime offsetDateTime = inputTime.atDate(LocalDate.now());
+                ZonedDateTime zonedDateTime = offsetDateTime.toInstant().atZone(ZoneId.of(zoneId.toString()));
+
+                inputTime = zonedDateTime.toOffsetDateTime().toOffsetTime();
+            }
+            return inputTime.format(formatter);
+        }
+    },
+
+
+    /**
+     * Date conversion to custom format
+     * usege:
+     * 1. {{formatDate '2023-08-13' 'yyyy.MM.dd'}}
+     * 2. {{formatDate '2023-08-13' 'MM.dd.yyyy'}}
+     * returns:
+     * 1. '2023.08.13'
+     * 2. '08.13.2023'
+     */
+    formatDate {
+        @Override
+        public CharSequence apply(final Object context, final Options options) {
+            LocalDate localDate = LocalDate.parse(context.toString());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(options.param(0));
+
+            return localDate.format(formatter);
         }
     },
 
     /**
      * Number conversion to custom format
      * usage:
-     * {{formatNumber '8.0' '#'}}
-     * {{formatNumber numberVariable '00'}}
-     * {{formatNumber numberVariable '00', 'HU'}}
+     * 1. {{formatNumber '8.0' '#'}}
+     * 2. {{formatNumber numberVariable '00'}}
+     * 3. {{formatNumber numberVariable '00', 'HU'}}
      * returns:
-     * '8'
+     * 1. '8'
+     * 2. '8'
+     * 3. '8'
      */
     formatNumber {
         @Override
