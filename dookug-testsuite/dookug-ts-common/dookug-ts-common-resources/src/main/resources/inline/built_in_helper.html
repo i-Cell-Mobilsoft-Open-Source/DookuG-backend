@@ -3,7 +3,7 @@
 {{#if (equals colorParam 'white')}}equals{{/if}}
 {{#if (and falseValue trueValue notExistingValue)}}YES{{else}}and{{/if}}
 {{#if (or falseValue trueValue notExistingValue)}}or{{else}} NO {{/if}}
-{{#if (not falseValue)}}YES{{else}}not{{/if}}
+{{#if (not falseValue)}}not{{else}}NO{{/if}}
 {{#if (in colorParam 'black' 'white' 'gray')}}in{{else}}NO{{/if}}
 {{#if (before dateTimeValue '2023-08-13T05:40:55Z')}}before{{/if}}
 {{#if (between dateTimeValue '2020-08-13T05:40:55Z' '2023-08-15T05:40:55Z')}}between{{/if}}
@@ -18,5 +18,9 @@
 {{formatNumber numberVariable '00' 'HU'}}
 {{math '+' numericProperty 4}}
 {{join "a" "b" "c" " // "}}
+{{declare 'myColor' 'blue'}}
+<span style="color:'{{myColor}}'">blue</span>
+{{declareVoid 'myColor2' 'yellow'}}
+<span style="color:'{{myColor2}}'">yellow</span>
 </pre>
 </body></html>
