@@ -8,6 +8,10 @@
 
     <artifactId>dookug-ts-client</artifactId>
 
+    <properties>
+        <failsafeArgLine>--add-opens java.base/java.lang=ALL-UNNAMED</failsafeArgLine>
+    </properties>
+    
     <dependencyManagement>
         <dependencies>
             <dependency>

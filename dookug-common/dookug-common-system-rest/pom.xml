@@ -17,7 +17,7 @@
 
         <dependency>
             <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-rest</artifactId>
+            <artifactId>dookug-common-rest-jee</artifactId>
         </dependency>
         <dependency>
             <groupId>hu.icellmobilsoft.dookug</groupId>

@@ -20,7 +20,7 @@
         <xsd:restriction base="xsd:string">
             <xsd:minLength value="2"/>
             <xsd:maxLength value="30"/>
-            <xsd:pattern value=".[^\s]."/>
+            <xsd:pattern value="[A-Za-z_-]{2,30}"/>
         </xsd:restriction>
     </xsd:simpleType>
 

@@ -329,3 +329,4 @@ application_cache_hit_count{name="template"} 0.0
 application_cache_miss_count{name="template"} 1.0
 # TYPE application_cache_size gauge
 application_cache_size{name="template"} 1.0
+-------
