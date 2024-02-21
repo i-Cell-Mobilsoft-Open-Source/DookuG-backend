@@ -120,11 +120,12 @@ public interface DookugClientRequestHelper {
     interface BuiltInHelpers {
 
         String BUILT_IN_HELPER = "inline/built_in_helper.html";
+        String BUILT_IN_HELPER_RESULT = "inline/built_in_helper_result.html";
 
         static Collection<ParameterType> createParameters() {
             ParameterType parameter1 = new ParameterType().withKey("formatNumberParam1").withValue("1100");
             ParameterType parameter2 = new ParameterType().withKey("formatNumberParam2").withValue("1100");
-            ParameterType parameter3 = new ParameterType().withKey("formatNumberParam3").withValue("# ###");
+            ParameterType parameter3 = new ParameterType().withKey("formatNumberParam3").withValue("# ###.##-");
             ParameterType parameter4 = new ParameterType().withKey("formatDateParam1").withValue("2024-02-29T13:59:59Z");
             ParameterType parameter5 = new ParameterType().withKey("formatDateParam2").withValue("2024-02-29T13:59:59Z");
             ParameterType parameter6 = new ParameterType().withKey("formatDateParam3").withValue("yyyy-MM-dd");

@@ -37,6 +37,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Gene
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.ts.client.rest.builder.DookugClientRequestHelper;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
+import hu.icellmobilsoft.roaster.common.util.FileUtil;
 import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
@@ -52,7 +53,6 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     public static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
     public static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
 
-    public static final String EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER = "<!DOCTYPE html><html><head></head><body>\n1100 Ft\n1100 \n2024.02.29\n2024-02-29\na // b // c\n</body></html>";
 
     @Inject
     private DookugClient client;
@@ -100,6 +100,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     @Test
     @DisplayName("built-in helpers test")
     void builtInHelperTest() throws BaseException, IOException {
+
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), //
@@ -108,6 +109,6 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         String replacedTemplateUnescaped = StringEscapeUtils.unescapeXml(replacedTemplate);
-        Assertions.assertEquals(EXPECTED_RESPONSE_STRING_BY_BUILT_IN_HELPER, replacedTemplateUnescaped);
+        Assertions.assertEquals(StringEscapeUtils.unescapeXml(FileUtil.readFileFromResource(DookugClientRequestHelper.BuiltInHelpers.BUILT_IN_HELPER_RESULT)), replacedTemplateUnescaped);
     }
 }
