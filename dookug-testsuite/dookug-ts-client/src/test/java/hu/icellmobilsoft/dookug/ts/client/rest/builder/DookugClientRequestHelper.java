@@ -129,11 +129,11 @@ public interface DookugClientRequestHelper {
             ParameterType parameter4 = new ParameterType().withKey("formatDateParam1").withValue("2024-02-29T13:59:59Z");
             ParameterType parameter5 = new ParameterType().withKey("formatDateParam2").withValue("2024-02-29T13:59:59Z");
             ParameterType parameter6 = new ParameterType().withKey("formatDateParam3").withValue("yyyy-MM-dd");
-            return List.of(parameter1, parameter2, parameter3,parameter4,parameter5,parameter6);
+            return List.of(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
         }
 
         static Collection<TemplateType> createTemplate() {
-            TemplateType template = new TemplateType().withTemplateName("build_in_helper")
+            TemplateType template = new TemplateType().withTemplateName("built_in_helper")
                     .withTemplateContent(FileUtil.readFileFromResource(BUILT_IN_HELPER).getBytes(StandardCharsets.UTF_8))
                     .withInitial(true);
             return List.of(template);

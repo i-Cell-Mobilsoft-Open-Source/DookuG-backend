@@ -50,8 +50,8 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 @Tag(TestSuiteGroup.JAXRS)
 class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
 
-    public static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
-    public static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
+    private static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
+    private static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
 
 
     @Inject
