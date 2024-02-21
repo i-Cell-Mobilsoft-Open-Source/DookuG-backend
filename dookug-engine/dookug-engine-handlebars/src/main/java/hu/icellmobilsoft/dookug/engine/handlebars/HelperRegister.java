@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.helper.StringHelpers;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
@@ -68,6 +69,7 @@ public class HelperRegister {
      */
     public void findAndRegisterHelpers(Handlebars handlebars) throws BaseException {
         handlebars.registerHelpers(DookugHelpers.class);
+        handlebars.registerHelpers(StringHelpers.class);
     }
 
     /**
