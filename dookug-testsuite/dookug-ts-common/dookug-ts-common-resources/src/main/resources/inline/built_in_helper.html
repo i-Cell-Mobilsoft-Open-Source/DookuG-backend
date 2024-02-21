@@ -1,9 +1,22 @@
 <!DOCTYPE html><html><head></head><body>
-<code>
-{{formatNumber formatNumberParam1 '# Ft'}}
-{{formatNumber formatNumberParam2 formatNumberParam3}}
-{{formatDate formatDateParam1 'yyyy.MM.dd'}}
-{{formatDate formatDateParam2 formatDateParam3}}
+<pre>
+{{#if (equals colorParam 'white')}}equals{{/if}}
+{{#if (and falseValue trueValue notExistingValue)}}YES{{else}}and{{/if}}
+{{#if (or falseValue trueValue notExistingValue)}}or{{else}} NO {{/if}}
+{{#if (not falseValue)}}YES{{else}}not{{/if}}
+{{#if (in colorParam 'black' 'white' 'gray')}}in{{else}}NO{{/if}}
+{{#if (before dateTimeValue '2023-08-13T05:40:55Z')}}before{{/if}}
+{{#if (between dateTimeValue '2020-08-13T05:40:55Z' '2023-08-15T05:40:55Z')}}between{{/if}}
+{{#if (after dateTimeValue '2020-08-13T05:40:55Z')}}after{{/if}}
+{{dateMinusMinutes '2023-08-13T05:40:55Z' 60}}
+{{datePlusMinutes '2023-08-13T05:40:55Z' 60}}
+{{formatDateTime '2024-01-09T15:30:04Z' 'MM.dd-HH:mm'}}
+{{formatTime '15:30:55Z' 'HH:mm:ss' 'CET'}}
+{{formatDate '2023-08-13' 'MM.dd.yyyy'}}
+{{formatNumber '8.0' '#'}}
+{{formatNumber numberVariable '00'}}
+{{formatNumber numberVariable '00' 'HU'}}
+{{math '+' numericProperty 4}}
 {{join "a" "b" "c" " // "}}
-</code>
+</pre>
 </body></html>

@@ -123,13 +123,13 @@ public interface DookugClientRequestHelper {
         String BUILT_IN_HELPER_RESULT = "inline/built_in_helper_result.html";
 
         static Collection<ParameterType> createParameters() {
-            ParameterType parameter1 = new ParameterType().withKey("formatNumberParam1").withValue("1100");
-            ParameterType parameter2 = new ParameterType().withKey("formatNumberParam2").withValue("1100");
-            ParameterType parameter3 = new ParameterType().withKey("formatNumberParam3").withValue("# ###.##-");
-            ParameterType parameter4 = new ParameterType().withKey("formatDateParam1").withValue("2024-02-29T13:59:59Z");
-            ParameterType parameter5 = new ParameterType().withKey("formatDateParam2").withValue("2024-02-29T13:59:59Z");
-            ParameterType parameter6 = new ParameterType().withKey("formatDateParam3").withValue("yyyy-MM-dd");
-            return List.of(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
+            return List.of(
+                    new ParameterType().withKey("colorParam").withValue("white"),
+                    new ParameterType().withKey("falseValue").withValue("false"),
+                    new ParameterType().withKey("trueValue").withValue("true"),
+                    new ParameterType().withKey("dateTimeValue").withValue("2022-08-13T05:40:55Z"),
+                    new ParameterType().withKey("numberVariable").withValue("8"),
+                    new ParameterType().withKey("numericProperty").withValue("5"));
         }
 
         static Collection<TemplateType> createTemplate() {
