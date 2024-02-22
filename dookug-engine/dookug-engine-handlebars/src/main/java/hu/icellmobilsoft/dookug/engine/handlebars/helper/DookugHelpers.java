@@ -118,7 +118,11 @@ public enum DookugHelpers implements Helper<Object> {
     not {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
-            return context == null ? "true" : null;
+            if (context != null && Boolean.parseBoolean(context.toString()) == false) {
+                return "true";
+            }
+            return null;
+
         }
     },
 
@@ -134,9 +138,11 @@ public enum DookugHelpers implements Helper<Object> {
     in {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
-            for (Object param : options.params) {
-                if (context.equals(param)) {
-                    return "true";
+            if (context != null) {
+                for (Object param : options.params) {
+                    if (context.equals(param)) {
+                        return "true";
+                    }
                 }
             }
             return null;
@@ -151,6 +157,9 @@ public enum DookugHelpers implements Helper<Object> {
     before {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
+            if (context == null) {
+                return null;
+            }
             OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
             OffsetDateTime limit = OffsetDateTime.parse(options.param(0).toString());
             return inputDate.isBefore(limit) ? "true" : null;
@@ -165,6 +174,9 @@ public enum DookugHelpers implements Helper<Object> {
     between {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
+            if (context == null) {
+                return null;
+            }
             OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
             OffsetDateTime lowerLimit = OffsetDateTime.parse(options.param(0));
             OffsetDateTime upperLimit = OffsetDateTime.parse(options.param(1));
@@ -180,6 +192,9 @@ public enum DookugHelpers implements Helper<Object> {
     after {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
+            if (context == null) {
+                return null;
+            }
             OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
             OffsetDateTime limit = OffsetDateTime.parse(options.param(0).toString());
             return inputDate.isAfter(limit) ? "true" : null;
@@ -196,6 +211,9 @@ public enum DookugHelpers implements Helper<Object> {
     dateMinusMinutes {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
+            if (context == null) {
+                return null;
+            }
             OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
             Object offset = options.param(0);
             long numberOffset = (offset instanceof Number) ? ((Number)offset).longValue() : Long.parseLong(offset.toString());
@@ -213,6 +231,9 @@ public enum DookugHelpers implements Helper<Object> {
     datePlusMinutes {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
+            if (context == null) {
+                return null;
+            }
             OffsetDateTime inputDate = OffsetDateTime.parse(context.toString());
             Object offset = options.param(0);
             long numberOffset = (offset instanceof Number) ? ((Number)offset).longValue() : Long.parseLong(offset.toString());
@@ -233,6 +254,9 @@ public enum DookugHelpers implements Helper<Object> {
     declare {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             options.data(context.toString(), options.params[0]);
             return options.params[0].toString();
         }
@@ -249,6 +273,9 @@ public enum DookugHelpers implements Helper<Object> {
     declareVoid {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             options.data(context.toString(), options.params[0]);
             return "";
         }
@@ -268,6 +295,9 @@ public enum DookugHelpers implements Helper<Object> {
     formatDateTime {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             Object[] params = options.params;
             OffsetDateTime inputDateTime = OffsetDateTime.parse(context.toString());
             String pattern = params[0].toString();
@@ -294,6 +324,9 @@ public enum DookugHelpers implements Helper<Object> {
     formatTime {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             OffsetTime inputTime = OffsetTime.parse(context.toString());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(options.param(0));
@@ -321,6 +354,9 @@ public enum DookugHelpers implements Helper<Object> {
     formatDate {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             LocalDate localDate = LocalDate.parse(context.toString());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(options.param(0));
@@ -337,12 +373,15 @@ public enum DookugHelpers implements Helper<Object> {
      * 3. {{formatNumber numberVariable '00', 'HU'}}
      * returns:
      * 1. '8'
-     * 2. '8'
-     * 3. '8'
+     * 2. '08'
+     * 3. '08'
      */
     formatNumber {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             Object[] params = options.params;
             Number inputNumber = (context instanceof Number) ? ((Number)context).doubleValue() : Double.parseDouble(context.toString());
             DecimalFormat myFormatter = null;
@@ -372,6 +411,9 @@ public enum DookugHelpers implements Helper<Object> {
     math {
         @Override
         public CharSequence apply(final Object context, final Options options) {
+            if (context == null) {
+                return null;
+            }
             String operation = context.toString();
             Double number1 = (options.param(0) instanceof Number) ? ((Number)options.param(0)).doubleValue() : Double.parseDouble(options.param(0));
             Double number2 = (options.param(1) instanceof Number) ? ((Number)options.param(1)).doubleValue() : Double.parseDouble(options.param(1));
