@@ -7,3 +7,5 @@
 * Rename formatDate to formatDateTime
 * Create formatDate which handles date format
 * Create formatTime which handles time format
+
+* Add IT test for owned helpers
