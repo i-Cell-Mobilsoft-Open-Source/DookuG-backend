@@ -45,4 +45,6 @@ include::install.adoc[leveloffset=+1]
 
 include::openapi.adoc[leveloffset=+1]
 
+include::additional_information.adoc[leveloffset=+1]
+
 include::release-notes.adoc[leveloffset=+1]
