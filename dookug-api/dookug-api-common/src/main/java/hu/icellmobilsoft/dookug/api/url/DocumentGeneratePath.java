@@ -19,15 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.api.url;
 
-import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
-
 /**
  * Document generation service REST url path storage
  * 
  * @author laszlo.padar
  * @since 0.1.0
  */
-public class DocumentGeneratePath extends BaseServicePath {
+public class DocumentGeneratePath extends ServicePath {
 
     /**
      * {@value #DOCUMENT}
@@ -92,7 +90,7 @@ public class DocumentGeneratePath extends BaseServicePath {
      * {@value #MULTIPART_METADATA}
      */
     public static final String MULTIPART_METADATA = MULTIPART + METADATA;
-    
+
     /**
      * Rest path common constant for META-INF/MANIFET.MF file content in response
      */
