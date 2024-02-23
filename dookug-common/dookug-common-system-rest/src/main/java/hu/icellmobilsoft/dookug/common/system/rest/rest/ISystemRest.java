@@ -29,7 +29,9 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.api.url.IServicePath;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 
 /**
  * REST endpoint for system service functions.
@@ -54,4 +56,13 @@ public interface ISystemRest {
     @Path(IServicePath.VERSION_INFO)
     @Produces(MediaType.TEXT_PLAIN)
     public String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
+
+    @GET
+    @Operation(summary = "Belső állapotok törlése",
+            description = "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. "
+                    + "Az ismert keret szintű szolgáltatásoknál explicit hívja meg az ürítés funkcíót")
+    @Path(DocumentGeneratePath.SYSTEM_EVICT)
+    @Produces(value = { MediaType.TEXT_XML, MediaType.APPLICATION_XML })
+    EvictResponse getEvict() throws BaseException;
+
 }
