@@ -19,15 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.api.url;
 
-import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
-
 /**
  * Document generation service REST url path storage
  * 
  * @author laszlo.padar
  * @since 0.1.0
  */
-public class DocumentGeneratePath extends BaseServicePath implements IServicePath {
+public class DocumentGeneratePath extends ServicePath implements IServicePath {
 
     /**
      * {@value #DOCUMENT}
