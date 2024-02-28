@@ -45,21 +45,18 @@ import hu.icellmobilsoft.dookug.common.system.rest.cache.AbstractCache;
  */
 @ApplicationScoped
 public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
-    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder().build();
+
     @Inject
     @ThisLogger
     private AppLogger log;
 
-    @Inject
-    @ConfigProperty(name = ConfigKeys.Cache.DOOKUG_SERVICE_CACHE_TEMPLATE_TTL,
-            defaultValue = ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
-    private int cacheTTLInMinutes;
+    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder().build();
 
     /**
      * Add a new {@link TemplateCacheItem} to the Map
      *
-     * @param templateCacheItem {@link
-     *            TemplateCacheItem} added element
+     * @param templateCacheItem
+     *            {@link TemplateCacheItem} added element
      */
     public void newTemplateCacheItem(TemplateCacheItem templateCacheItem) {
         if (templateCacheItem != null && StringUtils.isNotBlank(templateCacheItem.getTemplateId())) {
@@ -67,7 +64,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
             updateMetrics();
             log.debug("New templateCacheItem [{0}]", templateCacheItem);
         } else {
-            throw new InvalidParameterException("templateCacheItem is invalid: " +  templateCacheItem);
+            throw new InvalidParameterException("templateCacheItem is invalid: " + templateCacheItem);
         }
     }
 
@@ -93,7 +90,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
 
     @Override
     protected void configureDefault(CacheBuilder<Object, Object> cacheBuilder) {
-        cacheBuilder.expireAfterWrite(Duration.ofMinutes(cacheTTLInMinutes));
+        cacheBuilder.expireAfterWrite(Duration.ofMinutes(ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES));
     }
 
     @Override

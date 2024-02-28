@@ -29,12 +29,19 @@ import java.util.List;
  * @since 0.5.0
  */
 public class TemplateCacheItem {
+
     private final String templateId;
     private final String templateName;
-
     private final List<TemplatePartCacheItem> templatePartCacheItems;
 
-
+    /**
+     * default constructor
+     * 
+     * @param templateId
+     *            the template identifier
+     * @param templateName
+     *            the template name
+     */
     public TemplateCacheItem(String templateId, String templateName) {
         this.templateId = templateId;
         this.templateName = templateName;
@@ -42,18 +49,31 @@ public class TemplateCacheItem {
         templatePartCacheItems = new ArrayList<>();
     }
 
+    /**
+     * @param templatePartCacheItem
+     *            the cached template part
+     */
     public void addNewPartItem(TemplatePartCacheItem templatePartCacheItem) {
         templatePartCacheItems.add(templatePartCacheItem);
     }
 
+    /**
+     * @return the templateId
+     */
     public String getTemplateId() {
         return templateId;
     }
 
+    /**
+     * @return the templateName
+     */
     public String getTemplateName() {
         return templateName;
     }
 
+    /**
+     * @return the templatePartCacheItems
+     */
     public List<TemplatePartCacheItem> getTemplatePartCacheItems() {
         return templatePartCacheItems;
     }
@@ -63,4 +83,5 @@ public class TemplateCacheItem {
         return "TemplateCacheItem{" + "templateId='" + templateId + '\'' + ", templateName='" + templateName + '\'' + ", templatePartCacheItems="
                 + templatePartCacheItems + '}';
     }
+
 }

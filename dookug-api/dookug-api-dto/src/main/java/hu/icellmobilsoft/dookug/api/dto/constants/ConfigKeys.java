@@ -172,13 +172,7 @@ public interface ConfigKeys {
          * Default cache TTL in minutes
          */
         @ConfigDoc(exclude = true)
-        String DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = "60";
-
-        /**
-         * Cache TTL in minutes
-         */
-        @ConfigDoc(since = "0.5.0", defaultValue = DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES, description = "Mennyi idő múlva invalidálja a cache tartalmát a rendszer. Alapértelmezetten 60 perc")
-        String DOOKUG_SERVICE_CACHE_TEMPLATE_TTL = "dookug.service.cache.template.ttl";
+        int DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = 60;
 
         /**
          * Define to make metrics

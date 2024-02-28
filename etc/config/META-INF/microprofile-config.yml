@@ -15,6 +15,9 @@ coffee:
 
 dookug:
   service:
+    cache:
+      template:
+        ttl: 60
     engine:
       pdf:
         digitalsign:
