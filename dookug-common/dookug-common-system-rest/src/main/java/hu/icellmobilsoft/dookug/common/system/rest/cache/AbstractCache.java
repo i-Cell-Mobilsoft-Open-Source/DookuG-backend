@@ -24,6 +24,7 @@ import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
@@ -62,6 +63,10 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
      * {@value #ENABLE_STATISTICS}
      */
     protected static final String ENABLE_STATISTICS = "enablestatistic";
+    /**
+     * {@value #ENABLED} to enabling cache by type (true by default)
+     */
+    protected static final String ENABLED = "enabled";
 
     @Inject
     @ThisLogger
@@ -157,7 +162,25 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
         return config.getOptionalValue(formatKey(ENABLE_STATISTICS), Boolean.class).orElse(false);
     }
 
+    /**
+     * return whether the cache enabled is
+     * 
+     * @return true/false
+     */
+    public boolean isCacheEnabled() {
+        return config.getOptionalValue(formatKey(ENABLED), Boolean.class).orElse(true);
+    }
+
     private String formatKey(String key) {
         return MessageFormat.format(CONFIG_PATTERN, getCacheName(), key);
     }
+
+    /**
+     * cache initialization
+     */
+    @PostConstruct
+    public void init() {
+        log.info("Enable caching of [{0}]: [{1}]", getCacheName(), isCacheEnabled());
+    }
+
 }
