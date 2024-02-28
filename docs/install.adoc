@@ -66,6 +66,17 @@ DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
 DOOKUG_SERVICE_CACHE_TEMPLATE_TTL Alapértelmezetten 60 perc
 DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC Alapértelmezetten false
 
+.Cache
+[source,properties]
+----
+DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLED=true <1>
+DOOKUG_SERVICE_CACHE_TEMPLATE_TTL=60 <2>
+DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC=false <3>
+----
+<1> template cache-elés ki (false) vagy bekapcsolása (true), alapértelmezetten: true 
+<2> template cache-ben lévő értékek TTLje percben megadva, alapértelmezetten 60 
+<3> template cache statisztika nyújtásának ki (false) vagy bekapcsolása (true), alapértelmezetten: false
+
 === Kubernetes deployment
 * Ajánlott konfiguráció
 

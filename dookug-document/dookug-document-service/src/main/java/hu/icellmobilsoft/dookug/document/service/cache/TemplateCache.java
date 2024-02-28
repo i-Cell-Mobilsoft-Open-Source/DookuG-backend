@@ -26,16 +26,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
-
-import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
 import hu.icellmobilsoft.dookug.common.system.rest.cache.AbstractCache;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
 
 /**
  * Template cache functions
