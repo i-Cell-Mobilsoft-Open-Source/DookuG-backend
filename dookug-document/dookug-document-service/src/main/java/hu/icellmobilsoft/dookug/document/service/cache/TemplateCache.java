@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.dookug.document.service.cache;
 
 import java.security.InvalidParameterException;
+import java.time.Duration;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -27,6 +28,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
@@ -47,7 +49,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @ThisLogger
     private AppLogger log;
 
-    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder(ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
+    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder()
             .build();
 
     /**
@@ -84,6 +86,11 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @Override
     protected Cache<String, TemplateCacheItem> getCache() {
         return cache;
+    }
+
+    @Override
+    protected void configureDefault(CacheBuilder<Object, Object> cacheBuilder) {
+        cacheBuilder.expireAfterWrite(Duration.ofMinutes(ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES));
     }
 
     @Override

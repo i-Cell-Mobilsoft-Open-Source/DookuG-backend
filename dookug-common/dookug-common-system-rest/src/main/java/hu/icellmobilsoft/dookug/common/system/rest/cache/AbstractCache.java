@@ -22,6 +22,7 @@ package hu.icellmobilsoft.dookug.common.system.rest.cache;
 import java.security.InvalidParameterException;
 import java.text.MessageFormat;
 import java.time.Duration;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -71,22 +72,25 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     /**
      * Létrehoz egy cache builder-t ami tartalmazza a cache beállításait
      * 
-     * @param defaultTtlValueInMinutes
-     *            ttl értéke percben megadva
      * @return a létrehozott cache builder
      */
-    protected CacheBuilder<Object, Object> createCacheBuilder(long defaultTtlValueInMinutes) {
+    protected CacheBuilder<Object, Object> createCacheBuilder() {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
 
         if (isStatisticsEnabled()) {
             cacheBuilder = cacheBuilder.recordStats().removalListener(notification -> updateMetrics());
         }
 
-        long expireAfterWriteInMinutes = config.getOptionalValue(formatKey(ConfigKeys.Cache.EXPIRE_AFTER_WRITE_IN_MINUTES), Long.class)
-                .orElse(defaultTtlValueInMinutes);
-        cacheBuilder.expireAfterWrite(Duration.ofMinutes(expireAfterWriteInMinutes));
+        Optional<Long> expireAfterWriteInMinutes = config.getOptionalValue(formatKey(ConfigKeys.Cache.EXPIRE_AFTER_WRITE_IN_MINUTES), Long.class);
+        if (expireAfterWriteInMinutes.isPresent()) {
+            cacheBuilder.expireAfterWrite(Duration.ofMinutes(expireAfterWriteInMinutes.get()));
+        } else {
+            configureDefault(cacheBuilder);
+        }
         return cacheBuilder;
     }
+
+    protected abstract void configureDefault(CacheBuilder<Object, Object> cacheBuilder);
 
     /**
      * Visszaadja a konfigban használt nevet
@@ -146,7 +150,6 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     private String formatKey(String key) {
         return MessageFormat.format(ConfigKeys.Cache.CONFIG_PATTERN, getCacheName(), key);
     }
-
 
     /**
      * cache initialization
