@@ -168,12 +168,33 @@ public interface ConfigKeys {
     }
 
     interface Cache {
-
         /**
          * Default cache TTL in minutes
          */
         @ConfigDoc(exclude = true)
         int DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = 60;
+
+        /**
+         * {@value #CONFIG_PATTERN}
+         */
+        @ConfigDoc(exclude = true)
+        String CONFIG_PATTERN = "dookug.service.cache.{0}.{1}";
+        /**
+         * {@value #EXPIRE_AFTER_WRITE_IN_MINUTES}
+         */
+        @ConfigDoc(exclude = true)
+        String EXPIRE_AFTER_WRITE_IN_MINUTES = "ttl";
+        /**
+         * {@value #ENABLE_STATISTICS}
+         */
+        @ConfigDoc(exclude = true)
+        String ENABLE_STATISTICS = "enablestatistic";
+        /**
+         * {@value #ENABLED}
+         */
+        @ConfigDoc(exclude = true)
+        String ENABLED = "enabled";
+
     }
 
 }

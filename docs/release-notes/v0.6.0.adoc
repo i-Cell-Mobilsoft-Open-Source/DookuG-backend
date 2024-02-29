@@ -8,5 +8,6 @@
 * Create formatDate which handles date format
 * Create formatTime which handles time format
 * Add IT test for owned helpers
+* GET `/system/evict` REST endpoint added
 * Template caching has been fixed
 * Template caching can be configured with the environment variable named `DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLED` (`true` by default) 

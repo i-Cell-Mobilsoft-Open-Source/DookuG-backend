@@ -10,9 +10,9 @@
     <artifactId>dookug-testsuite</artifactId>
     <packaging>pom</packaging>
 
-	<properties>
-		<failsafeArgLine>--add-opens java.base/java.lang=ALL-UNNAMED</failsafeArgLine>
-	</properties>
+    <properties>
+        <failsafeArgLine>--add-opens java.base/java.lang=ALL-UNNAMED</failsafeArgLine>
+    </properties>
 	
     <build>
         <pluginManagement>
