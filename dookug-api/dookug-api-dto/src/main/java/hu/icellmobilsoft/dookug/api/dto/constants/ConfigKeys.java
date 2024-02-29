@@ -172,19 +172,29 @@ public interface ConfigKeys {
          * Default cache TTL in minutes
          */
         @ConfigDoc(exclude = true)
-        String DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = "60";
+        int DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = 60;
 
         /**
-         * Cache TTL in minutes
+         * {@value #CONFIG_PATTERN}
          */
-        @ConfigDoc(since = "0.5.0", defaultValue = DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES, description = "Mennyi idő múlva invalidálja a cache tartalmát a rendszer. Alapértelmezetten 60 perc")
-        String DOOKUG_SERVICE_CACHE_TEMPLATE_TTL = "dookug.service.cache.template.ttl";
-
+        @ConfigDoc(exclude = true)
+        String CONFIG_PATTERN = "dookug.service.cache.{0}.{1}";
         /**
-         * Define to make metrics
+         * {@value #EXPIRE_AFTER_WRITE_IN_MINUTES}
          */
-        @ConfigDoc(since = "0.5.0", description = "Generálódjanak metrikák a Template cache-hez köthetően. Alapértelmezetten nem generál")
-        String DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC = "dookug.service.cache.template.enablestatistic";
+        @ConfigDoc(exclude = true)
+        String EXPIRE_AFTER_WRITE_IN_MINUTES = "ttl";
+        /**
+         * {@value #ENABLE_STATISTICS}
+         */
+        @ConfigDoc(exclude = true)
+        String ENABLE_STATISTICS = "enablestatistic";
+        /**
+         * {@value #ENABLED}
+         */
+        @ConfigDoc(exclude = true)
+        String ENABLED = "enabled";
+
     }
 
 }

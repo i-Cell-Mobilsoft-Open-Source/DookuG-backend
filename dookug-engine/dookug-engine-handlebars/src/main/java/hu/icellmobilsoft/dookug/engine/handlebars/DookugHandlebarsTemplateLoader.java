@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.dookug.engine.handlebars;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Optional;
 
@@ -52,6 +53,6 @@ public class DookugHandlebarsTemplateLoader extends AbstractTemplateLoader {
             String msg = MessageFormat.format("DookugHandlebarsTemplateLoader: template with name [{0}] not found!", uri);
             throw new IOException(msg);
         }
-        return new StringTemplateSource(uri, new String(templateOptional.get().getTemplateContent(), "UTF-8"));
+        return new StringTemplateSource(uri, new String(templateOptional.get().getTemplateContent(), StandardCharsets.UTF_8));
     }
 }

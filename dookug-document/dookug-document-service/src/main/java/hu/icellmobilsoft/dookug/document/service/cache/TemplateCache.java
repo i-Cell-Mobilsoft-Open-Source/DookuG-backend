@@ -20,22 +20,19 @@
 package hu.icellmobilsoft.dookug.document.service.cache;
 
 import java.security.InvalidParameterException;
-import java.time.Duration;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
-
-import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
 import hu.icellmobilsoft.dookug.common.system.rest.cache.AbstractCache;
+import hu.icellmobilsoft.dookug.document.service.cache.dto.TemplateCacheItem;
 
 /**
  * Template cache functions
@@ -45,21 +42,19 @@ import hu.icellmobilsoft.dookug.common.system.rest.cache.AbstractCache;
  */
 @ApplicationScoped
 public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
-    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder().build();
+
     @Inject
     @ThisLogger
     private AppLogger log;
 
-    @Inject
-    @ConfigProperty(name = ConfigKeys.Cache.DOOKUG_SERVICE_CACHE_TEMPLATE_TTL,
-            defaultValue = ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
-    private int cacheTTLInMinutes;
+    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder(ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
+            .build();
 
     /**
      * Add a new {@link TemplateCacheItem} to the Map
      *
-     * @param templateCacheItem {@link
-     *            TemplateCacheItem} added element
+     * @param templateCacheItem
+     *            {@link TemplateCacheItem} added element
      */
     public void newTemplateCacheItem(TemplateCacheItem templateCacheItem) {
         if (templateCacheItem != null && StringUtils.isNotBlank(templateCacheItem.getTemplateId())) {
@@ -67,7 +62,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
             updateMetrics();
             log.debug("New templateCacheItem [{0}]", templateCacheItem);
         } else {
-            throw new InvalidParameterException("templateCacheItem is invalid: " +  templateCacheItem);
+            throw new InvalidParameterException("templateCacheItem is invalid: " + templateCacheItem);
         }
     }
 
@@ -89,11 +84,6 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @Override
     protected Cache<String, TemplateCacheItem> getCache() {
         return cache;
-    }
-
-    @Override
-    protected void configureDefault(CacheBuilder<Object, Object> cacheBuilder) {
-        cacheBuilder.expireAfterWrite(Duration.ofMinutes(cacheTTLInMinutes));
     }
 
     @Override

@@ -42,7 +42,7 @@ public class TemplateService extends BaseService<Template> {
     private TemplateRepository templateRepository;
 
     /**
-     * Finds single {@link Template} record by name and validity
+     * Finds single {@link Template} record by name, language and validity
      * 
      * @param templateName
      *            Name of the template
@@ -54,14 +54,39 @@ public class TemplateService extends BaseService<Template> {
      * @throws BaseException
      *             on error
      */
-    public Template findByNameAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate)
-            throws BaseException {
+    public Template findByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate) throws BaseException {
         return wrapValidated(
-                templateRepository::findByNameAndValidity,
+                templateRepository::findByNameLanguageAndValidity,
                 templateName,
                 templateLanguage,
                 validityDate,
                 "findByNameAndValidity",
+                "templateName",
+                "templateLanguage",
+                "validityDate");
+    }
+
+    /**
+     * Finds the x__id of the {@link Template} record by name, language and validity
+     * 
+     * @param templateName
+     *            Name of the template
+     * @param templateLanguage
+     *            language of template
+     * @param validityDate
+     *            Validity of template
+     * @return Found {@link Template} record
+     * @throws BaseException
+     *             on error
+     */
+    public String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate)
+            throws BaseException {
+        return wrapValidated(
+                templateRepository::findTemplateIdByNameLanguageAndValidity,
+                templateName,
+                templateLanguage,
+                validityDate,
+                "findTemplateIdByNameLanguageAndValidity",
                 "templateName",
                 "templateLanguage",
                 "validityDate");

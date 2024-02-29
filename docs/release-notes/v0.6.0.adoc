@@ -9,3 +9,4 @@
 * Create formatTime which handles time format
 * Add IT test for owned helpers
 * GET `/system/evict` REST endpoint added
+* Template caching has been fixed

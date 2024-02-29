@@ -45,6 +45,7 @@ import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
  */
 @ApplicationScoped
 public class CacheMetricsCollector extends BaseAction {
+
     private static final String NAME_TAG = "name";
     private static final String METADATA_PREFIX = "cache_";
     private static final Metadata HIT_COUNT_METADATA = Metadata.builder().withName(METADATA_PREFIX + "hit_count").withDescription("").build();
@@ -59,9 +60,12 @@ public class CacheMetricsCollector extends BaseAction {
     /**
      * Kigyűjti az átadott cache objektumból a metrikákat
      *
-     * @param cache     vizsgált cache példány
-     * @param cacheName az átadott cache neve
-     * @throws BaseException hiba esetén
+     * @param cache
+     *            vizsgált cache példány
+     * @param cacheName
+     *            az átadott cache neve
+     * @throws BaseException
+     *             hiba esetén
      */
     public void updateMetrics(Cache<?, ?> cache, String cacheName) throws BaseException {
         if (cache == null || StringUtils.isBlank(cacheName)) {
