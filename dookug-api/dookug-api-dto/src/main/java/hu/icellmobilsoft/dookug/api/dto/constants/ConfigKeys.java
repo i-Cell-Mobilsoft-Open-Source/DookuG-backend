@@ -168,33 +168,74 @@ public interface ConfigKeys {
     }
 
     interface Cache {
-        /**
-         * Default cache TTL in minutes
-         */
-        @ConfigDoc(exclude = true)
-        int DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES = 60;
 
-        /**
-         * {@value #CONFIG_PATTERN}
-         */
         @ConfigDoc(exclude = true)
-        String CONFIG_PATTERN = "dookug.service.cache.{0}.{1}";
-        /**
-         * {@value #EXPIRE_AFTER_WRITE_IN_MINUTES}
-         */
-        @ConfigDoc(exclude = true)
-        String EXPIRE_AFTER_WRITE_IN_MINUTES = "ttl";
-        /**
-         * {@value #ENABLE_STATISTICS}
-         */
-        @ConfigDoc(exclude = true)
-        String ENABLE_STATISTICS = "enablestatistic";
-        /**
-         * {@value #ENABLED}
-         */
-        @ConfigDoc(exclude = true)
-        String ENABLED = "enabled";
+        String DOOKUG_SERVICE_CACHE = "dookug.service.cache";
 
+        interface Keys {
+
+            /**
+             * enabled key
+             */
+            String ENABLED = ".enabled";
+
+            /**
+             * ttl key
+             */
+            String TTL = ".ttl";
+
+            /**
+             * enablestatistic key
+             */
+            String ENABLESTATISTIC = ".enablestatistic";
+        }
+
+        interface Template {
+
+            @ConfigDoc(exclude = true)
+            String DOOKUG_SERVICE_CACHE_TEMPLATE = DOOKUG_SERVICE_CACHE + ".template";
+
+            @ConfigDoc(exclude = true)
+            interface Defaults {
+
+                /**
+                 * Default cache TTL in minutes
+                 */
+                String TTL_IN_MINUTES = "60";
+
+                /**
+                 * Default make metrics value
+                 */
+                @ConfigDoc(exclude = true)
+                String ENABLESTATISTIC = "false";
+
+                /**
+                 * Default of enabling caching
+                 */
+                @ConfigDoc(exclude = true)
+                String ENABLED = "false";
+            }
+
+            /**
+             * Cache TTL in minutes
+             */
+            @ConfigDoc(since = "0.5.0", defaultValue = Defaults.TTL_IN_MINUTES,
+                    description = "Mennyi idő múlva invalidálja a cache tartalmát a rendszer. Alapértelmezetten " + Defaults.TTL_IN_MINUTES + " perc")
+            String TTL = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.TTL;
+
+            /**
+             * Define to make metrics
+             */
+            @ConfigDoc(since = "0.5.0", description = "Generálódjanak metrikák a Template cache-hez köthetően. Alapértelmezetten nem generál.",
+                    defaultValue = Defaults.ENABLESTATISTIC)
+            String ENABLESTATISTIC = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.ENABLESTATISTIC;
+
+            /**
+             * Enabling template cache
+             */
+            @ConfigDoc(since = "0.6.0", description = "A modul használja-e a template cache-elést", defaultValue = Defaults.ENABLED)
+            String ENABLED = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.ENABLED;
+
+        }
     }
-
 }

@@ -20,13 +20,10 @@
 package hu.icellmobilsoft.dookug.common.system.rest.cache;
 
 import java.security.InvalidParameterException;
-import java.text.MessageFormat;
 import java.time.Duration;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -34,7 +31,6 @@ import com.google.common.cache.CacheBuilder;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
@@ -58,8 +54,6 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     @Inject
     private CacheMetricsCollector metricsCollector;
 
-    private final Config config = ConfigProvider.getConfig();
-
     /**
      * Visszaadja a használt guava cache objektumot
      *
@@ -70,22 +64,31 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     /**
      * Létrehoz egy cache builder-t ami tartalmazza a cache beállításait
      * 
-     * @param defaultTtlValueInMinutes
-     *            ttl értéke percben megadva
      * @return a létrehozott cache builder
      */
-    protected CacheBuilder<Object, Object> createCacheBuilder(long defaultTtlValueInMinutes) {
+    protected CacheBuilder<Object, Object> createCacheBuilder() {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
 
         if (isStatisticsEnabled()) {
             cacheBuilder = cacheBuilder.recordStats().removalListener(notification -> updateMetrics());
         }
-
-        long expireAfterWriteInMinutes = config.getOptionalValue(formatKey(ConfigKeys.Cache.EXPIRE_AFTER_WRITE_IN_MINUTES), Long.class)
-                .orElse(defaultTtlValueInMinutes);
-        cacheBuilder.expireAfterWrite(Duration.ofMinutes(expireAfterWriteInMinutes));
+        cacheBuilder.expireAfterWrite(Duration.ofMinutes(getTtl()));
         return cacheBuilder;
     }
+
+    /**
+     * Cache TTL meghatározása
+     * 
+     * @return a ttl értéke
+     */
+    protected abstract long getTtl();
+
+    /**
+     * Metrika/Statisztika engedélyezése
+     * 
+     * @return true, ha engedélyezve van
+     */
+    protected abstract boolean isStatisticsEnabled();
 
     /**
      * Visszaadja a konfigban használt nevet
@@ -93,6 +96,13 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
      * @return a konfigban használt név
      */
     protected abstract String getCacheName();
+
+    /**
+     * return whether the cache enabled is
+     * 
+     * @return true/false
+     */
+    public abstract boolean isCacheEnabled();
 
     /**
      * invalidate cache
@@ -129,11 +139,11 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
         }
     }
 
-    private boolean isStatisticsEnabled() {
-        return config.getOptionalValue(formatKey(ConfigKeys.Cache.ENABLE_STATISTICS), Boolean.class).orElse(false);
-    }
-
-    private String formatKey(String key) {
-        return MessageFormat.format(ConfigKeys.Cache.CONFIG_PATTERN, getCacheName(), key);
+    /**
+     * cache initialization
+     */
+    @PostConstruct
+    public void init() {
+        log.info("Enable caching of [{0}]: [{1}]", getCacheName(), isCacheEnabled());
     }
 }
