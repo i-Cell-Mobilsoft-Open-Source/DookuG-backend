@@ -22,7 +22,6 @@ package hu.icellmobilsoft.dookug.common.system.rest.cache;
 import java.security.InvalidParameterException;
 import java.text.MessageFormat;
 import java.time.Duration;
-import java.util.Optional;
 
 import jakarta.inject.Inject;
 
@@ -35,33 +34,22 @@ import com.google.common.cache.CacheBuilder;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
- * Class supporting common caching
+ * Általános cache-elést támogató osztály
  * 
  * @param <KEY>
- *            cache key type, ami alapján keresünk
+ *            cache kulcs típusa, ami alapján keresünk
  * @param <VALUE>
- *            the type of items stored in the cache
+ *            a cache-ben tárolt elemek típusa
  *
  * @author istvan.peli
  * @since 0.5.0
  */
 public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Evictable {
-    /**
-     * {@value #CONFIG_PATTERN}
-     */
-    protected static final String CONFIG_PATTERN = "dookug.service.cache.{0}.{1}";
-    /**
-     * {@value #EXPIRE_AFTER_WRITE_IN_MINUTES}
-     */
-    protected static final String EXPIRE_AFTER_WRITE_IN_MINUTES = "ttl";
-    /**
-     * {@value #ENABLE_STATISTICS}
-     */
-    protected static final String ENABLE_STATISTICS = "enablestatistic";
 
     @Inject
     @ThisLogger
@@ -73,48 +61,36 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     private final Config config = ConfigProvider.getConfig();
 
     /**
-     * Return the guava cache object
+     * Visszaadja a használt guava cache objektumot
      *
-     * @return the guava cache object
+     * @return a használt guava cache objektumot
      */
     protected abstract Cache<KEY, VALUE> getCache();
 
     /**
-     * Create a cache builder that contains the cache settings
-     *
-     * @return the cache builder
+     * Létrehoz egy cache builder-t ami tartalmazza a cache beállításait
+     * 
+     * @param defaultTtlValueInMinutes
+     *            ttl értéke percben megadva
+     * @return a létrehozott cache builder
      */
-    protected CacheBuilder<Object, Object> createCacheBuilder() {
+    protected CacheBuilder<Object, Object> createCacheBuilder(long defaultTtlValueInMinutes) {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
 
         if (isStatisticsEnabled()) {
             cacheBuilder = cacheBuilder.recordStats().removalListener(notification -> updateMetrics());
         }
 
-        Optional<Long> expireAfterWriteInMinutes = config.getOptionalValue(formatKey(EXPIRE_AFTER_WRITE_IN_MINUTES), Long.class);
-        if (expireAfterWriteInMinutes.isPresent()) {
-            cacheBuilder.expireAfterWrite(Duration.ofMinutes(expireAfterWriteInMinutes.get()));
-        } else {
-            configureDefault(cacheBuilder);
-        }
-
+        long expireAfterWriteInMinutes = config.getOptionalValue(formatKey(ConfigKeys.Cache.EXPIRE_AFTER_WRITE_IN_MINUTES), Long.class)
+                .orElse(defaultTtlValueInMinutes);
+        cacheBuilder.expireAfterWrite(Duration.ofMinutes(expireAfterWriteInMinutes));
         return cacheBuilder;
     }
 
     /**
-     * Set default values on cacheBuilder
+     * Visszaadja a konfigban használt nevet
      *
-     * @param cacheBuilder
-     *            cacheBuilder to configure
-     */
-    protected void configureDefault(CacheBuilder<Object, Object> cacheBuilder) {
-        cacheBuilder.expireAfterWrite(Duration.ofHours(12));
-    }
-
-    /**
-     * Return the name used in the config
-     *
-     * @return the name
+     * @return a konfigban használt név
      */
     protected abstract String getCacheName();
 
@@ -126,12 +102,12 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     }
 
     /**
-     * Remove the data stored for the key from the cache
+     * Törli a kulcshoz tárolt adatokat a cache-ből
      *
      * @param key
-     *            the key to remove
+     *            a keresett kulcs
      * @throws BaseException
-     *             if key is empty
+     *             hiba esetén
      */
     protected void evict(KEY key) throws BaseException {
         if (key == null) {
@@ -154,10 +130,10 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     }
 
     private boolean isStatisticsEnabled() {
-        return config.getOptionalValue(formatKey(ENABLE_STATISTICS), Boolean.class).orElse(false);
+        return config.getOptionalValue(formatKey(ConfigKeys.Cache.ENABLE_STATISTICS), Boolean.class).orElse(false);
     }
 
     private String formatKey(String key) {
-        return MessageFormat.format(CONFIG_PATTERN, getCacheName(), key);
+        return MessageFormat.format(ConfigKeys.Cache.CONFIG_PATTERN, getCacheName(), key);
     }
 }

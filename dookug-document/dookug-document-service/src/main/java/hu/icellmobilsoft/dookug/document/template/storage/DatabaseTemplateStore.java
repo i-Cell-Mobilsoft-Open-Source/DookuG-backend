@@ -85,7 +85,7 @@ public class DatabaseTemplateStore implements ITemplateStore {
     private TemplateCache templateCache;
 
     /**
-     * Collects the whole template tree by the name of root template and validity date.
+     * Collects the whole template tree and precompile it by the name of root template, language and validity date.
      * 
      * @param templateName
      *            Name of root template
@@ -99,19 +99,21 @@ public class DatabaseTemplateStore implements ITemplateStore {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "TemplateName, templateLanguage and validityDate are required!");
         }
 
-        hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
-                .findByNameAndValidity(templateName, templateLanguage, validityDate);
+        String templateId = templateService.findTemplateIdByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
 
-        TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(template.getId());
+        TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(templateId);
 
         if (templateCacheItem != null) {
             templateDataContainer.setTemplateId(templateCacheItem.getTemplateId());
             templateDataContainer.setTemplateName(templateCacheItem.getTemplateName());
 
-            templateCacheItem.getTemplatePartCacheItems().forEach(templatePartCacheItem ->
-                templateContainer.addTemplate(templatePartCacheItem.getTemplate(), templatePartCacheItem.isInitialTemplate())
-            );
+            templateCacheItem.getTemplatePartCacheItems()
+                    .forEach(
+                            templatePartCacheItem -> templateContainer
+                                    .addTemplate(templatePartCacheItem.getTemplate(), templatePartCacheItem.isInitialTemplate()));
         } else {
+            hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
+                    .findByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
             addNewItemToTemplateCache(template);
         }
     }

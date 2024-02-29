@@ -108,6 +108,7 @@ A kapott, Java 8 által elfogadott dátum formátumú paraméter átalakítása 
 [source,bash]
 ----
 yourDate = '2024-01-09';
+
 {{formatDate '2023-08-13' 'yyyy.MM.dd'}}         // '2023.08.13'
 {{formatDate '2023-08-13' 'MM.dd.yyyy'}}         // '08.13.2023'
 {{formatDate yourDate 'yyyy/MM/dd'}}             // '2024/01/09'
@@ -124,6 +125,7 @@ yourDate = '2024-01-09T15:30:04Z'
 yourDateTimeFormat = 'MM.dd-HH:mm'
 yourDateFormat = 'yyyy/MM.dd'
 yourTimeFormat = 'hh:mm:ss a'
+
 {{formatDateTime '2023-08-13T05:40:55Z' 'yyyy-MM-dd HH:mm:ss'}}         // '2023-08-13 06:40:55'
 {{formatDateTime yourDate 'yyyy-MM-dd HH:mm:ss'}}                       // '2024-01-09 15:30:04'
 {{formatDateTime yourDate yourDateTimeFormat}}                          // '01.09-15:30'
@@ -141,6 +143,7 @@ A kapott, Java 8 által elfogadott idő formátumú paraméter átalakítása me
 [source,bash]
 ----
 yourTime = '15:30:55Z';
+
 {{formatTime '15:30:55Z' 'HH:mm:ss'}}         // '15:30:55'
 {{formatTime yourTime 'h:mm A'}}              // '3:30 PM'
 ----
@@ -154,6 +157,7 @@ Számok formázására használt helper, JAVA-s számformázási konvenciót kö
 ----
 number = 1234.567;
 percentage = 0.4567
+
 {{formatNumber number '#'}}         // "1235", kerekített egész szám
 {{formatNumber number '0.00'}}      // "1234.57", 2 tizedesre kerekített szám
 {{formatNumber number '000000.00'}} // "001234.57", vezető nullákkal feltöltött szám
@@ -175,6 +179,7 @@ N érték közti && operátor. Akkor renderelük ha a logikai ÉS operátor igaz
 myValue = 'black'
 {{#if (and (equals myValue 'black')}} YES {{else}} NO {{/if}}                             // "YES" renderelődik ki, a változó és a string ÉS kiértékelése igaz
 {{#if (and (equals myValue 'white')}} YES {{else}} NO {{/if}}                             // "NO" renderelődik ki, a változó és a string ÉS kiértékelése hamis
+
 Kombinált használat:
 {{#if (and (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // "NO" renderelődik ki, az első hamisra, a második igazra értékelődik ki
 ----
@@ -190,6 +195,7 @@ N érték közötti \|\| operátor. Akkor renderelük ha a logikai VAGY operáto
 {{#if (or falseValue falseValue falseValue)}} YES {{/if}}                                // Semmi nem renderelődik ki
 myValue = 'white'
 {{#if (or myValue 'black')}} YES {{else}} NO {{/if}}                                     // "YES" renderelődik ki, a változó és a string VAGY kiértékelése igaz
+
 Kombinált használat:
 {{#if (or (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // "YES" renderelődik ki, hamis VAGY igaz esetén igaz a kiértékelés
 ----
@@ -225,13 +231,16 @@ math |
 Alap matematikai műveletek elvégzésére használható helper. Az első paraméter az operátor, a másik két paraméter az operandusok. A használható operátorok listája:
 
 “+”, “-”, “*”, “/”, “%”
+
 Hibás operátor esetén a kiértékelés eredménye: “-1”. Egyéb esetben az operandusokon elvégzett, operátornak megfelelő matematikai művelet. |
+
 [source,bash]
 ----
 num1 = 5
 num2 = 8
 num3 = 100
 num4 = 20
+
 {{math '+' num1 num2}}  // 13
 {{math '-' num3 53}}    // 47
 {{math '*' num2 num4}}  // 160

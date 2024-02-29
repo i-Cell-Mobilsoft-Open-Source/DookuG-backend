@@ -56,6 +56,13 @@ public interface ISystemRest {
     @Produces(MediaType.TEXT_PLAIN)
     public String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
 
+    /**
+     * Clear caches
+     * 
+     * @return the evict result
+     * @throws BaseException
+     *             if an error occurs
+     */
     @GET
     @Operation(summary = "Belső állapotok törlése",
             description = "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. "

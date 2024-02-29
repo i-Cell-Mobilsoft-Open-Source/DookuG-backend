@@ -34,18 +34,18 @@ import org.eclipse.microprofile.metrics.Tag;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
-
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
- * Action to collect cache metrics
+ * Cache metrikákat gyűjtő action
  *
  * @author istvan.peli
  * @since 0.5.0
  */
 @ApplicationScoped
 public class CacheMetricsCollector extends BaseAction {
+
     private static final String NAME_TAG = "name";
     private static final String METADATA_PREFIX = "cache_";
     private static final Metadata HIT_COUNT_METADATA = Metadata.builder().withName(METADATA_PREFIX + "hit_count").withDescription("").build();
@@ -58,14 +58,14 @@ public class CacheMetricsCollector extends BaseAction {
     private MetricRegistry metricRegistry;
 
     /**
-     * Collect metrics from the cache object
+     * Kigyűjti az átadott cache objektumból a metrikákat
      *
      * @param cache
-     *            the cache instance
+     *            vizsgált cache példány
      * @param cacheName
-     *            the name of cache
+     *            az átadott cache neve
      * @throws BaseException
-     *             on error
+     *             hiba esetén
      */
     public void updateMetrics(Cache<?, ?> cache, String cacheName) throws BaseException {
         if (cache == null || StringUtils.isBlank(cacheName)) {

@@ -30,7 +30,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.dookug.common.system.rest.rest.cache.EvictAction;
+import hu.icellmobilsoft.dookug.common.system.rest.cache.EvictAction;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 
 /**
@@ -48,7 +48,7 @@ public class SystemRest extends BaseRestService implements ISystemRest {
 
     @Inject
     private EvictAction evictAction;
-
+    
     @Override
     public String versionInfo(HttpServletRequest servletRequest) throws BaseException {
         try {
@@ -67,7 +67,7 @@ public class SystemRest extends BaseRestService implements ISystemRest {
             throw baseExceptionWithLogging(e);
         }
     }
-
+    
     @Override
     public EvictResponse getEvict() throws BaseException {
         return wrapNoParam(evictAction::evict, "evict");

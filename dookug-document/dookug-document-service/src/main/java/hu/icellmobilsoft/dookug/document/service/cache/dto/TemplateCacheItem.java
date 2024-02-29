@@ -29,18 +29,18 @@ import java.util.List;
  * @since 0.5.0
  */
 public class TemplateCacheItem {
+
     private final String templateId;
     private final String templateName;
-
     private final List<TemplatePartCacheItem> templatePartCacheItems;
 
     /**
      * default constructor
      * 
      * @param templateId
-     *            temaplte identifier
+     *            the template identifier
      * @param templateName
-     *            template name
+     *            the template name
      */
     public TemplateCacheItem(String templateId, String templateName) {
         this.templateId = templateId;
@@ -50,19 +50,11 @@ public class TemplateCacheItem {
     }
 
     /**
-     * add a new {@link TemplatePartCacheItem}
-     * 
      * @param templatePartCacheItem
-     *            the item to add
+     *            the cached template part
      */
     public void addNewPartItem(TemplatePartCacheItem templatePartCacheItem) {
-        getTemplatePartCacheItems().add(templatePartCacheItem);
-    }
-
-    @Override
-    public String toString() {
-        return "TemplateCacheItem{" + "templateId='" + getTemplateId() + '\'' + ", templateName='" + getTemplateName() + '\''
-                + ", templatePartCacheItems=" + getTemplatePartCacheItems() + '}';
+        templatePartCacheItems.add(templatePartCacheItem);
     }
 
     /**
@@ -85,4 +77,11 @@ public class TemplateCacheItem {
     public List<TemplatePartCacheItem> getTemplatePartCacheItems() {
         return templatePartCacheItems;
     }
+
+    @Override
+    public String toString() {
+        return "TemplateCacheItem{" + "templateId='" + templateId + '\'' + ", templateName='" + templateName + '\'' + ", templatePartCacheItems="
+                + templatePartCacheItems + '}';
+    }
+
 }
