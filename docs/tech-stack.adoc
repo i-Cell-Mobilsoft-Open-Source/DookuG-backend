@@ -1,3 +1,7 @@
+ifndef::imagesdir[:imagesdir: ./assets/images]
+
+= Technológiák
+
 .Service (jar, war)
 - Java 11+
 - Maven 3.3.0+
@@ -6,3 +10,9 @@
 
 .Környezet
 - Docker compose, Docker
+
+== Architektúra
+
+.Architektúra ábra
+:architecture: dkg_architecture.png
+image::{architecture}[Architektúra,link="{imagesdir}/{architecture}", window=_blank]

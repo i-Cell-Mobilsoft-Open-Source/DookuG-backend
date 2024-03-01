@@ -77,6 +77,15 @@ DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC=false <3>
 <2> template cache-ben lévő értékek TTLje percben megadva, alapértelmezetten 60 
 <3> template cache statisztika nyújtásának ki (false) vagy bekapcsolása (true), alapértelmezetten: false
 
+.JSON loggolás
+[source,properties]
+----
+CONSOLE_LOGGING_JSON_ENABLED=true
+CONSOLE_LOGGING_ENABLED=false
+----
+
+IMPORTANT: Ha JSON formátumban szükséges loggolni, akkor a CONSOLE_LOGGING_ENABLED környezeti változót false-ra kell állítani, hogy ne 2 fajta log keletkezzen a konzolon.
+
 === Kubernetes deployment
 * Ajánlott konfiguráció
 
@@ -87,6 +96,9 @@ További kulcsok itt találhatók: https://common.pages-dev.icellmobilsoft.hu/ba
 |Parameter |Value |Description
 |JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |2G memóriában maximalizáljuk a modul heap szükségletét, UseG1GC algoritmus használatával.
 |ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximális méret
+|CONSOLE_LOGGING_ENABLED|false|wildfly-ból, konzol loggolás tiltása, default: true
+|CONSOLE_LOGGING_JSON_ENABLED|true|wildfly-ból, json loggolás bekapcsolása a console logra. FONTOS kiemelni, hogy javasolt a CONSOLE_LOGGING_ENABLED környezeti válto false értékre állítása, különben dupla loggolás keletkezik a konzolon. Default: false
+|FILE_LOGGING_ENABLED|false|wildfly-ból, file loggolás tiltása, default: true
 //|OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
 //|OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
 //|OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
