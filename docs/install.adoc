@@ -79,6 +79,7 @@ DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC=false <3>
 <2> template cache-ben lévő értékek TTLje percben megadva, alapértelmezetten 60 
 <3> template cache statisztika nyújtásának ki (false) vagy bekapcsolása (true), alapértelmezetten: false
 
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
 // .JSON loggolás
 // [source,properties]
 // ----
