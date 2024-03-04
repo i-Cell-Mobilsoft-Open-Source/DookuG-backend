@@ -8,11 +8,12 @@ ifndef::imagesdir[:imagesdir: ./assets/images]
 - Java EE 8
 - Wildfly 26.1.1Final
 
-.Környezet
-- Docker compose, Docker
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// .Környezet
+// - Docker compose, Docker
 
-== Architektúra
-
-.Architektúra ábra
-:architecture: dkg_architecture.png
-image::{architecture}[Architektúra,link="{imagesdir}/{architecture}", window=_blank]
+// == Architektúra
+// 
+// .Architektúra ábra
+// :architecture: dkg_architecture.png
+// image::{architecture}[Architektúra,link="{imagesdir}/{architecture}", window=_blank]
