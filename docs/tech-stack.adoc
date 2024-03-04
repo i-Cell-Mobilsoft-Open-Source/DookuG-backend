@@ -1,4 +1,4 @@
-ifndef::imagesdir[:imagesdir: ./assets/images]
+// ifndef::imagesdir[:imagesdir: ./assets/images]
 
 = Technológiák
 
