@@ -26,9 +26,6 @@ import java.time.Duration;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
@@ -58,8 +55,6 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
 
     @Inject
     private CacheMetricsCollector metricsCollector;
-
-    private final Config config = ConfigProvider.getConfig();
 
     /**
      * Visszaadja a használt guava cache objektumot

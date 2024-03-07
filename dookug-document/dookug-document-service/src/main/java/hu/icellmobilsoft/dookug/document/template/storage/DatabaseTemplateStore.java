@@ -99,9 +99,13 @@ public class DatabaseTemplateStore implements ITemplateStore {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "TemplateName, templateLanguage and validityDate are required!");
         }
 
-        String templateId = templateService.findTemplateIdByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
-
-        TemplateCacheItem templateCacheItem = templateCache.getTemplateCacheItem(templateId);
+        String templateCacheKey = null;
+        TemplateCacheItem templateCacheItem = null;
+        boolean cacheEnabled = templateCache.isCacheEnabled();
+        if (cacheEnabled) {
+            templateCacheKey = templateService.findTemplateIdByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
+            templateCacheItem = templateCache.getTemplateCacheItem(templateCacheKey);
+        }
 
         if (templateCacheItem != null) {
             templateDataContainer.setTemplateId(templateCacheItem.getTemplateId());
@@ -114,13 +118,16 @@ public class DatabaseTemplateStore implements ITemplateStore {
         } else {
             hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
                     .findByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
-            addNewItemToTemplateCache(template);
+
+            templateDataContainer.setTemplateId(template.getId());
+            templateDataContainer.setTemplateName(template.getName());
+
+            selectAndCacheTemplateContent(template, cacheEnabled);
         }
     }
 
-    private void addNewItemToTemplateCache(hu.icellmobilsoft.dookug.common.model.template.Template template) throws BaseException {
-        templateDataContainer.setTemplateId(template.getId());
-        templateDataContainer.setTemplateName(template.getName());
+    private void selectAndCacheTemplateContent(hu.icellmobilsoft.dookug.common.model.template.Template template, boolean cacheEnabled)
+            throws BaseException {
         List<TemplateTemplatePart> templateTemplatePartList = templateTemplatePartService.findAllByTemplateId(template.getId());
         if (CollectionUtils.isEmpty(templateTemplatePartList)) {
             throw new BONotFoundException(
@@ -144,26 +151,34 @@ public class DatabaseTemplateStore implements ITemplateStore {
                     MessageFormat.format("Content not found for template parts: [{0}]", existingTemplatePartIds));
         }
 
-        TemplateCacheItem templateCacheItem = new TemplateCacheItem(template.getId(), template.getName());
-
         for (TemplatePart templatePart : templatePartList) {
-            TemplatePartContent templatePartContent = templatePartContentList.stream()
-                    .filter(c -> StringUtils.equals(c.getTemplatePartId(), templatePart.getId()))
-                    .findAny()
-                    .orElseThrow(
-                            () -> new BONotFoundException(
-                                    CoffeeFaultType.ENTITY_NOT_FOUND,
-                                    MessageFormat.format("Content not found for template part: [{0}]", templatePart.getId())));
-
-            boolean initialTemplate = templatePart.getTemplatePartType() == TemplateType.MAIN;
-            Template newTemplate = new Template(templatePart.getKey(), getTemplateContent(templatePartContent));
-
-            templateContainer.addTemplate(newTemplate, initialTemplate);
-
-            templateCacheItem.addNewPartItem(new TemplatePartCacheItem(initialTemplate, newTemplate));
+            addTemplatePartToContainer(templatePart, templatePartContentList);
         }
 
-        templateCache.newTemplateCacheItem(templateCacheItem);
+        if (cacheEnabled) {
+            TemplateCacheItem templateCacheItem = new TemplateCacheItem(template.getId(), template.getName());
+            for (TemplatePart templatePart : templatePartList) {
+                templateCacheItem.addNewPartItem(
+                        new TemplatePartCacheItem(
+                                templatePart.getTemplatePartType() == TemplateType.MAIN,
+                                templateContainer.getTemplate(templatePart.getKey()).orElse(null)));
+            }
+            templateCache.newTemplateCacheItem(templateCacheItem);
+        }
+    }
+
+    private void addTemplatePartToContainer(TemplatePart templatePart, List<TemplatePartContent> templatePartContentList) throws BaseException {
+        TemplatePartContent templatePartContent = templatePartContentList.stream()
+                .filter(c -> StringUtils.equals(c.getTemplatePartId(), templatePart.getId()))
+                .findAny()
+                .orElseThrow(
+                        () -> new BONotFoundException(
+                                CoffeeFaultType.ENTITY_NOT_FOUND,
+                                MessageFormat.format("Content not found for template part: [{0}]", templatePart.getId())));
+
+        templateContainer.addTemplate(
+                new Template(templatePart.getKey(), getTemplateContent(templatePartContent)),
+                templatePart.getTemplatePartType() == TemplateType.MAIN);
     }
 
     private byte[] getTemplateContent(TemplatePartContent templatePartContent) throws BaseException {
