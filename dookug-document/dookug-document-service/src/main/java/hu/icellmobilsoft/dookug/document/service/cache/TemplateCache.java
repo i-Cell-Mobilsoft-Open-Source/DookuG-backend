@@ -25,6 +25,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import com.google.common.cache.Cache;
 
@@ -47,8 +48,7 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @ThisLogger
     private AppLogger log;
 
-    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder(ConfigKeys.Cache.DEFAULT_DOOKUG_SERVICE_CACHE_TEMPLATE_TTL_IN_MINUTES)
-            .build();
+    private final Cache<String, TemplateCacheItem> cache = createCacheBuilder().build();
 
     /**
      * Add a new {@link TemplateCacheItem} to the Map
@@ -89,5 +89,21 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     @Override
     protected String getCacheName() {
         return "template";
+    }
+
+    @Override
+    protected long getTtl() {
+        return ConfigProvider.getConfig().getOptionalValue(ConfigKeys.Cache.Template.TTL, Long.class)
+                .orElse(Long.parseLong(ConfigKeys.Cache.Template.Defaults.TTL_IN_MINUTES));
+    }
+
+    @Override
+    protected boolean isStatisticsEnabled() {
+        return ConfigProvider.getConfig().getOptionalValue(ConfigKeys.Cache.Template.ENABLESTATISTIC, Boolean.class).orElse(false);
+    }
+
+    @Override
+    public boolean isCacheEnabled() {
+        return ConfigProvider.getConfig().getOptionalValue(ConfigKeys.Cache.Template.ENABLED, Boolean.class).orElse(true);
     }
 }
