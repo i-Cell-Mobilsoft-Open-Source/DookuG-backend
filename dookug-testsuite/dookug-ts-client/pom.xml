@@ -56,7 +56,7 @@
                 <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>../../../etc/config/testsuite</directory>
+                <directory>../../etc/config/testsuite</directory>
                 <includes>
                     <include>META-INF/roaster-*.yml</include>
                 </includes>

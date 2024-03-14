@@ -1,0 +1,22 @@
+# GCPIP should be set as environment variable
+dookug:
+    write:
+        document: true
+    service:
+        document:
+            base:
+                uri: http://${gcpIp}:8082
+            management:
+                uri: http://${gcpIp}:9992
+    client:
+        document/mp-rest/url: http://${gcpIp}:8082
+roaster:
+    hibernate:
+        defaultPU:
+            jdbc:
+                driver: oracle.jdbc.OracleDriver
+                url: jdbc:oracle:thin:@${gcpIp}:1521/xepdb1
+                user: dookug
+                password: developer
+            hibernate:
+                dialect: org.hibernate.dialect.OracleDialect
