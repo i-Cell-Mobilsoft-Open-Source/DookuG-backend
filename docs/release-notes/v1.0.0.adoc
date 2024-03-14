@@ -1,3 +1,6 @@
-== v1.0.0
+= v1.0.0
+
+== Changes / updates
 
 * Jakarta EE10 upgrade
+* Test fix
