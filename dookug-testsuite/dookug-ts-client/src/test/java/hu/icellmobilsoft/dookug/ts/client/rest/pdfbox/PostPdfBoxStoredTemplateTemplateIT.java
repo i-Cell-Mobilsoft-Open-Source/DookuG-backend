@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.inject.Inject;
 
@@ -65,7 +66,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
         GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                OffsetDateTime.now(),
+                OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 emptyParameterData());
 
         Assertions.assertEquals(200, resp.getHttpStatus());
@@ -84,7 +85,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
             client.postDatabaseStoredTemplateDocumentGenerate(
                     DocumentServiceTestConstant.DEV_ERROR_TEMPLATE_NAME,
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                    OffsetDateTime.now(),
+                    OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                     emptyParameterData());
             Assertions.fail("Nem hibás válasz (elvárt http státuszkód: 500)");
         } catch (BaseException e) {
@@ -92,7 +93,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
             Assertions.assertTrue(
                     StringUtils.contains(
                             e.getCause().getLocalizedMessage(),
-                            "lineNumber: 1; columnNumber: 455; XML document structures must start and end within the same entity."),
+                            "lineNumber: 1; columnNumber: 456; XML document structures must start and end within the same entity."),
                     "Hibás template nem az elvárt értékkel tért vissza!");
         }
     }
