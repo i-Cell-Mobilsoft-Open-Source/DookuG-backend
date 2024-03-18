@@ -19,16 +19,17 @@
  */
 package hu.icellmobilsoft.dookug.common.jpa.health;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.Startup;
 
+import hu.icellmobilsoft.coffee.cdi.config.IConfigKey;
 import hu.icellmobilsoft.coffee.jpa.health.DatabaseHealth;
 import hu.icellmobilsoft.coffee.jpa.health.DatabaseHealthResourceConfig;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
@@ -43,10 +44,25 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
 @ApplicationScoped
 public class DatabaseHealthCheck {
 
+    /**
+     * {@value #ORACLE_DIALECT}
+     */
     public static final String ORACLE_DIALECT = "Oracle";
+    /**
+     * {@value #DEFAULT_PU}
+     */
     public static final String DEFAULT_PU = "defaultPU";
+    /**
+     * {@value #HIBERNATE_DIALECT}
+     */
     public static final String HIBERNATE_DIALECT = "HIBERNATE_DIALECT";
+    /**
+     * {@value #ORACLE_DS_CONNECTION_URL}
+     */
     public static final String ORACLE_DS_CONNECTION_URL = "ORACLE_DS_CONNECTION_URL";
+    /**
+     * {@value #POSTGRESQL_DS_CONNECTION_URL}
+     */
     public static final String POSTGRESQL_DS_CONNECTION_URL = "POSTGRESQL_DS_CONNECTION_URL";
 
     @Inject
@@ -76,7 +92,8 @@ public class DatabaseHealthCheck {
             healthConfig.setBuilderName("postgre");
             healthConfig.setDatasourceUrl(config.getOptionalValue(POSTGRESQL_DS_CONNECTION_URL, String.class).orElse(DEFAULT_PU));
         }
-        healthConfig.setDsName("icellmobilsoftDS");
+        healthConfig.setDsName(
+                config.getOptionalValue(IConfigKey.DATASOURCE_DEFAULT_NAME, String.class).orElse(IConfigKey.DATASOURCE_DEFAULT_NAME_VALUE));
 
     }
 
@@ -95,6 +112,11 @@ public class DatabaseHealthCheck {
         }
     }
 
+    /**
+     * HealthCheck producer
+     * 
+     * @return the {@link HealthCheck}
+     */
     @Produces
     @Startup
     public HealthCheck produceDatabaseStartup() {

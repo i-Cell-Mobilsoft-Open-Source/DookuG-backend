@@ -20,7 +20,7 @@
 package hu.icellmobilsoft.dookug.engine.pdfbox.config;
 
 /**
- * A Pdf engine-ben használt konfigurációs kulcsok
+ * Configuration keys used in the Pdf engine
  * 
  * @author tamas.cserhati
  * @since 0.0.1
@@ -28,12 +28,12 @@ package hu.icellmobilsoft.dookug.engine.pdfbox.config;
 public interface ConfigKeys {
 
     /**
-     * A Pdf aláíráshoz szükséges konfigurációs kulcsok és default értékek
+     * Configuration keys and default values for Pdf signature
      *
      */
     public interface PdfDefaultSignature {
         /**
-         * signature profile lekérdezéséhez tartozó (root) kulcs, ahol az első paraméter a profile neve, a második a lekérdezni kívánt kulcs:
+         * the (root) key to retrieve the signature profile, where the first parameter is the profile name, the second is the key to retrieve:
          * {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_1}
          */
         static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_1 = "dookug.service.engine.pdf.digitalsign.signature.{0}.{1}";

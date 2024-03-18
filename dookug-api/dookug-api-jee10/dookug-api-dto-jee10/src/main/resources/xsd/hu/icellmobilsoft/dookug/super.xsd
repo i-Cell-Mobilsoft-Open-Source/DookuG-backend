@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://dto.dookug.icellmobilsoft.hu/super"
+	targetNamespace="http://dto.dookug.icellmobilsoft.hu/super" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xs:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common" />
+	<xs:import namespace="http://common.dto.coffee.icellmobilsoft.hu/commonservice" />
+
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" />
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common" />
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common" />
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict" />
+
+    <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate" />
+    <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon" />
+
+</xs:schema>

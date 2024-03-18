@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.ts.document.rest.metadata;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -69,7 +69,9 @@ class PostDocumentGenerateInlineMultipartMetadataIT extends AbstractGenerateDocu
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateInlineInternalRestClient.class);
         DocumentGenerateRequest request = generateRequestBuilder.fullFillHandlebarsPdfBoxDatabase();
-        request.getGeneratorSetup().setParametersData(templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
+        request.getGeneratorSetup()
+                .setParametersData(
+                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());

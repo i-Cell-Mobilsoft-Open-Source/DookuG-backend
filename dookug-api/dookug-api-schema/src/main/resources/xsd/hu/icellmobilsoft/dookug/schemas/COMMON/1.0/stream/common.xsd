@@ -1,6 +1,10 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common"
-    targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common" xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
-    xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common"
+    targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common" 
+    xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+    xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" elementFormDefault="qualified" 
+    attributeFormDefault="unqualified">
 
     <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common" />
     <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common" />

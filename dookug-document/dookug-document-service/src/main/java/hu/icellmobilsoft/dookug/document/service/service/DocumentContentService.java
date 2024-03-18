@@ -19,8 +19,8 @@
  */
 package hu.icellmobilsoft.dookug.document.service.service;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.model.template.Document;

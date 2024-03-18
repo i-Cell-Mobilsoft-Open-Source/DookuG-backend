@@ -21,6 +21,10 @@
 			<groupId>hu.icellmobilsoft.coffee</groupId>
 			<artifactId>coffee-system-jpa</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.dookug</groupId>
+            <artifactId>dookug-model</artifactId>
+        </dependency>
 
 		<!-- TEST -->
 		<dependency>

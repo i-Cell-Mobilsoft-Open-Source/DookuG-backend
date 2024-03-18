@@ -22,8 +22,8 @@ package hu.icellmobilsoft.dookug.ts.common.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.coffee.dto.common.common.OrderByTypeType;
 import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
@@ -53,6 +53,9 @@ public class DocumentMetadataQueryRequestBuilder extends BaseBuilder<DocumentMet
         return queryRequest;
     }
 
+    /**
+     * default init
+     */
     @PostConstruct
     public void init() {
         setDto(createEmpty());

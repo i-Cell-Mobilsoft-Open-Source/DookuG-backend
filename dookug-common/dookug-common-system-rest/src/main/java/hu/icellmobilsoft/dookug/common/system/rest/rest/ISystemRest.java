@@ -19,18 +19,17 @@
  */
 package hu.icellmobilsoft.dookug.common.system.rest.rest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
-import hu.icellmobilsoft.dookug.api.url.IServicePath;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 
 /**
@@ -53,10 +52,17 @@ public interface ISystemRest {
      */
     @Operation(hidden = true)
     @GET
-    @Path(IServicePath.VERSION_INFO)
+    @Path(DocumentGeneratePath.VERSION_INFO)
     @Produces(MediaType.TEXT_PLAIN)
     public String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
 
+    /**
+     * Clear caches
+     * 
+     * @return the evict result
+     * @throws BaseException
+     *             if an error occurs
+     */
     @GET
     @Operation(summary = "Belső állapotok törlése",
             description = "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. "

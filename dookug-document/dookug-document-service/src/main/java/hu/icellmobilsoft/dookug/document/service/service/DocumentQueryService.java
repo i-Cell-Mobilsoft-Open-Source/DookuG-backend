@@ -22,15 +22,15 @@ package hu.icellmobilsoft.dookug.document.service.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.Model;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
+import jakarta.enterprise.inject.Model;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import hu.icellmobilsoft.coffee.dto.common.common.OrderByTypeType;
 import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
 import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingUtil;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
@@ -76,7 +77,7 @@ public class DocumentQueryService extends BaseService<Document> {
         logEnter(methodInfo, queryParams, paginationParams, queryOrders);
         try {
             if (queryParams == null || paginationParams == null || queryOrders == null) {
-                throw newInvalidParameterException("queryParams, paginationParams or queryOrders is null!");
+                throw new InvalidParameterException("queryParams, paginationParams or queryOrders is null!");
             }
             TypedQuery<Document> query = createDocumentQuery(queryParams, queryOrders, false, Document.class);
             TypedQuery<Long> countQuery = createDocumentQuery(queryParams, queryOrders, true, Long.class);
@@ -86,6 +87,7 @@ public class DocumentQueryService extends BaseService<Document> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private <T> TypedQuery<T> createDocumentQuery(DocumentMetadataQueryParamsType queryParams, List<DocumentMetadataQueryOrderType> queryOrders,
             boolean countQuery, Class<T> rootClass) {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();

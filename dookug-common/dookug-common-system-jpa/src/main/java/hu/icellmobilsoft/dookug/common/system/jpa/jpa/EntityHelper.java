@@ -19,11 +19,11 @@
  */
 package hu.icellmobilsoft.dookug.common.system.jpa.jpa;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
-import javax.inject.Named;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Named;
 
-import org.apache.deltaspike.data.api.audit.CurrentUser;
+import hu.icellmobilsoft.coffee.model.base.annotation.CurrentUser;
 
 /**
  * Entity helper class
@@ -41,9 +41,9 @@ public class EntityHelper extends hu.icellmobilsoft.coffee.jpa.sql.entity.Entity
     public static final String DEFAULT_SYSTEM_USER = "0";
 
     /**
-     * Audit user producer
+     * Audit default user producer
      * 
-     * @return customerUser id
+     * @return "0"
      */
     @Produces
     @CurrentUser

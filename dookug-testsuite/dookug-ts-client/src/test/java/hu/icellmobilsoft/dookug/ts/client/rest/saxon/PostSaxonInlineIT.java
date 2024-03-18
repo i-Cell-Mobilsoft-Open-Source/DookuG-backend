@@ -19,29 +19,14 @@
  */
 package hu.icellmobilsoft.dookug.ts.client.rest.saxon;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import jakarta.inject.Inject;
 
-import javax.inject.Inject;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.client.DookugClient;
-import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateType;
-import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
-import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
  * Sample {@link DookugClient} test

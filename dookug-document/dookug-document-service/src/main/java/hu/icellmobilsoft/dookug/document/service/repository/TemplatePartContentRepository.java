@@ -37,6 +37,11 @@ import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 @Repository
 public interface TemplatePartContentRepository extends EntityRepository<TemplatePartContent, String>, CriteriaSupport<TemplatePartContent> {
 
+    /**
+     * @param templatePartIds
+     *            List of templatePart identifiers
+     * @return List of {@link TemplatePartContent}
+     */
     @Query("SELECT t FROM TemplatePartContent t WHERE t.templatePartId in ?1")
     List<TemplatePartContent> findAllByTemplatePartList(List<String> templatePartIds);
 

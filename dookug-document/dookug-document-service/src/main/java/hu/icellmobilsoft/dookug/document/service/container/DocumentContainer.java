@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.document.service.container;
 
-import javax.enterprise.inject.Model;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.dookug.common.model.template.Document;
 
@@ -34,11 +34,19 @@ public class DocumentContainer {
 
     private Document document;
 
+    /**
+     * @return the document
+     */
     public Document getDocument() {
         return document;
     }
 
+    /**
+     * @param document
+     *            the document to set
+     */
     public void setDocument(Document document) {
         this.document = document;
     }
+
 }

@@ -17,7 +17,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>hu.icellmobilsoft.dookug</groupId>
-				<artifactId>dookug-bom-all</artifactId>
+				<artifactId>dookug-bom-all-jee10</artifactId>
 				<version>${project.version}</version>
 				<type>pom</type>
 				<scope>import</scope>

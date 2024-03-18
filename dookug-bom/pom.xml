@@ -10,12 +10,12 @@
 	<packaging>pom</packaging>
 
 	<modules>
+        <module>dookug-bom-all</module>
+        <module>dookug-bom-all-jee10</module>
 		<module>dookug-bom-jee</module>
-		<module>dookug-bom-jee10</module>
+		<module>dookug-bom-jee-jee10</module>
 		<module>dookug-bom-wf</module>
 		<module>dookug-bom-project</module>
-		<module>dookug-bom-all</module>
-		<module>dookug-bom-all-coffee20</module>
 		<module>dookug-bom-test</module>
 	</modules>
 </project>

@@ -29,11 +29,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.StreamingOutput;
+import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +41,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.BusinessException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
@@ -95,6 +96,15 @@ public class BaseDocumentGenerateAction extends BaseAction {
             defaultValue = ConfigKeys.Interface.DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT)
     private boolean parametersDataGzipped;
 
+    /**
+     * Generate document
+     * 
+     * @param generatorSetup
+     *            the generator configuration
+     * @return the {@link Document}
+     * @throws BaseException
+     *             on error
+     */
     protected Document generateDocument(BaseGeneratorSetupType generatorSetup) throws BaseException {
         validateSetup(generatorSetup);
 
@@ -132,21 +142,21 @@ public class BaseDocumentGenerateAction extends BaseAction {
 
     private void validateSetup(BaseGeneratorSetupType generatorSetup) throws BaseException {
         if (generatorSetup == null) {
-            throw newInvalidParameterException("Generator setup is null!");
+            throw new InvalidParameterException("Generator setup is null!");
         }
         if (generatorSetup.getResponseFormat() != ResponseFormatType.STRING && generatorSetup.getGeneratorEngine() == GeneratorEngineType.NONE) {
-            throw newInvalidParameterException(
+            throw new InvalidParameterException(
                     MessageFormat.format("ResponseFormat [{0}] response can only be done using a generator!", generatorSetup.getResponseFormat()));
         }
         if (generatorSetup.getResponseFormat() != ResponseFormatType.PDF && generatorSetup.getGeneratorEngine() == GeneratorEngineType.SAXON) {
-            throw newInvalidParameterException(
+            throw new InvalidParameterException(
                     MessageFormat.format(
                             "ResponseFormat [{0}] and generatorEngine [{1}] combination is not defined!",
                             generatorSetup.getResponseFormat(),
                             generatorSetup.getGeneratorEngine()));
         }
         if (generatorSetup.getResponseFormat() == ResponseFormatType.STRING && generatorSetup.getGeneratorEngine() == GeneratorEngineType.PDF_BOX) {
-            throw newInvalidParameterException(
+            throw new InvalidParameterException(
                     MessageFormat.format(
                             "ResponseFormat [{0}] and generatorEngine [{1}] combination is not defined!",
                             generatorSetup.getResponseFormat(),
@@ -251,6 +261,15 @@ public class BaseDocumentGenerateAction extends BaseAction {
         };
     }
 
+    /**
+     * {@link Document} to {@link DocumentMetadataResponse} converter
+     * 
+     * @param document
+     *            document to convert
+     * @return the metadata
+     * @throws BaseException
+     *             on error
+     */
     protected DocumentMetadataResponse toDocumentMetadataResponse(Document document) throws BaseException {
         DocumentMetadataResponse response = documentConverter.convert(document);
         handleSuccessResultType(response);

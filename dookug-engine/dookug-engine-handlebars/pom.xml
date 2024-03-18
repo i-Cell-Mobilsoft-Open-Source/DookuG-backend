@@ -15,7 +15,7 @@
         </dependency>
         <dependency>
             <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-cdi</artifactId>
+            <artifactId>dookug-common-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.jknack</groupId>

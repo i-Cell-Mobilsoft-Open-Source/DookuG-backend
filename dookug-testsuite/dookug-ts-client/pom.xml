@@ -11,7 +11,7 @@
     <properties>
         <failsafeArgLine>--add-opens java.base/java.lang=ALL-UNNAMED</failsafeArgLine>
     </properties>
-
+    
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -34,8 +34,8 @@
             <artifactId>dookug-ts-common-resources</artifactId>
         </dependency>
         <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-client</artifactId>
+            <groupId>hu.icellmobilsoft.dookug.client</groupId>
+            <artifactId>dookug-client-jee10</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>

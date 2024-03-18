@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -70,7 +70,9 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateInlineInternalRestClient.class);
         DocumentGenerateRequest request = generateRequestBuilder.fullFillHandlebarsPdfBoxDatabase();
-        request.getGeneratorSetup().setParametersData(templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
+        request.getGeneratorSetup()
+                .setParametersData(
+                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());

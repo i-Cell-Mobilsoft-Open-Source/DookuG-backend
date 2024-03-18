@@ -19,10 +19,9 @@
  */
 package hu.icellmobilsoft.dookug.document.service.service;
 
-import javax.enterprise.inject.Model;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.dookug.common.model.template.Document;
-import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 import hu.icellmobilsoft.dookug.common.system.jpa.service.BaseService;
 
 /**

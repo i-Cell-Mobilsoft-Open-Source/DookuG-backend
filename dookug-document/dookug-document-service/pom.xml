@@ -26,11 +26,6 @@
 
         <dependency>
             <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-cdi</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
             <artifactId>dookug-engine-handlebars</artifactId>
         </dependency>
 

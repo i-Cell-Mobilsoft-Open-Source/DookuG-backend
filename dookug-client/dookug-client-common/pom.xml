@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.icellmobilsoft.dookug.client</groupId>
+        <artifactId>dookug-client</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <version.hu.icellmobisoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobisoft.coffee>
+        <version.org.jboss.resteasy>6.2.1.Final</version.org.jboss.resteasy>
+    </properties>
+
+    <artifactId>dookug-client-common</artifactId>
+
+    <dependencies>
+            <!-- we are using coffee according to JEE version! This must be
+            optional becaue we dont want to include this version as dependency
+            in child modules! -->
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-tool</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-configdoc</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.coffee</groupId>
+            <artifactId>coffee-module-mp-restclient</artifactId>
+            <version>${version.hu.icellmobisoft.coffee}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>

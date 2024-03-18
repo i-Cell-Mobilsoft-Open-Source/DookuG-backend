@@ -22,8 +22,8 @@ package hu.icellmobilsoft.dookug.ts.document.rest;
 import java.io.InputStream;
 import java.net.URI;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -97,7 +97,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
             contentRestClient.getDocumentContent("   ");
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BaseException);
-            Assertions.assertEquals(CoffeeFaultType.INVALID_INPUT, ((BaseException) e.getCause()).getFaultTypeEnum());
+            Assertions.assertEquals(CoffeeFaultType.WRONG_OR_MISSING_PARAMETERS, ((BaseException) e.getCause()).getFaultTypeEnum());
         }
     }
 

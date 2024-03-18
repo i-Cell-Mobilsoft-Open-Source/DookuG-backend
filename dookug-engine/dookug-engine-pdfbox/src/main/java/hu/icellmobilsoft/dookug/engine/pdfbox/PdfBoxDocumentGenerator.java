@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -80,32 +80,29 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
 
         PdfRendererBuilder pdfRendererBuilder = new PdfRendererBuilder();
 
-        // openhtmltopdf ez nelkul system.error szintre logol mindent https://github.com/danfickle/openhtmltopdf/wiki/Logging
+        // set openhtmltopdf logger (without this its logging to System.err) https://github.com/danfickle/openhtmltopdf/wiki/Logging
         XRLog.setLoggerImpl(new Slf4jLogger());
 
-        // HTML formatum kell hogy legyen, escape kezelessel nem foglalkozunk
+        // must be HTML format we dont care about escape handling
         String compiledHtml = templateContainer.getCompiledResult();
         pdfRendererBuilder.withHtmlContent(compiledHtml, "");
         pdfRendererBuilder.withProducer(StringUtils.EMPTY);
         // pdfRendererBuilder.useFont(new File(FONT_PATH), "notosansthai-regular");
         pdfRendererBuilder.toStream(outputStream);
 
-        // abban az esetben, ha digitalis alairasra van szuksegunk, akkor egy fajlba mentunk, egyebkent kozvetlenul az outputstream-re irjuk a pdf-et
         if (digitalSigningDto == null) {
+            // we dont need digital signature
             pdfRendererBuilder.toStream(outputStream);
-            // kiirjuk az outoutstream-re a generalt pdf-et
+            // generated pdf -> outputstream
             pdfRender(pdfRendererBuilder);
         } else {
             try {
-                // az alairatlan pdfet egy temporalis streambe irjuk bele
+                // original PDF is going to a temporal stream (persisted into temporaly file)
                 pdfRendererBuilder.toStream(signatureGenerator.getOutputStreamForUnsignedPdf());
                 pdfRender(pdfRendererBuilder);
-                // majd alairjuk
+                // adding signature
                 signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSigningDto);
             } finally {
-                // ezt mindig hivjuk meg a finally blokkban, hogy ha barmilyen hiba tortenne a ket signatureGenerator hivas kozott, akkor is lezarjuk
-                // az
-                // eroforrasokat
                 signatureGenerator.closeStreams();
             }
         }
@@ -113,8 +110,6 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
 
     private void pdfRender(PdfRendererBuilder pdfRendererBuilder) throws BaseException {
         try {
-            // Leiras szerint IOException hibat dob ha hiba van de dob mast is, peldaul amikor nem parsolhato az input:
-            // com.openhtmltopdf.util.XRRuntimeException
             pdfRendererBuilder.run();
         } catch (Exception e) {
             throw new TechnicalException(

@@ -21,8 +21,8 @@ package hu.icellmobilsoft.dookug.document.service.cache;
 
 import java.security.InvalidParameterException;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -106,5 +106,4 @@ public class TemplateCache extends AbstractCache<String, TemplateCacheItem> {
     public boolean isCacheEnabled() {
         return ConfigProvider.getConfig().getOptionalValue(ConfigKeys.Cache.Template.ENABLED, Boolean.class).orElse(true);
     }
-
 }

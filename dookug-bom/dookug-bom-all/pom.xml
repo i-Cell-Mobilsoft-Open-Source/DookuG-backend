@@ -9,19 +9,21 @@
     <packaging>pom</packaging>
 
     <properties>
-        <version.hu.icellmobilsoft.coffee>1.16.0</version.hu.icellmobilsoft.coffee>
+        <version.hu.icellmobilsoft.coffee>${version.hu.icellmobilsoft.coffee.ee8}</version.hu.icellmobilsoft.coffee>
         <version.apache.deltaspike>1.9.6</version.apache.deltaspike>
         <version.org.eclipse.microprofile>4.1</version.org.eclipse.microprofile>
-        <version.hu.icellmobilsoft.roaster>0.8.0</version.hu.icellmobilsoft.roaster>
+
         <version.io.smallrye.config>2.10.0</version.io.smallrye.config>
+
+        <version.hu.icellmobilsoft.roaster>0.8.0</version.hu.icellmobilsoft.roaster>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
+
         <version.com.github.jknack.handlebars>4.3.1</version.com.github.jknack.handlebars>
         <version.com.openhtmltopdf.openhtmltopdf-pdfbox>1.0.10</version.com.openhtmltopdf.openhtmltopdf-pdfbox>
         <version.org.apache.xmlgraphics.fop>2.5</version.org.apache.xmlgraphics.fop>
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
 
         <version.org.junit.jupiter>5.8.1</version.org.junit.jupiter>
-        <version.com.google.guava>31.1-jre</version.com.google.guava>
     </properties>
 
     <dependencyManagement>
@@ -36,7 +38,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-bom-wf</artifactId>
+                <artifactId>dookug-bom-wf-26</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -180,11 +182,6 @@
                 <groupId>net.sourceforge.saxon</groupId>
                 <artifactId>saxon</artifactId>
                 <version>${version.net.sourceforge.saxon.saxon}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${version.com.google.guava}</version>
             </dependency>
 
         </dependencies>

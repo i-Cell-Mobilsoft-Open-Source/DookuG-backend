@@ -21,7 +21,7 @@ package hu.icellmobilsoft.dookug.ts.document.rest.metadata;
 
 import java.net.URI;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
@@ -39,10 +39,10 @@ import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
-import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
-import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateStoredTemplateInternalRestClient;
-import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.builder.StoredTemplateDocumentGenerateRequestBuilder;
+import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
+import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
+import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateStoredTemplateInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 

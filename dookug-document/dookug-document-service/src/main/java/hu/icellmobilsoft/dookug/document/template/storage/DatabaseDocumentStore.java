@@ -22,8 +22,8 @@ package hu.icellmobilsoft.dookug.document.template.storage;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;

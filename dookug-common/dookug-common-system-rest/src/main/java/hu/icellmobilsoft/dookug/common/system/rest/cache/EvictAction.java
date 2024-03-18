@@ -22,13 +22,12 @@ package hu.icellmobilsoft.dookug.common.system.rest.cache;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
-import org.apache.deltaspike.core.util.ProxyUtils;
-
+import hu.icellmobilsoft.coffee.cdi.util.ProxyUtils;
 import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;

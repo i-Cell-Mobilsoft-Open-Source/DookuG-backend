@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
@@ -54,7 +54,13 @@ import hu.icellmobilsoft.roaster.common.util.FileUtil;
 @Model
 public class DocumentGenerateWithTemplatesRequestBuilder extends BaseBuilder<DocumentGenerateWithTemplatesRequest> {
 
+    /**
+     * default template
+     */
     public static final String TEMPLATE = "DookuG simple test with prameters first: [{{first}}], second: [{{second}}]";
+    /**
+     * default parameters as map
+     */
     public static final Map<String, Object> SIMPLE_PARAMETERS_JSON = Map.of(
             "first",
             "első",
@@ -72,6 +78,9 @@ public class DocumentGenerateWithTemplatesRequestBuilder extends BaseBuilder<Doc
         return request;
     }
 
+    /**
+     * default init
+     */
     @PostConstruct
     public void init() {
         setDto(createEmpty());
@@ -158,37 +167,42 @@ public class DocumentGenerateWithTemplatesRequestBuilder extends BaseBuilder<Doc
         return digitalSigningType;
     }
 
-//    /**
-//     * Construct saxon/xslt, database storage method request with templateTypes and parametersData
-//     *
-//     * @return {@link DocumentGenerateWithTemplatesRequest}
-//     */
-//    public DocumentGenerateWithTemplatesRequest fullFillSaxonXsltDatabase() {
-//
-//        DocumentGenerateWithTemplatesRequest request = getDto();
-//        InlineGeneratorSetupType setup = request.getGeneratorSetup();
-//        setup.setTemplateEngine(TemplateEngineType.NONE);
-//        setup.setGeneratorEngine(GeneratorEngineType.SAXON);
-//        request.getTemplates()
-//                .add(
-//                        new TemplateType().withTemplateName(DocumentServiceTestConstant.MAIN_TEMPLATE_NAME)
-//                                .withInitial(true)
-//                                .withTemplateContent(
-//                                        FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_PDF_TEMPLATE)
-//                                                .getBytes(StandardCharsets.UTF_8)));
-//        request.getGeneratorSetup()
-//                .setParametersData(
-//                        ParametersDataBuilder.newBuilder()
-//                                .withGeneratorParameters(
-//                                        new SaxonGeneratorParametersData().withXmlDataset(
-//                                                FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS)
-//                                                        .getBytes(StandardCharsets.UTF_8)))
-//                                .build());
-//        request.getGeneratorSetup().setDocumentStorageMethod(DocumentStorageMethodType.DATABASE);
-//        request.getGeneratorSetup().setResponseFormat(ResponseFormatType.PDF);
-//        return request;
-//    }
+    // /**
+    // * Construct saxon/xslt, database storage method request with templateTypes and parametersData
+    // *
+    // * @return {@link DocumentGenerateWithTemplatesRequest}
+    // */
+    // public DocumentGenerateWithTemplatesRequest fullFillSaxonXsltDatabase() {
+    //
+    // DocumentGenerateWithTemplatesRequest request = getDto();
+    // InlineGeneratorSetupType setup = request.getGeneratorSetup();
+    // setup.setTemplateEngine(TemplateEngineType.NONE);
+    // setup.setGeneratorEngine(GeneratorEngineType.SAXON);
+    // request.getTemplates()
+    // .add(
+    // new TemplateType().withTemplateName(DocumentServiceTestConstant.MAIN_TEMPLATE_NAME)
+    // .withInitial(true)
+    // .withTemplateContent(
+    // FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_PDF_TEMPLATE)
+    // .getBytes(StandardCharsets.UTF_8)));
+    // request.getGeneratorSetup()
+    // .setParametersData(
+    // ParametersDataBuilder.newBuilder()
+    // .withGeneratorParameters(
+    // new SaxonGeneratorParametersData().withXmlDataset(
+    // FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS)
+    // .getBytes(StandardCharsets.UTF_8)))
+    // .build());
+    // request.getGeneratorSetup().setDocumentStorageMethod(DocumentStorageMethodType.DATABASE);
+    // request.getGeneratorSetup().setResponseFormat(ResponseFormatType.PDF);
+    // return request;
+    // }
 
+    /**
+     * Construct saxon/xslt, database storage method request with templateTypes and parametersData
+     * 
+     * @return {@link DocumentGenerateWithTemplatesRequest}
+     */
     public DocumentGenerateWithTemplatesRequest fullFillSaxonXsltMultiTemplate() {
 
         DocumentGenerateWithTemplatesRequest request = getDto();
