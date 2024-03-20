@@ -16,9 +16,7 @@ jobs:
 
       - name: set-release-version
         run: |
-          RELEASE_VERSION=`mvn -q -Dexec.executable="echo" -Dexec.args='${projects.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec` && \
-          echo RELEASE_VERSION=${RELEASE_VERSION} && \
-          CURRENT_VERSION=${RELEASE_VERSION} 
+          CURRENT_VERSION=`mvn -q -Dexec.executable="echo" -Dexec.args='${projects.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec` 
            
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: Generate with asciidoctor image
@@ -30,5 +28,5 @@ jobs:
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index
           # slides_build: true
-          pre_build: CURRENT_VERSION=$(sed -rn 's/(^VERSION=)([^-]+)(-SNAPSHOT|)$/\2/p' .env)
+          # pre_build:
           # post_build:
