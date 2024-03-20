@@ -19,10 +19,13 @@ jobs:
         uses: manoelcampos/asciidoctor-ghpages-action@v2
         with:
           pdf_build: true
-          # asciidoctor_params: --attribute=nofooter
+          asciidoctor_params: --attribute release_version=${CURRENT_VERSION}
           # adoc_file_ext: .ascii # default is .adoc
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index
           # slides_build: true
-          # pre_build:
+          pre_build:
+            CURRENT_VERSION=$(sed -rn 's/(^VERSION=)([^-]+)(-SNAPSHOT|)$/\2/p' .env)
+            echo current version is ${CURRENT_VERSION}
+            echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
           # post_build:
