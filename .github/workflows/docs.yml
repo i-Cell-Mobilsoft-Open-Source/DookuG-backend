@@ -24,8 +24,8 @@ jobs:
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index
           # slides_build: true
-          pre_build:
-            CURRENT_VERSION=$(sed -rn 's/(^VERSION=)([^-]+)(-SNAPSHOT|)$/\2/p' .env)
-            echo current version is ${CURRENT_VERSION}
-            echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
+          pre_build: |
+            - bash: CURRENT_VERSION=$(sed -rn 's/(^VERSION=)([^-]+)(-SNAPSHOT|)$/\2/p' .env)
+            - bash: echo current version is ${CURRENT_VERSION}
+            - bash: echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
           # post_build:

@@ -61,13 +61,12 @@ A builderből SAXON engine-hez nagyon könnyen kinyerhető a kívánt konfigurá
 [source,java]
 ----
 GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
-        TemplateLanguageType.HU, <2>
+        TemplateLanguageType.HU, <1>
         ParametersDataBuilder.getSaxonParameters(
-                FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8))); <3>
+                FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8))); <2>
 ----
-<1> XSLT template neve
-<2> A template nyelve
-<3> Az XML dataset tartalma (jelen esetben tömörítetlenül)
+<1> A template nyelve
+<2> Az XML dataset tartalma (jelen esetben tömörítetlenül)
   
 Ezek a metódusok - sikeres hívás esetén - egy GeneratedDocumentDTO-val térnek vissza, mely tartalmazza a generált fájlnevet, a generált objektumot, mint stream-et és a HTTP status kódot.
 
