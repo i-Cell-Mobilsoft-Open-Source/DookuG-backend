@@ -51,11 +51,10 @@ public class EvictAction extends BaseAction {
     private Instance<Evictable> evictables;
 
     /**
-     * Evict művelet Az {@link Evictable} interface implementációkon iterál végig Az ismert keret szintű szolgáltatásoknál explicit hívja meg az
-     * ürítés funkcíót
+     * Evict operation iterates through the {@link Evictable} interface implementations for known framework level services explicitly calling the
+     * 'clear' function
      *
-     * @return {@link EvictResponse} dto, az {@link Evictable}-t implementáló osztályok neveinek listája, az ismert keret szintű szolgáltatások
-     *         neveivel kiegészítve
+     * @return {@link EvictResponse} dto, list of names of classes implementing {@link Evictable} with the names of the known framework level services
      */
     public EvictResponse evict() {
         EvictResponse response = new EvictResponse();
