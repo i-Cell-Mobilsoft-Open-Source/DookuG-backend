@@ -4,6 +4,17 @@ on:
   push:
     branches:
       - main
+  #temporaly for testing
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      comment:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Comment for asciidoc generation'
+        # Default value if no value is explicitly provided
+        default: 'Generate asciidoc from SNAPSHOT'
+        # Input has to be provided for the workflow to run
+        required: true
 
 jobs:
   generate-and-deploy:
