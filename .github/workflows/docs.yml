@@ -1,9 +1,9 @@
 # This workflow will generate html documentation from asciidoc and publish it to `gh-pages` branch
 name: Deploy documentation
 on:
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
   #temporaly for testing
   workflow_dispatch:
     # Inputs the workflow accepts.
