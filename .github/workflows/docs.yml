@@ -14,6 +14,12 @@ jobs:
         with:
           ref: main
 
+      - name: set-release-version
+        run: |
+          RELEASE_VERSION=`mvn -q -Dexec.executable="echo" -Dexec.args='${projects.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec` && \
+          echo RELEASE_VERSION=${RELEASE_VERSION} && \
+          CURRENT_VERSION=${RELEASE_VERSION} 
+           
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: Generate with asciidoctor image
         uses: manoelcampos/asciidoctor-ghpages-action@v2
