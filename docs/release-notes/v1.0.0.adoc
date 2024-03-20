@@ -4,3 +4,4 @@
 
 * Jakarta EE10 upgrade
 * Test fix
+* gitHub Workflows - java 17 upgrade
