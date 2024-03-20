@@ -55,7 +55,7 @@ class PostDocumentGenerateInlineMultipartMetadataIT extends AbstractGenerateDocu
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
         DocumentMetadataResponse metadataResponse = client.postDocumentGenerateMultipartMetadata(
                 bis,
-                templateParameterDataFromFile(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS)));
+                templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
         Assertions.assertNotNull(metadataResponse.getMetadata());
         Assertions.assertTrue(metadataResponse.getMetadata().getFilename().contains("pdf"));
     }
