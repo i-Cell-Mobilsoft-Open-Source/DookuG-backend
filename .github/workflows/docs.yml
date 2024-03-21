@@ -2,8 +2,8 @@
 name: Deploy documentation
 on:
   push:
-    branches:
-      - main
+#    branches:
+#      - main
 
 jobs:
   generate-and-deploy:
@@ -16,8 +16,9 @@ jobs:
 
       - name: set-release-version
         run: |
-          export CURRENT_VERSION=`mvn -q -Dexec.executable="echo" -Dexec.args='${projects.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec`
-          echo CURRENT_VERSION=${CURRENT_VERSION} 
+          apt -y install libxml2-utils
+          export POM_XML_PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0/ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
+          echo CURRENT_VERSION=${POM_XML_PROJECT_VERSION} 
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: Generate with asciidoctor image
         uses: manoelcampos/asciidoctor-ghpages-action@v2
