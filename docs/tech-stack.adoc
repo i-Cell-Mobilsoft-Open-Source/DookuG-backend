@@ -3,10 +3,10 @@
 = Technológiák
 
 .Service (jar, war)
-- Java 11+
+- Java 17+
 - Maven 3.3.0+
-- Java EE 8
-- Wildfly 26.1.1Final
+- Java EE 10
+- Wildfly 27.0.1Final
 
 // TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
 // .Környezet

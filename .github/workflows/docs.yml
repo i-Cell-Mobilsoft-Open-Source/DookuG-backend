@@ -2,8 +2,8 @@
 name: Deploy documentation
 on:
   push:
-    branches:
-      - main
+#    branches:
+#      - main
 
 jobs:
   generate-and-deploy:
@@ -15,16 +15,18 @@ jobs:
           ref: main
 
       - name: set-release-version
+        id: vars
         run: |
           sudo apt-get update && sudo apt-get install -y libxml2-utils
-          export POM_XML_PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
+          POM_XML_PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
+          echo "POM_XML_PROJECT_VERSION=$POM_XML_PROJECT_VERSION" >> $GITHUB_OUTPUT
           echo CURRENT_VERSION=${POM_XML_PROJECT_VERSION} 
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: Generate with asciidoctor image
         uses: manoelcampos/asciidoctor-ghpages-action@v2
         with:
           pdf_build: true
-          asciidoctor_params: --attribute=nofooter --attribute release_version=${CURRENT_VERSION}
+          asciidoctor_params: --attribute=nofooter --attribute release_version=${{steps.vars.outputs.POM_XML_PROJECT_VERSION}}
           # adoc_file_ext: .ascii # default is .adoc
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index
