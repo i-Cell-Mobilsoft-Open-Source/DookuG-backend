@@ -1,7 +1,7 @@
 :toc: left
 :toclevels: 3
 :sectnums:
-// TODO FIXME {release_version} gitHub-on nem működik
+
 //:attachmentsdir: /dookug/java/dookug-backend/{release_version}/generated
 // TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
 //:imagesdir: /DookuG-backend/assets/images
