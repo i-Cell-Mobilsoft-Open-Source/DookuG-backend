@@ -16,8 +16,8 @@ jobs:
 
       - name: set-release-version
         run: |
-          sudo apt-get install -y libxml2-utils
-          export POM_XML_PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0/ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
+          sudo apt-get update && sudo apt-get install -y libxml2-utils
+          export POM_XML_PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
           echo CURRENT_VERSION=${POM_XML_PROJECT_VERSION} 
       # Includes the AsciiDoctor GitHub Pages Action to convert adoc files to html and publish to gh-pages branch
       - name: Generate with asciidoctor image
