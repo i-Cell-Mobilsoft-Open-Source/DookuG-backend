@@ -9,7 +9,7 @@
 = DookuG
 
 // TODO FIXME {release_version} gitHub-on nem működik
-//Version: {release_version}
+Version: {release_version}
 
 
 A projekt célja hogy általános template alapú dokumentum generálást tegyen lehetővé a kliensei számára.
