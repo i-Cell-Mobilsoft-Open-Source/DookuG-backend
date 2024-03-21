@@ -6,9 +6,8 @@
 // TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
 //:imagesdir: /DookuG-backend/assets/images
 
-= DookuG
+= DookuG modul dokumentáció
 
-// TODO FIXME {release_version} gitHub-on nem működik
 Version: {release_version}
 
 
@@ -18,10 +17,7 @@ A projekt microservice alapon tartalmaz minta service-ket:
 
 * REST Service - Csak REST szükségleteket szolgál ki.
 
-== Általános
-A technológiák melyeken alapszik:
-
-include::tech-stack.adoc[]
+include::tech-stack.adoc[leveloffset=+1]
 
 == Tartalom
 

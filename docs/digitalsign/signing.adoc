@@ -59,4 +59,4 @@ dookug:
 <2> a `name` és a `reason` default értékek arra vannak, ha a request nem tartalmazná ezen értékeket.
 <3> a `keystore` kötelezően megadandó, az aláíró kulcsok gyűjtőhelyét tartalmazza.
 <4> a `keystorePass`, `keystoreType` a keystore fájlhoz tartozó jelszót, valamint a keystore típusát adja meg, ezek szintén kötelezően megadandó értékek.
-<5> a keystore-on belül a provát kulcs azonosítója
+<5> a keystore-on belül a privát kulcs azonosítója

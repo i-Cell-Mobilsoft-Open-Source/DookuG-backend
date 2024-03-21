@@ -18,7 +18,7 @@ A helperek kombinálhatók egymással.
 
 [cols="5%,45%,45%a,5%"]
 |===
-Token | Magyarázat | Használat | Ettől a verziótól |
+|Token | Magyarázat | Használat | Ettől a verziótól |
 
 equals |
 Két elem értékét hasonlítja össze, akkor történik renderelés ha igaz a kiértékelés eredménye. |
@@ -252,8 +252,8 @@ num4 = 20
 0.1.0 |
 |===
 
-==== További helper-ök
+==== További helper függvények
 
-A projektbe a következő 3rd party helper-ök használhatók:
+A projektben a következő 3rd party helper függvények használhatók:
 
 * https://github.com/jknack/handlebars.java/blob/v4.3.1/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java[StringHelpers]
