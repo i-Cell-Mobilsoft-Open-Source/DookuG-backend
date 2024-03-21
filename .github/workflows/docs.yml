@@ -2,8 +2,8 @@
 name: Deploy documentation
 on:
   push:
-#    branches:
-#      - main
+    branches:
+      - main
 
 jobs:
   generate-and-deploy:
@@ -24,7 +24,7 @@ jobs:
         uses: manoelcampos/asciidoctor-ghpages-action@v2
         with:
           pdf_build: true
-          asciidoctor_params: --attribute release_version=${CURRENT_VERSION}
+          asciidoctor_params: --attribute=nofooter --attribute release_version=${CURRENT_VERSION}
           # adoc_file_ext: .ascii # default is .adoc
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index
