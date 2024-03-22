@@ -2,6 +2,8 @@
 
 = Technológiák
 
+A technológiák melyeken alapszik:
+
 .Service (jar, war)
 - Java 17+
 - Maven 3.8.0+
