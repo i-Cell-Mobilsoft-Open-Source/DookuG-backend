@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.ts.client.rest.handlebars;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +52,6 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
 
     private static final String EXPECTED_RESPONSE_STRING = "DookuG client simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
     private static final String EXPECTED_EMPTY_RESPONSE_STRING = "DookuG client simple test with prameters first: [], second: []";
-
 
     @Inject
     private DookugClient client;

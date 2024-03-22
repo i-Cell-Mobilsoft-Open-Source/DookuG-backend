@@ -19,9 +19,9 @@
  */
 package hu.icellmobilsoft.dookug.document.service.rest;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;

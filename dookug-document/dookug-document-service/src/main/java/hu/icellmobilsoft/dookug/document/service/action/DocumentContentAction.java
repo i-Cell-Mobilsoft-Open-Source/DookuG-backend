@@ -19,15 +19,16 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action;
 
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
@@ -62,7 +63,7 @@ public class DocumentContentAction extends BaseAction {
      */
     public Response getDocumentContent(String documentId) throws BaseException {
         if (StringUtils.isBlank(documentId)) {
-            throw newInvalidParameterException("Document id cannot be blank!");
+            throw new InvalidParameterException("Document id cannot be blank!");
         }
 
         hu.icellmobilsoft.dookug.common.model.template.Document databaseDocument = documentService

@@ -23,17 +23,17 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.ext.Provider;
-import javax.ws.rs.ext.WriterInterceptor;
-import javax.ws.rs.ext.WriterInterceptorContext;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.ext.Provider;
+import jakarta.ws.rs.ext.WriterInterceptor;
+import jakarta.ws.rs.ext.WriterInterceptorContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.metrics.Metadata;
@@ -45,10 +45,10 @@ import org.eclipse.microprofile.metrics.Timer;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.dookug.api.url.IServicePath;
+import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
 
 /**
- * JAXRS provider ami a request/response körüli metrikákat kezeli
+ * JAXRS provider that handles the metrics around request/response
  * 
  * @author mark.petrenyi
  * @since 0.1.0
@@ -73,7 +73,7 @@ public class RequestResponseMetricsProvider implements ContainerRequestFilter, W
     private UriInfo uriInfo;
 
     /**
-     * Request elején futó metrikák kezelése vagy adatok előkészítése
+     * Manage metrics running at the beginning of a request or prepare data
      * 
      * @param requestContext
      *            ContainerRequestContext
@@ -85,13 +85,13 @@ public class RequestResponseMetricsProvider implements ContainerRequestFilter, W
         String url = uriInfo.getAbsolutePath().toASCIIString();
         boolean standardHttp = StringUtils
                 .containsAny(requestContext.getMethod(), HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE);
-        if (standardHttp && StringUtils.contains(url, IServicePath.PREFIX_SYSTEM)) {
+        if (standardHttp && StringUtils.contains(url, BaseServicePath.SYSTEM)) {
             metricsContainer.setStartTime(LocalDateTime.now());
         }
     }
 
     /**
-     * Response létrehozás utáni metrikák készítése
+     * Create metrics after response creation
      * 
      * @param context
      *            WriterInterceptorContext
@@ -103,14 +103,14 @@ public class RequestResponseMetricsProvider implements ContainerRequestFilter, W
     @Override
     public void aroundWriteTo(WriterInterceptorContext context) throws IOException, WebApplicationException {
         String url = uriInfo.getAbsolutePath().toASCIIString();
-        if (metricsContainer.getStartTime() != null && StringUtils.contains(url, IServicePath.PREFIX_SYSTEM)) {
+        if (metricsContainer.getStartTime() != null && StringUtils.contains(url, BaseServicePath.SYSTEM)) {
             updateResponseTimer(url);
         }
         context.proceed();
     }
 
     /**
-     * Metrika frissítése
+     * Refresh metrics
      *
      * @param url
      *            url

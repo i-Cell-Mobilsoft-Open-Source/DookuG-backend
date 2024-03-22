@@ -4,44 +4,28 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug</groupId>
 		<artifactId>dookug</artifactId>
-		<version>0.7.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<properties>
-		<version.jakartaee>8.0.0</version.jakartaee>
-		<version.coffee>1.12.1</version.coffee>
-		<version.apache.deltaspike>1.9.1</version.apache.deltaspike>
-		<version.microprofile.rest-client>2.0</version.microprofile.rest-client>
-		<version.commons-lang3>3.9</version.commons-lang3>
-	</properties>
+    <groupId>hu.icellmobilsoft.dookug.client</groupId>
+    <artifactId>dookug-client</artifactId>
+    <packaging>pom</packaging>
 
-	<artifactId>dookug-client</artifactId>
+    <modules>
+        <module>dookug-client-common</module>
+        <module>dookug-client-jee8</module>
+        <module>dookug-client-jee10</module>
+    </modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>jakarta.platform</groupId>
-			<artifactId>jakarta.jakartaee-api</artifactId>
-			<version>${version.jakartaee}</version>
-		</dependency>
-		<dependency>
-			<groupId>hu.icellmobilsoft.dookug</groupId>
-			<artifactId>dookug-api-dto</artifactId>
-			<version>${version}</version>
-		</dependency>
-		<dependency>
-			<groupId>hu.icellmobilsoft.dookug</groupId>
-			<artifactId>dookug-api-rest</artifactId>
-			<version>${version}</version>
-		</dependency>
-		<dependency>
-			<groupId>hu.icellmobilsoft.coffee</groupId>
-			<artifactId>coffee-dto-base</artifactId>
-			<version>${version.coffee}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.microprofile.rest.client</groupId>
-			<artifactId>microprofile-rest-client-api</artifactId>
-			<version>${version.microprofile.rest-client}</version>
-		</dependency>
-	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>11</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -25,8 +25,8 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -99,8 +99,7 @@ class PostInlinePdfboxHtmlTemplateCustomFontIT extends AbstractGenerateDocumentI
 
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
-        String generatedPdfString = new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);
-        Assertions.assertTrue(StringUtils.startsWith(generatedPdfString, "%PDF"), "Response object is not PDF!");
         writeFileIfEnabled(responseStream, getFilename(response));
+        assertIsResultPdf();
     }
 }

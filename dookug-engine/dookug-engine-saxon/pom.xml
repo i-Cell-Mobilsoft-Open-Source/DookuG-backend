@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>hu.icellmobilsoft.dookug</groupId>
-        <artifactId>dookug-engine</artifactId>
-        <version>0.7.0-SNAPSHOT</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>hu.icellmobilsoft.dookug</groupId>
+		<artifactId>dookug-engine</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-    <artifactId>dookug-engine-saxon</artifactId>
+	<artifactId>dookug-engine-saxon</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-pdfsignature</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.xmlgraphics</groupId>
-            <artifactId>fop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.saxon</groupId>
-            <artifactId>saxon</artifactId>
-        </dependency>
-        <!-- https://github.com/eclipse/microprofile-config/issues/716 javitas utan kiszedni -->
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>osgi.annotation</artifactId>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>hu.icellmobilsoft.dookug</groupId>
+			<artifactId>dookug-common-pdfsignature</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>hu.icellmobilsoft.dookug</groupId>
+			<artifactId>dookug-common-rest-jee</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis-ext</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+		</dependency>
+		<!-- remove after fixing https://github.com/eclipse/microprofile-config/issues/716 -->
+		<!-- build::  warning: unknown enum constant Resolution.OPTIONAL -->
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.annotation</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

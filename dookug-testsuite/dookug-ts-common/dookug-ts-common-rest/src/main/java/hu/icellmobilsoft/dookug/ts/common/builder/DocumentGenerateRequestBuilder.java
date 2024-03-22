@@ -19,8 +19,8 @@
  */
 package hu.icellmobilsoft.dookug.ts.common.builder;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
@@ -48,6 +48,9 @@ public class DocumentGenerateRequestBuilder extends BaseBuilder<DocumentGenerate
         return new DocumentGenerateRequest();
     }
 
+    /**
+     * default init
+     */
     @PostConstruct
     public void init() {
         setDto(createEmpty());

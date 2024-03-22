@@ -3,29 +3,29 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug</groupId>
 		<artifactId>dookug</artifactId>
-		<version>0.7.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>dookug-common</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
-        <module>dookug-common-core</module>
-        <module>dookug-common-model</module>
+		<module>dookug-common-core</module>
+		<module>dookug-common-health</module>
+		<module>dookug-common-metrics</module>
 		<module>dookug-common-util</module>
-		<module>dookug-common-rest</module>
+		<module>dookug-common-rest-jee</module>
 		<module>dookug-common-system-rest</module>
 		<module>dookug-common-jpa</module>
 		<module>dookug-common-system-jpa</module>
-        <module>dookug-common-cdi</module>
-        <module>dookug-common-pdfsignature</module>
+		<module>dookug-common-pdfsignature</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>hu.icellmobilsoft.dookug</groupId>
-				<artifactId>dookug-bom-all</artifactId>
+				<artifactId>dookug-bom-all-jee10</artifactId>
 				<version>${project.version}</version>
 				<type>pom</type>
 				<scope>import</scope>

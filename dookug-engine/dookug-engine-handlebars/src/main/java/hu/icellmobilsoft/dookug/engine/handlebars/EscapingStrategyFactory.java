@@ -23,8 +23,8 @@ import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import com.github.jknack.handlebars.EscapingStrategy;
 

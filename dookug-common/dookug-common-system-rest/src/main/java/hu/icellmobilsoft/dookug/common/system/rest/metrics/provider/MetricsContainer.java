@@ -21,10 +21,10 @@ package hu.icellmobilsoft.dookug.common.system.rest.metrics.provider;
 
 import java.time.LocalDateTime;
 
-import javax.enterprise.inject.Model;
+import jakarta.enterprise.inject.Model;
 
 /**
- * Microprofile-metrics szamara RequestScope kontener
+ * RequestScoped container for microprofile metrics
  * 
  * @author imre.scheffer
  * 

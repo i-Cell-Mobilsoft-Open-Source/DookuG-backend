@@ -22,13 +22,12 @@ package hu.icellmobilsoft.dookug.common.system.rest.cache;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
-import org.apache.deltaspike.core.util.ProxyUtils;
-
+import hu.icellmobilsoft.coffee.cdi.util.ProxyUtils;
 import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
@@ -52,11 +51,10 @@ public class EvictAction extends BaseAction {
     private Instance<Evictable> evictables;
 
     /**
-     * Evict művelet Az {@link Evictable} interface implementációkon iterál végig Az ismert keret szintű szolgáltatásoknál explicit hívja meg az
-     * ürítés funkcíót
+     * Evict operation iterates through the {@link Evictable} interface implementations for known framework level services explicitly calling the
+     * 'clear' function
      *
-     * @return {@link EvictResponse} dto, az {@link Evictable}-t implementáló osztályok neveinek listája, az ismert keret szintű szolgáltatások
-     *         neveivel kiegészítve
+     * @return {@link EvictResponse} dto, list of names of classes implementing {@link Evictable} with the names of the known framework level services
      */
     public EvictResponse evict() {
         EvictResponse response = new EvictResponse();

@@ -5,7 +5,7 @@
 * Caching of templates in memory https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend/issues/4
 * Observability: DB health check added
 * TemplateLanguage type has been changed from enum to string (`EN` -> `EN` or `en_GB`). 
-* The jandex.idx file has been removed from dookug-client-jee10. It caused Unsatisfied Dependency Exception during the deployment. 
+* The jandex.idx file has been removed from dookug-client-jee10. It caused Unsatisfied Dependency Exception during the deployment.
 
 == Migration
 

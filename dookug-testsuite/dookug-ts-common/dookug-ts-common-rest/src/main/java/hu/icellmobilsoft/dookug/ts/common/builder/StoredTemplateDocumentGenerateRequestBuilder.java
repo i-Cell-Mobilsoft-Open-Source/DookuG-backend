@@ -22,8 +22,8 @@ package hu.icellmobilsoft.dookug.ts.common.builder;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
@@ -54,12 +54,22 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
         return new StoredTemplateDocumentGenerateRequest();
     }
 
+    /**
+     * default init
+     */
     @PostConstruct
     public void init() {
         setDto(createEmpty());
         getDto().setContext(DtoHelper.createContext());
     }
 
+    /**
+     * create a {@link StoredTemplateDocumentGenerateRequest} for pdf+database+handlebars
+     * 
+     * @return the request constructed
+     * @throws BaseException
+     *             on error
+     */
     public StoredTemplateDocumentGenerateRequest fullFill() throws BaseException {
         StoredTemplateDocumentGenerateRequest request = getDto();
         StoredTemplateGeneratorSetupType generatorSetup = new StoredTemplateGeneratorSetupType();
@@ -107,7 +117,8 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
      * @return json parameter data
      */
     public static Map<String, Object> getDevTemplateMainParameterData() {
-        List<Object> personList = List.of(Map.of("name", "John Doe", "age", "12"), Map.of("name", "Jane Doe", "age", "23"), Map.of("name", "Little John", "age", "0"));
+        List<Object> personList = List
+                .of(Map.of("name", "John Doe", "age", "12"), Map.of("name", "Jane Doe", "age", "23"), Map.of("name", "Little John", "age", "0"));
         return Map.of("title", "pelda cim", "currentYear", "2023", "personList", personList);
     }
 }

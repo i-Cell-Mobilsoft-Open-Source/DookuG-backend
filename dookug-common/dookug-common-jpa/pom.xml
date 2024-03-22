@@ -4,37 +4,15 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug</groupId>
         <artifactId>dookug-common</artifactId>
-        <version>0.7.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>dookug-common-jpa</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.197</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>hu.icellmobilsoft.coffee</groupId>
             <artifactId>coffee-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>hu.icellmobilsoft.dookug</groupId>
-            <artifactId>dookug-common-model</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-data-module-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-data-module-impl</artifactId>
         </dependency>
 
         <dependency>

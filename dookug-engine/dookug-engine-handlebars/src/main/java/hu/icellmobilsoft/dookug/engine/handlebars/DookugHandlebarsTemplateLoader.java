@@ -24,8 +24,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
+import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
 import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;

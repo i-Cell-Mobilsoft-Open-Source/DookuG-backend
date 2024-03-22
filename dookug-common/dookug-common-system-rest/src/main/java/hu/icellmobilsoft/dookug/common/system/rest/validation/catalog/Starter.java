@@ -24,16 +24,16 @@ import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.text.MessageFormat;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
 
 import org.jboss.logging.Logger;
 
 import hu.icellmobilsoft.coffee.rest.validation.catalog.MavenURLStreamHandlerProvider;
 
 /**
- * Altalanos application starter. Ha kell valamit csinalni az alkalmazas felfutasanal, ebben az osztalyban lehet megtenni
+ * Common application starter. If you need something on application startup you can do it in this class
  * 
  * @author imre.scheffer
  */
@@ -50,7 +50,7 @@ public class Starter {
      */
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
         String pkgs = System.getProperty("java.protocol.handler.pkgs", "");
-        LOGGER.debug(MessageFormat.format("\n\nStarter\n\npkgs: [{0}]\n\n", pkgs));
+        LOGGER.debug(MessageFormat.format("Starter pkgs: [{0}]", pkgs));
 
         UrlStreamHandlerDelegator delegator = new UrlStreamHandlerDelegator();
         delegator.addUrlStreamHandlerFactory(new MavenURLStreamHandlerProvider());
@@ -58,11 +58,11 @@ public class Starter {
             // Try doing it the normal way
             URL.setURLStreamHandlerFactory(delegator);
         } catch (final Error e) {
-            // Force it via reflection (eleg durva hacking, de minden mas megoldas nem mukodik)
+            // Force it via reflection (only works this way)
             try {
                 final Field factoryField = URL.class.getDeclaredField("factory");
                 factoryField.setAccessible(true);
-                // A már beállított (default) factory-t beállítjuk a delegatornak, hogy az is tudjon futni
+                // Set default factory for delegator to be able run as well
                 URLStreamHandlerFactory factory = (URLStreamHandlerFactory) factoryField.get(null);
                 delegator.addUrlStreamHandlerFactory(factory);
                 factoryField.set(null, delegator);

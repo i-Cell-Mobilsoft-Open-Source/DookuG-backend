@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.common.system.jpa.service;
 
-import javax.enterprise.context.Dependent;
+import jakarta.enterprise.context.Dependent;
 
 /**
  * Base service parent for JPA exception handled functions

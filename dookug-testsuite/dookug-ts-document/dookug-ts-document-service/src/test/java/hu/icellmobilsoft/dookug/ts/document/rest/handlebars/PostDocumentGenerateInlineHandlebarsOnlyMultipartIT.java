@@ -25,8 +25,8 @@ import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
-import javax.inject.Inject;
-import javax.ws.rs.core.Response;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -39,9 +39,9 @@ import org.junit.jupiter.api.Test;
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
+import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateInlineInternalRestClient;
-import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
