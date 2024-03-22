@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.dookug.ts.client.rest.content;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.inject.Inject;
 
@@ -78,7 +79,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         DocumentMetadataResponse metadataResponse = client.postDatabaseStoredTemplateDocumentGenerateMetadata(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                OffsetDateTime.now(),
+                OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertEquals(FunctionCodeType.OK, metadataResponse.getFuncCode());
         Assertions.assertNotNull(metadataResponse.getMetadata());
@@ -98,7 +99,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                OffsetDateTime.now(),
+                OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertNotNull(documentDto.getFileName());
 
