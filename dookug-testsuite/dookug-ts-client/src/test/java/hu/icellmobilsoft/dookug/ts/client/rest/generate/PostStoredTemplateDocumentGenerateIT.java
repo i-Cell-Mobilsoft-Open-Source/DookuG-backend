@@ -20,6 +20,7 @@
 package hu.icellmobilsoft.dookug.ts.client.rest.generate;
 
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.inject.Inject;
 
@@ -58,7 +59,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                OffsetDateTime.now(),
+                OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertNotNull(documentDto.getFileName());
         Assertions.assertTrue(documentDto.getFileName().contains("pdf"));
@@ -72,7 +73,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
             client.postDatabaseStoredTemplateDocumentGenerate(
                     RandomUtil.generateId(),
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
-                    OffsetDateTime.now(),
+                    OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                     templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);
