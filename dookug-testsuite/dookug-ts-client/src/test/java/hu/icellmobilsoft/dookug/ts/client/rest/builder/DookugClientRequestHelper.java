@@ -130,7 +130,7 @@ public interface DookugClientRequestHelper {
                     new ParameterType().withKey("dateTimeValue").withValue("2022-08-13T05:40:55Z"),
                     new ParameterType().withKey("numberVariable").withValue("8"),
                     new ParameterType().withKey("numericProperty").withValue("5"),
-                    new ParameterType().withKey("formatTime").withValue(formatTimeValue));
+                    new ParameterType().withKey("formatTimeValue").withValue(formatTimeValue));
         }
 
         static Collection<TemplateType> createTemplate() {
