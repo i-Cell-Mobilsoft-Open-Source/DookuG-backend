@@ -122,14 +122,15 @@ public interface DookugClientRequestHelper {
         String BUILT_IN_HELPER = "inline/built_in_helper.html";
         String BUILT_IN_HELPER_RESULT = "inline/built_in_helper_result.html";
 
-        static Collection<ParameterType> createParameters() {
+        static Collection<ParameterType> createParameters(String formatTimeValue) {
             return List.of(
                     new ParameterType().withKey("colorParam").withValue("white"),
                     new ParameterType().withKey("falseValue").withValue("false"),
                     new ParameterType().withKey("trueValue").withValue("true"),
                     new ParameterType().withKey("dateTimeValue").withValue("2022-08-13T05:40:55Z"),
                     new ParameterType().withKey("numberVariable").withValue("8"),
-                    new ParameterType().withKey("numericProperty").withValue("5"));
+                    new ParameterType().withKey("numericProperty").withValue("5"),
+                    new ParameterType().withKey("formatTime").withValue(formatTimeValue));
         }
 
         static Collection<TemplateType> createTemplate() {
