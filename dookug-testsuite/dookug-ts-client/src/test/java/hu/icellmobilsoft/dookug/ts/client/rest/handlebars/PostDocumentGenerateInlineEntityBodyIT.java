@@ -32,7 +32,6 @@ import java.util.Collection;
 import jakarta.inject.Inject;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
