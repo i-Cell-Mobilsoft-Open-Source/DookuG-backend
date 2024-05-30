@@ -118,7 +118,10 @@ public enum DookugHelpers implements Helper<Object> {
     not {
         @Override
         public CharSequence apply(final Object context, final Options options) throws IOException {
-            if (context != null && Boolean.parseBoolean(context.toString()) == false) {
+            if( context == null ) {
+                return "true";
+            }
+            if (Boolean.parseBoolean(context.toString()) == false) {
                 return "true";
             }
             return null;
