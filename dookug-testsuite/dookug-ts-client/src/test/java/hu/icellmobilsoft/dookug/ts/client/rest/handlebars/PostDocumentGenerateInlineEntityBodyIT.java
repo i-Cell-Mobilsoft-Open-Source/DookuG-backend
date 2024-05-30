@@ -69,7 +69,8 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     void simpleKeyValueTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.SimpleKeyValue.createTemplate(), //
+        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(
+                DookugClientRequestHelper.SimpleKeyValue.createTemplate(), //
                 DookugClientRequestHelper.SimpleKeyValue.createParameters());
 
         Assertions.assertEquals(200, response.getHttpStatus());
@@ -83,7 +84,8 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     void simpleJsonTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.SimpleJson.createTemplate(), //
+        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(
+                DookugClientRequestHelper.SimpleJson.createTemplate(), //
                 DookugClientRequestHelper.SimpleJson.createParametersData());
 
         Assertions.assertEquals(200, response.getHttpStatus());
@@ -107,7 +109,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     @Test
     @DisplayName("built-in helpers test")
     void builtInHelperTest() throws BaseException, IOException {
-//      given
+        // given
         OffsetTime inputTime = OffsetTime.parse("15:30:55Z");
         Collection<ParameterType> parameters = DookugClientRequestHelper.BuiltInHelpers.createParameters(inputTime.toString());
 
@@ -119,15 +121,18 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
 
         inputTime = zonedDateTime.toOffsetDateTime().toOffsetTime();
 
-//      when
+        // when
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), parameters);
 
-//      then
+        // then
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
         String replacedTemplateUnescaped = StringEscapeUtils.unescapeXml(replacedTemplate);
-        Assertions.assertEquals(StringEscapeUtils.unescapeXml(FileUtil.readFileFromResource(DookugClientRequestHelper.BuiltInHelpers.BUILT_IN_HELPER_RESULT)).replace("{{dateTime}}", inputTime.format(formatter)), replacedTemplateUnescaped);
+        Assertions.assertEquals(
+                StringEscapeUtils.unescapeXml(FileUtil.readFileFromResource(DookugClientRequestHelper.BuiltInHelpers.BUILT_IN_HELPER_RESULT))
+                        .replace("{{dateTime}}", inputTime.format(formatter)),
+                replacedTemplateUnescaped);
     }
 }
