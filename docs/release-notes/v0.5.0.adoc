@@ -6,7 +6,8 @@
 * Observability: DB health check added
 * TemplateLanguage type has been changed from enum to string (`EN` -> `EN` or `en_GB`). 
 * The jandex.idx file has been removed from dookug-client-jee10. It caused Unsatisfied Dependency Exception during the deployment.
-* bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
+* Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
+* Handlebars version bump: 4.3.1 -> 4.4.0
 
 == Migration
 
