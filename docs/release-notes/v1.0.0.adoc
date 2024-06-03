@@ -5,3 +5,5 @@
 * Jakarta EE10 upgrade
 * Test fix
 * gitHub Workflows - java 17 upgrade
+* Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
+* Handlebars version bump: 4.3.1 -> 4.4.0
