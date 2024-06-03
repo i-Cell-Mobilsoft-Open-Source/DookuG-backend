@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.cache.EvictAction;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 

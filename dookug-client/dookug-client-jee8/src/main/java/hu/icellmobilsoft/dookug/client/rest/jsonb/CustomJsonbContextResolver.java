@@ -36,7 +36,7 @@ import javax.ws.rs.ext.ContextResolver;
  * @author mate.biro
  * @since 0.2.0
  */
-@Dependent
+//@Dependent
 public class CustomJsonbContextResolver implements ContextResolver<Jsonb> {
 
     @Override

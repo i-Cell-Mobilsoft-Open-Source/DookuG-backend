@@ -33,8 +33,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
@@ -43,10 +43,10 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Temp
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateWithTemplatesRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
+import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateInlineInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
-import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
  * Sample service {@link IDocumentGenerateInlineInternalRest} test
@@ -56,7 +56,7 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  */
 @DisplayName("Generate document inline with Pdfbox only - entity body request - simple template")
 @Tag(TestSuiteGroup.JAXRS)
-class PostInlineInvalidInputIT extends BaseConfigurableWeldIT {
+class PostInlineInvalidInputIT extends AbstractGenerateDocumentIT {
 
     @Inject
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)

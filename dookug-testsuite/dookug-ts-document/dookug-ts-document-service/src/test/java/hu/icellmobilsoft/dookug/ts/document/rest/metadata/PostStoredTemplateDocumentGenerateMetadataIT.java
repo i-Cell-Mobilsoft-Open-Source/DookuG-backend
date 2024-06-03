@@ -32,9 +32,9 @@ import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
 import hu.icellmobilsoft.coffee.dto.exception.BONotFoundException;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -42,9 +42,9 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Stor
 import hu.icellmobilsoft.dookug.ts.common.builder.StoredTemplateDocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
+import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateStoredTemplateInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
-import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
  * {@link IDocumentGenerateStoredTemplateInternalRest#postStoredTemplateDocumentGenerateMetadata(StoredTemplateDocumentGenerateRequest)} test
@@ -54,7 +54,7 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  */
 @Tag(TestSuiteGroup.JAXRS)
 @DisplayName("Generate document with stored template")
-class PostStoredTemplateDocumentGenerateMetadataIT extends BaseConfigurableWeldIT {
+class PostStoredTemplateDocumentGenerateMetadataIT extends AbstractGenerateDocumentIT {
 
     @Inject
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)
@@ -66,7 +66,8 @@ class PostStoredTemplateDocumentGenerateMetadataIT extends BaseConfigurableWeldI
     @Test
     @DisplayName("Generate PDF document with stored template and get the document's metadata")
     void testStoredTemplateDocumentGenerateMetadata() throws BaseException {
-        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder().baseUri(URI.create(documentBaseUri))
+        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
         DocumentMetadataResponse response = client.postStoredTemplateDocumentGenerateMetadata(request);
@@ -77,7 +78,8 @@ class PostStoredTemplateDocumentGenerateMetadataIT extends BaseConfigurableWeldI
     @Test
     @DisplayName("Generate PDF document with non-stored template - BONotFound")
     void testStoredTemplateBONotFound() throws BaseException {
-        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder().baseUri(URI.create(documentBaseUri))
+        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(RandomUtil.generateId());
         try {

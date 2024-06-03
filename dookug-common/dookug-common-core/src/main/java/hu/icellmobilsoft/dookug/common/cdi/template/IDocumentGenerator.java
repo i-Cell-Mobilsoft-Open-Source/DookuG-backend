@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.common.cdi.template;
 import java.io.OutputStream;
 import java.util.Map;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 

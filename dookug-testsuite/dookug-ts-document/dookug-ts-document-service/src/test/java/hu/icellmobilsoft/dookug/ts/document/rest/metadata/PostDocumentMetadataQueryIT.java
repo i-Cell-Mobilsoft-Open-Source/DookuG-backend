@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryResponse;
@@ -80,7 +80,9 @@ class PostDocumentMetadataQueryIT extends AbstractGenerateDocumentIT {
         DocumentMetadataQueryResponse queryResponse = queryRestClient.postDocumentMetadataQuery(queryRequest);
         Assertions.assertEquals(FunctionCodeType.OK, queryResponse.getFuncCode());
         Assertions.assertTrue(CollectionUtils.isNotEmpty(queryResponse.getRowList()));
-        Set<ResponseFormatType> responseFormatTypes = queryResponse.getRowList().stream().map(DocumentMetadataType::getFormat)
+        Set<ResponseFormatType> responseFormatTypes = queryResponse.getRowList()
+                .stream()
+                .map(DocumentMetadataType::getFormat)
                 .collect(Collectors.toSet());
         Assertions.assertEquals(1, responseFormatTypes.size());
         Assertions.assertEquals(ResponseFormatType.PDF, responseFormatTypes.toArray()[0]);

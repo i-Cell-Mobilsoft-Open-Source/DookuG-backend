@@ -34,9 +34,9 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.exception.BONotFoundException;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
@@ -89,7 +89,8 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
         IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
-        StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.PROJECT_STORED_TEMPLATE_NAME);
+        StoredTemplateDocumentGenerateRequest request = requestBuilder
+                .fullFillDatabaseStorage(DocumentServiceTestConstant.PROJECT_STORED_TEMPLATE_NAME);
         request.getGeneratorSetup().setGeneratorEngine(GeneratorEngineType.SAXON);
         request.getGeneratorSetup().setTemplateEngine(TemplateEngineType.NONE);
         request.getGeneratorSetup()

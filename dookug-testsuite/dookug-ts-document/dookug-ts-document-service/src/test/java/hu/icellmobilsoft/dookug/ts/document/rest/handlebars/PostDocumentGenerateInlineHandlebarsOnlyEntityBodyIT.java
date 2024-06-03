@@ -35,14 +35,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateWithTemplatesRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
+import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateInlineInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
-import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
  * Sample service {@link IDocumentGenerateInlineInternalRest} test
@@ -52,7 +52,7 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  */
 @DisplayName("Generate document inline with Handlebars only - entity body request")
 @Tag(TestSuiteGroup.JAXRS)
-class PostDocumentGenerateInlineHandlebarsOnlyEntityBodyIT extends BaseConfigurableWeldIT {
+class PostDocumentGenerateInlineHandlebarsOnlyEntityBodyIT extends AbstractGenerateDocumentIT {
 
     public static final String RESPONSE_STRING = "DookuG simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";
 

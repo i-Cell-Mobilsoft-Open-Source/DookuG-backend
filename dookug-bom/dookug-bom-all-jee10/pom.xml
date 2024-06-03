@@ -24,7 +24,6 @@
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
         <version.net.sourceforge.saxon.he>12.4</version.net.sourceforge.saxon.he>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
-
     </properties>
 
     <dependencyManagement>
@@ -52,6 +51,13 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>hu.icellmobilsoft.dookug</groupId>
+                <artifactId>dookug-bom-test</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.eclipse.microprofile</groupId>
                 <artifactId>microprofile</artifactId>
                 <version>${version.org.eclipse.microprofile}</version>
@@ -60,7 +66,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.coffee</groupId>
-                <artifactId>coffee-bom</artifactId>
+                <artifactId>coffee-bom-project</artifactId>
                 <version>${version.hu.icellmobilsoft.coffee}</version>
                 <type>pom</type>
                 <scope>import</scope>

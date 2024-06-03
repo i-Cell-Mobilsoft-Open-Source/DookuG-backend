@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.document.service.helper;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.jpa.annotation.Transactional;
 import hu.icellmobilsoft.dookug.common.model.template.Document;
 import hu.icellmobilsoft.dookug.common.model.template.DocumentContent;

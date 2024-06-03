@@ -36,14 +36,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
+import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateInlineInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
-import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
  * Sample service {@link IDocumentGenerateInlineInternalRest} test
@@ -53,7 +53,7 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  */
 @DisplayName("Generate document inline with Handlebars only - multipart request")
 @Tag(TestSuiteGroup.JAXRS)
-class PostDocumentGenerateInlineHandlebarsOnlyMultipartIT extends BaseConfigurableWeldIT {
+class PostDocumentGenerateInlineHandlebarsOnlyMultipartIT extends AbstractGenerateDocumentIT {
 
     public static final String TEMPLATE = "DookuG simple test with prameters first: [{{first}}], second: [{{second}}]";
     public static final String RESPONSE_STRING = "DookuG simple test with prameters first: [első], second: [í123456789öüóőúűáé-.,<>#&@{};*¤ß$]";

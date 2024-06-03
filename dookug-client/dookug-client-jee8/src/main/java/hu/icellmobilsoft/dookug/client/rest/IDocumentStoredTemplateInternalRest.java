@@ -19,14 +19,23 @@
  */
 package hu.icellmobilsoft.dookug.client.rest;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.rest.validation.xml.annotation.ValidateXML;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryRequest;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryResponse;
 
 /**
  * REST client interface for stored template operations
@@ -37,6 +46,22 @@ import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
 @RegisterRestClient(configKey = ConfigKeys.Client.DOOKUG_CLIENT_DOCUMENT)
 @RegisterProvider(CustomJsonbContextResolver.class)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
-public interface IDocumentStoredTemplateInternalRest
-        extends hu.icellmobilsoft.dookug.api.rest.document.IDocumentStoredTemplateInternalRest, AutoCloseable {
+public interface IDocumentStoredTemplateInternalRest extends AutoCloseable {
+
+    /**
+     * REST interface definition for generated document paginated listing
+     * 
+     * @param request
+     *            structured input
+     * @return paginated list
+     * @throws BaseException
+     *             on error
+     */
+    @POST
+    @Path(DocumentGeneratePath.METADATA_QUERY)
+    @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
+    @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
+    DocumentMetadataQueryResponse postDocumentMetadataQuery(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentMetadataQueryRequest request)
+            throws BaseException;
+
 }

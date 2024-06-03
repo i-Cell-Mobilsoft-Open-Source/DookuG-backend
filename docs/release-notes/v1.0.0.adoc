@@ -7,3 +7,15 @@
 * gitHub Workflows - java 17 upgrade
 * Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
 * Handlebars version bump: 4.3.1 -> 4.4.0
+* coff:ee upgrade migráció: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[2.6.0 -> 2.7.0]
+
+NOTE: A coffee upgrade nem érinti a klienst, abban marad a 2.6.0 coffee . Ennek oka, hogy a 2.7.0-ra kellene felhúzni a projekten is a coffee-t, ami használja.
+
+IMPORTANT: A coffee upgrade miatt az interface-ek használatát ki kellett venni a klienseknél, mert az már a coffee 2.7.0 BaseException-t használja, és összeakadás lenne a kliensben emiatt.
+
+* Coffee 2.7.0 miatt bevezetésre került a COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID környezeti változó, aminek az értéke alapként UTC.
+* `dookug-model` esetén a `org.hibernate` groupId helyett  `org.hibernate.orm` lett helyesebben.
+
+* Roaster upgrade migráció: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
+
+* tesztekben a BaseIT osztályban a coffee.model.base.java.time.timezone.id property beállításra kerül UTC-re.

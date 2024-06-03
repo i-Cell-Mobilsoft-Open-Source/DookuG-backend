@@ -40,6 +40,5 @@ public class ProjectRestClientBuilderListener extends DefaultRestClientBuilderLi
         super.onNewBuilder(builder);
         CDI<Object> cdi = CDI.current();
         builder.register(cdi.select(ProjectSettingClientRequestFilter.class).get());
-        builder.register(cdi.select(CustomJsonbContextResolver.class).get());
     }
 }
