@@ -93,7 +93,7 @@ DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC=false <3>
 * Ajánlott konfiguráció
 
 // TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
-// További kulcsok itt találhatók: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc konfiguráció]
+// További kulcsok itt találhatók: https://i-cell-mobilsoft-open-source.github.io/docker-wildfly/#wildfly-oracle-jdbc[wildfly/oracle-jdbc konfiguráció]
 
 [options="header",cols="1,1,1"]
 |===
