@@ -7,3 +7,4 @@
 * gitHub Workflows - java 17 upgrade
 * Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
 * Handlebars version bump: 4.3.1 -> 4.4.0
+* Handlebars caching: Handlebars template engine now uses its in-built caching mechanism for compiled templates
