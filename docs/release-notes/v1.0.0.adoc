@@ -7,16 +7,14 @@
 * gitHub Workflows - java 17 upgrade
 * Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
 * Handlebars version bump: 4.3.1 -> 4.4.0
-* coff:ee upgrade migráció: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[2.5.0 -> 2.6.0]
-* coff:ee upgrade migráció: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_6_0_v2_7_0[2.6.0 -> 2.7.0]
+* Handlebars caching: Handlebars template engine now uses its in-built caching mechanism for compiled templates
+* coff:ee upgrade - migration doc: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[2.5.0 -> 2.6.0]
+* coff:ee upgrade - migration doc: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_6_0_v2_7_0[2.6.0 -> 2.7.0]
 
-NOTE: A coffee upgrade nem érinti a klienst, abban marad a 2.6.0 coffee . Ennek oka, hogy a 2.7.0-ra kellene felhúzni a projekten is a coffee-t, ami használja.
+NOTE: The client is not affected by the coffee upgrade, it remains 2.6.0 coffee . The reason for this is that you should upgrade to 2.7.0 on the project that uses coffee.
 
-IMPORTANT: A coffee upgrade miatt az interface-ek használatát ki kellett venni a klienseknél, mert az már a coffee 2.7.0 BaseException-t használja, és összeakadás lenne a kliensben emiatt.
+IMPORTANT: Because of the coffee upgrade, the use of interfaces had to be removed from the clients, because it already uses the coffee 2.7.0 BaseException, and would cause a break in the client.
 
-* Coffee 2.7.0 miatt bevezetésre került a COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID környezeti változó, aminek az értéke alapként UTC.
-* `dookug-model` esetén a `org.hibernate` groupId helyett  `org.hibernate.orm` lett helyesebben.
-
-* Roaster upgrade migráció: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
-
-* tesztekben a BaseIT osztályban a coffee.model.base.java.time.timezone.id property beállításra kerül UTC-re.
+* For `dookug-model`, `org.hibernate` groupId has been replaced by `org.hibernate.orm`.
+* Roaster upgrade migration: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
+* In tests, the coffee.model.base.java.time.timezone.id property in the BaseIT class is set to UTC.

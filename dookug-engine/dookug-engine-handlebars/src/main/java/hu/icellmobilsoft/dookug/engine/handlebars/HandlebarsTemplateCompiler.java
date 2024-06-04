@@ -37,6 +37,7 @@ import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.EscapingStrategy;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.cache.ConcurrentMapTemplateCache;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -156,7 +157,7 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
     @PostConstruct
     public void init() throws BaseException {
         EscapingStrategy escapingStrategy = escapingStrategyFactory.createEscapingStrategy(strategyKeyOptional);
-        handlebars = new Handlebars(templateLoader).with(escapingStrategy);
+        handlebars = new Handlebars(templateLoader).with(escapingStrategy).with(new ConcurrentMapTemplateCache().setReload(true));
         helperRegister.findAndRegisterHelpers(handlebars);
     }
 
