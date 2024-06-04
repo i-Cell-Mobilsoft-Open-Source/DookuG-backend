@@ -46,7 +46,7 @@
 
 		<!--FOR GENERATING JPA METAMODELs -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
 			<version>${hibernate.jpamodelgen.version}</version>
 			<scope>provided</scope>

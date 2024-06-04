@@ -32,7 +32,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateWithTemplatesRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
@@ -60,22 +60,22 @@ class PostInlineSaxonXsltPdfTemplateIT extends AbstractGenerateDocumentIT {
     @Inject
     private DocumentGenerateWithTemplatesRequestBuilder documentGenerateWithTemplatesRequestBuilder;
 
-//    @Test
-//    @DisplayName("Generate inline PDF document with xslt")
-//    void testInlineDocumentXSLTGenerate() throws BaseException {
-//        IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
-//                .baseUri(URI.create(documentBaseUri))
-//                .build(IDocumentGenerateInlineInternalRestClient.class);
-//        DocumentGenerateWithTemplatesRequest request = templatesRequestBuilder.fullFillSaxonXsltDatabase();
-//        request.getGeneratorSetup().setAddDigitalSignature(documentGenerateWithTemplatesRequestBuilder.digitalSigningType());
-//        Response response = client.postDocumentGenerateEntityBody(request);
-//        Assertions.assertEquals(200, response.getStatus());
-//        String filename = getFilename(response);
-//        Assertions.assertNotNull(filename);
-//        Assertions.assertTrue(filename.contains("pdf"));
-//        writeFileIfEnabled((InputStream) response.getEntity(), filename);
-//        response.close();
-//    }
+    // @Test
+    // @DisplayName("Generate inline PDF document with xslt")
+    // void testInlineDocumentXSLTGenerate() throws BaseException {
+    // IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
+    // .baseUri(URI.create(documentBaseUri))
+    // .build(IDocumentGenerateInlineInternalRestClient.class);
+    // DocumentGenerateWithTemplatesRequest request = templatesRequestBuilder.fullFillSaxonXsltDatabase();
+    // request.getGeneratorSetup().setAddDigitalSignature(documentGenerateWithTemplatesRequestBuilder.digitalSigningType());
+    // Response response = client.postDocumentGenerateEntityBody(request);
+    // Assertions.assertEquals(200, response.getStatus());
+    // String filename = getFilename(response);
+    // Assertions.assertNotNull(filename);
+    // Assertions.assertTrue(filename.contains("pdf"));
+    // writeFileIfEnabled((InputStream) response.getEntity(), filename);
+    // response.close();
+    // }
 
     @Test
     @DisplayName("Generate inline PDF document with xslt and handlebars")
@@ -93,19 +93,19 @@ class PostInlineSaxonXsltPdfTemplateIT extends AbstractGenerateDocumentIT {
         response.close();
     }
 
-//    @Test
-//    @DisplayName("XSLT - invalid input")
-//    void testInlineDocumentXSLTGenerateBadParams() throws BaseException {
-//        IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
-//                .baseUri(URI.create(documentBaseUri))
-//                .build(IDocumentGenerateInlineInternalRestClient.class);
-//        DocumentGenerateWithTemplatesRequest request = templatesRequestBuilder.fullFillSaxonXsltDatabase();
-//        request.getGeneratorSetup().setResponseFormat(ResponseFormatType.STRING);
-//        BaseException fault = Assertions.assertThrows(BaseException.class, () -> {
-//            Response response = client.postDocumentGenerateEntityBody(request);
-//            response.close();
-//        });
-//        Assertions.assertEquals(CoffeeFaultType.INVALID_INPUT, ((BaseException) fault.getCause()).getFaultTypeEnum());
-//    }
+    // @Test
+    // @DisplayName("XSLT - invalid input")
+    // void testInlineDocumentXSLTGenerateBadParams() throws BaseException {
+    // IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
+    // .baseUri(URI.create(documentBaseUri))
+    // .build(IDocumentGenerateInlineInternalRestClient.class);
+    // DocumentGenerateWithTemplatesRequest request = templatesRequestBuilder.fullFillSaxonXsltDatabase();
+    // request.getGeneratorSetup().setResponseFormat(ResponseFormatType.STRING);
+    // BaseException fault = Assertions.assertThrows(BaseException.class, () -> {
+    // Response response = client.postDocumentGenerateEntityBody(request);
+    // response.close();
+    // });
+    // Assertions.assertEquals(CoffeeFaultType.INVALID_INPUT, ((BaseException) fault.getCause()).getFaultTypeEnum());
+    // }
 
 }

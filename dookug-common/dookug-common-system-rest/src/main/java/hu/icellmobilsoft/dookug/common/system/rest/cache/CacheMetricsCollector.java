@@ -34,7 +34,7 @@ import org.eclipse.microprofile.metrics.Tag;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheStats;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**

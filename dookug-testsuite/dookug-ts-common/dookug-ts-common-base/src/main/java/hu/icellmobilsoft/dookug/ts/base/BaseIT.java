@@ -17,30 +17,31 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.common.rest.jsonb;
+package hu.icellmobilsoft.dookug.ts.base;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.time.Duration;
 
-import jakarta.json.bind.config.PropertyVisibilityStrategy;
+import org.awaitility.Awaitility;
+import org.junit.jupiter.api.BeforeAll;
+
+import hu.icellmobilsoft.roaster.weldunit.BaseWeldUnitType;
 
 /**
- * The default JSON-B output mapping has all public methods, include setter and getter. This configuration avoids this. Based on
- * <a href="https://www.adam-bien.com/roller/abien/entry/private_fields_serialization_with_json">private_fields_serialization_with_json</a>
+ * Minden teszt alap osztalya
  * 
  * @author tamas.cserhati
  * @since 1.0.0
  *
  */
-public class FieldOnlyVisibilityStrategy implements PropertyVisibilityStrategy {
+public class BaseIT extends BaseWeldUnitType {
 
-    @Override
-    public boolean isVisible(Field field) {
-        return true;
+    /**
+     * Minden teszt osztaly elejen lefut
+     */
+    @BeforeAll
+    public static void beforeAll() {
+        Awaitility.setDefaultTimeout(Duration.ofSeconds(10));
+        Awaitility.setDefaultPollInterval(Duration.ofSeconds(1));
     }
 
-    @Override
-    public boolean isVisible(Method method) {
-        return false;
-    }
 }

@@ -21,8 +21,8 @@ package hu.icellmobilsoft.dookug.api.dto.exception;
 
 import java.io.IOException;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.BaseExceptionWrapper;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 
 /**
  * {@code IOException} csomagolása {@code BaseException} formára hogy a hibakezelés automatama lehessen

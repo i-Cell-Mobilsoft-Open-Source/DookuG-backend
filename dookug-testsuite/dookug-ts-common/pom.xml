@@ -10,6 +10,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+        <module>dookug-ts-common-base</module>
         <module>dookug-ts-common-rest</module>
         <module>dookug-ts-common-resources</module>
 	</modules>

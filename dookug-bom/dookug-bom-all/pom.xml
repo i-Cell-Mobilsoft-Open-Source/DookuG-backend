@@ -13,9 +13,8 @@
         <version.apache.deltaspike>1.9.6</version.apache.deltaspike>
         <version.org.eclipse.microprofile>4.1</version.org.eclipse.microprofile>
 
-        <version.io.smallrye.config>2.10.0</version.io.smallrye.config>
+        <version.io.smallrye.config>3.0.0</version.io.smallrye.config>
 
-        <version.hu.icellmobilsoft.roaster>0.8.0</version.hu.icellmobilsoft.roaster>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
 
         <version.com.github.jknack.handlebars>4.4.0</version.com.github.jknack.handlebars>
@@ -23,7 +22,7 @@
         <version.org.apache.xmlgraphics.fop>2.5</version.org.apache.xmlgraphics.fop>
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
 
-        <version.org.junit.jupiter>5.8.1</version.org.junit.jupiter>
+        <version.org.junit.jupiter>5.9.1</version.org.junit.jupiter>
     </properties>
 
     <dependencyManagement>
@@ -183,7 +182,6 @@
                 <artifactId>saxon</artifactId>
                 <version>${version.net.sourceforge.saxon.saxon}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>

@@ -39,11 +39,13 @@
 			<artifactId>Saxon-HE</artifactId>
 		</dependency>
 		<!-- remove after fixing https://github.com/eclipse/microprofile-config/issues/716 -->
-		<!-- build::  warning: unknown enum constant Resolution.OPTIONAL -->
+		<!-- build::  warning: unknown enum constant Resolution.OPTIONAL  
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>osgi.annotation</artifactId>
 		</dependency>
+		-->
+		
 	</dependencies>
 
 </project>

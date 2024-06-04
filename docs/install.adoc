@@ -93,7 +93,7 @@ DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC=false <3>
 * Ajánlott konfiguráció
 
 // TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
-// További kulcsok itt találhatók: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc konfiguráció]
+// További kulcsok itt találhatók: https://i-cell-mobilsoft-open-source.github.io/docker-wildfly/#wildfly-oracle-jdbc[wildfly/oracle-jdbc konfiguráció]
 
 [options="header",cols="1,1,1"]
 |===
@@ -203,3 +203,11 @@ ifdef::generatedDoc[]
 include::../generated/dookug-api-dto-config.adoc[leveloffset=+1]
 
 endif::[]
+
+
+=== Létrehozás és módosítás dátuma
+
+A coffee 2.7.0 verziója óta az adatábizba mentendő OffsetDateTime típusoknál a zóna most már beállítható a létrehozás és módosítás dátumánál.
+Ezt a `COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID` környezeti változóval lehet megtenni, melynek alapértelmezett értéke `UTC`, de beállítható bármi amit a java.time.ZoneId osztály `public static ZoneId of(String zoneId)` metódusa befogad paraméterben.
+
+Rossz érték esetén warn szintű hibaüzenet keletkezik, és a default értéket veszi alapu, ami `TimeZone.getDefault().toZoneId()` lesz.

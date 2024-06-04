@@ -25,7 +25,7 @@ import javax.xml.namespace.QName;
 
 import jakarta.xml.bind.JAXBElement;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.marshalling.MarshallingUtil;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 

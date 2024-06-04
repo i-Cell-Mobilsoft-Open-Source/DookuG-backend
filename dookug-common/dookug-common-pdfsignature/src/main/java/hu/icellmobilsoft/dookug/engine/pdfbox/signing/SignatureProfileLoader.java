@@ -28,7 +28,7 @@ import jakarta.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.dookug.engine.pdfbox.config.ConfigKeys;

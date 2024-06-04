@@ -40,11 +40,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Assertions;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
+import hu.icellmobilsoft.dookug.ts.base.BaseIT;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
-import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
 
 /**
  * Abstract class for document generation IT tests
@@ -52,7 +53,7 @@ import hu.icellmobilsoft.roaster.restassured.BaseConfigurableWeldIT;
  * @author szabolcs.gemesi
  * @since 0.0.1
  */
-public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT {
+public abstract class AbstractGenerateDocumentIT extends BaseIT {
 
     /**
      * empty json
@@ -109,7 +110,7 @@ public abstract class AbstractGenerateDocumentIT extends BaseConfigurableWeldIT 
                 FileUtils.copyInputStreamToFile(new ByteArrayInputStream(resultContent.toByteArray()), generatedFile);
             }
         } catch (IOException e) {
-            throw new BaseException(e.getLocalizedMessage());
+            throw new TechnicalException(e.getLocalizedMessage());
         }
     }
 

@@ -51,7 +51,7 @@ import jakarta.interceptor.Interceptor;
 
 import org.apache.deltaspike.core.api.message.MessageContext;
 import org.apache.deltaspike.core.impl.message.DefaultMessageResolver;
-import org.apache.deltaspike.core.util.ClassUtils;
+import org.apache.deltaspike.core.util.message.ClassUtils;
 
 /**
  * {@code MessageResolver} for resolving localized messages with custom fallback locale logic

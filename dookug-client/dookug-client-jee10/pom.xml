@@ -11,7 +11,7 @@
     <artifactId>dookug-client-jee10</artifactId>
 
     <properties>
-        <version.hu.icellmobisoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobisoft.coffee>
+        <version.hu.icellmobisoft.coffee>2.6.0</version.hu.icellmobisoft.coffee>
         <version.org.jboss.resteasy>6.2.1.Final</version.org.jboss.resteasy>
     </properties>
 

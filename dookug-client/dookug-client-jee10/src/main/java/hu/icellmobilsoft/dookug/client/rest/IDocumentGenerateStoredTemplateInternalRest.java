@@ -19,14 +19,27 @@
  */
 package hu.icellmobilsoft.dookug.client.rest;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
+import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
+import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
 
 /**
  * REST client interface for template based document generation
@@ -37,7 +50,46 @@ import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
 @RegisterRestClient(configKey = ConfigKeys.Client.DOOKUG_CLIENT_DOCUMENT)
 @RegisterProvider(CustomJsonbContextResolver.class)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE)
-public interface IDocumentGenerateStoredTemplateInternalRest
-        extends hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest, AutoCloseable {
+public interface IDocumentGenerateStoredTemplateInternalRest extends AutoCloseable {
+
+    /**
+     * Default entity log size
+     */
+    int LOG_ENTITY_SIZE = 1000;
+
+    /**
+     * REST interface definition for document generation by structured input
+     * 
+     * @param request
+     *            structured input
+     * @return Generated document content output stream
+     * @throws BaseException
+     *             on error
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(value = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM })
+    @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
+            @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
+    Response postStoredTemplateDocumentGenerate(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) StoredTemplateDocumentGenerateRequest request)
+            throws BaseException;
+
+    /**
+     * REST interface definition for document generation by structured input
+     * 
+     * @param request
+     *            structured input
+     * @return Generated document metadata
+     * @throws BaseException
+     *             on error
+     */
+    @POST
+    @Path(DocumentGeneratePath.METADATA)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
+    @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
+            @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE) })
+    DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(
+            @ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) StoredTemplateDocumentGenerateRequest request) throws BaseException;
 
 }

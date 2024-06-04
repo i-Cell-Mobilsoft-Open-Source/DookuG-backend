@@ -24,7 +24,7 @@ import java.util.List;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.jpa.service.BaseService;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePart;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;

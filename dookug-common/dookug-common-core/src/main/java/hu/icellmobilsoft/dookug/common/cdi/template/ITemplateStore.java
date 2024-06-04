@@ -21,7 +21,7 @@ package hu.icellmobilsoft.dookug.common.cdi.template;
 
 import java.time.OffsetDateTime;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 
 /**
  * Interface for template storage

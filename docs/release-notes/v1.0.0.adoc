@@ -8,3 +8,13 @@
 * Bugfix: The `not` helper function has been fixed, it evaluated the `false` parameter incorrectly.
 * Handlebars version bump: 4.3.1 -> 4.4.0
 * Handlebars caching: Handlebars template engine now uses its in-built caching mechanism for compiled templates
+* coff:ee upgrade - migration doc: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_5_0_v2_6_0[2.5.0 -> 2.6.0]
+* coff:ee upgrade - migration doc: https://i-cell-mobilsoft-open-source.github.io/coffee/#_v2_6_0_v2_7_0[2.6.0 -> 2.7.0]
+
+NOTE: The client is not affected by the coffee upgrade, it remains 2.6.0 coffee . The reason for this is that you should upgrade to 2.7.0 on the project that uses coffee.
+
+IMPORTANT: Because of the coffee upgrade, the use of interfaces had to be removed from the clients, because it already uses the coffee 2.7.0 BaseException, and would cause a break in the client.
+
+* For `dookug-model`, `org.hibernate` groupId has been replaced by `org.hibernate.orm`.
+* Roaster upgrade migration: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
+* In tests, the coffee.model.base.java.time.timezone.id property in the BaseIT class is set to UTC.
