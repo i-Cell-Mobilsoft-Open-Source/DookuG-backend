@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug.testsuite</groupId>
         <artifactId>dookug-ts-document</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>dookug-ts-document-service</artifactId>

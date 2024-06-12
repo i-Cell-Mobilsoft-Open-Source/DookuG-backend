@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug</groupId>
         <artifactId>dookug-bom-wf</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>dookug-bom-wf-27</artifactId>
     <packaging>pom</packaging>

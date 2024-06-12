@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>hu.icellmobilsoft.dookug.client</groupId>
 		<artifactId>dookug-client</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<properties>
