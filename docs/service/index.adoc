@@ -1,0 +1,16 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+= Backend
+
+== Szolgáltatások
+
+include::document.adoc[leveloffset=+2]
+
+== OpenAPI dokumentáció
+
+OpenAPI fájlok letöltése:
+
+// Generated docs
+* dookug-rest-service
+** link:{attachmentsdir}/openapi/dookug-document-service/openapi.yaml[yaml]
+** link:{attachmentsdir}/openapi/dookug-document-service/openapi.json[json]

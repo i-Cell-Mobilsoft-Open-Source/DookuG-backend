@@ -1,0 +1,20 @@
+ifndef::imagesdir[:imagesdir: ./images]
+
+= Áttekintés
+
+A projekt célja hogy általános template alapú dokumentum generálást tegyen lehetővé a kliensei számára.
+
+== Komponensek
+
+.Architektúra ábra
+:architecture: dkg_architecture.png
+image::{architecture}[Architektúra,link="{imagesdir}/{architecture}", window=_blank]
+
+.DookuG backend {release_version}
+[options="header"]
+|===
+|Típus| Modul | Verzió
+.4+^.^s|Belső
+|Oracle|21.3.0-xe
+|PostgreSQL|dwh postgres image 0.10.0
+|===

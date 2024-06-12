@@ -1,6 +1,4 @@
-= DOCUMENT service
-
-* Main: `dookug-document/dookug-document-service`
+= DOOKUG-DOCUMENT service
 
 == Dokumentum generálása
 
@@ -12,7 +10,12 @@ Ennek megadására több lehetőség is van, az egyik, hogy kulcs-érték párok
 A másik esetben egy json szerkezetett várunk el, amit base64binary formában kell küldeni a kérésben.
 
 [[generateInline]]
-=== Dokumentum generálása request body alapján
+== Dokumentum generálása request body alapján
+
+[source,text]
+----
+POST /internal/dookug/document/generate/inline
+----
 
 A generálás során egy request body-ban beküldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat: sablont és a dokumentumot feldolgozó engine-t, a válasz formátumot, illetve a dokumentum tárolási metódusát.
 
@@ -56,6 +59,15 @@ Headers:		Accept=application/json
 ----
 
 A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+
+[[generateInlineMetadata]]
+== Dokumentum generálása request body alapján, metaadat válasszal
+
+[source,text]
+----
+POST /internal/dookug/document/generate/inline/metadata
+----
+
 Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
 Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
 
@@ -68,7 +80,12 @@ Headers:		Accept=application/json
 ----
 
 [[generateInlineMultipart]]
-=== Dokumentum generálása multipart form alapján
+== Dokumentum generálása multipart form alapján
+
+[source,text]
+----
+POST /internal/dookug/document/generate/inline/multipart
+----
 
 A generáláshoz be kell küldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat.
 Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal.
@@ -105,6 +122,15 @@ DookuG simple test with prameters first: [{{first}}], second: [{{second}}]
 ----
 
 A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+
+[[generateInlineMultipartMetadata]]
+== Dokumentum generálása multipart form alapján, metaadat válasszal
+
+[source,text]
+----
+POST /internal/dookug/document/generate/inline/multipart/metadata
+----
+
 Lehetőség van arra is, hogy ne a dokumentumot kapjuk meg, hanem az azt leíró metaadatokat.
 Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
 
@@ -117,7 +143,12 @@ Headers:		Accept=application/json
 ----
 
 [[generateStored]]
-=== Dokumentum generálása mentett sablon alapján
+== Dokumentum generálása mentett sablon alapján
+
+[source,text]
+----
+POST /internal/dookug/document/generate/storedTemplate
+----
 
 A generáláshoz be kell küldenünk a sablon nevét, amiből generáltatjuk a dokumentumot, valamint a generáláshoz tartozó adatokat.
 Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal, kiegészülve azzal, hogy a sablont milyen tárban tároljuk.
@@ -156,6 +187,15 @@ Headers:		Accept=application/json
 ----
 
 A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+
+[[generateStoredMetadata]]
+== Dokumentum generálása mentett sablon alapján, metaadat válasszal
+
+[source,text]
+----
+POST /internal/dookug/document/generate/storedTemplate/metadata
+----
+
 Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
 Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
 
@@ -209,6 +249,11 @@ Példa DocumentMetadataResponse:
 ----
 [[queryDocumentMetadata]]
 == Dokumentum metaadatainak lekérdezése
+
+[source,text]
+----
+POST /internal/dookug/document/storedTemplate/metadata/query
+----
 
 A dokumentum metaadatok lekérdezésének célja, hogy a megadott szűrési feltételeknek megfelelő dokumentum adatokat visszaadjuk.
 
@@ -292,6 +337,11 @@ Minta DocumentMetadataQueryResponse:
 [[getDocument]]
 == Dokumentum lekérdezése
 
+[source,text]
+----
+POST /internal/dookug/document/content/{documentId}
+----
+
 A végpont célja, hogy a már legenerált és elmentett dokumentumot a megadott azonosító alapján visszaadja.
 
 Minta dokumentum lekérdezés request:
@@ -308,25 +358,3 @@ Headers:		Content-Type=application/octet-stream
 Amennyiben a beküldött azonosítóhoz nem található dokumentum, akkor ENTITY_NOT_FOUND hibát adunk vissza.
 
 A válaszban - létező dokumentum azonosító esetén - visszaküldjük a generált dokumentumot, és HTTP header-ben a fájl nevét is.
-
-
-== Template cache
-
-Az adatbázisban tárolt TEMPLATE adatokat cache-eljük (GUAVA). A cache-k meghatározott ideig élnek, új lekéréskor az idő újra indul.
-
-*Konfigurációs paraméterek:*
-
-DOOKUG_SERVICE_CACHE_TEMPLATE_TTL paraméterrel adhatjuk meg percben meddig tartsuk a cachben a templateket, alapértelmezetten 60 perc.
-
-DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC paraméterrel adhatjuk meg, hogy szükséges-e a metrikák generálása , alapértelmezetten false, nem képződnek metrikák.
-
-Az alábbihoz hasonló metrika generálódik:
-[source]
--------
-# TYPE application_cache_hit_count gauge
-application_cache_hit_count{name="template"} 0.0
-# TYPE application_cache_miss_count gauge
-application_cache_miss_count{name="template"} 1.0
-# TYPE application_cache_size gauge
-application_cache_size{name="template"} 1.0
--------

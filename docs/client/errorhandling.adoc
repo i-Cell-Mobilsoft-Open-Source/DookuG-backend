@@ -1,0 +1,3 @@
+= Hibakezelés
+
+A kliens csak BaseExceptiont adhat vissza, de ha az API hívásban egy RestClientResponseException-t kap vissza, akkor az abban lévő becsomagolt BaseException-t fogja visszaadni!

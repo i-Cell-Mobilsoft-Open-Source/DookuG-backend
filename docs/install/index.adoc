@@ -1,0 +1,12 @@
+= Telepítés, üzembe helyezés
+
+A Dookug modul a szolgáltatást felhasználni kívánó projekt(ek) környezeteiben elérhető kell legyen.
+Ehhez a service egy-egy példánya - infrastrukturális szükségleteivel együtt - minden egyes (fejlesztői/teszt/éles) környezetre telepítendő és konfigurálandó.
+
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// Ez magában foglalja az alábbit:
+//
+// * egy relációs adatbázist (Oracle vagy Postgres)
+
+include::dookug-service.adoc[leveloffset=+1]
+

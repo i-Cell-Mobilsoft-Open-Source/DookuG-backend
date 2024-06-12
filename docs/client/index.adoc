@@ -1,0 +1,8 @@
+= DookuG modul kliens
+
+A kliens célja a DookuG modul kezelésének támogatása, amely különböző kiszolgáló metódusokat tartalmaz.
+
+include::technology.adoc[leveloffset=+1]
+include::usage.adoc[leveloffset=+1]
+include::features.adoc[leveloffset=+1]
+include::errorhandling.adoc[leveloffset=+1]

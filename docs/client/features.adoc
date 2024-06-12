@@ -1,35 +1,5 @@
-= Kliens használata
-
-A kliens használata mindössze egy pom.xml bejegyzés,
-
-[source,xml]
-----
-<dependency>
-   <groupId>hu.icellmobilsoft.dookug</groupId>
-   <artifactId>dookug-client</artifactId>
-   <version>${version.dookug.client}</version>
-</dependency>
-----
-
-majd egy @Inject,
-
-[source,java]
-----
-@Inject
-private DookugClient dookugClient;
-----
-
-mely az összes végponthoz definiál kliens hívást, és használhatjuk is az általa kínált metódusokat.
-https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html[Microprofile rest klienst] használ az API híváshoz így a beállítások a már megszokott microprofile-config segítségével végezhetőek el. (lásd később)
-
-[WARNING]
-====
-A kliens alkalmazás feladata, hogy a konténerbe mountolja be a `/home/icellmobilsoft/resources` mount point alá az általa használt resource-okat, melyekre a template-ekben hivatkozik! 
-
-====
-
 [[methods]]
-== Kliens metódusok
+= Működés
 
 A kliensnek jelenleg több metódusa is van, melyekkel dokumentumot lehet generáltatni, a létrehozott dokumentumok metaadatait lehet lekérdezni, illetve magát a generált dokumentumot lehet lekérdezni.
 
@@ -55,7 +25,7 @@ public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String te
 ----
 
 Fontos kiegészítés, hogy a `ParametersDataType` típusú paramétereket bár kézzel is létrehozhatjuk, de készült hozzájuk egy ParametersDataBuilder segédosztály, amiben fluent API segítségével állíthatjuk be a kívánt konfigurációkat.
-Létrehozását a SAXON template motor kívánta meg, mert az XSLT template-ek generálásához szükséges megadni további paramétereket is, melyek nélkül nem generálható dokumentum. 
+Létrehozását a SAXON template motor kívánta meg, mert az XSLT template-ek generálásához szükséges megadni további paramétereket is, melyek nélkül nem generálható dokumentum.
 A builderből SAXON engine-hez nagyon könnyen kinyerhető a kívánt konfiguráció a getSaxonParameters(byte[], byte[], boolean) metódus meghívásával, melynek a FOP konfiguráció tartalma, az XML dataset és az XML tömörítettségét jelző értéket lehet megadni, vagy az overload-olt metódusokon keresztül csak az XML fájl tartalmát.
 
 [source,java]
@@ -67,7 +37,7 @@ GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
 ----
 <1> A template nyelve
 <2> Az XML dataset tartalma (jelen esetben tömörítetlenül)
-  
+
 Ezek a metódusok - sikeres hívás esetén - egy GeneratedDocumentDTO-val térnek vissza, mely tartalmazza a generált fájlnevet, a generált objektumot, mint stream-et és a HTTP status kódot.
 
 Paraméterként meg kell kapniuk a template listát, valamint a paramétereket, ha a template-ekben változók vannak, amiket ki kell cserélni értékekre, pl.
@@ -228,10 +198,10 @@ Példa a kliens használatához:
 
 [source,java]
 ----
- @Inject 
+ @Inject
  private DookugClient dookugClient;
- ... 
- //template objektum 
+ ...
+ //template objektum
  TemplateType template = new TemplateType().withTemplateName("main").withTemplateContent("DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8));
 
  //paraméterek
@@ -247,9 +217,9 @@ vagy hasonlóan dokumentum generálása, de PDF dokumentum formátummal, multipa
 
 [source,java]
 ----
- @Inject 
+ @Inject
  private DookugClient dookugMultipartClient;
- ... 
+ ...
  //template byte tömbként
  byte[] template = "DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8);
 
@@ -293,13 +263,9 @@ Szükséges egy fop-config.xml fájlt is átadni a requestben, amivel például 
 HANDLEBARS szintén használható a SAXON használatakor, ilyenkor a szokásos {{VARIABLE}} változókba helyettesíthetjük be a kívánt szövegrészeket, valamint készíthetünk egymásba ágyazott template-eket is (itt legfőképp erre lehet használni).
 Ami változás a többi enginehez képest, hogy itt meg kell adni a generatorSetup osztályban az xmlDataToTransform mezőben a transzformálni kívánt XML fájlt, azaz ebben az esetben az XML fájl nem a template lesz, hanem az adatforrás.
 
-Tehát a generatorSetupban SAXON esetén a többi mező mellett kötelezően megadandó: 
+Tehát a generatorSetupban SAXON esetén a többi mező mellett kötelezően megadandó:
 
 - XML: mint adatforrás
 - XSLT: mint template
 - fopConfig: transzformátor konfiguráció
-
-== Hibakezelés
-
-A kliens csak BaseExceptiont adhat vissza, de ha az API hívásban egy RestClientResponseException-t kap vissza, akkor az abban lévő becsomagolt BaseException-t fogja visszaadni! 
 

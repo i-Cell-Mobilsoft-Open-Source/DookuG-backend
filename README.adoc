@@ -2,6 +2,13 @@
 
 Document generátor és template kezelő modul
 
+== Technológiák
+
+.Service (jar, war)
+- Java 17+
+- Java EE 10
+- Wildfly 27.0.1.Final
+
 == Servicek
 
 * dookug-document-service - tartalom:
@@ -15,6 +22,6 @@ Fejlesztésre és működésre a következőre van szükség.
 
 * Adatbázis - alapértelmezetten a Oracle XE és Postgres adatbázissal van tesztelve a rendszer
 * Feltöltött tábla szerkezet melyek a `dookug-common-model` entitásainak felel meg
-* Wildfly EE8 alkalmazás szerver, 26.1.1 verzióval van aktívan tesztelve
+* Wildfly alkalmazás szerver
 * Telepített `dookug-document-service` a WF alkalmazás szerverben
 * Observability (opcionális) - Prometheus + Grafana
