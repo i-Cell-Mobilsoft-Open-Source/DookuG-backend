@@ -1,0 +1,40 @@
+= Használat
+
+A kliens használata mindössze egy pom.xml bejegyzés, kívánt JEE verziótól függően:
+
+[source,xml]
+----
+<dependency>
+   <groupId>hu.icellmobilsoft.dookug</groupId>
+   <artifactId>dookug-client-jee10</artifactId>
+   <version>${version.dookug.client}</version>
+</dependency>
+----
+
+vagy
+
+[source,xml]
+----
+<dependency>
+   <groupId>hu.icellmobilsoft.dookug</groupId>
+   <artifactId>dookug-client-jee8</artifactId>
+   <version>${version.dookug.client}</version>
+</dependency>
+----
+
+majd egy @Inject,
+
+[source,java]
+----
+@Inject
+private DookugClient dookugClient;
+----
+
+mely az összes végponthoz definiál kliens hívást, és használhatjuk is az általa kínált metódusokat.
+https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html[Microprofile rest klienst] használ az API híváshoz így a beállítások a már megszokott microprofile-config segítségével végezhetőek el. (lásd később)
+
+[WARNING]
+====
+A kliens alkalmazás feladata, hogy a konténerbe mountolja be a `/home/icellmobilsoft/resources` mount point alá az általa használt resource-okat, melyekre a template-ekben hivatkozik! 
+
+====

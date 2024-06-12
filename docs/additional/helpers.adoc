@@ -1,16 +1,14 @@
-= Kiegészítő információk
+= Helpers - Template fájlokban használható helperek
 
-== Helpers - Template fájlokban használható helperek
-
-=== Built-in helperek
+== Built-in helperek
 
 A Handlebars biztosít beépített helpereket, amelyeknek a dokumentációja https://handlebarsjs.com/guide/builtin-helpers.html[itt] található.
 
-=== Custom helperek
+== Custom helperek
 
 Lehetőség van a modulban biztosított általános helpereket használni. A példákban a ... részek renderelődnek ki amennyiben a kifejezés igazra értékelődik ki.
 
-==== Használatuk
+=== Használatuk
 
 A helperek használata során a helper kulcsszava után kell megadni az adott helperhez tartozó paramétereket. Inline generálás és adatbázisban tárolt template alapú generálás során is felhasználhatóak a helperek. A paraméterek lehetnek beégetett értékek vagy jöhetnek a dokumentumgenerálási hívás során JSON formátumban.
 
@@ -252,7 +250,7 @@ num4 = 20
 0.1.0 |
 |===
 
-==== További helper függvények
+=== További helper függvények
 
 A projektben a következő 3rd party helper függvények használhatók:
 

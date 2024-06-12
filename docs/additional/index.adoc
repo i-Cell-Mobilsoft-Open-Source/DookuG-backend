@@ -1,0 +1,8 @@
+ifndef::imagesdir[:imagesdir: ../images/]
+
+= Kiegészítő információk
+
+include::templatecache.adoc[leveloffset=+1]
+include::helpers.adoc[leveloffset=+1]
+include::customfont.adoc[leveloffset=+1]
+include::digitalsign.adoc[leveloffset=+1]

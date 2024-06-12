@@ -1,0 +1,20 @@
+= Backend
+
+A modul konfigurációja MicroProfile Config-on keresztül történik, ami által több módon is lehetséges a szükséges értékek megadása.
+
+A MicroProfile Config képes egy megadott kulcsot kikeresni az összes elérhető forrásból és a legmagasabb prioritású értéket használja fel.
+
+Alap konfiguráció a project-defaults.yml-en keresztül kerül megadásra, melyet bővíteni lehet, és környezetenként változhat, de nem kell minden értéket megadni, csak ami változik az alap beállításokhoz képest.
+
+*Lehetséges módok prioritási sorrendben:*
+
+* Rendszer változók
+* Környezeti változók
+
+ifdef::generatedDoc[]
+
+== DOOKUG-DOCUMENT service
+
+include::../generated/dookug-api-common-config.adoc[leveloffset=+1]
+
+endif::[]

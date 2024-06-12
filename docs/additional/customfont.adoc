@@ -1,4 +1,4 @@
-== Saját betűtípusok használata
+= Saját betűtípusok használata
 
 A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a saját betűtípusok használatáról szól.
 [NOTE]
@@ -13,14 +13,14 @@ Két lehetőségünk van arra, hogy saját betűtípusokat tudjunk használni.
 . közvetlenül a CSS-ben töltjük be a fontot
 . programozottan töltjük be, majd ezután a CSS-ben meghivatkozzuk a referenciát (`font-family`) használatával
 
-Az első opcióban a CSS-ben a `@font-face` at-rule-on belül az `src: url()` leíróban adhatjuk meg a betűtípus elérhetőségét. 
+Az első opcióban a CSS-ben a `@font-face` at-rule-on belül az `src: url()` leíróban adhatjuk meg a betűtípus elérhetőségét.
 
 Ebben az esetben internet elérésre lesz szükségünk a generáláskor, ami nem feltétlenül lehet adott minden esetben, mert tilthatja a vállalat policy-je, hogy a modul külső url-eket érhessen el.
 
 Ez kivédhető vagy úgy, hogy belső URL-en keresztül lehet elérni a használni kívánt fontokat, vagy a modulban előre feltöltünk néhány gyakran használt betűtípust
-és a lokális elérhetőségét adjuk meg file:// url-lel meghivatkozva. 
-Ha a modul tartalmazni fog előre betöltött betűtípusokat, akkor célszerű ezeket a dokumentációban jelezni, vagy egy 
-végponton visszaadni az információkat.  
+és a lokális elérhetőségét adjuk meg file:// url-lel meghivatkozva.
+Ha a modul tartalmazni fog előre betöltött betűtípusokat, akkor célszerű ezeket a dokumentációban jelezni, vagy egy
+végponton visszaadni az információkat.
 
 TEMPLATE:
 [source,xml]
@@ -40,7 +40,7 @@ TEMPLATE:
 </style>
 ----
 <1> a `/home/icellmobilsoft/fonts` könyvtárban található Cairo-Regular.ttf betöltése.
-<2> Itt szintén a fenti könyvtárból töltjük be a fontot. A `/home/icellmobilsoft` -ot tekinti a server root-ként, ezért működik a relativ útvonal megadása. 
+<2> Itt szintén a fenti könyvtárból töltjük be a fontot. A `/home/icellmobilsoft` -ot tekinti a server root-ként, ezért működik a relativ útvonal megadása.
 
 [TIP]
 ====
@@ -95,7 +95,7 @@ TEMPLATE:
 </style>
 ----
 <1> fentebb betöltött betűtípus használata
-<2> ez csak példaként van itt, a beállítást nem igazán szükséges használni, mert így a teljes font beágyazásra kerül, viszont alapértelmezetten csak a subset, ami a helyes működés. 
+<2> ez csak példaként van itt, a beállítást nem igazán szükséges használni, mert így a teljes font beágyazásra kerül, viszont alapértelmezetten csak a subset, ami a helyes működés.
 
 
 Ennek van egy olyan hátránya, hogy mindegyik fontot betölti a renderkor, azokat is, amiket nem használunk a dokumentum template-ben.

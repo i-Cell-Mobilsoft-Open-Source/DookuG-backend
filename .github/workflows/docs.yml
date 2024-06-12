@@ -14,6 +14,22 @@ jobs:
         with:
           ref: main
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Compile with Maven
+        run: mvn -B compile --file pom.xml
+
+      - name: Copy generated docs
+        run: |
+          mkdir docs/generated docs/generated/openapi docs/generated/images
+          mv dookug-document/dookug-document-service/target/openapi docs/generated/openapi/dookug-document-service
+          mv dookug-api/dookug-api-common/target/config_keys.adoc docs/generated/dookug-api-common-config.adoc
+
       - name: set-release-version
         id: vars
         run: |
@@ -26,7 +42,7 @@ jobs:
         uses: manoelcampos/asciidoctor-ghpages-action@v2
         with:
           pdf_build: true
-          asciidoctor_params: --attribute release_version=${{steps.vars.outputs.POM_XML_PROJECT_VERSION}}
+          asciidoctor_params: --attribute release_version=${{steps.vars.outputs.POM_XML_PROJECT_VERSION}} --attribute=generatedDoc
           # adoc_file_ext: .ascii # default is .adoc
           source_dir: docs/ # default is .
           ebook_main_adoc_file: index

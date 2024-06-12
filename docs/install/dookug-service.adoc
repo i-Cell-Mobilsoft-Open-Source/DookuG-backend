@@ -1,0 +1,118 @@
+= DOOKUG-DOCUMENT Service
+
+== Service konfiguráció
+
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// .Oracle
+// [source,properties]
+// ----
+// ORACLE_DS_CONNECTION_URL=jdbc:oracle:thin:@module-dookug-oracle:1521/xepdb1
+// ORACLE_DS_USERNAME=dookug
+// ORACLE_DS_PASSWORD=developer
+// ORACLE_DS_MIN-POOL-SIZE=1
+// ORACLE_DS_MAX-POOL-SIZE=20
+// ----
+//
+// .Postgres
+// [source,properties]
+// ----
+// POSTGRESQL_DS_CONNECTION_URL=jdbc:postgresql://module-dookug-postgredb:5432/dookug_db?currentSchema=dookug
+// POSTGRESQL_DS_USERNAME=postgres
+// POSTGRESQL_DS_PASSWORD=postgres
+// POSTGRESQL_DS_MIN-POOL-SIZE=1
+// POSTGRESQL_DS_MAX-POOL-SIZE=20
+// ----
+
+.Interface
+[source,properties]
+----
+DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED=true
+----
+
+.PDF aláírás
+[source,properties]
+----
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_NAME="Eredeti dokumentum"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_REASON="Igazolva I-Cell Mobilsoft Zrt. által"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORE=/home/icellmobilsoft/keys/keystore.p12
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTOREPASS=123456
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORETYPE=PKCS12
+----
+
+.Saxon
+[source,properties]
+----
+DOOKUG_SERVICE_ENGINE_SAXON_FOPCONFIG=/home/icellmobilsoft/fop-config/fop-config.xml
+DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_VARIABLE=lang
+DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_DEFAULT=HU
+----
+
+.Handlebars
+[source,properties]
+----
+DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY=/home/icellmobilsoft/handlebars/helper/js
+DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
+----
+
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// .JSON loggolás
+// [source,properties]
+// ----
+// CONSOLE_LOGGING_JSON_ENABLED=true
+// CONSOLE_LOGGING_ENABLED=false
+// ----
+
+// IMPORTANT: Ha JSON formátumban szükséges loggolni, akkor a CONSOLE_LOGGING_ENABLED környezeti változót false-ra kell állítani, hogy ne 2 fajta log keletkezzen a konzolon.
+
+== Ajánlott K8S konfiguráció
+
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// További kulcsok itt találhatók: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc konfiguráció]
+
+[options="header",cols="1,1,1"]
+|===
+|Parameter |Value |Description
+|JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |2G memóriában maximalizáljuk a modul heap szükségletét, UseG1GC algoritmus használatával.
+// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// |ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximális méret
+// |OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
+// |OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
+// |OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
+// |OPENTRACING_JAEGER_PROPAGATION|JAEGER/B3 |Jaeger propagation
+// |JAEGER_SERVICE_NAME|dookug-service |Service name ami a Jaeger felületén is látható (alapértelmezetten ROOT.war)
+// |LOGSTASH_ENABLED|1 |Logstash connector bekapcsolása (default 1)
+// |LOGSTASH_HOST|tcp:dookug-logstash |Logstash szerver host (a "tcp:" előtag nem hagyható el)
+// |LOGSTASH_PORT|8001 |Logstash GELF input port
+// |LOGSTASH_K8S_NAMESPACE|dookug-service |Logstash logging additionalFields K8S_NAMESPACE beállítása
+// |LOGGING_K8S_NAMESPACE|dookug-service |Log sorban szereplő k8s_namespace kulcs értéke (log pattern)
+// |CONSOLE_LOGGING_ENABLED|false|wildfly-ból, konzol loggolás tiltása, default: true
+// |CONSOLE_LOGGING_JSON_ENABLED|true|wildfly-ból, json loggolás bekapcsolása a console logra. FONTOS kiemelni, hogy javasolt a CONSOLE_LOGGING_ENABLED környezeti válto false értékre állítása, különben dupla loggolás keletkezik a konzolon. Default: false
+// |FILE_LOGGING_ENABLED|false|wildfly-ból, file loggolás tiltása, default: true
+// |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|Az adatbázisba mentendő OffsetDateTime típusoknál a zóna beállítható a létrehozás és módosítás dátumánál. Default  `UTC`, de beállítható bármi amit a java.time.ZoneId osztály `public static ZoneId of(String zoneId)` metódusa befogad paraméterben. Rossz érték esetén warn szintű hibaüzenet keletkezik, és a default értéket veszi alapul, ami `TimeZone.getDefault().toZoneId()` lesz.
+|===
+
+.Requests/limits beállítások
+[source,yaml]
+----
+spec:
+  containers:
+    resources:
+      limits:
+        cpu: "3"
+        memory: 3G
+      requests:
+        cpu: "3"
+        memory: 3G
+----
+
+== Observability
+
+=== Health - startup/liveness/readiness
+
+A service támogatja a k8s probe-ok használatát.
+
+Started: http://localhost:9990/health/started
+
+Live: http://localhost:9990/health/live
+
+Ready: http://localhost:9990/health/ready

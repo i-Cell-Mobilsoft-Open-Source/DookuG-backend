@@ -1,0 +1,20 @@
+= Template cache
+
+Az adatbázisban tárolt TEMPLATE adatokat cache-eljük (GUAVA). A cache-k meghatározott ideig élnek, új lekéréskor az idő újra indul.
+
+*Konfigurációs paraméterek:*
+
+DOOKUG_SERVICE_CACHE_TEMPLATE_TTL paraméterrel adhatjuk meg percben meddig tartsuk a cachben a templateket, alapértelmezetten 60 perc.
+
+DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC paraméterrel adhatjuk meg, hogy szükséges-e a metrikák generálása , alapértelmezetten false, nem képződnek metrikák.
+
+Az alábbihoz hasonló metrika generálódik:
+[source]
+-------
+# TYPE application_cache_hit_count gauge
+application_cache_hit_count{name="template"} 0.0
+# TYPE application_cache_miss_count gauge
+application_cache_miss_count{name="template"} 1.0
+# TYPE application_cache_size gauge
+application_cache_size{name="template"} 1.0
+-------

@@ -1,4 +1,4 @@
-= Konfiguráció
+= Kliens
 
 Microprofile Config segítségével tudjuk a kliens működését befolyásolni.
 
@@ -11,7 +11,7 @@ dookug:
         document/mp-rest/readTimeout: 60000 #millisec
 ----
 
-== A következő értékek megadása célszerű a kliens működéséhez:
+A következő értékek megadása célszerű a kliens működéséhez:
 
 [options="header",cols="3"]
 |===

@@ -1,6 +1,6 @@
-== PDF-ek digitális aláírása
+= PDF-ek digitális aláírása
 
-A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a digitális aláíráshoz egy self signed certificate-et használ, melyet a docker-compose 
+A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a digitális aláíráshoz egy self signed certificate-et használ, melyet a docker-compose
 fájl segítségével adunk hozzá az image-hez `/home/icellmobilsoft/keys/keystore.p12` fájlként.
 
 A keystore az `/etc/docker-compose/keys` mappában található és 2023. november 7-én az alábbi paranccsal lett létrehozva:
@@ -17,11 +17,11 @@ Ez egyben azt is jelenti, hogy 2053. november 7-én le fog járni.
 ====
 
 
-=== Konfiguráció
+== Konfiguráció
 
 Az aláírást az API hívásokban a request GeneratorSetup -jában tudjuk kérni. Itt meg tudjuk adni
 a `signatureName`-et, `signatureReason`-t, valamint az private key alias-t (`keyAlias`) arra az esetre, ha a keystore
-fájl több private kulcsot is tartalmazna. 
+fájl több private kulcsot is tartalmazna.
 
 [source,xml]
 ----

@@ -18,3 +18,4 @@ IMPORTANT: Because of the coffee upgrade, the use of interfaces had to be remove
 * For `dookug-model`, `org.hibernate` groupId has been replaced by `org.hibernate.orm`.
 * Roaster upgrade migration: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
 * In tests, the coffee.model.base.java.time.timezone.id property in the BaseIT class is set to UTC.
+* New documentation structure

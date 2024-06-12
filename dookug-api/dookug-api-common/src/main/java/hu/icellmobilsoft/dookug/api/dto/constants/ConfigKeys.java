@@ -182,22 +182,24 @@ public interface ConfigKeys {
         /**
          * Cache konfigurációs kulcsok lehetséges értékei
          */
-        @ConfigDoc(exclude = true)
         interface Keys {
 
             /**
              * enabled key
              */
+            @ConfigDoc(exclude = true)
             String ENABLED = ".enabled";
 
             /**
              * ttl key
              */
+            @ConfigDoc(exclude = true)
             String TTL = ".ttl";
 
             /**
              * enablestatistic key
              */
+            @ConfigDoc(exclude = true)
             String ENABLESTATISTIC = ".enablestatistic";
         }
 
