@@ -1,0 +1,7 @@
+= v1.1.0
+
+== Changes / updates
+
+== Migration
+
+Changes are backwards compatible doesnt need any migration.

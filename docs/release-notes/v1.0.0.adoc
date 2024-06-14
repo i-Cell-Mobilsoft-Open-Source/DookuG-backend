@@ -18,3 +18,25 @@ IMPORTANT: Because of the coffee upgrade, the use of interfaces had to be remove
 * For `dookug-model`, `org.hibernate` groupId has been replaced by `org.hibernate.orm`.
 * Roaster upgrade migration: https://i-cell-mobilsoft-open-source.github.io/roaster/#_2_1_0_2_2_0[2.1.0 -> 2.2.0]
 * In tests, the coffee.model.base.java.time.timezone.id property in the BaseIT class is set to UTC.
+
+== Migration
+
+* Replace the dookug-client dependency in your project depending on whether you are using JEE 8 or JEE 10. +
+
+[source,xml]
+----
+<dependency>
+	<groupId>hu.icellmobilsoft.dookug.client</groupId>
+	<artifact>dookug-client-jee10</artifact> <1>
+	<version>1.0.0</version>
+</dependency>
+
+<dependency>
+	<groupId>hu.icellmobilsoft.dookug.client</groupId>
+	<artifact>dookug-client-jee8</artifact> <2>
+	<version>1.0.0</version>
+</dependency>
+
+----
+<1> in case you have EE10 application
+<2> in case you have EE8 application
