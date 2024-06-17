@@ -1,6 +1,6 @@
 = v0.4.0
 
-Projekt kikerült Open source Github-ra.
+The project has been released on GitHub opensource.
 
 * maven pom change:
 ** `<groupId>hu.icellmobilsoft.dookug.common</groupId>` -> `<groupId>hu.icellmobilsoft.dookug</groupId>`

@@ -1,6 +1,6 @@
-= Kliens
+= Client
 
-Microprofile Config segítségével tudjuk a kliens működését befolyásolni.
+The operation of the client can be influenced using MicroProfile Config.
 
 [source,yaml]
 ----
@@ -11,17 +11,17 @@ dookug:
         document/mp-rest/readTimeout: 60000 #millisec
 ----
 
-A következő értékek megadása célszerű a kliens működéséhez:
+It is advisable to specify the following parameters for the client operation:
 
 [options="header",cols="3"]
 |===
-|Paraméter kulcs | Kötelező | Leírás
+| Parameter Key | Mandatory | Description
 //-------------
-| dookug.client.document/mp-rest/url | igen | a dookug module elérési útvonala (base url)
-| dookug.client.document/mp-rest/connectTimeout | | Connection Timeout megadása (ha coffee-t használunk, ez alapértelmezetten 5 másodperc)
-| dookug.client.document/mp-rest/readTimeout | | Read Timeout megadása (ha coffee-t használunk, ez alapértelmezetten 1 perc)
-| dookug.service.cache.template.ttl | nem | Template cache lejárati ideje percben, alapértelmezetten 60 perc
-| dookug.service.cache.template.enablestatistic | nem | generálódjanak metrikák, alapértelmezetten nem generálódnak
+| dookug.client.document/mp-rest/url | yes | Base URL of the DookuG module
+| dookug.client.document/mp-rest/connectTimeout | | Connection Timeout (defaults to 5 seconds if unspecified)
+| dookug.client.document/mp-rest/readTimeout | | Read Timeout (defaults to 1 minute if unspecified)
+| dookug.service.cache.template.ttl | no | Template cache expiration time in minutes, default is 60 minutes
+| dookug.service.cache.template.enablestatistic | no | Whether to generate metrics for caching, defaults to false
 |===
-További paraméterek megadása is lehetséges, lásd a https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html#mpconfig:~:text=Client%20CDI%20Support-,Support%20for%20MicroProfile%20Config,-Configuration%20Keys[Microprofile RestClient] dokumentációban.
 
+Additional parameters can also be specified, as outlined in the [Microprofile RestClient documentation](https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html#mpconfig:~:text=Client%20CDI%20Support-,Support%20for%20MicroProfile%20Config,-Configuration%20Keys).

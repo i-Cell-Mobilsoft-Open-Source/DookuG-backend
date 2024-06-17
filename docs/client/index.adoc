@@ -1,6 +1,6 @@
-= DookuG modul kliens
+= DookuG Module Client
 
-A kliens célja a DookuG modul kezelésének támogatása, amely különböző kiszolgáló metódusokat tartalmaz.
+The client aims to support management of the DookuG module, which encompasses various server-side methods.
 
 include::technology.adoc[leveloffset=+1]
 include::usage.adoc[leveloffset=+1]

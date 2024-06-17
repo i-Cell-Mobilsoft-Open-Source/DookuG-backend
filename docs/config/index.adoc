@@ -1,4 +1,4 @@
-= Konfiguráció
+= Configuration
 
 include::backend.adoc[leveloffset=+1]
 include::client.adoc[leveloffset=+1]

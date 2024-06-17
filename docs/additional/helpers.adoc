@@ -1,25 +1,25 @@
-= Helpers - Template fájlokban használható helperek
+= Helpers - Helper Functions for Use in Template Files
 
-== Built-in helperek
+== Built-in Helpers
 
-A Handlebars biztosít beépített helpereket, amelyeknek a dokumentációja https://handlebarsjs.com/guide/builtin-helpers.html[itt] található.
+Handlebars provides built-in helpers, whose documentation can be found https://handlebarsjs.com/guide/builtin-helpers.html[here].
 
-== Custom helperek
+== Custom Helpers
 
-Lehetőség van a modulban biztosított általános helpereket használni. A példákban a ... részek renderelődnek ki amennyiben a kifejezés igazra értékelődik ki.
+It is possible to use general helpers provided by the module. In the examples, the ... parts render if the expression evaluates to true.
 
-=== Használatuk
+=== Usage
 
-A helperek használata során a helper kulcsszava után kell megadni az adott helperhez tartozó paramétereket. Inline generálás és adatbázisban tárolt template alapú generálás során is felhasználhatóak a helperek. A paraméterek lehetnek beégetett értékek vagy jöhetnek a dokumentumgenerálási hívás során JSON formátumban.
+When using helpers, specify the parameters for the given helper after the helper keyword. Helpers can be used during inline generation and database-stored template-based generation. The parameters can be hardcoded values or come in JSON format during the document generation call.
 
-A helperek kombinálhatók egymással.
+Helpers can be combined with each other.
 
 [cols="5%,45%,45%a,5%"]
 |===
-|Token | Magyarázat | Használat | Ettől a verziótól |
+|Token | Description | Usage | Available from Version |
 
 equals |
-Két elem értékét hasonlítja össze, akkor történik renderelés ha igaz a kiértékelés eredménye. |
+Compares the values of two elements; renders if the evaluation is true. |
 [source,bash]
 ----
 {{#if (equals yourField 'white')}} ... {{/if}}
@@ -28,8 +28,7 @@ Két elem értékét hasonlítja össze, akkor történik renderelés ha igaz a 
 0.1.0 |
 
 before |
-Akkor történik renderelés, ha az átadott paraméter korábbi időpont mint a biztosított érték. Utóbbi szintén lehet paraméter. |
-
+Renders if the provided parameter is an earlier date than the given value. The latter can also be a parameter. |
 [source,bash]
 ----
 {{#if (before yourDate '2023-08-13T05:40:55Z')}} ... {{/if}}
@@ -39,7 +38,7 @@ Akkor történik renderelés, ha az átadott paraméter korábbi időpont mint a
 0.1.0 |
 
 between |
-Akkor történik renderelés, ha az átadott paraméter a két biztosított dátum érték közé esik. Utóbbiak szintén lehetnek paraméterek. |
+Renders if the provided parameter falls between the two given date values. The latter can also be parameters. |
 [source,bash]
 ----
 {{#if (between yourDate '2023-08-13T05:40:55Z' '2023-08-15T05:40:55Z')}} ... {{/if}}
@@ -49,23 +48,21 @@ Akkor történik renderelés, ha az átadott paraméter a két biztosított dát
 0.1.0 |
 
 dateMinusMinutes |
-Adott dátumból megadott percek kivonása. |
-
+Subtracts a given number of minutes from the specified date. |
 [source,bash]
 ----
-{{dateMinusMinutes '2023-08-13T05:40:55Z' 60}}    // '2023-08-13T04:40:55Z' lesz a kiértékelés eredménye
-{{dateMinusMinutes yourDate 60}}                  // A következő két példa ugyanezzel a dátummal értékelődik ki
+{{dateMinusMinutes '2023-08-13T05:40:55Z' 60}}    // evaluates to '2023-08-13T04:40:55Z'
+{{dateMinusMinutes yourDate 60}}                  // The following two examples evaluate to the same date
 {{dateMinusMinutes yourDate minutesToSubtract}}
 ----
 |
 0.1.0 |
 
 datePlusMinutes |
-A dateMinusMinutes párja, hozzáadunk perceket a kapott dátumhoz. |
-
+The counterpart to dateMinusMinutes, it adds minutes to the given date. |
 [source,bash]
 ----
-{{datePlusMinutes '2023-08-13T05:40:55Z' 60}} - '2023-08-13T06:40:55Z' lesz a kiértékelés eredménye
+{{datePlusMinutes '2023-08-13T05:40:55Z' 60}} - evaluates to '2023-08-13T06:40:55Z'
 {{datePlusMinutes yourDate 60}}
 {{datePlusMinutes yourDate minutesToAdd}}
 ----
@@ -73,36 +70,32 @@ A dateMinusMinutes párja, hozzáadunk perceket a kapott dátumhoz. |
 0.1.0 |
 
 declare |
-Új változó létrehozása és azonnali renderelése. Az így létrehozott változók globálisak, függetlenül attól hogy hol hozták létre a template-ekben. |
-
+Creates a new variable and immediately renders it. The created variables are global, regardless of where they were created in the templates. |
 [source,bash]
 ----
-{{declare 'myColor' 'white'}}       // azonnal ki is rendereljük a 'white' szót
+{{declare 'myColor' 'white'}}       // immediately renders the word 'white'
 ...
-{{#if myColor}} {{myColor}} {{/if}} // 'white' lesz renderelve
+{{#if myColor}} {{myColor}} {{/if}} // renders 'white'
 ----
 |
 0.1.0 |
 
 declareVoid |
-Hasonlóan működik mint a declare helper, azonban ez nem rendereli ki azonnal a kapott értéket. A declare kiváltható lenne a declareVoid-dal létrehozott változóval majd azonnali meghívással. |
-
+Works similarly to the declare helper, but does not immediately render the given value. declare can be replaced by declareVoid followed by immediate invocation. |
 [source,bash]
 ----
 {{declareVoid 'myColor' 'white'}}
 ...
-{{#if myColor}} {{myColor}} {{/if}}  // 'white' lesz renderelve
-declare helper kiváltása:
+{{#if myColor}} {{myColor}} {{/if}}  // renders 'white'
+Replacing declare with declareVoid:
 {{declareVoid 'myColor' 'white'}}
-{{myColor}}   // 'white' lesz renderelve azonnal a létrehozás után
+{{myColor}}   // renders 'white' immediately after creation
 ----
 |
-
 0.1.0 |
 
 formatDate |
-A kapott, Java 8 által elfogadott dátum formátumú paraméter átalakítása megadott pattern szerint. A pattern csak dátum formátumot fogad el, ellenkező esetben hibát dob. |
-
+Transforms the given parameter, accepted in Java 8 date format, according to the specified pattern. The pattern only accepts date formats; otherwise, it throws an error. |
 [source,bash]
 ----
 yourDate = '2024-01-09';
@@ -115,8 +108,7 @@ yourDate = '2024-01-09';
 0.5.0 |
 
 formatDateTime |
-A kapott, Java 8 által elfogadott dátum és idő formátumú paraméter átalakítása megadott pattern szerint. A helper kezeli a teljes ISO dátum formátumú inputot, abból képes pattern segítségével megfelelő output előállítására. A helper képes időzónát is kezelni, amennyiben az output pattern után megadunk egy Java által elfogadott Zone ID-t, a bemenő időpontot átalakítja az időzóna szerinti output-tá. |
-
+Transforms the given parameter, accepted in Java 8 date and time format, according to the specified pattern. The helper handles full ISO date format input and can generate appropriate output using the pattern. The helper can also handle time zones; if a Java-accepted Zone ID is provided after the output pattern, it converts the input time to the time zone's output. |
 [source,bash]
 ----
 yourDate = '2024-01-09T15:30:04Z'
@@ -135,9 +127,7 @@ yourTimeFormat = 'hh:mm:ss a'
 0.5.0 |
 
 formatTime |
-
-A kapott, Java 8 által elfogadott idő formátumú paraméter átalakítása megadott pattern szerint. A pattern csak idő formátumot fogad el, ellenkező esetben hibát dob. |
-
+Transforms the given parameter, accepted in Java 8 time format, according to the specified pattern. The pattern only accepts time formats; otherwise, it throws an error. |
 [source,bash]
 ----
 yourTime = '15:30:55Z';
@@ -149,60 +139,56 @@ yourTime = '15:30:55Z';
 0.5.0 |
 
 formatNumber |
-Számok formázására használt helper, JAVA-s számformázási konvenciót követve működik |
-
+Helper used for formatting numbers, following Java number formatting conventions. |
 [source,bash]
 ----
 number = 1234.567;
 percentage = 0.4567
 
-{{formatNumber number '#'}}         // "1235", kerekített egész szám
-{{formatNumber number '0.00'}}      // "1234.57", 2 tizedesre kerekített szám
-{{formatNumber number '000000.00'}} // "001234.57", vezető nullákkal feltöltött szám
-{{formatNumber number '#,###.##'}}  // "1,234.57", vesszővel elválaszott, hármasával csoportosított érték
-{{formatNumber number '$#,##0.00'}} // "$1,234.57", pénznem kifejezése
-{{formatNumber percentage '0.00%'}} // "45.67%", 0 és 1 közötti érték százalékos kifejezése 0 és 100% között
-{{formatNumber number '0.###E0'}}   // "1.235E8", tudományos jelölésű szám
+{{formatNumber number '#'}}         // "1235", rounded integer
+{{formatNumber number '0.00'}}      // "1234.57", number rounded to 2 decimals
+{{formatNumber number '000000.00'}} // "001234.57", number padded with leading zeros
+{{formatNumber number '#,###.##'}}  // "1,234.57", comma-separated, grouped by thousands
+{{formatNumber number '$#,##0.00'}} // "$1,234.57", currency expression
+{{formatNumber percentage '0.00%'}} // "45.67%", percentage expression of a value between 0 and 1
+{{formatNumber number '0.###E0'}}   // "1.235E8", number in scientific notation
 ----
 |
 0.1.0 |
 
 and |
-N érték közti && operátor. Akkor renderelük ha a logikai ÉS operátor igazra értékelődik ki. |
-
+Logical AND operator for N values. Renders if the logical AND operator evaluates to true. |
 [source,bash]
 ----
-{{#if (and falseValue trueValue notExistingValue)}} YES {{else}} NO {{/if}}               // "NO" érték renderelődik
-{{#if (and trueValue trueValue trueValue)}} YES {{/if}}                                   // "YES" renderelődik mert ugyanaz mindhárom érték és azok igazak
+{{#if (and falseValue trueValue notExistingValue)}} YES {{else}} NO {{/if}}               // renders "NO"
+{{#if (and trueValue trueValue trueValue)}} YES {{/if}}                                   // renders "YES" since all three values are true
 myValue = 'black'
-{{#if (and (equals myValue 'black')}} YES {{else}} NO {{/if}}                             // "YES" renderelődik ki, a változó és a string ÉS kiértékelése igaz
-{{#if (and (equals myValue 'white')}} YES {{else}} NO {{/if}}                             // "NO" renderelődik ki, a változó és a string ÉS kiértékelése hamis
+{{#if (and (equals myValue 'black')}} YES {{else}} NO {{/if}}                             // renders "YES", both the variable and the string evaluation are true
+{{#if (and (equals myValue 'white')}} YES {{else}} NO {{/if}}                             // renders "NO", both the variable and the string evaluation are false
 
-Kombinált használat:
-{{#if (and (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // "NO" renderelődik ki, az első hamisra, a második igazra értékelődik ki
+Combined usage:
+{{#if (and (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // renders "NO", the first is false, the second is true
 ----
 |
 0.1.0 |
 
 or |
-N érték közötti \|\| operátor. Akkor renderelük ha a logikai VAGY operátor igazra értékelődik ki. |
-
+Logical OR operator for N values. Renders if the logical OR operator evaluates to true. |
 [source,bash]
 ----
-{{#if (or falseValue trueValue notExistingValue)}} YES {{else}} NO {{/if}}               // "YES" érték renderelődik
-{{#if (or falseValue falseValue falseValue)}} YES {{/if}}                                // Semmi nem renderelődik ki
+{{#if (or falseValue trueValue notExistingValue)}} YES {{else}} NO {{/if}}               // renders "YES"
+{{#if (or falseValue falseValue falseValue)}} YES {{/if}}                                // renders nothing
 myValue = 'white'
-{{#if (or myValue 'black')}} YES {{else}} NO {{/if}}                                     // "YES" renderelődik ki, a változó és a string VAGY kiértékelése igaz
+{{#if (or myValue 'black')}} YES {{else}} NO {{/if}}                                     // renders "YES", the evaluation of both the variable and the string is true
 
-Kombinált használat:
-{{#if (or (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // "YES" renderelődik ki, hamis VAGY igaz esetén igaz a kiértékelés
+Combined usage:
+{{#if (or (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // renders "YES", false OR true evaluates to true
 ----
 |
 0.1.0 |
 
 not |
-Logikai ! operátor. A kapott paramétert negálja, ha igaz a kiértékelés akkor renderelünk, ha hamis akkor nem. |
-
+Logical NOT operator. Negates the given parameter; renders if the evaluation is true, otherwise does not render. |
 [source,bash]
 ----
 {{#if (not falseValue)}} YES {{else}} NO {{/if}}                // YES
@@ -213,8 +199,9 @@ Logikai ! operátor. A kapott paramétert negálja, ha igaz a kiértékelés akk
 0.1.0 |
 
 in |
-Azt vizsgálja hogy a kapott legelső paraméter megegyezik-e a soron következő elemek bármelyikével. |
+Checks if the first parameter matches any of the subsequent elements
 
+. |
 [source,bash]
 ----
 myValue = 'white'
@@ -225,13 +212,11 @@ myValue = 'white'
 0.1.0 |
 
 math |
-
-Alap matematikai műveletek elvégzésére használható helper. Az első paraméter az operátor, a másik két paraméter az operandusok. A használható operátorok listája:
+Helper for basic mathematical operations. The first parameter is the operator, and the other two parameters are the operands. The list of usable operators:
 
 “+”, “-”, “*”, “/”, “%”
 
-Hibás operátor esetén a kiértékelés eredménye: “-1”. Egyéb esetben az operandusokon elvégzett, operátornak megfelelő matematikai művelet. |
-
+If an invalid operator is used, the evaluation result is: “-1”. Otherwise, the result of the mathematical operation on the operands corresponding to the operator. |
 [source,bash]
 ----
 num1 = 5
@@ -250,8 +235,8 @@ num4 = 20
 0.1.0 |
 |===
 
-=== További helper függvények
+=== Additional Helper Functions
 
-A projektben a következő 3rd party helper függvények használhatók:
+The following 3rd party helper functions can be used in the project:
 
 * https://github.com/jknack/handlebars.java/blob/v4.3.1/handlebars/src/main/java/com/github/jknack/handlebars/helper/StringHelpers.java[StringHelpers]

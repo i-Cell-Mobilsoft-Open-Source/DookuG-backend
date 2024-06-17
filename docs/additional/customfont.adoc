@@ -1,26 +1,24 @@
-= Saját betűtípusok használata
+= Using Custom Fonts
 
-A leírás az https://pdfbox.apache.org/[Apache PDFBox] engine-hez készült és a saját betűtípusok használatáról szól.
+This documentation is intended for the https://pdfbox.apache.org/[Apache PDFBox] engine and focuses on using custom fonts.
 [NOTE]
 ====
-Az engine limitációja, hogy csak TTF típusú betűtípusokat tud beágyazni, valamint ha használni szeretnénk a weight,styles,variants beállításokat, akkor érdemes tudni, hogy ezeket a pdfbox nem tudja mindig megfelelően emulálni, hacsak nem töltjük be a font különböző variációit is.
+A limitation of the engine is that it can only embed TTF fonts. Additionally, if you want to use weight, styles, and variants settings, it is worth noting that PDFBox cannot always emulate these properly unless you load different variations of the font.
 
 ====
-A docker-compose fájlban a `fonts` könyvtárat hozzáadjuk `/home/icellmobilsoft/fonts` -ként az image-ünkhöz, így az ebben a könyvtárban lévő fontokat lokálisan el tudjuk érni a template-ekből.
+In the docker-compose file, we add the `fonts` directory to our image as `/home/icellmobilsoft/fonts`, so we can access the fonts in this directory locally from the templates.
 
-Két lehetőségünk van arra, hogy saját betűtípusokat tudjunk használni.
+We have two options for using custom fonts.
 
-. közvetlenül a CSS-ben töltjük be a fontot
-. programozottan töltjük be, majd ezután a CSS-ben meghivatkozzuk a referenciát (`font-family`) használatával
+. Load the font directly in the CSS
+. Load the font programmatically, then reference it in the CSS using `font-family`
 
-Az első opcióban a CSS-ben a `@font-face` at-rule-on belül az `src: url()` leíróban adhatjuk meg a betűtípus elérhetőségét.
+In the first option, you can specify the font's location in the CSS within the `@font-face` at-rule using the `src: url()` descriptor.
 
-Ebben az esetben internet elérésre lesz szükségünk a generáláskor, ami nem feltétlenül lehet adott minden esetben, mert tilthatja a vállalat policy-je, hogy a modul külső url-eket érhessen el.
+In this case, internet access will be required during generation, which may not always be possible as the company's policy may prohibit the module from accessing external URLs.
 
-Ez kivédhető vagy úgy, hogy belső URL-en keresztül lehet elérni a használni kívánt fontokat, vagy a modulban előre feltöltünk néhány gyakran használt betűtípust
-és a lokális elérhetőségét adjuk meg file:// url-lel meghivatkozva.
-Ha a modul tartalmazni fog előre betöltött betűtípusokat, akkor célszerű ezeket a dokumentációban jelezni, vagy egy
-végponton visszaadni az információkat.
+This can be mitigated either by making the fonts accessible through an internal URL or by preloading some frequently used fonts in the module and referencing their local availability using a `file://` URL.
+If the module will contain preloaded fonts, it is advisable to mention this in the documentation or provide the information through an endpoint.
 
 TEMPLATE:
 [source,xml]
@@ -39,12 +37,12 @@ TEMPLATE:
     }
 </style>
 ----
-<1> a `/home/icellmobilsoft/fonts` könyvtárban található Cairo-Regular.ttf betöltése.
-<2> Itt szintén a fenti könyvtárból töltjük be a fontot. A `/home/icellmobilsoft` -ot tekinti a server root-ként, ezért működik a relativ útvonal megadása.
+<1> Loading Cairo-Regular.ttf from the `/home/icellmobilsoft/fonts` directory.
+<2> Here we also load the font from the above directory. The server considers `/home/icellmobilsoft` as the root, so the relative path works.
 
 [TIP]
 ====
-Google fontok használata
+Using Google Fonts
 
 [source,xml]
 ----
@@ -66,22 +64,22 @@ Google fontok használata
 <p class="quicksand">Google Quicksand Font úőüöóéáyí</p> // <3>
 
 ----
-<1> Quicksand betűtípus importja a https://fonts.google.com/[Google Fonts] -ról
-<2> CSS class beállítása a font használatához
-<3> Szöveg kiírása a beállított betűtípussal
+<1> Importing the Quicksand font from https://fonts.google.com/[Google Fonts]
+<2> Setting the CSS class to use the font
+<3> Displaying text with the specified font
 
 ====
 
 
 
-Ha fájlrendszerből programozottan szeretnénk betölteni a betűtípusokat, akkor a `builder.useFonts` metódusát tudjuk használni a renderkor, melyekre a CSS-ben hivatkozni tudunk.
+If we want to load fonts programmatically from the file system, we can use the `builder.useFonts` method during rendering, which we can reference in the CSS.
 
 JAVA:
 [source,java]
 ----
 builder.useFont(new File("fonts/NotoSansThai/NotoSansThai-Regular.ttf"), "notosansthai-regular"); // <1>
 ----
-<1> NotoSansThai-Regular.ttf betöltése
+<1> Loading NotoSansThai-Regular.ttf
 
 TEMPLATE:
 [source,xml]
@@ -94,17 +92,15 @@ TEMPLATE:
     }
 </style>
 ----
-<1> fentebb betöltött betűtípus használata
-<2> ez csak példaként van itt, a beállítást nem igazán szükséges használni, mert így a teljes font beágyazásra kerül, viszont alapértelmezetten csak a subset, ami a helyes működés.
+<1> Using the previously loaded font
+<2> This is just an example; this setting is not really necessary as it embeds the entire font, whereas by default only the subset is embedded, which is the correct operation.
 
 
-Ennek van egy olyan hátránya, hogy mindegyik fontot betölti a renderkor, azokat is, amiket nem használunk a dokumentum template-ben.
+The downside is that all fonts are loaded during rendering, even those not used in the document template.
 
 
 [NOTE]
 ====
-A PDFBox Fonts Wiki https://github.com/danfickle/openhtmltopdf/wiki/Fonts[itt elérhető]
+The PDFBox Fonts Wiki is available https://github.com/danfickle/openhtmltopdf/wiki/Fonts[here]
 
 ====
-
- 

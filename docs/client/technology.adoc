@@ -1,5 +1,5 @@
-= Technológia
+= Technology
 
 * Java 17
-* JEE 8 és 10
-* Eclipse Microprofile 4.1 és 5.0
+* JEE 10 (There is a client for supporting JEE 8)
+* Eclipse Microprofile 4.1 and 5.0

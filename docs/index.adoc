@@ -5,7 +5,7 @@
 :imagesdir: assets/images
 :attachmentsdir: generated
 
-= DookuG modul JAVA dokumentáció
+= DookuG module JAVA documentation
 
 Version: {release_version}
 
