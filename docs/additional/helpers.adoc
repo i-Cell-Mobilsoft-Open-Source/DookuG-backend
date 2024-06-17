@@ -179,7 +179,7 @@ Logical OR operator for N values. Renders if the logical OR operator evaluates t
 {{#if (or falseValue trueValue notExistingValue)}} YES {{else}} NO {{/if}}               // renders "YES"
 {{#if (or falseValue falseValue falseValue)}} YES {{/if}}                                // renders nothing
 myValue = 'white'
-{{#if (or myValue 'black')}} YES {{else}} NO {{/if}}                                     // renders "YES", the evaluation of both the variable and the string is true
+{{#if (or myValue1 myValue2)}} YES {{else}} NO {{/if}}                                   // renders "YES" if myValue1 OR myValue2 is defined (not null)
 
 Combined usage:
 {{#if (or (equals 'black' 'white') (equals 'white' 'white'))}} YES {{else}} NO {{/if}}   // renders "YES", false OR true evaluates to true
