@@ -1,8 +1,8 @@
 = DOOKUG-DOCUMENT Service
 
-== Service konfiguráció
+== Service configuration
 
-// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
+// TODO: Restore once docker-related items are transferred to GitHub
 // .Oracle
 // [source,properties]
 // ----
@@ -29,11 +29,11 @@
 DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED=true
 ----
 
-.PDF aláírás
+.PDF signing
 [source,properties]
 ----
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_NAME="Eredeti dokumentum"
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_REASON="Igazolva I-Cell Mobilsoft Zrt. által"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_NAME="Original document"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_REASON="Certified by Dookug"
 DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORE=/home/icellmobilsoft/keys/keystore.p12
 DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTOREPASS=123456
 DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORETYPE=PKCS12
@@ -54,44 +54,44 @@ DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY=/home/icellmobilsof
 DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
 ----
 
-// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
-// .JSON loggolás
+// TODO: Restore once docker-related items are transferred to GitHub
+// .JSON logging
 // [source,properties]
 // ----
 // CONSOLE_LOGGING_JSON_ENABLED=true
 // CONSOLE_LOGGING_ENABLED=false
 // ----
 
-// IMPORTANT: Ha JSON formátumban szükséges loggolni, akkor a CONSOLE_LOGGING_ENABLED környezeti változót false-ra kell állítani, hogy ne 2 fajta log keletkezzen a konzolon.
+// IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLED environment variable to false to avoid duplicate logs on the console.
 
-== Ajánlott K8S konfiguráció
+== Recommended K8S Configuration
 
-// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
-// További kulcsok itt találhatók: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc konfiguráció]
+// TODO: Restore once docker-related items are transferred to GitHub
+// Additional keys can be found here: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc configuration]
 
 [options="header",cols="1,1,1"]
 |===
 |Parameter |Value |Description
-|JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |2G memóriában maximalizáljuk a modul heap szükségletét, UseG1GC algoritmus használatával.
-// TODO visszatenni, ha a docker-es dolgok is átherültek a gitHub-ra
-// |ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximális méret
+|JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |Maximize module heap requirement to 2G memory with UseG1GC algorithm.
+// TODO: Restore once docker-related items are transferred to GitHub
+// |ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximum size
 // |OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
 // |OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
 // |OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
 // |OPENTRACING_JAEGER_PROPAGATION|JAEGER/B3 |Jaeger propagation
-// |JAEGER_SERVICE_NAME|dookug-service |Service name ami a Jaeger felületén is látható (alapértelmezetten ROOT.war)
-// |LOGSTASH_ENABLED|1 |Logstash connector bekapcsolása (default 1)
-// |LOGSTASH_HOST|tcp:dookug-logstash |Logstash szerver host (a "tcp:" előtag nem hagyható el)
+// |JAEGER_SERVICE_NAME|dookug-service |Service name visible in Jaeger (default: ROOT.war)
+// |LOGSTASH_ENABLED|1 |Enable Logstash connector (default 1)
+// |LOGSTASH_HOST|tcp:dookug-logstash |Logstash server host (do not remove "tcp:" prefix)
 // |LOGSTASH_PORT|8001 |Logstash GELF input port
-// |LOGSTASH_K8S_NAMESPACE|dookug-service |Logstash logging additionalFields K8S_NAMESPACE beállítása
-// |LOGGING_K8S_NAMESPACE|dookug-service |Log sorban szereplő k8s_namespace kulcs értéke (log pattern)
-// |CONSOLE_LOGGING_ENABLED|false|wildfly-ból, konzol loggolás tiltása, default: true
-// |CONSOLE_LOGGING_JSON_ENABLED|true|wildfly-ból, json loggolás bekapcsolása a console logra. FONTOS kiemelni, hogy javasolt a CONSOLE_LOGGING_ENABLED környezeti válto false értékre állítása, különben dupla loggolás keletkezik a konzolon. Default: false
-// |FILE_LOGGING_ENABLED|false|wildfly-ból, file loggolás tiltása, default: true
-// |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|Az adatbázisba mentendő OffsetDateTime típusoknál a zóna beállítható a létrehozás és módosítás dátumánál. Default  `UTC`, de beállítható bármi amit a java.time.ZoneId osztály `public static ZoneId of(String zoneId)` metódusa befogad paraméterben. Rossz érték esetén warn szintű hibaüzenet keletkezik, és a default értéket veszi alapul, ami `TimeZone.getDefault().toZoneId()` lesz.
+// |LOGSTASH_K8S_NAMESPACE|dookug-service |Set Logstash logging additionalFields K8S_NAMESPACE
+// |LOGGING_K8S_NAMESPACE|dookug-service |Value of k8s_namespace key in log line (log pattern)
+// |CONSOLE_LOGGING_ENABLED|false|Disable console logging in Wildfly (default: true)
+// |CONSOLE_LOGGING_JSON_ENABLED|true|Enable JSON logging on console in Wildfly. It is recommended to set CONSOLE_LOGGING_ENABLED environment variable to false, otherwise duplicate logging will occur on the console. Default: false
+// |FILE_LOGGING_ENABLED|false|Disable file logging in Wildfly (default: true)
+// |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|For OffsetDateTime types to be stored in the database, specify the zone for creation and modification dates. Default is `UTC`, but can be any valid parameter for `java.time.ZoneId.of(String zoneId)` method. Incorrect values will generate warning messages and default values will be used, which will be `TimeZone.getDefault().toZoneId()`.
 |===
 
-.Requests/limits beállítások
+.Requests/limits settings
 [source,yaml]
 ----
 spec:
@@ -109,7 +109,7 @@ spec:
 
 === Health - startup/liveness/readiness
 
-A service támogatja a k8s probe-ok használatát.
+The service supports the use of K8S probes.
 
 Started: http://localhost:9990/health/started
 

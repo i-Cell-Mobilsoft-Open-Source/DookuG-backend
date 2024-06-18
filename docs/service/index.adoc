@@ -2,13 +2,13 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 = Backend
 
-== Szolgáltatások
+== Services
 
 include::document.adoc[leveloffset=+2]
 
-== OpenAPI dokumentáció
+== OpenAPI Documentation
 
-OpenAPI fájlok letöltése:
+Download OpenAPI Files:
 
 // Generated docs
 * dookug-rest-service

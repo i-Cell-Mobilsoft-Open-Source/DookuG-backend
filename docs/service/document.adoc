@@ -1,25 +1,20 @@
-= DOOKUG-DOCUMENT service
+= DOOKUG-DOCUMENT Service
 
-== Dokumentum generálása
+== Document Generation
 
-A modul több lehetőséget is biztosít dokumentum generálására.
-Mindegyik lehetőségnél küldenünk kell, hogy a sablon-t, illetve a dokumentumot milyen engine dolgozza fel, milyen formátumban szeretnénk megkapni a fájlt, illetve milyen tárolási metódussal mentsük el a legenerált dokumentumot.
-Ha a generált dokumentumunk formátumának nem STRING értéket adunk meg, de nem adunk meg engine-t, amely feldolgozhatja a dokumentumot, illetve ha STRING formátumot szeretnénk, de engine-nek megadtuk a PDF_BOX-t, akkor INVALID_INPUT hibát adunk vissza.
-A dokumentum generárálásához, ha a kiinduló sablon alapján szükséges, paramétereket is meg kell adni.
-Ennek megadására több lehetőség is van, az egyik, hogy kulcs-érték párokban küldjük.
-A másik esetben egy json szerkezetett várunk el, amit base64binary formában kell küldeni a kérésben.
+The module provides multiple options for document generation. For each option, we need to specify the template and how the document should be processed by the engine, in what format we want to receive the file, and how we want to store the generated document. If the format of the generated document is not a STRING value but an engine that can process the document is not provided, or if STRING format is desired but PDF_BOX engine is specified, an INVALID_INPUT error will be returned. When generating documents based on the initial template, parameters must also be specified. There are several options for specifying it, one of which is to send it in key-value pairs. The other option is to expect a json structure that is to be sent in base64binary form in the request.
 
 [[generateInline]]
-== Dokumentum generálása request body alapján
+== Document generation based on request body
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/inline
 ----
 
-A generálás során egy request body-ban beküldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat: sablont és a dokumentumot feldolgozó engine-t, a válasz formátumot, illetve a dokumentum tárolási metódusát.
+During generation, we submit the initial template and the data associated with the generation in the request body: template and engine processing the document, response format, and document storage method.
 
-Minta dokumentum generálás request - json paraméterekkel base64binary formában (a jobb olvashatóság érdekében a sablonok tartalmának és a paraméter értékei le lettek vágva):
+Sample document generation request - JSON parameters in base64binary form (trimmed for readability):
 
 [source,http request]
 ----
@@ -58,18 +53,17 @@ Headers:		Accept=application/json
 }
 ----
 
-A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMetadata]]
-== Dokumentum generálása request body alapján, metaadat válasszal
+== Document generation based on request body, with metadata response
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/inline/metadata
 ----
 
-Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
-Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+There's an option to receive metadata describing the document instead of the document itself. In this case, the request URI and HTTP header differ when submitting the request.
 
 [source,http request]
 ----
@@ -80,17 +74,16 @@ Headers:		Accept=application/json
 ----
 
 [[generateInlineMultipart]]
-== Dokumentum generálása multipart form alapján
+== Document generation based on multipart form
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/inline/multipart
 ----
 
-A generáláshoz be kell küldjük a kiinduló sablont, illetve a generáláshoz tartozó adatokat.
-Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal.
+To generate, we need to submit the initial template and the data associated with the generation. The latter matches the data sent for document generation based on the request body.
 
-Minta dokumentum generálás multipart form request kulcs-érték paraméterekkel:
+Sample document generation multipart form request with key-value parameters:
 
 [source,http request]
 ----
@@ -121,18 +114,17 @@ Content-Type: application/octet-stream
 DookuG simple test with prameters first: [{{first}}], second: [{{second}}]
 ----
 
-A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMultipartMetadata]]
-== Dokumentum generálása multipart form alapján, metaadat válasszal
+== Document generation based on multipart form, with metadata response
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/inline/multipart/metadata
 ----
 
-Lehetőség van arra is, hogy ne a dokumentumot kapjuk meg, hanem az azt leíró metaadatokat.
-Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+There's also an option to receive metadata describing the document instead of the document itself. In this case, the request URI and HTTP header differ when submitting the request.
 
 [source,http request]
 ----
@@ -143,17 +135,16 @@ Headers:		Accept=application/json
 ----
 
 [[generateStored]]
-== Dokumentum generálása mentett sablon alapján
+== Document generation based on stored template
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/storedTemplate
 ----
 
-A generáláshoz be kell küldenünk a sablon nevét, amiből generáltatjuk a dokumentumot, valamint a generáláshoz tartozó adatokat.
-Ez utóbbi megegyezik a request body alapján történő dokumentum generálásnál beküldött adatokkal, kiegészülve azzal, hogy a sablont milyen tárban tároljuk.
+To generate, we need to submit the name of the template from which the document is generated, along with the data associated with the generation. The latter matches the data sent for document generation based on the request body, supplemented with how the template is stored.
 
-Példa dokumentum generálása mentett sablon alapján request - json paraméterekkel base64binary formában (a jobb olvashatóság érdekében a paraméter értéke le lett vágva):
+Sample document generation based on stored template request - JSON parameters in base64binary form (trimmed for readability):
 
 [source,http request]
 ----
@@ -186,20 +177,19 @@ Headers:		Accept=application/json
 }
 ----
 
-A válaszban a generált dokumentumot kapjuk vissza, valamint HTTP header-ben a fájl nevét.
+In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateStoredMetadata]]
-== Dokumentum generálása mentett sablon alapján, metaadat válasszal
+== Document generation based on stored template, with metadata response
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/storedTemplate/metadata
 ----
 
-Lehetőség van arra, hogy ne a dokumentumot kapjuk meg a válaszban, hanem az azt leíró metaadatokat.
-Ebben az esetben a request URI, és a HTTP header tér el a kérés beküldésekor.
+There's an option to receive metadata describing the document instead of the document itself. In this case, the request URI and HTTP header differ when submitting the request.
 
-Az adatbázisban tárolt template kulcsa a templateName és templateLanguage értékéből áll össze.
+The template key stored in the database consists of the templateName and templateLanguage values.
 
 [source,http request]
 ----
@@ -211,24 +201,20 @@ Headers:		Accept=application/json
 
 '''
 
-A dokumentum mentése a `documentStorageMethod` paraméter megadásától függ.
-Két értéket vehet fel jelenleg: `NONE` és `DATABASE`
-Amennyiben a `NONE` értéket adjuk meg, akkor a dokumentumot nem mentjük el, így a későbbiekben nem is lehet lekérdezni.
-A `DATABASE` esetében a generált dokumentumot adatbázis táblába mentjük el, és a későbbi lekérdezéskor, onnan olvassuk ki.
-Az adatbázisba elmentjük még a dokumentumhoz tartozó egyéb adatokat is:
+Saving the document depends on the `documentStorageMethod` parameter. It can take two values: `NONE` and `DATABASE`. If `NONE` is specified, the document is not saved, and therefore cannot be queried later. In case of `DATABASE`, the generated document is saved in a database table, from where it can be retrieved later. Other data related to the document are also saved in the database:
 
-* a kiinduló sablon azonosítóját - abban az esetben, ha nincs elmentve a sablon ezt a paramétert nem töltjük
-* a generált fájl nevét - Három részből generáljuk a fájlnevet: a dokumentum egyedi azonosítója, a kiinduló sablon neve, és a generálás időpontja long értéke
-* a fájl formátuma
-* a dokumentum státusza - DONE, FAILED, PENDING, SYNCING
-* a dokumentumhoz tartozó paraméterek
-* a dokumentum tárolási formája - `DATABASE` esetén ezt a mezőt is DATABASE értékkel töltjük
+* identifier of the initial template - if the template is not saved, this parameter is not filled
+* filename of the generated file - generated from the unique identifier of the document, the name of the initial template, and the timestamp of the generation long value
+* file format
+* document status - DONE, FAILED, PENDING, SYNCING
+* parameters related to the document
+* document storage format - in case of the field DATABASE, this field is also filled with DATABASE value
 
 '''
 
-A generálás során bármilyen formában adjuk meg a kiinduló sablont a válaszban vagy a generált fájlt kapjuk vissza, vagy a dokumentumot leíró metaadatokat, DocumentMetadataResponse típusú objektumként.
+During generation, the initial template is provided in any form of the response, the generated file is received, or metadata describing the document is received, as a DocumentMetadataResponse type object.
 
-Példa DocumentMetadataResponse:
+Sample DocumentMetadataResponse:
 
 [source,json]
 ----
@@ -247,41 +233,42 @@ Példa DocumentMetadataResponse:
     }
 }
 ----
+
 [[queryDocumentMetadata]]
-== Dokumentum metaadatainak lekérdezése
+== Query Document Metadata
 
 [source,text]
 ----
 POST /internal/dookug/document/storedTemplate/metadata/query
 ----
 
-A dokumentum metaadatok lekérdezésének célja, hogy a megadott szűrési feltételeknek megfelelő dokumentum adatokat visszaadjuk.
+The purpose of querying document metadata is to retrieve document information that meets the specified filtering criteria.
 
-A végpont biztosítja a lapozhatóságot, vagyis az adatokat több oldalon keresztül kaphatjuk meg.
-Ehhez a kérésben beküldhetjük, hogy melyik oldal adatait szeretnénk visszakapni, illetve az oldalról mennyi elemet.
-Ennek megfelelően a válaszban visszaadjuk, hogy összesen hány elem található, illetve, hogy az elemek mennyi oldalon férnek el.
-Amennyiben nem küldjük ezt a paramétert a végpont alapértelmezetten az első 15 elemet fogja visszaadni.
+The endpoint supports pagination, meaning data can be retrieved across multiple pages. 
+In the request, you can specify which page of data and how many elements per page you want to retrieve. 
+Accordingly, the response includes total count of elements and the number of pages they span.
+If not specified, the endpoint defaults to returning the first 15 elements.
 
-A végponton a következő szűrési feltételek adhatóak meg:
+The following filtering criteria can be used:
 
-* templateId - a dokumentum generáláshoz használt sablon azonosítója
-* status - a dokumentum státusza
-* format - a dokumentum fájl formátuma
-* storageMethod - a dokumentum tárolási formája
-* storageId - a dokumentum tárolójának egyedi azonosítója
-* filename - a dokumentum fájl neve
+* templateId - identifier of the template used for document generation
+* status - status of the document
+* format - file format of the document
+* storageMethod - storage method of the document
+* storageId - unique identifier of the document storage
+* filename - name of the document file
 
-A rendezési paraméter lehet:
+Sorting parameters can be:
 
 * filename
 * documentStorageMethod
 * format
 * status
 
-A rendezési paraméterekhez meg lehet adni külön-külön, hogy csökkenő, illetve növekvő rendezést szeretnénk.
-Az előbb említett rendezéseken kívül, van egy alapértelmezett rendezés a dokumentum azonosítójára.
+For sorting, you can specify whether to sort in ascending or descending order for each parameter individually.
+In addition to the mentioned sorting options, there is a default sorting by document identifier.
 
-Minta DocumentMetadataQueryRequest:
+Sample DocumentMetadataQueryRequest:
 
 [source,http request]
 ----
@@ -312,9 +299,9 @@ Headers:		Accept=application/json
 }
 ----
 
-Ha a kérésben beküldött paraméterek alapján található dokumentum metaadat, akkor a válaszban egy maximum 100 elemű listában visszakapjuk az adatokat.
+If documents are found based on the submitted parameters, the response returns a list of up to 100 elements.
 
-Minta DocumentMetadataQueryResponse:
+Sample DocumentMetadataQueryResponse:
 
 [source,json]
 ----
@@ -324,27 +311,29 @@ Minta DocumentMetadataQueryResponse:
       "timestamp": "2023-02-22T09:15:14.168Z"
     },
     "funcCode": "OK",
-    "rowList": {
-      "documentId": "43183KXXW2KCI206",
-      "storageMethod": "DATABASE",
-      "filename": "filename.pdf",
-      "format": "PDF",
-      "status" : "DONE"
-    }
-  }
+    "rowList": [
+      {
+        "documentId": "43183KXXW2KCI206",
+        "storageMethod": "DATABASE",
+        "filename": "filename.pdf",
+        "format": "PDF",
+        "status" : "DONE"
+      }
+    ]
+}
 ----
 
 [[getDocument]]
-== Dokumentum lekérdezése
+== Get Document
 
 [source,text]
 ----
 POST /internal/dookug/document/content/{documentId}
 ----
 
-A végpont célja, hogy a már legenerált és elmentett dokumentumot a megadott azonosító alapján visszaadja.
+The purpose of this endpoint is to retrieve a previously generated and saved document based on the provided identifier.
 
-Minta dokumentum lekérdezés request:
+Sample document retrieval request:
 
 [source]
 ----
@@ -353,8 +342,8 @@ Request URI:	http://localhost:8082/internal/dookug/document/content/43183KXXW2KC
 Headers:		Content-Type=application/octet-stream
 ----
 
-<1> A generált dokumentum azonosítója
+<1> Identifier of the generated document
 
-Amennyiben a beküldött azonosítóhoz nem található dokumentum, akkor ENTITY_NOT_FOUND hibát adunk vissza.
+If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 
-A válaszban - létező dokumentum azonosító esetén - visszaküldjük a generált dokumentumot, és HTTP header-ben a fájl nevét is.
+In the response - for an existing document identifier - the generated document is returned, and the file name is included in the HTTP headers.

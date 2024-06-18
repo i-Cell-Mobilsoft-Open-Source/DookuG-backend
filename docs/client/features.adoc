@@ -1,9 +1,9 @@
 [[methods]]
-= Működés
+= Operation
 
-A kliensnek jelenleg több metódusa is van, melyekkel dokumentumot lehet generáltatni, a létrehozott dokumentumok metaadatait lehet lekérdezni, illetve magát a generált dokumentumot lehet lekérdezni.
+The client currently has multiple methods to generate documents, retrieve metadata of the created documents, and fetch the generated document itself.
 
-A dokumentum generálása során a metódusok egy részénél a generált dokumentumot kapjuk vissza:
+During document generation, some methods return the generated document:
 
 [source,java]
 ----
@@ -24,9 +24,7 @@ public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String te
 public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException;
 ----
 
-Fontos kiegészítés, hogy a `ParametersDataType` típusú paramétereket bár kézzel is létrehozhatjuk, de készült hozzájuk egy ParametersDataBuilder segédosztály, amiben fluent API segítségével állíthatjuk be a kívánt konfigurációkat.
-Létrehozását a SAXON template motor kívánta meg, mert az XSLT template-ek generálásához szükséges megadni további paramétereket is, melyek nélkül nem generálható dokumentum.
-A builderből SAXON engine-hez nagyon könnyen kinyerhető a kívánt konfiguráció a getSaxonParameters(byte[], byte[], boolean) metódus meghívásával, melynek a FOP konfiguráció tartalma, az XML dataset és az XML tömörítettségét jelző értéket lehet megadni, vagy az overload-olt metódusokon keresztül csak az XML fájl tartalmát.
+It is important to note that `ParametersDataType` type parameters can be created manually, but a `ParametersDataBuilder` helper class is provided to configure the desired settings using a fluent API. This was required by the SAXON template engine, as additional parameters are necessary for generating XSLT templates, without which documents cannot be generated. The desired configuration can be easily extracted from the builder for the SAXON engine by calling the `getSaxonParameters(byte[], byte[], boolean)` method, where the FOP configuration content, the XML dataset, and the compression status of the XML can be specified, or through overloaded methods, just the content of the XML file.
 
 [source,java]
 ----
@@ -35,19 +33,17 @@ GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
         ParametersDataBuilder.getSaxonParameters(
                 FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8))); <2>
 ----
-<1> A template nyelve
-<2> Az XML dataset tartalma (jelen esetben tömörítetlenül)
+<1> The language of the template
+<2> The content of the XML dataset (uncompressed in this case)
 
-Ezek a metódusok - sikeres hívás esetén - egy GeneratedDocumentDTO-val térnek vissza, mely tartalmazza a generált fájlnevet, a generált objektumot, mint stream-et és a HTTP status kódot.
+These methods return a `GeneratedDocumentDTO` upon a successful call, which contains the generated filename, the generated object as a stream, and the HTTP status code.
 
-Paraméterként meg kell kapniuk a template listát, valamint a paramétereket, ha a template-ekben változók vannak, amiket ki kell cserélni értékekre, pl.
-HANDLEBARS template engine esetén.
-A paraméterek lehetnek key-value párok, vagy egy JSON objektum, mely tulajdonképp ezeket a key-value párokat tartalmazza.
+Parameters must include the list of templates and the parameters if the templates contain variables that need to be replaced with values, such as in the case of the HANDLEBARS template engine. The parameters can be key-value pairs or a JSON object that essentially contains these key-value pairs.
 
-A metódusok elkülönülnek a dokumentum generáláshoz felhasznált template megadásának formájában.
-A `postDocumentGenerateEntityBody()` metódusoknál a request body-ban küldjük a sablonként használt struktúrát, a `postDocumentGenerateMultipart()` metódusoknál form paraméterként, InputStream-ként, adható meg a sablon, míg a `postDatabaseStoredTemplateDocumentGenerate()` metódusoknál csak a sablon nevét kell megadni, mivel ezt a megadott tárolási metódusnak megfelelően kezeli a végpont.
+The methods differ in the way the template for document generation is provided.
+In the `postDocumentGenerateEntityBody()` methods, the structure used as a template is sent in the request body. In the `postDocumentGenerateMultipart()` methods, the template is provided as a form parameter, InputStream. In the `postDatabaseStoredTemplateDocumentGenerate()` methods, only the template name needs to be provided, as the endpoint handles it according to the specified storage method.
 
-Ezeken a metódusokon kívül lehetőség van még olyan dokumentum generálásra, ahol nem magát az elkészült fájlt kapjuk meg, hanem az azt leíró metaadatokat:
+Additionally, methods are available for generating documents where only the metadata of the created document is returned instead of the document itself:
 
 [source,java]
 ----
@@ -70,11 +66,11 @@ public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetada
 public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(String templateName, OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters, ParametersDataType parametersData) throws BaseException;
 ----
 
-Ezek a metódusok - sikeres hívás esetén - egy DocumentMetadataResponse-val térnek vissza, mely tartalmazza a dokumentum egyedi azonosítóját, fájlnevét, tárolási módját, formátumát és a státuszát.
+These methods return a `DocumentMetadataResponse` upon a successful call, which includes the unique identifier of the document, filename, storage method, format, and status.
 
-Hasonlóan, az előzőleg felsorolt metódusoknál, a sablon megadásának formájában ugyanúgy különülnek el a kliens hívások.
+Similarly, the client calls are distinguished in the same way by how the template is provided.
 
-Ahhoz, hogy láthassuk, hogy már milyen fájlokat generáltunk lehetőség van a dokumentumok metaadatainak lekérdezésére:
+To view already generated files, there is an option to query the metadata of the documents:
 
 [source,java]
 ----
@@ -83,24 +79,22 @@ public DocumentMetadataQueryResponse postDocumentMetadataQuery(DocumentMetadataQ
 public DocumentMetadataQueryResponse postDocumentMetadataQuery(DocumentMetadataQueryRequest queryRequest) throws BaseException;
 ----
 
-A lekérdezés - sikeres hívás esetén - DocumentMetadataQueryResponse-val térnek vissza, mely tartalmazza a megadott paraméterekre illeszkedő dokumentumok metaadatait, valamint a lapozhatósági adatokat: az összes elem számát, az összes oldal számát, az oldal számát, amelyekhez visszaadtuk a dokumentum metaadatait, valamint, hogy hány elemet adtunk vissza a lekérdezésben.
+The query returns a `DocumentMetadataQueryResponse` upon a successful call, which contains the metadata of documents matching the specified parameters, as well as pagination data: total number of items, total number of pages, page number, and the number of items returned in the query.
 
-Paraméterként a szűrési feltételeket, illetve a második esetben a lapozási paramétereket is megadhatjuk.
-Ha ezt nem tesszük, akkor az első oldal 15 elemét kapjuk vissza a válaszban.
-Szűrési paraméternek megadható a dokumentum neve, formátuma, a dokumentum tárolási metódusa, a sablon azonosítója, amelyből a dokumentumot generáltuk, a dokumentum tárolójának az azonosítója és a dokumentum státusza.
+Filtering conditions can include the document name, format, storage method, template identifier from which the document was generated, the identifier of the document's storage, and the status of the document.
 
-Lehetőség van arra is, hogy a korábban kigenerált dokumentumot kérdezzük le:
+It is also possible to query a previously generated document:
 
 [source,java]
 ----
 public GeneratedDocumentDto getDocumentContent(String documentId) throws BaseException;
 ----
 
-A válaszban - sikeres hívás esetén - visszaadjuk a generált dokumentumot, mint stream-et, a fájl nevét, és a HTTP státusz kódot.
+The response returns the generated document as a stream, the filename, and the HTTP status code upon a successful call.
 
-Paraméterként a dokumentum egyedi azonosítóját kell megadni.
+The unique identifier of the document must be provided as a parameter.
 
-A kliensnek van pár további beállítási lehetősége is, melyekkel a generálást tudjuk befolyásolni:
+The client also offers additional configuration options that can influence the generation process:
 
 [source,java]
 ----
@@ -127,84 +121,83 @@ setDocumentStorageMethodType()
 setDigitalSigningType()
 ----
 
-A `setGeneratorEngineType()` segítségével az output generáláshoz használható engine-t állíthatjuk be, mely jelenleg az alábbiak lehetnek:
+The `setGeneratorEngineType()` allows setting the engine used for output generation, which currently can be:
 
-* `PDF_BOX` -- https://pdfbox.apache.org/[Apache PdfBox] használata
-* `SAXON` -- https://github.com/Saxonica/Saxon-HE/[Saxon HE] használata
+* `PDF_BOX` -- uses [Apache PdfBox](https://pdfbox.apache.org/)
+* `SAXON` -- uses [Saxon HE](https://github.com/Saxonica/Saxon-HE/)
 * `NONE`
 
-A `setTemplateEngineType()` segítségével template 'típusát' állíthatjuk be, mely jelenleg az alábbiak lehetnek:
+The `setTemplateEngineType()` allows setting the template 'type', which currently can be:
 
-* `HANDLEBARS` -- https://handlebarsjs.com/[Handlebars] használata
+* `HANDLEBARS` -- uses [Handlebars](https://handlebarsjs.com/)
 * `NONE`
 
-A `setResponseFormat()` segítségével a válaszformátumot állíthatjuk be.
+The `setResponseFormat()` allows setting the response format:
 
 * `PDF`
 * `STRING`
 
-A `setDocumentStorageMethodType()` segítségével a dokumentum tárolási módját állíthatjuk be.
+The `setDocumentStorageMethodType()` allows setting the document storage method:
 
 * `NONE`
 * `DATABASE`
 
-A `setDigitalSigningType(digitalSigningType)` segítségével tudjuk vezérelni, hogy a generált PDF dokumentumra kerüljön-e digitális aláírás.
-A digitalSigning további három paramétert vár, melyek az alábbiak:
+The `setDigitalSigningType(digitalSigningType)` allows controlling whether the generated PDF document should have a digital signature. The `digitalSigning` expects three additional parameters:
 
-* signatureName - az aláírás 'neve' (opcionális)
-* signatureReason - milyen célból írta alá (opcionális)
-* keyAlias - a keystore-ban lévő kulcs azonosítója, amivel az aláíró kulcsot tudjuk azonosítani (opcionális, de célszerű megadni, mert alapértelmezetten a `test` nevű kulcsot keresi)
+* `signatureName` - the name of the signature (optional)
+* `signatureReason` - the reason for signing (optional)
+* `keyAlias` - the identifier of the key in the keystore, used to identify the signing key (optional, but recommended as it defaults to searching for the `test` key)
 
-Ha nem állítunk be semmit, alapértelmezetten a `PDF_BOX` + `HANDLEBARS` + `PDF` + `NONE` értékek vannak beállítva, digitális aláírás nélkül.
+If no settings are specified, the default values are `PDF_BOX` + `HANDLEBARS` + `PDF` + `NONE` without a digital signature.
 
-A `postDocumentGenerateEntityBody()` metódusok az alábbi REST végpontot hívják meg a modulban:
+The `postDocumentGenerateEntityBody()` methods call the following REST endpoint in the module:
 
 [source,text]
 ----
 POST /internal/dookug/document/generate/inline
 ----
 
-A kliens a kérésben megküldi:
+The client sends:
 
-* ContextType-ot
-* a kapott TemplateType listát
-* a kapott ParameterType listát
-* a GeneratorSetup objektumot, amit a kliens `set` metódusaival tudunk kontrollálni.
+* `ContextType`
+* the received `TemplateType` list
+* the received `ParameterType` list
+* the `GeneratorSetup` object, which can be controlled by the client's `set` methods.
 
-Ha a kérés megfelelő, akkor visszakapjuk a generált objektumot.
+If the request is correct, the generated object is returned.
 
 [NOTE]
 ====
-A Multipart és StoredTemplate kliensek esetében ugyanígy járunk el, azok csak a REST API hívásokban különböznek.
+For Multipart and StoredTemplate clients, the process is the same, differing only in the REST API calls.
 ====
 
-A `postDocumentMetadataQuery()` metódusok az alábbi REST végpontot hívják meg a modulban:
+The `postDocumentMetadataQuery()` methods call the following REST endpoint in the module:
 
 [source,text]
 ----
 POST /internal/dookug/document/storedTemplate/metadata/query
 ----
 
-A kliens a kérésben megküldi:
+The client sends:
 
-* ContextType-ot
-* a kapott szűrési feltételeket
-* a lapozási paramétereket
-* a sorrendezési beállításokat
+* `ContextType`
+* the received filtering conditions
+* pagination parameters
+* sorting settings
 
-Ha a kérés megfelelő, akkor visszakapjuk a kérésben beküldött paraméterekre illeszkedő dokumentum metaadatokat.
+If the request is correct, the metadata of the documents matching the specified parameters is returned.
 
-Példa a kliens használatához:
+Example of client usage:
 
 [source,java]
 ----
  @Inject
  private DookugClient dookugClient;
  ...
- //template objektum
- TemplateType template = new TemplateType().withTemplateName("main").withTemplateContent("DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8));
+ //template object
+ TemplateType template = new TemplateType().withTemplateName("main").withTemplateContent("DookuG client simple test with parameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8));
 
- //paraméterek
+ //parameters
  ParameterType parameter1 = new ParameterType().withKey("first").withValue("első");
  ParameterType parameter2 = new ParameterType().withKey("second").withValue("í189öüóőúűáé-.,<>#&@{};*¤ß$");
  ...
@@ -213,18 +206,17 @@ Példa a kliens használatához:
  GeneratedDocumentDto response = dookugClient.postDocumentGenerateEntityBody(List.of(template), List.of(parameter1,parameter2));
 ----
 
-vagy hasonlóan dokumentum generálása, de PDF dokumentum formátummal, multipart inputtal, és a metaadatot adjuk vissza
+Or similarly, generating a document but with a PDF document format, multipart input, and returning the metadata:
 
 [source,java]
 ----
  @Inject
  private DookugClient dookugMultipartClient;
  ...
- //template byte tömbként
- byte[] template = "DookuG client simple test with prameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8);
+ //template as byte array
+ byte[] template = "DookuG client simple test with parameters first: [{{first}}], second: [{{second}}]".getBytes(StandardCharsets.UTF_8);
 
-
- //paraméterek
+ //parameters
  ParameterType parameter1 = new ParameterType().withKey("first").withValue("első");
  ParameterType parameter2 = new ParameterType().withKey("second").withValue("í189öüóőúűáé-.,<>#&@{};*¤ß$");
  ...
@@ -234,10 +226,9 @@ vagy hasonlóan dokumentum generálása, de PDF dokumentum formátummal, multipa
  DocumentMetadataResponse response = dookugMultipartClient.postDocumentGenerateMultipartMetadata(new ByteArrayInputStream(template), List.of(parameter1, parameter2));
 ----
 
-== Saxon(-HE) engine használata a kliensben
+=== Using Saxon-HE Engine in the Client
 
-Saxon motor használatához szükséges egy XSLT template, ami alapján egy XML-ből PDF fájlt generálhatunk. (Ebben az esetben csak PDF lehet a kimenet)
-Szükséges egy fop-config.xml fájlt is átadni a requestben, amivel például a fontok használatát tudjuk szabályozni.
+To use the Saxon-HE engine in the client, an XSLT template is required for generating a PDF file from an XML. In this case, only PDF can be the output format. You also need to provide a `fop-config.xml` file in the request, which helps regulate the use of fonts, for example.
 
 [source,xml]
 ----
@@ -247,7 +238,7 @@ Szükséges egy fop-config.xml fájlt is átadni a requestben, amivel például 
         <renderer mime="application/pdf">
             <fonts>
                 <!-- TTF fonts -->
-                <font kerning="yes" embed-url="/home/icellmobilsoft/fonts/Roboto/Roboto-Regular.ttf"><1>
+                <font kerning="yes" embed-url="/home/icellmobilsoft/fonts/Roboto/Roboto-Regular.ttf">
                     <font-triplet name="Roboto" style="normal" weight="normal" />
                 </font>
                 <font kerning="yes" embed-url="/home/icellmobilsoft/fonts/Roboto/Roboto-Bold.ttf">
@@ -258,14 +249,11 @@ Szükséges egy fop-config.xml fájlt is átadni a requestben, amivel például 
     </renderers>
 </fop>
 ----
-<1> Itt tudjuk megadni, hogy a fájlrendszerben hol találhatóak meg a használt betűtípusok.
 
-HANDLEBARS szintén használható a SAXON használatakor, ilyenkor a szokásos {{VARIABLE}} változókba helyettesíthetjük be a kívánt szövegrészeket, valamint készíthetünk egymásba ágyazott template-eket is (itt legfőképp erre lehet használni).
-Ami változás a többi enginehez képest, hogy itt meg kell adni a generatorSetup osztályban az xmlDataToTransform mezőben a transzformálni kívánt XML fájlt, azaz ebben az esetben az XML fájl nem a template lesz, hanem az adatforrás.
+Handlebars can also be used with SAXON, where you can substitute the usual `{{VARIABLE}}` variables with desired text parts, as well as create nested templates (this is mainly used for that).
 
-Tehát a generatorSetupban SAXON esetén a többi mező mellett kötelezően megadandó:
+The major change from other engines is that you need to specify the `XML` as a data source in the `generatorSetup` in the SAXON case, in addition to other fields:
 
-- XML: mint adatforrás
-- XSLT: mint template
-- fopConfig: transzformátor konfiguráció
-
+- XML: as data source
+- XSLT: as template
+- fopConfig: transformer configuration

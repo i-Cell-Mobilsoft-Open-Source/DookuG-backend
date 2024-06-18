@@ -1,6 +1,6 @@
-= Használat
+= Usage
 
-A kliens használata mindössze egy pom.xml bejegyzés, kívánt JEE verziótól függően:
+Using the client requires only an entry in the pom.xml file, depending on the desired JEE version:
 
 [source,xml]
 ----
@@ -11,7 +11,7 @@ A kliens használata mindössze egy pom.xml bejegyzés, kívánt JEE verziótól
 </dependency>
 ----
 
-vagy
+or
 
 [source,xml]
 ----
@@ -22,7 +22,7 @@ vagy
 </dependency>
 ----
 
-majd egy @Inject,
+followed by an @Inject,
 
 [source,java]
 ----
@@ -30,11 +30,10 @@ majd egy @Inject,
 private DookugClient dookugClient;
 ----
 
-mely az összes végponthoz definiál kliens hívást, és használhatjuk is az általa kínált metódusokat.
-https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html[Microprofile rest klienst] használ az API híváshoz így a beállítások a már megszokott microprofile-config segítségével végezhetőek el. (lásd később)
+which defines client calls to all endpoints and allows the use of its offered methods.
+The API calls are made using the https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html[MicroProfile Rest Client], so configurations can be set using the familiar microprofile-config. (see below)
 
 [WARNING]
 ====
-A kliens alkalmazás feladata, hogy a konténerbe mountolja be a `/home/icellmobilsoft/resources` mount point alá az általa használt resource-okat, melyekre a template-ekben hivatkozik! 
-
+It is the responsibility of the client application to mount resources under the `/home/icellmobilsoft/resources` mount point within the container that it uses, which are referenced in the templates!
 ====

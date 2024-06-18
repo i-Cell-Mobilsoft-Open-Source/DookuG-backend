@@ -1,6 +1,6 @@
 ifndef::imagesdir[:imagesdir: ../images/]
 
-= Kiegészítő információk
+= Additional informations
 
 include::templatecache.adoc[leveloffset=+1]
 include::helpers.adoc[leveloffset=+1]
