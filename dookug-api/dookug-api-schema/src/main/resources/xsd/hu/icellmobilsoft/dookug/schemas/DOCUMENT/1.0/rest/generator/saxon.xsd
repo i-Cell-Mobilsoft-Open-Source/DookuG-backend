@@ -6,22 +6,22 @@
 
     <xsd:complexType name="SaxonGeneratorParametersDataType">
         <xsd:annotation>
-            <xsd:documentation>SAXON generátorhoz szükséges paramétereknek a típusa</xsd:documentation>
+            <xsd:documentation>The type of parameters required for the SAXON generator</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="fopConfig" type="xsd:base64Binary" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Az XSLT generáláshoz használt opcionális FOP konfigurációs XML tartalom</xsd:documentation>
+                    <xsd:documentation>Optional FOP configuration XML content used for XSLT generation</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="xmlDataset" type="xsd:base64Binary">
                 <xsd:annotation>
-                    <xsd:documentation>Az XSLT generáláskor felhasznált transzformálni kívánt XML tartalom</xsd:documentation>
+                    <xsd:documentation>The XML content to be transformed during XSLT generation</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="xmlDatasetCompressed" type="xsd:boolean" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Az xmlDataset tartalma tömörített-e (gzip), alapértelmezetten 'FALSE'</xsd:documentation>
+                    <xsd:documentation>Is the content of xmlDataset compressed (gzip), default 'FALSE'.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
@@ -29,7 +29,7 @@
 
     <xsd:element name="SaxonGeneratorParametersData">
         <xsd:annotation>
-            <xsd:documentation>Saxon generátor paraméterek</xsd:documentation>
+            <xsd:documentation>Saxon generator parameters</xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
             <xsd:complexContent>

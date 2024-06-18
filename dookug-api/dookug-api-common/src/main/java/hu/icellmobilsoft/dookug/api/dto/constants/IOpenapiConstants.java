@@ -38,17 +38,17 @@ public interface IOpenapiConstants {
         /**
          * {@value #DOCUMENT_GENERATE}
          */
-        String DOCUMENT_GENERATE = "Dokumentumgenerálási műveletek";
+        String DOCUMENT_GENERATE = "Document generation operations";
 
         /**
          * {@value #DOCUMENT_CONTENT}
          */
-        String DOCUMENT_CONTENT = "Generált dokumentum lekérdezése";
+        String DOCUMENT_CONTENT = "Querying generated document";
 
         /**
          * {@value #STORED_TEMPLATE}
          */
-        String STORED_TEMPLATE = "Tárolt template műveletek";
+        String STORED_TEMPLATE = "Stored template operations";
     }
 
     /**
@@ -61,17 +61,17 @@ public interface IOpenapiConstants {
         /**
          * {@value #DOCUMENT_GENERATE}
          */
-        String DOCUMENT_GENERATE = "Dokumentum generálásával kapcsolatos REST operációk request-ben kapott beállítások és paraméterek, "
-                + "valamint request-ben kapott vagy modulban tárolt template alapján.";
+        String DOCUMENT_GENERATE = "Settings and parameters received in the REST operations related to document generation, "
+                + "based on the template received in the request or stored in the module.";
 
         /**
          * {@value #DOCUMENT_CONTENT}
          */
-        String DOCUMENT_CONTENT = "Modul adatbázisában tárolt generált dokumentum lekérdezése.";
+        String DOCUMENT_CONTENT = "Querying generated document stored in the module database.";
 
         /**
          * {@value #STORED_TEMPLATE}
          */
-        String STORED_TEMPLATE = "Modulban tárolt template-tel kapcsolatos REST operációk.";
+        String STORED_TEMPLATE = "REST operations related to templates stored in the module.";
     }
 }
