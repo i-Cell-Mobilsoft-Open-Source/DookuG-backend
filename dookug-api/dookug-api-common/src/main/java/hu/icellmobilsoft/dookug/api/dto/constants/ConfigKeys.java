@@ -31,7 +31,7 @@ import hu.icellmobilsoft.coffee.module.configdoc.ConfigDoc;
 public interface ConfigKeys {
 
     /**
-     * Interface-hez szükséges konfigurációs kulcsok és default értékek
+     * Configuration keys and default values required for the interface
      *
      */
     interface Interface {
@@ -43,45 +43,45 @@ public interface ConfigKeys {
         String DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT = "false";
 
         /**
-         * *Interface konfiguráció*
+         * *Interface configuration*
          *
-         * Logikai congfig kulcs.
+         * Logical config key.
          *
-         * Requestben bejövő "parametersData" mezőt gzip-el tömörítve várja a modul.
+         * The module expects the incoming "parametersData" field in the request to be compressed using gzip.
          */
         @ConfigDoc(since = "0.1.0", defaultValue = DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT)
         String DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED = "dookug.service.interface.parametersdata.gzipped";
     }
 
     /**
-     * Klienshez szükséges konfigurációs kulcsok
+     * Configuration keys and default values required for the client
      *
      */
     interface Client {
 
         /**
-         * *Kliens konfiguráció*
+         * *Client configuration*
          *
-         * A DookuG klienst használó alkalmazásban kell beállítani:
+         * In the application using the DookuG client, you need to set:
          *
-         * - a szerver REST url-jét (pl: dookug.client.document/mp-rest/url: http://localhost:8082)
+         * - the server REST URL (e.g., dookug.client.document/mp-rest/url: http://localhost:8082)
          *
-         * - opcionálisan a REST connectTimeout-ot (pl: dookug.client.document/mp-rest/connectTimeout: 5000)
+         * - optionally the REST connectTimeout (e.g., dookug.client.document/mp-rest/connectTimeout: 5000)
          *
-         * - opcionálisan a REST readTimeout-ot: (pl: dookug.client.document/mp-rest/readTimeout: 60000)
+         * - optionally the REST readTimeout (e.g., dookug.client.document/mp-rest/readTimeout: 60000)
          */
         @ConfigDoc(since = "0.1.0", defaultValue = "-")
         String DOOKUG_CLIENT_DOCUMENT = "dookug.client.document";
     }
 
     /**
-     * Handlebars-hoz szükséges konfigurációs kulcsok és default értékek
+     * Configuration keys and default values required for Handlebars
      *
      */
     interface Handlebars {
 
         /**
-         * Helperekhez szükséges konfigurációs kulcsok és default értékek
+         * Configuration keys and default values required for the helpers
          *
          */
         interface Helper {
@@ -93,9 +93,9 @@ public interface ConfigKeys {
             String DEFAULT_DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY = "/home/icellmobilsoft/handlebars/helper/js";
 
             /**
-             * *Handlebars konfiguráció*
+             * *Handlebars configuration*
              *
-             * Handlebars handlereket tartalmazó javascript fájlok docker conteiner-be elhelyezett könyvtárának elérési útvonalát tárolja.
+             * Stores the path to the directory containing JavaScript files with Handlebars handlers in the Docker container.
              */
             @ConfigDoc(since = "0.1.0", defaultValue = DEFAULT_DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY)
             String DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY = "dookug.service.engine.handlebars.helper.javascript.directory";
@@ -103,23 +103,23 @@ public interface ConfigKeys {
         }
 
         /**
-         * String escape stratégiákhoz szükséges konfigurációs kulcsok és default értékek
+         * Configuration keys and default values required for string escape strategies
          *
          */
         interface EscapingStrategy {
             /**
-             * *Handlebars konfiguráció*
+             * *Handlebars configuration*
              *
-             * `com.github.jknack.handlebars.EscapingStrategy` kulcsot tároló config.
+             * Configuration storing the `com.github.jknack.handlebars.EscapingStrategy` key.
              */
             @ConfigDoc(since = "0.1.0",
-                    defaultValue = "A Handlebars engine-ben default a HTML lesz a stratégia, ha evvel a kulccsal nincs érték configolva.")
+                    defaultValue = "In the Handlebars engine, HTML will be the default strategy if no value is configured with this key.")
             String DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY = "dookug.service.engine.handlebars.escapingstrategy";
         }
     }
 
     /**
-     * Saxon-hoz szükséges konfigurációs kulcsok és default értékek
+     * Configuration keys and default values required for SAXON engine
      *
      */
     interface Saxon {
@@ -131,9 +131,9 @@ public interface ConfigKeys {
         String DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_FOPCONFIG = "/home/icellmobilsoft/fop-config/fop-config.xml";
 
         /**
-         * *Saxon konfiguráció*
+         * *Saxon configuration*
          *
-         * Fop config file elérési útvonala a container-en belül
+         * Path to the Fop config file within the container
          */
         @ConfigDoc(since = "0.1.0", defaultValue = DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_FOPCONFIG)
         String DOOKUG_SERVICE_ENGINE_SAXON_FOPCONFIG = "dookug.service.engine.saxon.fopconfig";
@@ -145,9 +145,9 @@ public interface ConfigKeys {
         String DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_VARIABLE = "lang";
 
         /**
-         * *Saxon konfiguráció*
+         * *Saxon configuration*
          *
-         * XSLT template-ben a nyelvi változó neve
+         * The name of the language variable in the XSLT template
          */
         @ConfigDoc(since = "0.1.0", defaultValue = DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_VARIABLE)
         String DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_VARIABLE = "dookug.service.engine.saxon.xslt.language.variable";
@@ -159,16 +159,16 @@ public interface ConfigKeys {
         String DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_DEFAULT = "HU";
 
         /**
-         * *Saxon konfiguráció*
+         * *Saxon configuration*
          *
-         * Alapértelmezett nyelv
+         * Default language
          */
         @ConfigDoc(since = "0.1.0", defaultValue = DEFAULT_DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_DEFAULT)
         String DOOKUG_SERVICE_ENGINE_SAXON_XSLT_LANGUAGE_DEFAULT = "dookug.service.engine.saxon.xslt.language.default";
     }
 
     /**
-     * Cache-hez szükséges konfigurációs kulcsok és default értékek
+     * Configuration keys and default values required for caching
      *
      */
     interface Cache {
@@ -180,7 +180,7 @@ public interface ConfigKeys {
         String DOOKUG_SERVICE_CACHE = "dookug.service.cache";
 
         /**
-         * Cache konfigurációs kulcsok lehetséges értékei
+         * Possible values for cache configuration keys
          */
         interface Keys {
 
@@ -204,7 +204,7 @@ public interface ConfigKeys {
         }
 
         /**
-         * TemplateCache konfigurációs kulcsok
+         * TemplateCache configuration keys
          */
         interface Template {
 
@@ -242,20 +242,21 @@ public interface ConfigKeys {
              * Cache TTL in minutes
              */
             @ConfigDoc(since = "0.5.0", defaultValue = Defaults.TTL_IN_MINUTES,
-                    description = "Mennyi idő múlva invalidálja a cache tartalmát a rendszer. Alapértelmezetten " + Defaults.TTL_IN_MINUTES + " perc")
+                    description = "How long until the system invalidates the cache content. By default, " + Defaults.TTL_IN_MINUTES + " minutes.")
             String TTL = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.TTL;
 
             /**
              * Define to make metrics
              */
-            @ConfigDoc(since = "0.5.0", description = "Generálódjanak metrikák a Template cache-hez köthetően. Alapértelmezetten nem generál.",
+            @ConfigDoc(since = "0.5.0",
+                    description = "Metrics related to the Template cache should be generated. By default, they are not generated.",
                     defaultValue = Defaults.ENABLESTATISTIC)
             String ENABLESTATISTIC = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.ENABLESTATISTIC;
 
             /**
              * Enabling template cache
              */
-            @ConfigDoc(since = "0.6.0", description = "A modul használja-e a template cache-elést", defaultValue = Defaults.ENABLED)
+            @ConfigDoc(since = "0.6.0", description = "Does the module use template caching?", defaultValue = Defaults.ENABLED)
             String ENABLED = DOOKUG_SERVICE_CACHE_TEMPLATE + Keys.ENABLED;
 
         }

@@ -1,6 +1,3 @@
-Here's the translation of your document into English adoc format:
-
-```adoc
 = DOOKUG-DOCUMENT Service
 
 == Document Generation
