@@ -31,113 +31,58 @@ import hu.icellmobilsoft.coffee.cdi.annotation.FaultTypeCode;
 public enum FaultType {
     /**
      * HTTP 400 Response.Status.BAD_REQUEST<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.BadRequestException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.BadRequestException
      */
     REST_BAD_REQUEST,
     /**
      * HTTP 401 Response.Status.UNAUTHORIZED<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.NotAuthorizedException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.NotAuthorizedException
      */
     REST_UNAUTHORIZED,
     /**
      * HTTP 403 Response.Status.FORBIDDEN<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.ForbiddenException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.ForbiddenException
      */
     REST_FORBIDDEN,
     /**
      * HTTP 404 Response.Status.NOT_FOUND<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.NotFoundException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.NotFoundException
      */
     REST_NOT_FOUND,
     /**
      * HTTP 405 Response.Status.METHOD_NOT_ALLOWED<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.NotAllowedException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.NotAllowedException
      */
     REST_METHOD_NOT_ALLOWED,
     /**
      * HTTP 406 Response.Status.NOT_ACCEPTABLE<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.NotAcceptableException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.NotAcceptableException
      */
     REST_NOT_ACCEPTABLE,
     /**
      * HTTP 415 Response.Status.UNSUPPORTED_MEDIA_TYPE<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.NotSupportedException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.NotSupportedException
      */
     REST_UNSUPPORTED_MEDIA_TYPE,
     /**
      * HTTP 500 Response.Status.INTERNAL_SERVER_ERROR<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.InternalServerErrorException
+     * Handling localized TechnicalFaulte<br>
+     * The original source is javax.ws.rs.InternalServerErrorException
      */
     REST_INTERNAL_SERVER_ERROR,
     /**
      * HTTP 503 Response.Status.SERVICE_UNAVAILABLE<br>
-     * TechnicalFault nyelvesített lekezelése<br>
-     * Eredeti forrása a javax.ws.rs.ServiceUnavailableException
+     * Handling localized TechnicalFault<br>
+     * The original source is javax.ws.rs.ServiceUnavailableException
      */
     REST_SERVICE_UNAVAILABLE,
-
-    // Customer service
-
-    /**
-     * Phone number of the customer is not verified
-     */
-    PHONE_NOT_VERIFIED,
-    /**
-     * Verification code not exists with the given type and customerId
-     */
-    VERIFICATION_CODE_NOT_EXISTS,
-    /**
-     * Verification code does not match the one given by the user
-     */
-    VERIFICATION_CODE_NOT_VALID,
-    /**
-     * Verification code expired
-     */
-    VERIFICATION_CODE_EXPIRED,
-    /**
-     * Username not unique
-     */
-    USERNAME_NOT_UNIQUE,
-    /**
-     * Phone number not unique
-     */
-    PHONE_NUMBER_NOT_UNIQUE,
-    /**
-     * Terms and condition required
-     */
-    TERMS_AND_CONDITION_REQUIRED,
-    /**
-     * Invalid password format
-     */
-    INVALID_PASSWORD_FORMAT,
-    /**
-     * Customer's date of birth is not between 1900-01-01 and current date
-     */
-    INVALID_DATE_OF_BIRTH,
-    /**
-     * Invalid email
-     */
-    INVALID_EMAIL,
-    /**
-     * Invalid phone number
-     */
-    INVALID_PHONE_NUMBER,
-    /**
-     * Email not unique
-     */
-    EMAIL_NOT_UNIQUE,
-    /**
-     * Reached maximum number of attempts
-     */
-    REACHED_MAX_NUMBER_OF_ATTEMPTS,
 
     /**
      * Document already uploaded

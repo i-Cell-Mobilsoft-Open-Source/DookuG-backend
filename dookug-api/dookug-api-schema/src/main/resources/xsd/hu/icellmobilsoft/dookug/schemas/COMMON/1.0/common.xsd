@@ -16,17 +16,17 @@
 
     <xsd:complexType name="ParameterType">
         <xsd:annotation>
-            <xsd:documentation>Patameter type</xsd:documentation>
+            <xsd:documentation>Parameter type</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="key" type="coffeeCommon:SimpleText64NotBlankType">
                 <xsd:annotation>
-                    <xsd:documentation>Patameter key</xsd:documentation>
+                    <xsd:documentation>Parameter key</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="value" type="coffeeCommon:SimpleText1024NotBlankType">
                 <xsd:annotation>
-                    <xsd:documentation>Patameter value</xsd:documentation>
+                    <xsd:documentation>Parameter value</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>

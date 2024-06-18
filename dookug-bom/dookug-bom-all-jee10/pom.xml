@@ -12,7 +12,7 @@
     <properties>
         <version.hu.icellmobilsoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobilsoft.coffee>
         <version.org.eclipse.microprofile>5.0</version.org.eclipse.microprofile>
-        <version.hu.icellmobilsoft.roaster>2.1.0</version.hu.icellmobilsoft.roaster>
+        <version.hu.icellmobilsoft.roaster>2.2.0</version.hu.icellmobilsoft.roaster>
         
         <version.apache.commons.text>1.11.0</version.apache.commons.text>
         <version.org.junit.jupiter>5.8.2</version.org.junit.jupiter>

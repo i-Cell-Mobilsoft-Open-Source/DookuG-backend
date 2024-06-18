@@ -12,7 +12,7 @@
 	<!-- REQUEST/RESPONSE COMPLEX TYPES -->
 	<xsd:complexType name="BaseRequestType">
 		<xsd:annotation>
-			<xsd:documentation>Alapértelmezett request típus</xsd:documentation>
+			<xsd:documentation>Default request type</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="coffeeCommonService:BaseRequestType" />
@@ -20,7 +20,7 @@
 	</xsd:complexType>
 	<xsd:complexType name="BaseResponseType">
 		<xsd:annotation>
-			<xsd:documentation>Alapértelmezett response típus</xsd:documentation>
+			<xsd:documentation>Default response type</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="coffeeCommonService:BaseResponseType" />

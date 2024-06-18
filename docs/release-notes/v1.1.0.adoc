@@ -2,6 +2,8 @@
 
 == Changes / updates
 
+* Documentation has been translated to english.
+
 == Migration
 
 Changes are backwards compatible doesnt need any migration.
