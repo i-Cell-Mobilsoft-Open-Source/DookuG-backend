@@ -198,10 +198,10 @@ public class BaseDocumentGenerateAction extends BaseAction {
             }
         } else {
             if (templateContainer.length() > 1) {
-                // több template esetén az egymásra való hivatkozás miatt mindenféleképpen kell template engine
+                // In the case of multiple templates, a template engine is absolutely necessary due to the references to each other
                 throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "Cannot compile more than one template without template engine!");
             } else {
-                // 1 template esetén nem kell template engine, ha nem kell paraméter sem
+                // If there is only one template and no parameters are needed, a template engine is not required
                 templateContainer.setCompiledResult(new String(firstTemplate.getTemplateContent(), StandardCharsets.UTF_8));
             }
         }
