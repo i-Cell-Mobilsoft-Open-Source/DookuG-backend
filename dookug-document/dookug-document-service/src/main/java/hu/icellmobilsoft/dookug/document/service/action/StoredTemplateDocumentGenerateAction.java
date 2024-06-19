@@ -87,8 +87,7 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
                 .select(ITemplateStore.class, new StorageMethodQualifier.Literal(generatorSetup.getTemplateStorageMethod().name()))
                 .get();
 
-        // Így előtöltöttünk minden - az adott requesthez szükséges - templatet. A template motor resolvere/loadere ezután ebből a containerből
-        // gazdálkodik.
+        // This way, we preloaded all the templates needed for the given request. The template engine's resolver/loader then utilizes this container.
         store.loadTemplatesByNameAndValidity(
                 generatorSetup.getTemplate().getTemplateName(),
                 generatorSetup.getTemplate().getTemplateLanguage(),

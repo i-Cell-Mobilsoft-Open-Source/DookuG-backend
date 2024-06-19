@@ -37,12 +37,12 @@ import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 
 /**
- * Általános cache-elést támogató osztály
+ * Class supporting general caching
  * 
  * @param <KEY>
- *            cache kulcs típusa, ami alapján keresünk
+ *            Type of cache key used for lookup
  * @param <VALUE>
- *            a cache-ben tárolt elemek típusa
+ *            Type of elements stored in the cache
  *
  * @author istvan.peli
  * @since 0.5.0
@@ -57,16 +57,16 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     private CacheMetricsCollector metricsCollector;
 
     /**
-     * Visszaadja a használt guava cache objektumot
+     * Returns the used Guava cache object
      *
-     * @return a használt guava cache objektumot
+     * @return the guava cache object
      */
     protected abstract Cache<KEY, VALUE> getCache();
 
     /**
-     * Létrehoz egy cache builder-t ami tartalmazza a cache beállításait
+     * Creates a cache builder which contains the settings
      * 
-     * @return a létrehozott cache builder
+     * @return the {@link CacheBuilder}
      */
     protected CacheBuilder<Object, Object> createCacheBuilder() {
         CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
@@ -79,21 +79,21 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     }
 
     /**
-     * Cache TTL meghatározása
+     * get the value of TTL
      * 
-     * @return a ttl értéke
+     * @return TTL value
      */
     protected abstract long getTtl();
 
     /**
-     * Metrika/Statisztika engedélyezése
+     * Checks enabling of metrics/statistics
      * 
-     * @return true, ha engedélyezve van
+     * @return true, if enabled
      */
     protected abstract boolean isStatisticsEnabled();
 
     /**
-     * Visszaadja a konfigban használt nevet
+     * Get the cache name from configuration
      *
      * @return a konfigban használt név
      */
@@ -114,12 +114,12 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     }
 
     /**
-     * Törli a kulcshoz tárolt adatokat a cache-ből
+     * Removes the data from cache stored under the key
      *
      * @param key
-     *            a keresett kulcs
+     *            the key to delete
      * @throws BaseException
-     *             hiba esetén
+     *             on error
      */
     protected void evict(KEY key) throws BaseException {
         if (key == null) {

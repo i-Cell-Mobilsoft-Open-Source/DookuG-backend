@@ -147,7 +147,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
                     .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
             //
             // factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            // ez sajnos egy hibat general: 'XTSE0010: xsl:result-document is disabled when extension functions are disabled'
+            // Unfortunately, this generates an error: 'XTSE0010: xsl:result-document is disabled when extension functions are disabled'
             //
             Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
 
@@ -165,8 +165,8 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
                     MessageFormat.format("XSLT PDF transformation failed with error: [{0}]", e.getLocalizedMessage()),
                     e);
         } finally {
-            // ezt mindig hivjuk meg a finally blokkban, hogy ha barmilyen hiba tortenne a ket signatureGenerator hivas kozott, akkor is lezarjuk az
-            // eroforrasokat
+            // Always call this in the finally block to ensure that resources are closed even if any error occurs between the two signatureGenerator
+            // calls
             signatureGenerator.closeStreams();
         }
     }
@@ -223,8 +223,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     private String getLanguage(BaseGeneratorSetupType baseGeneratorSetup) {
         String requestLanguage = null;
         if (baseGeneratorSetup instanceof StoredTemplateGeneratorSetupType generatorSetup) {
-            requestLanguage = generatorSetup.getTemplate().getTemplateLanguage() == null ? null
-                    : generatorSetup.getTemplate().getTemplateLanguage();
+            requestLanguage = generatorSetup.getTemplate().getTemplateLanguage() == null ? null : generatorSetup.getTemplate().getTemplateLanguage();
         } else if (baseGeneratorSetup instanceof InlineGeneratorSetupType generatorSetup) {
             requestLanguage = generatorSetup.getTemplateLanguage() == null ? null : generatorSetup.getTemplateLanguage();
         }

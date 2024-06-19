@@ -35,7 +35,7 @@ import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 
 /**
- * {@link Evictable} szolgáltatások igény szerint törölhetik az állapotaikat Az action iterál végig ezeken a szolgáltatásokon
+ * {@link Evictable} services can delete their states on demand. The action iterates through these services
  *
  * @author tamas.cserhati
  * @since 0.6.0

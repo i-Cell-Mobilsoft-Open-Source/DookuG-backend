@@ -32,7 +32,7 @@ import org.eclipse.microprofile.openapi.models.media.Schema;
 public class OpenAPIFilter implements OASFilter {
 
     /**
-     * mp-openapi takes objects with a pattern (not String, e.g. date types) as object type, so it does not generate the pattern into the definition.
+     * mp-openapi takes objects with a pattern (not String, e.g., date types) as object type, so it does not generate the pattern into the definition.
      * 
      * @param schema
      *            the {@link org.eclipse.microprofile.openapi.annotations.media.Schema}

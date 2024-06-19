@@ -51,7 +51,7 @@ public class DocumentMetadataQueryAction extends BaseAction {
     private DocumentQueryService documentQueryService;
 
     /**
-     * Dokument metadata query, can be filtered and paged
+     * Document metadata query, can be filtered and paginated
      * 
      * @param queryRequest
      *            {@link DocumentMetadataQueryRequest}

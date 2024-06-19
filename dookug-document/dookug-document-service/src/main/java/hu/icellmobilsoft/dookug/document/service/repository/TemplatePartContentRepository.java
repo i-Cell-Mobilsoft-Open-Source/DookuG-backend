@@ -29,7 +29,7 @@ import org.apache.deltaspike.data.api.criteria.CriteriaSupport;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 
 /**
- * {@link TemplatePartContent} entitás adatbázis mūveletei
+ * Database operations for {@link TemplatePartContent} entity
  *
  * @author laszlo.padar
  * @since 0.1.0
