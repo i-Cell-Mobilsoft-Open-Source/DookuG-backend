@@ -95,7 +95,7 @@ public abstract class AbstractCache<KEY, VALUE> extends BaseAction implements Ev
     /**
      * Get the cache name from configuration
      *
-     * @return a konfigban használt név
+     * @return the name used for cache
      */
     protected abstract String getCacheName();
 
