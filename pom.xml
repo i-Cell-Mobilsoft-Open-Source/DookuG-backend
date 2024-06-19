@@ -111,10 +111,14 @@
                             <goals>
                                 <goal>generate-schema</goal>
                             </goals>
-                            <!-- default process-classes, ami keso gitlab ci "compile" szamara -->
+                            <!-- default process-classes, which is late event for GitLab CI 'compile' -->
                             <phase>compile</phase>
-                            <!-- sajnos a https://github.com/smallrye/smallrye-open-api/tree/main/tools/maven-plugin#m2e-integration valamiert kirorli 
-                                a "paths" reszt az openapi fajlban, de konzolbol a maven jol kezeli. Problema a 'package' maven phase, ami valahogy elrontja -->
+							<!-- Unfortunately, the
+							https://github.com/smallrye/smallrye-open-api/tree/main/tools/maven-plugin#m2e-integration
+							inexplicably removes the 'paths' section from the
+							OpenAPI file, but Maven handles it correctly from
+							the console. The problem arises during the 'package'
+							Maven phase, which seems to cause the issue -->
                             <configuration>
                                 <outputDirectory>${project.build.directory}/openapi</outputDirectory>
                             </configuration>

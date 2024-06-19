@@ -1,27 +1,28 @@
 = DookuG
 
-Document generátor és template kezelő modul
+Document generator and template handler module
 
-== Technológiák
+== Technologies
 
 .Service (jar, war)
 - Java 17+
 - Java EE 10
 - Wildfly 27.0.1.Final
 
-== Servicek
+== Servics
 
-* dookug-document-service - tartalom:
-** Dokumentum generálás mentett template felhasználásával
-** Dokumentum generálás request alapján
-** Generált dokumentum tartalmának lekérdezése
-** Dokumentum generálás request alapján modulban tárolt templattel
+* dookug-document-service - contents:
+** Generating document with stored template data
+** Generating document from request data
+** Query content of generated document
+** Generating document from request and stored template data
 
-== Fejlesztői környezet
-Fejlesztésre és működésre a következőre van szükség.
+== Development environment
 
-* Adatbázis - alapértelmezetten a Oracle XE és Postgres adatbázissal van tesztelve a rendszer
-* Feltöltött tábla szerkezet melyek a `dookug-common-model` entitásainak felel meg
-* Wildfly alkalmazás szerver
-* Telepített `dookug-document-service` a WF alkalmazás szerverben
-* Observability (opcionális) - Prometheus + Grafana
+For development and operation, the following are required:
+
+* Database - alapértelmezetten a Oracle XE és Postgres adatbázissal van tesztelve a rendszer
+* Uploaded table structure corresponding to the entities of the `dookug-model`.
+* Wildfly application server
+* Deployed `dookug-document-service` on the wildfly application server
+* Observability (optional) - Prometheus + Grafana
