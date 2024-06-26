@@ -21,7 +21,7 @@ Document generator and template handler module
 
 For development and operation, the following are required:
 
-* Database - alapértelmezetten a Oracle XE és Postgres adatbázissal van tesztelve a rendszer
+* Database - tested with Oracle XE and Postgres database by default
 * Uploaded table structure corresponding to the entities of the `dookug-model`.
 * Wildfly application server
 * Deployed `dookug-document-service` on the wildfly application server
