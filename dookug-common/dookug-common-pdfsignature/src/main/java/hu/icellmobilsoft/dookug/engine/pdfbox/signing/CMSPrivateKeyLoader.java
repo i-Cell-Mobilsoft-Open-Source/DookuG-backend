@@ -41,7 +41,7 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSPrivateKey;
-import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
+import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 
 /**
  * Private Key producer
@@ -52,10 +52,6 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
 @Model
 public class CMSPrivateKeyLoader {
 
-    /**
-     * {@value #KEYSTORE_PASSWORD_CANNOT_BE_EMPTY}
-     */
-    private static final String KEYSTORE_PASSWORD_CANNOT_BE_EMPTY = "Keystore password cannot be empty!";
     /**
      * {@value #CERTIFICATE_EXTENDED_KEY_PROBLEM}
      */
@@ -95,15 +91,11 @@ public class CMSPrivateKeyLoader {
      * @throws BaseException
      *             on error
      */
-    public CMSPrivateKey privateKeyResolver(SignatureProfile signatureProfile) throws BaseException {
-
-        if (signatureProfile.getKeystorePassword().isEmpty()) {
-            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, KEYSTORE_PASSWORD_CANNOT_BE_EMPTY);
-        }
+    public CMSPrivateKey privateKeyResolver(SignatureProfileDto signatureProfile) throws BaseException {
 
         CMSPrivateKey cmsPrivateKey = new CMSPrivateKey();
         Certificate actualCert = null;
-        char[] keystorePassword = signatureProfile.getKeystorePassword().get().toCharArray();
+        char[] keystorePassword = signatureProfile.getKeystorePassword().toCharArray();
         try {
             KeyStore keystore = KeyStore.getInstance(signatureProfile.getKeystoreType());
             keystore.load(new FileInputStream(signatureProfile.getKeystore()), keystorePassword);

@@ -113,5 +113,10 @@ public enum FaultType {
      * Document download failed
      */
     DOCUMENT_DOWNLOAD_FAILED,
+    
+    /**
+     * PDF sign failed
+     */
+    PDF_SIGN_FAILED,
 
 }
