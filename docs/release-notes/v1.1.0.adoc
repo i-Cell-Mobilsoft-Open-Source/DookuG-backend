@@ -3,6 +3,7 @@
 == Changes / updates
 
 * Documentation has been translated to english.
+* Using the EU DSS Esig library to sign PDF documents (optional)
 
 == Migration
 

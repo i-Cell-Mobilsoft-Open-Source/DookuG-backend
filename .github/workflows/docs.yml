@@ -29,6 +29,7 @@ jobs:
           mkdir docs/generated docs/generated/openapi docs/generated/images
           mv dookug-document/dookug-document-service/target/openapi docs/generated/openapi/dookug-document-service
           mv dookug-api/dookug-api-common/target/config_keys.adoc docs/generated/dookug-api-common-config.adoc
+          mv dookug-common/dookug-common-pdfsignature/target/config_keys.adoc docs/generated/dookug-common-pdfsignature-config.adoc
 
       - name: set-release-version
         id: vars

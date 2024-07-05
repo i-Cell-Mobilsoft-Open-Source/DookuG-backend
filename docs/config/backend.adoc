@@ -17,4 +17,9 @@ ifdef::generatedDoc[]
 
 include::../generated/dookug-api-common-config.adoc[leveloffset=+1]
 
+[[pdfSignatureConfiguration]]
+== Pdf Signature configuration
+
+include::../generated/dookug-pdf-signature-config.adoc[leveloffset=+1]
+
 endif::[]
