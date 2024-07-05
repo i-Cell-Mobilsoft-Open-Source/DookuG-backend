@@ -371,15 +371,4 @@ public class PdfSigner {
         }
         Arrays.fill(bytes, (byte) 0);
     }
-
-    /**
-     * @param chars
-     */
-    private static void clear(char[] chars) {
-        if (chars == null || chars.length == 0) {
-            return;
-        }
-        Arrays.fill(chars, '\0');
-    }
-
 }

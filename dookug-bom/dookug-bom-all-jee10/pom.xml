@@ -24,7 +24,7 @@
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
         <version.net.sourceforge.saxon.he>12.4</version.net.sourceforge.saxon.he>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
-		<!-- DSS esig -->
+        <!-- DSS esig -->
         <version.dss>6.0</version.dss>
         <version.easytable>0.8.5</version.easytable>
         <version.org.apache.pdfbox>2.0.31</version.org.apache.pdfbox>
