@@ -42,45 +42,44 @@ public interface ConfigKeys {
     public interface PdfSignature {
         /**
          * the (root) key to retrieve the signature profile, where the first parameter is the profile name:
-         * {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0}
+         * {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0}
          */
-        static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 = PREFIX_DOOKUG
-                + "service.engine.pdf.digitalsign.signature.{0}.";
+        static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 = PREFIX_DOOKUG + "service.engine.pdf.digitalsign.{0}.";
 
         /**
          * default signature name configuration key of signature profile {@value #NAME}
          */
-        static final String NAME = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "name";
+        static final String NAME = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "name";
 
         /**
          * default signature reason configuration key of signature profile {@value #REASON}
          */
-        static final String REASON = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "reason";
+        static final String REASON = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "reason";
 
         /**
          * keystore configuration key of signature profile {@value #KEYSTORE}
          */
-        static final String KEYSTORE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "keystore";
+        static final String KEYSTORE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "keystore";
 
         /**
          * keystore password configuration key of signature profile {@value #KEYSTORE_PASSWORD}
          */
-        static final String KEYSTORE_PASSWORD = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "keystorePass";
+        static final String KEYSTORE_PASSWORD = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "keystorePass";
 
         /**
          * keystore type configuration key of signature profile {@value #KEYSTORE_TYPE}
          */
-        static final String KEYSTORE_TYPE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "keystoreType";
+        static final String KEYSTORE_TYPE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "keystoreType";
 
         /**
          * key alias configuration key of signature profile {@value #KEY_ALIAS}
          */
-        static final String KEY_ALIAS = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "keyAlias";
+        static final String KEY_ALIAS = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "keyAlias";
 
         /**
          * use the eu-dss-sig library for pdf signature {@value #USE_EUDSSSIG}
          */
-        static final String USE_EUDSSSIG = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0 + "useEuDssSig";
+        static final String USE_EUDSSSIG = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "useEuDssSig";
 
         /**
          * Configuration keys and default values for DSS esig (pdfsign v2)
@@ -88,101 +87,100 @@ public interface ConfigKeys {
         interface DSS {
 
             /**
-             * prefix for dss keys: {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS}
+             * prefix for dss keys: {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS}
              */
             @ConfigDoc(exclude = true)
-            static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0
-                    + "dss.";
+            static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "dss.";
 
             /**
              * Image to be placed in signature block {@value #IMAGE_FILE}
              */
-            static final String IMAGE_FILE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "imageFile";
+            static final String IMAGE_FILE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "imageFile";
 
             /**
-             * Page where the signature block should be placed. [-1] for last page, 0: invisible {@value #PAGE}
+             * Page where the signature block should be placed. [-1] for last page, 0: invisible {@value #SHOW_ON_PAGE}
              */
-            static final String PAGE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "page";
+            static final String SHOW_ON_PAGE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "showOnPage";
 
             /**
-             * Y coordinate of the signature block in cm {@value #TOP}
+             * Y coordinate of the signature block in cm {@value #POSITION_TOP}
              */
-            static final String TOP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "top";
+            static final String POSITION_TOP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "position.top";
 
             /**
-             * X coordinate of the signature block in cm {@value #LEFT}
+             * X coordinate of the signature block in cm {@value #POSITION_LEFT}
              */
-            static final String LEFT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "left";
+            static final String POSITION_LEFT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "position.left";
 
             /**
              * Width of the signature block in cm {@value #WIDTH}
              */
-            static final String WIDTH = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "width";
+            static final String WIDTH = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "width";
 
             /**
              * Text to be displayed in hint field {@value #HINT_TEXT}
              */
-            static final String HINT_TEXT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "hintText";
+            static final String HINT_TEXT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "hintText";
 
             /**
              * Add hint row in signature table {@value #USE_HINT}
              */
-            static final String USE_HINT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "useHint";
+            static final String USE_HINT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "useHint";
 
             /**
              * Include signed timestamp in the signature table {@value #USE_TIMESTAMP}
              */
-            static final String USE_TIMESTAMP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "useTimestamp";
+            static final String USE_TIMESTAMP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "useTimestamp";
 
             /**
              * Skip timestamp on error (only raise log entry instead of exception) {@value #SKIP_TIMESTAMP_ON_ERROR}
              */
-            static final String SKIP_TIMESTAMP_ON_ERROR = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "skipTimestampOnError";
+            static final String SKIP_TIMESTAMP_ON_ERROR = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "skipTimestampOnError";
 
             /**
              * Use PAdES profile with long-term validation material {@value #USE_LT}
              */
-            static final String USE_LT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "useLT";
+            static final String USE_LT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "useLT";
 
             /**
              * Use PAdES profile with long term availability and integrity of validation material {@value #USE_LTA}
              */
-            static final String USE_LTA = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "useLTA";
+            static final String USE_LTA = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "useLTA";
 
             /**
              * Label for the 'hint' row {@value #LABEL_HINT}
              */
-            static final String LABEL_HINT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "labelHint";
+            static final String LABEL_HINT = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "labelHint";
 
             /**
              * Label for the 'timestamp' row {@value #LABEL_TIMESTAMP}
              */
-            static final String LABEL_TIMESTAMP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "labelTimestamp";
+            static final String LABEL_TIMESTAMP = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "labelTimestamp";
 
             /**
              * Label for the 'signee' row {@value #LABEL_SIGNEE}
              */
-            static final String LABEL_SIGNEE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "labelSignee";
+            static final String LABEL_SIGNEE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "labelSignee";
 
             /**
              * Show 'signee' row {@value #SHOW_SIGNEE}
              */
-            static final String SHOW_SIGNEE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "showSignee";
+            static final String SHOW_SIGNEE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "showSignee";
 
             /**
              * Use specific time stamping authority as source (if multiple given, will be used in given order as fallback) {@value #TSP_SOURCES}
              */
-            static final String TSP_SOURCES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "tspSources";
+            static final String TSP_SOURCES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "tspSources";
 
             /**
              * Use specific timezone for time info, e.g. Europe/Budapest {@value #TIMEZONE}
              */
-            static final String TIMEZONE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "timezone";
+            static final String TIMEZONE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "timezone";
 
             /**
              * URL list for getting trusted certificates {@value #TRUSTED_CERTIFICATES}
              */
-            static final String TRUSTED_CERTIFICATES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_PROFILE_0_DSS + "trustedCertificates";
+            static final String TRUSTED_CERTIFICATES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "trustedCertificates";
 
         }
 
@@ -196,12 +194,12 @@ public interface ConfigKeys {
             static final String PAGE_DEFAULT_VALUE = "-1";
 
             /**
-             * Default value for {@value PdfSignature.DSS#TOP}
+             * Default value for {@value PdfSignature.DSS#POSITION_TOP}
              */
             static final String TOP_DEFAULT_VALUE = "1.0";
 
             /**
-             * Default value for {@value PdfSignature.DSS#LEFT}
+             * Default value for {@value PdfSignature.DSS#POSITION_LEFT}
              */
             static final String LEFT_DEFAULT_VALUE = "1.0";
 

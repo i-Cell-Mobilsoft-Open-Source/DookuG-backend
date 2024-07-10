@@ -20,7 +20,6 @@
 package hu.icellmobilsoft.dookug.common.system.rest.cache;
 
 import java.security.InvalidParameterException;
-import java.text.MessageFormat;
 import java.time.Duration;
 
 import jakarta.annotation.PostConstruct;
@@ -32,7 +31,6 @@ import com.google.common.cache.CacheBuilder;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 

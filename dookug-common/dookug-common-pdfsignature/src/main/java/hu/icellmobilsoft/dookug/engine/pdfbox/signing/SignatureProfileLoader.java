@@ -111,7 +111,7 @@ public class SignatureProfileLoader {
                         .orElse(ConfigKeys.PdfSignature.Default.LABEL_TIMESTAMP_DEFAULT_VALUE));
         signatureProfile.setDssLeft(
                 Float.parseFloat(
-                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.LEFT)
+                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.POSITION_LEFT)
                                 .orElse(ConfigKeys.PdfSignature.Default.LEFT_DEFAULT_VALUE)));
         signatureProfile.setDssPage(
                 Integer.parseInt(
@@ -121,7 +121,7 @@ public class SignatureProfileLoader {
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.TIMEZONE).orElse(ZoneId.systemDefault().toString()));
         signatureProfile.setDssTop(
                 Float.parseFloat(
-                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.TOP)
+                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.POSITION_TOP)
                                 .orElse(ConfigKeys.PdfSignature.Default.TOP_DEFAULT_VALUE)));
         signatureProfile.setDssTrustedCertificateListUrl(
                 List.of(

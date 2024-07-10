@@ -31,31 +31,31 @@ dookug:
               imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png
               page: -1            
         digitalsign:
-          signature:
-            default:
-              name: Default Llc.
-              reason: Original document
-              keystore: /home/icellmobilsoft/keys/keystore.p12
-              keystorePass: 123456
-              keystoreType: PKCS12
-              keyAlias: test 
-            sample:
-              name: Sample Llc.
-              reason: Original
-              keystore: /home/icellmobilsoft/keys/keystore.p12
-              keystorePass: 123456
-              keystoreType: PKCS12
-              keyAlias: test
-            sampleDss:
-              keystore: /home/icellmobilsoft/keys/sample_cert.pfx
-              keystoreType: PKCS12
-              useEuDssSig: true
-              dss:
-                imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png
-                page: 1
+          default:
+            name: Default Llc.
+            reason: Original document
+            keystore: /home/icellmobilsoft/keys/keystore.p12
+            keystorePass: 123456
+            keystoreType: PKCS12
+            keyAlias: test 
+          sample:
+            name: Sample Llc.
+            reason: Original
+            keystore: /home/icellmobilsoft/keys/keystore.p12
+            keystorePass: 123456
+            keystoreType: PKCS12
+            keyAlias: test
+          sampleDss:
+            keystore: /home/icellmobilsoft/keys/sample_cert.pfx
+            keystoreType: PKCS12
+            useEuDssSig: true
+            dss:
+              imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png
+              showOnPage: 1
+              position:
                 left: 18
-                width: 2
-                useTimestamp: false        
+              width: 2
+              useTimestamp: false        
       saxon:
         fopconfig: /home/icellmobilsoft/fop-config/fop-config.xml
         xslt:

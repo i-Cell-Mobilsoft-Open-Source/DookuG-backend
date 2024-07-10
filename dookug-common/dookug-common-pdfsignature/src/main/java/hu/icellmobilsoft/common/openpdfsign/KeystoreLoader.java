@@ -35,7 +35,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.enterprise.inject.Model;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
@@ -61,7 +61,7 @@ import hu.icellmobilsoft.dookug.common.util.random.RandomUtil;
  * @author tamas.cserhati
  * @since 1.1.0
  */
-@Model
+@ApplicationScoped
 public class KeystoreLoader {
 
     private static final String X_509 = "X.509";
@@ -74,7 +74,7 @@ public class KeystoreLoader {
     /**
      * this password is used for encrypting the temporaly generated PKCS12 keystore
      */
-    private final char[] currentKeystorePassword = (RandomUtil.generateId() + RandomUtil.generateToken()).toCharArray();
+    private final char[] currentKeystorePassword = RandomUtil.generateToken().toCharArray();
 
     /**
      * Create a keystore object from the given with default alias: {@value #DEFAULT_ALIAS}
@@ -90,6 +90,9 @@ public class KeystoreLoader {
      *             on error
      */
     public byte[] create(byte[] certificate, byte[] privateKeyData, char[] privateKeyPassword) throws BaseException {
+        if (certificate == null || privateKeyData == null || privateKeyPassword == null) {
+            throw new InvalidParameterException("Parameters cannot be empty");
+        }
         try {
             addBouncyCastleProvider();
             List<X509Certificate> certs = getX509Certificates(certificate);
@@ -114,6 +117,9 @@ public class KeystoreLoader {
      *             on error
      */
     public byte[] create(Path certificatePath, Path privateKeyPath, char[] privateKeyPassword) throws BaseException {
+        if (certificatePath == null || privateKeyPath == null || privateKeyPassword == null) {
+            throw new InvalidParameterException("Parameters cannot be empty");
+        }
         try {
             addBouncyCastleProvider();
             List<X509Certificate> certs = certificatePath != null ? getX509Certificates(certificatePath) : new ArrayList<>();
