@@ -86,7 +86,7 @@ dookug:
 ----
 <1> the key for DSS library
 <2> the image you want to add to the document
-<3> the image will added to this page: `-1`: last page, `1`:first page, `0`:wont add
+<3> the image will added to this page: `-1`: last page, `1`:first page, `0`:wont add, `n`:n-th page 
 <4> X position of the image in cm
 <5> Y position of the image in cm
 <6> the width of the image in cm
