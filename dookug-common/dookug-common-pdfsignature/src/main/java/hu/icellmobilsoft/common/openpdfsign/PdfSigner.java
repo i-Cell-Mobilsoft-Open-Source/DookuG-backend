@@ -88,7 +88,7 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 @Model
 public class PdfSigner {
 
-    private static final String DOCUMENT_SIGNING_COMPLETE = "Document signing complete";
+    private static final String DOCUMENT_SIGNING_COMPLETE_0 = "Document signing complete: [{0}]";
 
     private static final String SIGNATURE_PNG = "signature.png";
 
@@ -122,7 +122,7 @@ public class PdfSigner {
             throw new InvalidParameterException("Parameters cannot be empty");
         }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
-        log.debug(DOCUMENT_SIGNING_COMPLETE);
+        log.debug(DOCUMENT_SIGNING_COMPLETE_0, pdfFile);
         try {
             signedDocument.save(outputFile.toAbsolutePath().toString());
         } catch (IOException e) {
@@ -147,7 +147,7 @@ public class PdfSigner {
             throw new InvalidParameterException("Parameters cannot be empty");
         }
         DSSDocument signedDocument = signPdf(originalPdfFile, profile);
-        log.debug(DOCUMENT_SIGNING_COMPLETE);
+        log.debug(DOCUMENT_SIGNING_COMPLETE_0, originalPdfFile);
         try {
             signedDocument.writeTo(outputStream);
         } catch (IOException e) {
@@ -187,7 +187,7 @@ public class PdfSigner {
             throw new InvalidParameterException("Parameters cannot be empty");
         }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
-        log.debug(DOCUMENT_SIGNING_COMPLETE);
+        log.debug(DOCUMENT_SIGNING_COMPLETE_0, pdfFile);
         try {
             signedDocument.writeTo(binaryOutput);
         } catch (IOException e) {
