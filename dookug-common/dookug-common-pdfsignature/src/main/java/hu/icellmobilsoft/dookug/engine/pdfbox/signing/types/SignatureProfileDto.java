@@ -30,6 +30,8 @@ import java.util.Optional;
  */
 public class SignatureProfileDto {
 
+    private String profileName;
+
     private String name;
     private String reason;
     private String keystore;
@@ -57,6 +59,16 @@ public class SignatureProfileDto {
     private Optional<String> dssImageFile;
     private boolean useEuDssSig;
     private boolean dssShowSignee;
+
+    /**
+     * constructor
+     * 
+     * @param profileName
+     *            name of the profile
+     */
+    public SignatureProfileDto(String profileName) {
+        this.profileName = profileName;
+    }
 
     /**
      * @return the name
@@ -446,6 +458,21 @@ public class SignatureProfileDto {
      */
     public void setDssShowSignee(boolean dssShowSignee) {
         this.dssShowSignee = dssShowSignee;
+    }
+
+    /**
+     * @return the profileName
+     */
+    public String getProfileName() {
+        return profileName;
+    }
+
+    /**
+     * @param profileName
+     *            the profileName to set
+     */
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
 }

@@ -84,7 +84,7 @@ public class SignatureProfileLoader {
 
     private SignatureProfileDto loadSignatureProfile(String profileName) throws BaseException {
 
-        SignatureProfileDto signatureProfile = new SignatureProfileDto();
+        SignatureProfileDto signatureProfile = new SignatureProfileDto(profileName);
         signatureProfile.setKeystore(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE));
         signatureProfile.setKeystorePassword(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_PASSWORD)

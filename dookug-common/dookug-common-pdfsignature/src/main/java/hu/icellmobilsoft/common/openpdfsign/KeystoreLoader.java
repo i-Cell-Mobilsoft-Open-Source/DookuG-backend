@@ -37,6 +37,7 @@ import java.util.List;
 
 import jakarta.enterprise.inject.Model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -47,6 +48,7 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.jcajce.JceOpenSSLPKCS8DecryptorProviderBuilder;
 import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -136,6 +138,9 @@ public class KeystoreLoader {
      *             on error
      */
     public byte[] loadConfiguredFile(String keystoreType, String keystorePath, char[] keystorePassword) throws BaseException {
+        if (StringUtils.isAnyBlank(keystoreType, keystorePath) || keystorePassword == null) {
+            throw new InvalidParameterException("loadKeystore: parameters cannot be empty!");
+        }
         try {
             KeyStore jks = KeyStore.getInstance(keystoreType);
             jks.load(new FileInputStream(keystorePath), keystorePassword);

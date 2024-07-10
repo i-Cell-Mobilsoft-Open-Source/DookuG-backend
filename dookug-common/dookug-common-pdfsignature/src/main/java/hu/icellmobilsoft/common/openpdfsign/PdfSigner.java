@@ -68,10 +68,12 @@ import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
 import eu.europa.esig.dss.token.JKSSignatureToken;
 import eu.europa.esig.dss.token.KSPrivateKeyEntry;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
+import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
+import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
+import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.common.openpdfsign.dss.PdfBoxNativeTableObjectFactory;
 import hu.icellmobilsoft.common.openpdfsign.types.PathDocument;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
@@ -91,7 +93,8 @@ public class PdfSigner {
     private static final String SIGNATURE_PNG = "signature.png";
 
     @Inject
-    private Logger log;
+    @ThisLogger
+    private AppLogger log;
 
     @Inject
     private KeystoreLoader keystoreLoader;
@@ -115,6 +118,9 @@ public class PdfSigner {
      *             on error
      */
     public void signPdf(Path pdfFile, SignatureProfileDto profile, Path outputFile) throws BaseException {
+        if (pdfFile == null || profile == null || outputFile == null) {
+            throw new InvalidParameterException("Parameters cannot be empty");
+        }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE);
         try {
@@ -137,6 +143,9 @@ public class PdfSigner {
      *             on error
      */
     public void signPdf(Path originalPdfFile, SignatureProfileDto profile, OutputStream outputStream) throws BaseException {
+        if (originalPdfFile == null || profile == null || outputStream == null) {
+            throw new InvalidParameterException("Parameters cannot be empty");
+        }
         DSSDocument signedDocument = signPdf(originalPdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE);
         try {
@@ -174,6 +183,9 @@ public class PdfSigner {
      */
     public void signPdf(Path pdfFile, byte[] keyStore, char[] keyStorePassword, SignatureProfileDto profile, OutputStream binaryOutput)
             throws BaseException {
+        if (pdfFile == null || keyStore == null || keyStorePassword == null || profile == null || binaryOutput == null) {
+            throw new InvalidParameterException("Parameters cannot be empty");
+        }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE);
         try {
@@ -197,7 +209,7 @@ public class PdfSigner {
                 keystore,
                 // new KeyStore.PasswordProtection(keystoreLoader.getCurrentKeystorePassword()))) {
                 new KeyStore.PasswordProtection(profile.getKeystorePassword().toCharArray()))) {
-            log.debug("Keystore created for signing");
+            log.debug("Keystore created for signing pdf [{0}] with profile [{1}]", pdfFile, profile.getProfileName());
             // PAdES parameters
             PAdESSignatureParameters signatureParameters = new PAdESSignatureParameters();
             // signatureParameters.bLevel().setSigningDate(new Date());
@@ -277,7 +289,7 @@ public class PdfSigner {
                         try (PDDocument pdDocument = PDDocument.load(toSignDocument.openStream())) {
                             int pageCount = pdDocument.getNumberOfPages();
                             fieldParameters.setPage(pageCount + (1 + profile.getDssPage()));
-                            log.debug("PDF page count: [{0}]", pageCount);
+                            log.debug("PDF [{0}] page count: [{1}]", pdfFile, pageCount);
                         }
 
                     } else {
@@ -331,14 +343,14 @@ public class PdfSigner {
             // This function obtains the signature value for signed information using the
             // private key and specified algorithm
             DigestAlgorithm digestAlgorithm = signatureParameters.getDigestAlgorithm();
-            log.debug("Data to be signed loaded");
+            log.debug("Data to be signed loaded (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
             SignatureValue signatureValue = signingToken.sign(dataToSign, digestAlgorithm, signingToken.getKey(keyAlias));
 
             if (service.isValidSignatureValue(dataToSign, signatureValue, signingToken.getKey(profile.getKeyAlias()).getCertificate())) {
-                log.debug("signature value is VALID");
+                log.debug("signature value is VALID (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
             }
 
-            log.debug("Signature value calculated");
+            log.debug("Signature value calculated (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
             return service.signDocument(toSignDocument, signatureParameters, signatureValue);
         } finally {
             clear(keystore);
