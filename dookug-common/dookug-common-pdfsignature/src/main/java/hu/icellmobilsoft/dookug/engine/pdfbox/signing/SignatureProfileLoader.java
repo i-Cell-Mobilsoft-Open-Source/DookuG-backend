@@ -115,7 +115,7 @@ public class SignatureProfileLoader {
                                 .orElse(ConfigKeys.PdfSignature.Default.LEFT_DEFAULT_VALUE)));
         signatureProfile.setDssPage(
                 Integer.parseInt(
-                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.PAGE)
+                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.SHOW_ON_PAGE)
                                 .orElse(ConfigKeys.PdfSignature.Default.PAGE_DEFAULT_VALUE)));
         signatureProfile.setDssTimezone(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.TIMEZONE).orElse(ZoneId.systemDefault().toString()));

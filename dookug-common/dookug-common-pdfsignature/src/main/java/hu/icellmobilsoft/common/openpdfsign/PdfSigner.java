@@ -203,8 +203,7 @@ public class PdfSigner {
         DSSDocument toSignDocument = new PathDocument(pdfFile);
 
         // load certificate and private key
-        byte[] keystore = keystoreLoader
-                .loadConfiguredFile(profile.getKeystoreType(), profile.getKeystore(), profile.getKeystorePassword().toCharArray());
+        byte[] keystore = keystoreLoader.get(profile);
         try (JKSSignatureToken signingToken = new JKSSignatureToken(
                 keystore,
                 // new KeyStore.PasswordProtection(keystoreLoader.getCurrentKeystorePassword()))) {

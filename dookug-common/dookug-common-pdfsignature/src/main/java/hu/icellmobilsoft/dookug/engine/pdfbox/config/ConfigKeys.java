@@ -189,7 +189,7 @@ public interface ConfigKeys {
          */
         public interface Default {
             /**
-             * Default value for {@value PdfSignature.DSS#PAGE}
+             * Default value for {@value PdfSignature.DSS#SHOW_ON_PAGE}
              */
             static final String PAGE_DEFAULT_VALUE = "-1";
 
