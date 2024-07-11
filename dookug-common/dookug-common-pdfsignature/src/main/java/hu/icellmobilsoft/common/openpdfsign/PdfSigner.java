@@ -77,6 +77,7 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.common.openpdfsign.dss.PdfBoxNativeTableObjectFactory;
 import hu.icellmobilsoft.common.openpdfsign.types.PathDocument;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
+import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.ShowOnPageType;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 
 /**
@@ -197,7 +198,7 @@ public class PdfSigner {
 
     private DSSDocument signPdf(Path pdfFile, SignatureProfileDto profile) throws BaseException {
 
-        boolean visibleSignature = profile.getDssPage() != 0;
+        boolean visibleSignature = profile.getDssShowOnPage() != ShowOnPageType.DISABLED.getPageValue();
 
         // load PDF file in DSSDocument format
         DSSDocument toSignDocument = new PathDocument(pdfFile);
@@ -283,22 +284,22 @@ public class PdfSigner {
                         imageParameters.setImage(
                                 new InMemoryDocument((IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream(SIGNATURE_PNG)))));
                     }
-
-                    if (profile.getDssPage() < 0) {
+                    if (profile.getDssShowOnPage() <= ShowOnPageType.LAST_PAGE.getPageValue()) {
+                        // last page
                         try (PDDocument pdDocument = PDDocument.load(toSignDocument.openStream())) {
                             int pageCount = pdDocument.getNumberOfPages();
-                            fieldParameters.setPage(pageCount + (1 + profile.getDssPage()));
+                            fieldParameters.setPage(pageCount + (1 + profile.getDssShowOnPage()));
                             log.debug("PDF [{0}] page count: [{1}]", pdfFile, pageCount);
                         }
 
                     } else {
-                        fieldParameters.setPage(profile.getDssPage());
+                        fieldParameters.setPage(profile.getDssShowOnPage());
                     }
                 } catch (IOException e) {
                     throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, e.getLocalizedMessage(), e);
                 }
-                fieldParameters.setOriginX(profile.getDssLeft() * POINTS_PER_MM * 10f);
-                fieldParameters.setOriginY(profile.getDssTop() * POINTS_PER_MM * 10f);
+                fieldParameters.setOriginX(profile.getDssPositionLeft() * POINTS_PER_MM * 10f);
+                fieldParameters.setOriginY(profile.getDssPositionTop() * POINTS_PER_MM * 10f);
                 fieldParameters.setWidth(profile.getDssWidth() * POINTS_PER_MM * 10f);
 
                 // Get the SignedInfo segment that need to be signed.

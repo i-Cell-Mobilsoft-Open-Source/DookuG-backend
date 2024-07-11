@@ -40,9 +40,9 @@ public class SignatureProfileDto {
     private String keystoreAlias;
     private String keyAlias;
 
-    private Integer dssPage;
-    private Float dssTop;
-    private Float dssLeft;
+    private Integer dssShowOnPage;
+    private Float dssPositionTop;
+    private Float dssPositionLeft;
     private Float dssWidth;
     private String dssHintText;
     private boolean dssUseHint;
@@ -173,51 +173,6 @@ public class SignatureProfileDto {
      */
     public void setKeyAlias(String keyAlias) {
         this.keyAlias = keyAlias;
-    }
-
-    /**
-     * @return the dssPage
-     */
-    public Integer getDssPage() {
-        return dssPage;
-    }
-
-    /**
-     * @param dssPage
-     *            the dssPage to set
-     */
-    public void setDssPage(Integer dssPage) {
-        this.dssPage = dssPage;
-    }
-
-    /**
-     * @return the dssTop
-     */
-    public Float getDssTop() {
-        return dssTop;
-    }
-
-    /**
-     * @param dssTop
-     *            the dssTop to set
-     */
-    public void setDssTop(Float dssTop) {
-        this.dssTop = dssTop;
-    }
-
-    /**
-     * @return the dssLeft
-     */
-    public Float getDssLeft() {
-        return dssLeft;
-    }
-
-    /**
-     * @param dssLeft
-     *            the dssLeft to set
-     */
-    public void setDssLeft(Float dssLeft) {
-        this.dssLeft = dssLeft;
     }
 
     /**
@@ -473,6 +428,51 @@ public class SignatureProfileDto {
      */
     public void setProfileName(String profileName) {
         this.profileName = profileName;
+    }
+
+    /**
+     * @return the dssShowOnPage
+     */
+    public Integer getDssShowOnPage() {
+        return dssShowOnPage;
+    }
+
+    /**
+     * @param dssShowOnPage
+     *            the dssShowOnPage to set
+     */
+    public void setDssShowOnPage(Integer dssShowOnPage) {
+        this.dssShowOnPage = dssShowOnPage;
+    }
+
+    /**
+     * @return the dssPositionTop
+     */
+    public Float getDssPositionTop() {
+        return dssPositionTop;
+    }
+
+    /**
+     * @param dssPositionTop
+     *            the dssPositionTop to set
+     */
+    public void setDssPositionTop(Float dssPositionTop) {
+        this.dssPositionTop = dssPositionTop;
+    }
+
+    /**
+     * @return the dssPositionLeft
+     */
+    public Float getDssPositionLeft() {
+        return dssPositionLeft;
+    }
+
+    /**
+     * @param dssPositionLeft
+     *            the dssPositionLeft to set
+     */
+    public void setDssPositionLeft(Float dssPositionLeft) {
+        this.dssPositionLeft = dssPositionLeft;
     }
 
 }

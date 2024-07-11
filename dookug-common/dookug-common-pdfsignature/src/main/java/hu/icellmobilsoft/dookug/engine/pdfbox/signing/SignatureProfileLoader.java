@@ -109,17 +109,17 @@ public class SignatureProfileLoader {
         signatureProfile.setDssLabelTimestamp(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.LABEL_TIMESTAMP)
                         .orElse(ConfigKeys.PdfSignature.Default.LABEL_TIMESTAMP_DEFAULT_VALUE));
-        signatureProfile.setDssLeft(
+        signatureProfile.setDssPositionLeft(
                 Float.parseFloat(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.POSITION_LEFT)
                                 .orElse(ConfigKeys.PdfSignature.Default.LEFT_DEFAULT_VALUE)));
-        signatureProfile.setDssPage(
+        signatureProfile.setDssShowOnPage(
                 Integer.parseInt(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.SHOW_ON_PAGE)
                                 .orElse(ConfigKeys.PdfSignature.Default.PAGE_DEFAULT_VALUE)));
         signatureProfile.setDssTimezone(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.TIMEZONE).orElse(ZoneId.systemDefault().toString()));
-        signatureProfile.setDssTop(
+        signatureProfile.setDssPositionTop(
                 Float.parseFloat(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.POSITION_TOP)
                                 .orElse(ConfigKeys.PdfSignature.Default.TOP_DEFAULT_VALUE)));
