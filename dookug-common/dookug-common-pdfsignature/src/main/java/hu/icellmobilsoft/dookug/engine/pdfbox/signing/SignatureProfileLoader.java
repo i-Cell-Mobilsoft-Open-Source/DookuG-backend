@@ -87,8 +87,11 @@ public class SignatureProfileLoader {
         SignatureProfileDto signatureProfile = new SignatureProfileDto(profileName);
         signatureProfile.setKeystore(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE));
         signatureProfile.setKeystorePassword(
-                getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_PASSWORD)
-                        .orElseThrow(() -> new InvalidParameterException("keystore password cannot be empty!")));
+                getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_PASSWORD).orElseThrow(
+                        () -> new InvalidParameterException(
+                                MessageFormat.format(
+                                        "keystore password cannot be empty! [" + ConfigKeys.PdfSignature.KEYSTORE_PASSWORD + "]",
+                                        profileName))));
         signatureProfile.setKeystoreType(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_TYPE));
         signatureProfile.setKeyAlias(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEY_ALIAS));
         signatureProfile.setName(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.NAME).orElse(null));

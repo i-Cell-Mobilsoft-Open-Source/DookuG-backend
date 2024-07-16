@@ -21,15 +21,6 @@ dookug:
     engine:
       pdf:
         dssesig:
-          sampleProfile:
-            key:
-              algo: RSA_2048
-            keystore:
-              path: /home/icellmobilsoft/keys/nusz_cert.pfx
-              type: PKCS12
-            dss:
-              imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png
-              page: -1            
         digitalsign:
           default:
             name: Default Llc.
@@ -45,6 +36,9 @@ dookug:
             keystorePass: 123456
             keystoreType: PKCS12
             keyAlias: test
+          sampleProfile:
+            keystore: /home/icellmobilsoft/keys/sample_cert.pfx
+            keystoreType: PKCS12
           sampleDss:
             keystore: /home/icellmobilsoft/keys/sample_cert.pfx
             keystoreType: PKCS12

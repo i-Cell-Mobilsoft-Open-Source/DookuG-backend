@@ -67,14 +67,12 @@ dookug:
       pdf:
         digitalsign:
           sampleProfile:
-            name: Example Ltd.
-            reason: Certified
             keystore: /home/icellmobilsoft/keys/keystore.p12 <3>
             keystorePass: 123456
             keystoreType: PKCS12
             keyAlias: key_test
             dss: <1>
-              imageFile: /home/icellmobilsoft/pdfsign/sample/nusz_signature.png <2>
+              imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png <2>
               showOnPage: 1 <3>
               position:
                 left: 18 <4>
