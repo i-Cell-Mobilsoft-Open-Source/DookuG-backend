@@ -24,6 +24,11 @@
         <version.net.sourceforge.saxon.saxon>9.1.0.8</version.net.sourceforge.saxon.saxon>
         <version.net.sourceforge.saxon.he>12.4</version.net.sourceforge.saxon.he>
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
+        <!-- DSS esig -->
+        <version.dss>6.0</version.dss>
+        <version.easytable>0.8.5</version.easytable>
+        <version.org.apache.pdfbox>2.0.31</version.org.apache.pdfbox>
+
     </properties>
 
     <dependencyManagement>
@@ -141,6 +146,59 @@
                 <version>${version.net.sourceforge.saxon.he}</version>
             </dependency>
 
+			<!-- DSS esig -->
+            <dependency>
+                <groupId>org.apache.pdfbox</groupId>
+                <artifactId>pdfbox</artifactId>
+                <version>${version.org.apache.pdfbox}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.vandeseer</groupId>
+                <artifactId>easytable</artifactId>
+                <version>${version.easytable}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-pades</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-pades-pdfbox</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-token</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-utils-apache-commons</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-service</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-crl-parser-stream</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-tsl-validation</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+            <dependency>
+                <groupId>eu.europa.ec.joinup.sd-dss</groupId>
+                <artifactId>dss-alert</artifactId>
+                <version>${version.dss}</version>
+            </dependency>
+			
+			
             <!-- Roaster -->
             <dependency>
                 <groupId>hu.icellmobilsoft.roaster</groupId>

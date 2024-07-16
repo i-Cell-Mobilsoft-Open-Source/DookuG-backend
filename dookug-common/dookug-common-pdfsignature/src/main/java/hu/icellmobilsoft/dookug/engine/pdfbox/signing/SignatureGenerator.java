@@ -53,13 +53,15 @@ import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.common.openpdfsign.PdfSigner;
 import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSPrivateKey;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSProcessableInputStream;
-import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
+import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 
 /**
  * PDF signature generator class
@@ -83,10 +85,13 @@ public class SignatureGenerator implements SignatureInterface {
     @Inject
     private SignatureProfileLoader signatureProfileLoader;
 
+    @Inject
+    private PdfSigner pdfSigner;
+
     private Path tempFile;
     private OutputStream tempFileStream;
     private PDDocument pdDocument;
-    private SignatureProfile signatureProfile;
+    private SignatureProfileDto signatureProfile;
 
     /**
      * Return a temporal output stream where the generator engine the original/unsigned PDF file is able to write to. This stream will be used for the
@@ -111,36 +116,71 @@ public class SignatureGenerator implements SignatureInterface {
     }
 
     /**
+     * @return a {@link Path} representation of the unsigned PDF temp file
+     * @throws BaseException
+     *             on error
+     */
+    /*
+     * public Path getPathForUnsignedPdf() throws BaseException { try { // creating temporal file for the signing return Files.createTempFile(null,
+     * null); } catch (IOException e) { throw new TechnicalException( CoffeeFaultType.OPERATION_FAILED,
+     * MessageFormat.format("Cannot create temp file for unsigned PDF output: [{0}]", e.getLocalizedMessage()), e); } }
+     */
+
+    /**
      * Add the digital signature in case it needed. Doesnt free up resources!
      * 
      * @param signedPdfOutputStream
      *            the result pdf with the signature
-     * @param digitalSigningDto
+     * @param digitalSigningRequestDto
      *            the signature details
      * @throws BaseException
      *             on error
      */
-    public void addDigitalSignatureIfNeeded(OutputStream signedPdfOutputStream, DigitalSigningDto digitalSigningDto) throws BaseException {
-        if (digitalSigningDto != null) {
-            pdDocument = null;
-            try {
-                // content of tempFileStream (unsigned pdf) is written to temporal file
-                tempFileStream.flush();
-                IOUtils.closeQuietly(tempFileStream);
-                // ...and sign
-                pdDocument = PDDocument.load(tempFile.toFile());
-                signDetached(pdDocument, signedPdfOutputStream, digitalSigningDto);
-            } catch (IOException e) {
-                throw new TechnicalException(
-                        CoffeeFaultType.OPERATION_FAILED,
-                        MessageFormat.format("An error occurred while sign PDF file with Pdfbox: [{0}]", e.getLocalizedMessage()),
-                        e);
+    public void addDigitalSignatureIfNeeded(OutputStream signedPdfOutputStream, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
+        if (digitalSigningRequestDto != null) {
+            signatureProfile = signatureProfileLoader.getSignatureProfile(digitalSigningRequestDto.getSignatureProfile());
+            // content of tempFileStream (unsigned pdf) is written to temporal file
+            flushAndCloseTempFileStream();
+            if (signatureProfile.isUseEuDssSig()) {
+                addDssESignature(signedPdfOutputStream, signatureProfile);
+            } else {
+                addPdfBoxDetachedSignature(signedPdfOutputStream, digitalSigningRequestDto);
             }
         }
     }
 
     /**
-     * Free up resources
+     * Add the detached digital signature with pdf box! Should be private but we need trace
+     * 
+     * @param signedPdfOutputStream
+     *            the result pdf with the signature
+     * @param digitalSigningRequestDto
+     *            the signature details
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = "pdfSignature", kind = "sign-pdfbox-detached")
+    public void addPdfBoxDetachedSignature(OutputStream signedPdfOutputStream, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
+        signDetached(signedPdfOutputStream, digitalSigningRequestDto);
+    }
+
+    /**
+     * Add the digital signature with use of eu dss esig library. Doesnt free up resources! Should be private but we need trace
+     * 
+     * @param signedPdfOutputStream
+     *            the result pdf with the signature
+     * @param signatureProfile
+     *            the signature configuration for given profile
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = "pdfSignature", kind = "sign-dss-esig")
+    public void addDssESignature(OutputStream signedPdfOutputStream, SignatureProfileDto signatureProfile) throws BaseException {
+        pdfSigner.signPdf(tempFile, signatureProfile, signedPdfOutputStream);
+    }
+
+    /**
+     * Free up resources from outside this class
      */
     public void closeStreams() {
         IOUtils.closeQuietly(tempFileStream);
@@ -152,30 +192,49 @@ public class SignatureGenerator implements SignatureInterface {
                 // dont wait for JVM exit
                 Files.delete(tempFile);
             } catch (IOException e) {
-                log.warn("Cannot delete the temporaly pdf file: [{0}]", tempFile);
+                log.warn("Cannot delete the temporaly PDF file: [{0}]", tempFile);
             }
+        }
+    }
+
+    private void flushAndCloseTempFileStream() throws BaseException {
+        try {
+            tempFileStream.flush();
+            IOUtils.closeQuietly(tempFileStream);
+        } catch (IOException e) {
+            throw new TechnicalException(
+                    CoffeeFaultType.OPERATION_FAILED,
+                    MessageFormat.format("Cannot write temporaly PDF file: [{0}]", e.getLocalizedMessage()),
+                    e);
         }
     }
 
     /**
      * Signs the given PDF file.
      * 
-     * @param document
-     *            in-memory representation of the PDF document
      * @param output
      *            signed pdf as output stream
-     * @param digitalSigningDto
+     * @param digitalSigningRequestDto
      *            signature parameters
      * @throws IOException
      *             on error
      */
-    private void signDetached(PDDocument document, OutputStream output, DigitalSigningDto digitalSigningDto) throws BaseException, IOException {
-        signatureProfile = signatureProfileLoader.loadSignatureProfile(digitalSigningDto.getSignatureProfile());
-        document.addSignature(createPDSignature(digitalSigningDto), this, createSignatureOptions());
-        // write incremental (only for signing purpose)
-        document.saveIncremental(output);
-        output.flush();
-        output.close();
+    private void signDetached(OutputStream output, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
+        try {
+            pdDocument = PDDocument.load(tempFile.toFile());
+            pdDocument.addSignature(createPDSignature(digitalSigningRequestDto), this, createSignatureOptions());
+            // write incremental (only for signing purpose)
+            pdDocument.saveIncremental(output);
+            output.flush();
+            output.close();
+        } catch (IOException e) {
+            throw new TechnicalException(
+                    CoffeeFaultType.OPERATION_FAILED,
+                    MessageFormat.format("An error occurred while sign PDF file with Pdfbox: [{0}]", e.getLocalizedMessage()),
+                    e);
+        } finally {
+
+        }
     }
 
     /**
@@ -218,28 +277,28 @@ public class SignatureGenerator implements SignatureInterface {
         }
     }
 
-    private PDSignature createPDSignature(DigitalSigningDto digitalSigningDto) {
+    private PDSignature createPDSignature(DigitalSigningDto digitalSigningRequestDto) {
         PDSignature pdSignature = new PDSignature();
         pdSignature.setFilter(PDSignature.FILTER_ADOBE_PPKLITE);
         pdSignature.setSubFilter(PDSignature.SUBFILTER_ADBE_PKCS7_DETACHED);
-        pdSignature.setName(getSignatureName(digitalSigningDto));
-        pdSignature.setReason(getSignatureReason(digitalSigningDto));
+        pdSignature.setName(getSignatureName(digitalSigningRequestDto));
+        pdSignature.setReason(getSignatureReason(digitalSigningRequestDto));
         pdSignature.setSignDate(Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE_UTC)));
         return pdSignature;
     }
 
-    private String getSignatureName(DigitalSigningDto digitalSigningDto) {
-        if (digitalSigningDto == null || StringUtils.isBlank(digitalSigningDto.getSignatureName())) {
+    private String getSignatureName(DigitalSigningDto digitalSigningRequestDto) {
+        if (digitalSigningRequestDto == null || StringUtils.isBlank(digitalSigningRequestDto.getSignatureName())) {
             return signatureProfile.getName();
         }
-        return digitalSigningDto.getSignatureName();
+        return digitalSigningRequestDto.getSignatureName();
     }
 
-    private String getSignatureReason(DigitalSigningDto digitalSigningDto) {
-        if (digitalSigningDto == null || StringUtils.isBlank(digitalSigningDto.getSignatureReason())) {
+    private String getSignatureReason(DigitalSigningDto digitalSigningRequestDto) {
+        if (digitalSigningRequestDto == null || StringUtils.isBlank(digitalSigningRequestDto.getSignatureReason())) {
             return signatureProfile.getReason();
         }
-        return digitalSigningDto.getSignatureReason();
+        return digitalSigningRequestDto.getSignatureReason();
     }
 
     private SignatureOptions createSignatureOptions() {

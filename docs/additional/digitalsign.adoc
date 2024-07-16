@@ -42,17 +42,51 @@ dookug:
     engine:
       pdf:
         digitalsign:
-          signature:
-            sampleProfile: <1>
-              name: Example Ltd. <2>
-              reason: Certified <2>
-              keystore: /home/icellmobilsoft/keys/keystore.p12 <3>
-              keystorePass: 123456 <4>
-              keystoreType: PKCS12 <4>
-              keyAlias: key_test <5>
+          sampleProfile: <1>
+            name: Example Ltd. <2>
+            reason: Certified <2>
+            keystore: /home/icellmobilsoft/keys/keystore.p12 <3>
+            keystorePass: 123456 <4>
+            keystoreType: PKCS12 <4>
+            keyAlias: key_test <5>
 ----
 <1> the name of the signatureProfile
 <2> `name` and `reason` default values are used if the request does not contain these values.
 <3> `keystore` is mandatory and specifies the location of the signing keys.
 <4> `keystorePass` and `keystoreType` specify the password and type of the keystore file, respectively. These are also mandatory.
 <5> the identifier of the private key within the keystore
+
+== Visible signature (using the EU DSS ESIGN library)
+
+In case you want to add visible (clickable) signature to the PDF document you need to add some extra configuration.
+
+----
+dookug:
+  service:
+    engine:
+      pdf:
+        digitalsign:
+          sampleProfile:
+            keystore: /home/icellmobilsoft/keys/keystore.p12 <3>
+            keystorePass: 123456
+            keystoreType: PKCS12
+            keyAlias: key_test
+            dss: <1>
+              imageFile: /home/icellmobilsoft/pdfsign/sample/signature.png <2>
+              showOnPage: 1 <3>
+              position:
+                left: 18 <4>
+                top: 2 <5>
+              width: 2 <6>
+              useTimestamp: false <7>        
+              
+----
+<1> the key for DSS library
+<2> the image you want to add to the document
+<3> the image will added to this page: `-1`: last page, `1`:first page, `0`:wont add, `n`:n-th page 
+<4> X position of the image in cm (from top left corner)
+<5> Y position of the image in cm (from top left corner)
+<6> the width of the image in cm
+<7> you can add the signature timestamp to the image
+
+The available configuration keys can be found <<pdfSignatureConfiguration,here>>.

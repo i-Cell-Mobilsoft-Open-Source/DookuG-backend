@@ -61,6 +61,8 @@ import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.SignatureGenerator;
+import hu.icellmobilsoft.dookug.engine.pdfbox.signing.SignatureProfileLoader;
+import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
@@ -102,6 +104,9 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     @Inject
     private SignatureGenerator signatureGenerator;
 
+    @Inject
+    private SignatureProfileLoader signatureProfileLoader;
+
     @Override
     public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameterData, DigitalSigningDto digitalSigningDto)
             throws BaseException {
@@ -109,7 +114,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     }
 
     @Override
-    @Traced
+    @Traced(component = "XSLT-PDF", kind = "generateOutputStream")
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, DigitalSigningDto digitalSigningDto)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();
