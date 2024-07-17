@@ -20,7 +20,6 @@ dookug:
         ttl: 60
     engine:
       pdf:
-        dssesig:
         digitalsign:
           default:
             name: Default Llc.
