@@ -21,7 +21,7 @@ jobs:
   mvn-release:
     runs-on: ubuntu-latest
     # Permission check https://github.community/t/who-has-permission-to-workflow-dispatch/133981
-    if: contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold"]', github.actor)
+    if: contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro"]', github.actor)
 
     steps:
       - name: Release
