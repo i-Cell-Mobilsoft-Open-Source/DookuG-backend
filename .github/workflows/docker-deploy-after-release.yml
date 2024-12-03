@@ -71,4 +71,6 @@ jobs:
           push: true
           files: |
             etc/release/docker-compose.yml
-          targets: qs-rest-service-release
+          targets: |
+            dookug-rest-service-oracle-release
+            dookug-rest-service-postgres-release
