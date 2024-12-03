@@ -9,7 +9,7 @@ Document generator and template handler module
 - Java EE 10
 - Wildfly 27.0.1.Final
 
-== Servics
+== Services
 
 * dookug-document-service - contents:
 ** Generating document with stored template data
