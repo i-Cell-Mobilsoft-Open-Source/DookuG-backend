@@ -6,11 +6,6 @@ name: Maven Deploy
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
-  workflow_run:
-    workflows: [ "manual-maven-release" ]
-    types:
-      - completed
-
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
