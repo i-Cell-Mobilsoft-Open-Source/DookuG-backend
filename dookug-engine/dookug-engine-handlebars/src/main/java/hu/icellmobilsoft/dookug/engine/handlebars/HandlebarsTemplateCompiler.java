@@ -43,11 +43,11 @@ import com.google.gson.reflect.TypeToken;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.dto.exception.BusinessException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.cdi.TemplateCompilerQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
@@ -179,7 +179,7 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
         }
     }
 
-    private Context getEmptyContext() {
+    private Context getEmptyContext() throws BaseException {
         Object obj = JsonUtil.toObject(EMPTY_JSON, Map.class);
         return Context.newBuilder(obj).build();
     }
