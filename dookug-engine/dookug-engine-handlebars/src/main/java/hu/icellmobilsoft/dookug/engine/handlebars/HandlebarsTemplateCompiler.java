@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,7 +48,6 @@ import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
-import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.cdi.TemplateCompilerQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
@@ -64,7 +64,7 @@ import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 @ApplicationScoped
 public class HandlebarsTemplateCompiler implements ITemplateCompiler {
 
-    private static final String EMPTY_JSON = "{}";
+    private static final Context EMPTY_CONTEXT = Context.newBuilder(new HashMap<>()).build();
 
     @Inject
     @ThisLogger
@@ -152,7 +152,7 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
      * default init
      * 
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     @PostConstruct
     public void init() throws BaseException {
@@ -179,8 +179,7 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
         }
     }
 
-    private Context getEmptyContext() throws BaseException {
-        Object obj = JsonUtil.toObject(EMPTY_JSON, Map.class);
-        return Context.newBuilder(obj).build();
+    private static Context getEmptyContext() {
+        return EMPTY_CONTEXT;
     }
 }
