@@ -37,7 +37,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.client.DookugClient;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;

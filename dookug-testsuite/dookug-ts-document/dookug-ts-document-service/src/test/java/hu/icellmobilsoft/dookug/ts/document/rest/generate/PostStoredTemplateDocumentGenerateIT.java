@@ -37,7 +37,7 @@ import hu.icellmobilsoft.coffee.dto.exception.BONotFoundException;
 import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
+import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;

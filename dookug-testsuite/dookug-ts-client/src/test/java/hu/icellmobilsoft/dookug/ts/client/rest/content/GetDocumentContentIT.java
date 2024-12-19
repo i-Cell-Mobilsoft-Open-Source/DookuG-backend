@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.string.RandomUtil;
 import hu.icellmobilsoft.dookug.client.DookugClient;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;

@@ -27,7 +27,7 @@ import java.util.Collection;
 
 import jakarta.enterprise.context.Dependent;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;

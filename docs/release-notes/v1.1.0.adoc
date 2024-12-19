@@ -6,6 +6,7 @@
 * Using the EU DSS Esig library to sign PDF documents (optional)
 * PDF signing: `signature` key removed from configuration.
 * GitHub workflows for docker build and release build
+* Coffee upgrade to 2.9.0
 
 == Migration
 

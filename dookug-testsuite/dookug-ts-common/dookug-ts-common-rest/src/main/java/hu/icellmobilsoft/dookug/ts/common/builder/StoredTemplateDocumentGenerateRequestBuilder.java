@@ -25,7 +25,7 @@ import java.util.Map;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.Model;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
@@ -91,10 +91,11 @@ public class StoredTemplateDocumentGenerateRequestBuilder extends BaseBuilder<St
      * 
      * @param templateName
      *            name of the template
+     * @throws BaseException if any error occurs
      *
      * @return {@link StoredTemplateDocumentGenerateRequest}
      */
-    public StoredTemplateDocumentGenerateRequest fullFillDatabaseStorage(String templateName) {
+    public StoredTemplateDocumentGenerateRequest fullFillDatabaseStorage(String templateName) throws BaseException {
         StoredTemplateDocumentGenerateRequest request = getDto();
         StoredTemplateGeneratorSetupType generatorSetupType = new StoredTemplateGeneratorSetupType();
         generatorSetupType.setGeneratorEngine(GeneratorEngineType.PDF_BOX);
