@@ -58,7 +58,6 @@ import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.common.openpdfsign.PdfSigner;
-import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSPrivateKey;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSProcessableInputStream;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
@@ -131,20 +130,20 @@ public class SignatureGenerator implements SignatureInterface {
      * 
      * @param signedPdfOutputStream
      *            the result pdf with the signature
-     * @param digitalSigningRequestDto
-     *            the signature details
+     * @param digitalSignatureProfile
+     *            the signature profile name
      * @throws BaseException
      *             on error
      */
-    public void addDigitalSignatureIfNeeded(OutputStream signedPdfOutputStream, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
-        if (digitalSigningRequestDto != null) {
-            signatureProfile = signatureProfileLoader.getSignatureProfile(digitalSigningRequestDto.getSignatureProfile());
+    public void addDigitalSignatureIfNeeded(OutputStream signedPdfOutputStream, String digitalSignatureProfile) throws BaseException {
+        if (StringUtils.isNotBlank(digitalSignatureProfile)) {
+            signatureProfile = signatureProfileLoader.getSignatureProfile(digitalSignatureProfile);
             // content of tempFileStream (unsigned pdf) is written to temporal file
             flushAndCloseTempFileStream();
             if (signatureProfile.isUseEuDssSig()) {
                 addDssESignature(signedPdfOutputStream, signatureProfile);
             } else {
-                addPdfBoxDetachedSignature(signedPdfOutputStream, digitalSigningRequestDto);
+                addPdfBoxDetachedSignature(signedPdfOutputStream, signatureProfile.getName(), signatureProfile.getReason());
             }
         }
     }
@@ -154,14 +153,16 @@ public class SignatureGenerator implements SignatureInterface {
      * 
      * @param signedPdfOutputStream
      *            the result pdf with the signature
-     * @param digitalSigningRequestDto
-     *            the signature details
+     * @param name
+     *            the signature name
+     * @param reason
+     *            the signature reason
      * @throws BaseException
      *             on error
      */
     @Traced(component = "pdfSignature", kind = "sign-pdfbox-detached")
-    public void addPdfBoxDetachedSignature(OutputStream signedPdfOutputStream, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
-        signDetached(signedPdfOutputStream, digitalSigningRequestDto);
+    public void addPdfBoxDetachedSignature(OutputStream signedPdfOutputStream, String name, String reason) throws BaseException {
+        signDetached(signedPdfOutputStream, name, reason);
     }
 
     /**
@@ -214,15 +215,17 @@ public class SignatureGenerator implements SignatureInterface {
      * 
      * @param output
      *            signed pdf as output stream
-     * @param digitalSigningRequestDto
-     *            signature parameters
+     * @param name
+     *            signature name
+     * @param reason
+     *            signature reason
      * @throws IOException
-     *             on error
+     *             if any error occurs
      */
-    private void signDetached(OutputStream output, DigitalSigningDto digitalSigningRequestDto) throws BaseException {
+    private void signDetached(OutputStream output, String name, String reason) throws BaseException {
         try {
             pdDocument = PDDocument.load(tempFile.toFile());
-            pdDocument.addSignature(createPDSignature(digitalSigningRequestDto), this, createSignatureOptions());
+            pdDocument.addSignature(createPDSignature(name, reason), this, createSignatureOptions());
             // write incremental (only for signing purpose)
             pdDocument.saveIncremental(output);
             output.flush();
@@ -277,28 +280,14 @@ public class SignatureGenerator implements SignatureInterface {
         }
     }
 
-    private PDSignature createPDSignature(DigitalSigningDto digitalSigningRequestDto) {
+    private PDSignature createPDSignature(String name, String reason) {
         PDSignature pdSignature = new PDSignature();
         pdSignature.setFilter(PDSignature.FILTER_ADOBE_PPKLITE);
         pdSignature.setSubFilter(PDSignature.SUBFILTER_ADBE_PKCS7_DETACHED);
-        pdSignature.setName(getSignatureName(digitalSigningRequestDto));
-        pdSignature.setReason(getSignatureReason(digitalSigningRequestDto));
+        pdSignature.setName(name);
+        pdSignature.setReason(reason);
         pdSignature.setSignDate(Calendar.getInstance(TimeZone.getTimeZone(TIMEZONE_UTC)));
         return pdSignature;
-    }
-
-    private String getSignatureName(DigitalSigningDto digitalSigningRequestDto) {
-        if (digitalSigningRequestDto == null || StringUtils.isBlank(digitalSigningRequestDto.getSignatureName())) {
-            return signatureProfile.getName();
-        }
-        return digitalSigningRequestDto.getSignatureName();
-    }
-
-    private String getSignatureReason(DigitalSigningDto digitalSigningRequestDto) {
-        if (digitalSigningRequestDto == null || StringUtils.isBlank(digitalSigningRequestDto.getSignatureReason())) {
-            return signatureProfile.getReason();
-        }
-        return digitalSigningRequestDto.getSignatureReason();
     }
 
     private SignatureOptions createSignatureOptions() {

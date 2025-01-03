@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 
 /**
@@ -41,13 +40,13 @@ public interface IDocumentGenerator {
      *            generate output
      * @param parameterData
      *            Key value data map
-     * @param digitalSigningDto
-     *            nullable, the digital singing parameters in case of digital signing is required
+     * @param digitalSignatureProfile
+     *            nullable, the digital signature profile name
      * @throws BaseException
      *             on error
      */
     public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameterData,
-            DigitalSigningDto digitalSigningDto) throws BaseException;
+            String digitalSignatureProfile) throws BaseException;
 
     /**
      * Creates a document using a templates and a values. Returns the result as streaming output.
@@ -56,11 +55,11 @@ public interface IDocumentGenerator {
      *            generate output
      * @param parametersData
      *            Data structure of values (JSON, XML, ...)
-     * @param digitalSigningDto
-     *            nullable, the digital singing parameters in case of digital signing is required
+     * @param digitalSignatureProfile
+     *            nullable, the digital signature profile name
      * @throws BaseException
      *             on error
      */
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parametersData,
-            DigitalSigningDto digitalSigningDto) throws BaseException;
+            String digitalSignatureProfile) throws BaseException;
 }

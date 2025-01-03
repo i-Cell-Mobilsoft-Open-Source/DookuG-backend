@@ -55,14 +55,11 @@ import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.cdi.DocumentGeneratorQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
-import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.common.cdi.template.IDocumentGenerator;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.SignatureGenerator;
-import hu.icellmobilsoft.dookug.engine.pdfbox.signing.SignatureProfileLoader;
-import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
@@ -104,18 +101,15 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     @Inject
     private SignatureGenerator signatureGenerator;
 
-    @Inject
-    private SignatureProfileLoader signatureProfileLoader;
-
     @Override
-    public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameterData, DigitalSigningDto digitalSigningDto)
+    public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameterData, String digitalSignatureProfile)
             throws BaseException {
-        generateToOutputStream(outputStream, new ParametersDataType(), digitalSigningDto);
+        generateToOutputStream(outputStream, new ParametersDataType(), digitalSignatureProfile);
     }
 
     @Override
     @Traced(component = "XSLT-PDF", kind = "generateOutputStream")
-    public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, DigitalSigningDto digitalSigningDto)
+    public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, String digitalSignatureProfile)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();
         SaxonGeneratorParametersData saxonParameters = jaxbTool
@@ -137,7 +131,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "XSLT default language not configured!");
         }
 
-        Result result = getFOStream(outputStream, saxonParameters, digitalSigningDto);
+        Result result = getFOStream(outputStream, saxonParameters, digitalSignatureProfile);
         try (InputStream templateStream = templateContainer.getCompiledResultAsStream();) {
             // setting up XMLDataset
             Source params = null;
@@ -160,7 +154,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             transformer.setParameter(xsltLangVarOpt.get(), getLanguage(generatorSetup).toUpperCase());
             transformer.transform(params, result);
             // add digital signing if needed by configuration
-            signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSigningDto);
+            signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSignatureProfile);
 
         } catch (BaseException e) {
             throw e;
@@ -184,13 +178,13 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
      * @param outputStream
      *            generate output
      * @param saxonParameters
-     * @param digitalSigningDto
-     *            nullable, the digital singing parameters in case of digital signing is required
+     * @param digitalSignatureProfile
+     *            nullable, the digital signature profile name
      * @throws BaseException
      *             on error
      */
     @Traced
-    private Result getFOStream(OutputStream outputStream, SaxonGeneratorParametersData saxonParameters, DigitalSigningDto digitalSigningDto)
+    private Result getFOStream(OutputStream outputStream, SaxonGeneratorParametersData saxonParameters, String digitalSignatureProfile)
             throws BaseException {
         try {
             // create an instance of fop factory
@@ -209,7 +203,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
 
             // Construct fop with desired output format
             Fop fop;
-            if (digitalSigningDto != null) {
+            if (StringUtils.isNotBlank(digitalSignatureProfile)) {
                 fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, signatureGenerator.getOutputStreamForUnsignedPdf());
             } else {
                 fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, outputStream);

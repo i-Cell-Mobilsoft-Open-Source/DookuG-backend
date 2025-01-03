@@ -27,10 +27,9 @@ import java.util.Map;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.inject.Model;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DigitalSigningType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
@@ -54,6 +53,7 @@ import hu.icellmobilsoft.roaster.common.util.FileUtil;
 @Model
 public class DocumentGenerateWithTemplatesRequestBuilder extends BaseBuilder<DocumentGenerateWithTemplatesRequest> {
 
+    private static final String SAMPLE_PROFILE = "sampleProfile";
     /**
      * default template
      */
@@ -155,16 +155,12 @@ public class DocumentGenerateWithTemplatesRequestBuilder extends BaseBuilder<Doc
     }
 
     /**
-     * Constructs default {@link DigitalSigningType} object
+     * Get the preconfigured digital signature profile name
      * 
-     * @return the object we need
+     * @return the name of the profile
      */
-    public DigitalSigningType digitalSigningType() {
-        DigitalSigningType digitalSigningType = new DigitalSigningType();
-        digitalSigningType.setSignatureProfile("sampleProfile");
-        digitalSigningType.setSignatureName("signatureName");
-        digitalSigningType.setSignatureReason("reason");
-        return digitalSigningType;
+    public String getDigitalSignatureProfile() {
+        return SAMPLE_PROFILE;
     }
 
     // /**

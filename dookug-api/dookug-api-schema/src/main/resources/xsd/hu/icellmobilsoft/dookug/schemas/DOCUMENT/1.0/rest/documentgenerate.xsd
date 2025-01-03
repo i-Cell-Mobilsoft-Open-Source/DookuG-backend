@@ -224,29 +224,6 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="DigitalSigningType">
-        <xsd:annotation>
-            <xsd:documentation>DTO required for digital signatures.</xsd:documentation>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="signatureName" type="coffeeCommon:SimpleText30NotBlankType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Name of the signature</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="signatureReason" type="coffeeCommon:SimpleText128NotBlankType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Reason of signature</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="signatureProfile" type="coffeeCommon:SimpleText64NotBlankType">
-                <xsd:annotation>
-                    <xsd:documentation>The signer profile configured within the module</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-
     <xsd:complexType name="DocumentMetadataQueryOrderType">
         <xsd:annotation>
             <xsd:documentation>Document metadata sorting type</xsd:documentation>
@@ -414,9 +391,9 @@
                     <xsd:documentation>Format of the result</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="addDigitalSignature" type="DigitalSigningType" minOccurs="0">
+            <xsd:element name="digitalSignatureProfile" type="coffeeCommon:SimpleText64NotBlankType" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Add digital signature</xsd:documentation>
+                    <xsd:documentation>The signer profile configured within the module</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="documentStorageMethod" type="DocumentStorageMethodType">
