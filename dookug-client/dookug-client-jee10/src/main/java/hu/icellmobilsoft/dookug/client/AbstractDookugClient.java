@@ -30,9 +30,9 @@ import jakarta.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
-import hu.icellmobilsoft.coffee.dto.exception.BusinessException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentContentInternalRest;
@@ -202,9 +202,9 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
-            OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,
-            ParametersDataType parametersData) throws BaseException {
+    public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, String templateLanguage, OffsetDateTime templateValidity,
+            TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters, ParametersDataType parametersData)
+            throws BaseException {
         if (StringUtils.isBlank(templateName) || templateStorageMethodType == null) {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "templateName, storageMethodType are required!");
         }

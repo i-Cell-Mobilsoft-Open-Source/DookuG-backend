@@ -23,7 +23,9 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.StringUtils;
 
-import hu.icellmobilsoft.coffee.tool.gson.JsonUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.JsonConversionException;
+import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.coffee.tool.utils.marshalling.MarshallingUtil;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.generator.saxon.SaxonGeneratorParametersData;
@@ -118,8 +120,10 @@ public class ParametersDataBuilder {
      * @param templateParameters
      *            the object to add as binary template parameters
      * @return the builder
+     * @throws JsonConversionException
+     *             if json conversion error occurs
      */
-    public ParametersDataBuilder withTemplateParameters(Object templateParameters) {
+    public ParametersDataBuilder withTemplateParameters(Object templateParameters) throws BaseException {
         if (templateParameters == null) {
             return this;
         }
