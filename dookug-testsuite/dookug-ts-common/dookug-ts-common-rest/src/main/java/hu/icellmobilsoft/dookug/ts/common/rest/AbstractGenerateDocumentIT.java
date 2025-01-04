@@ -39,8 +39,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Assertions;
 
-import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
@@ -139,8 +139,10 @@ public abstract class AbstractGenerateDocumentIT extends BaseIT {
      * @param jsonParameter
      *            the object to convert to template parameter
      * @return the {@link ParametersDataType} constructed
+     * @throws BaseException
+     *             if json converson error occurs
      */
-    protected ParametersDataType templateParameterDataFromObject(Object jsonParameter) {
+    protected ParametersDataType templateParameterDataFromObject(Object jsonParameter) throws BaseException {
         return ParametersDataBuilder.newBuilder().withTemplateParameters(jsonParameter).build();
     }
 
