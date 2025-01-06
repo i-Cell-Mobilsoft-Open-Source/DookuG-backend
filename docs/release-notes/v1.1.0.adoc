@@ -7,6 +7,7 @@
 * PDF signing: `signature` key removed from configuration.
 * GitHub workflows for docker build and release build
 * Coffee upgrade to 2.9.0
+* The coffee-module-etcd dependency has been removed.
 
 == Migration
 
