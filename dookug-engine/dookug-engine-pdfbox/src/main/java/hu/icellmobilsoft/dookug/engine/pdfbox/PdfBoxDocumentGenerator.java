@@ -39,7 +39,6 @@ import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.dookug.common.cdi.DocumentGeneratorQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;
-import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.common.cdi.template.IDocumentGenerator;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.SignatureGenerator;
@@ -69,13 +68,13 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
     private SignatureGenerator signatureGenerator;
 
     @Override
-    public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameters, DigitalSigningDto digitalSigningDto)
+    public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameters, String digitalSignatureProfile)
             throws BaseException {
-        generateToOutputStream(outputStream, new ParametersDataType(), digitalSigningDto);
+        generateToOutputStream(outputStream, new ParametersDataType(), digitalSignatureProfile);
     }
 
     @Override
-    public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, DigitalSigningDto digitalSigningDto)
+    public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, String digitalSignatureProfile)
             throws BaseException {
 
         PdfRendererBuilder pdfRendererBuilder = new PdfRendererBuilder();
@@ -90,7 +89,7 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
         // pdfRendererBuilder.useFont(new File(FONT_PATH), "notosansthai-regular");
         pdfRendererBuilder.toStream(outputStream);
 
-        if (digitalSigningDto == null) {
+        if (StringUtils.isNotBlank(digitalSignatureProfile)) {
             // we dont need digital signature
             pdfRendererBuilder.toStream(outputStream);
             // generated pdf -> outputstream
@@ -101,7 +100,7 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
                 pdfRendererBuilder.toStream(signatureGenerator.getOutputStreamForUnsignedPdf());
                 pdfRender(pdfRendererBuilder);
                 // adding signature
-                signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSigningDto);
+                signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSignatureProfile);
             } finally {
                 signatureGenerator.closeStreams();
             }

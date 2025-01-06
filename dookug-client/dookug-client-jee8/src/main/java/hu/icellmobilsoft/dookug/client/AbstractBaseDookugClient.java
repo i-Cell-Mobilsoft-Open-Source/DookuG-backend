@@ -34,7 +34,6 @@ import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.client.exception.DookugClientException;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.client.util.RandomUtil;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DigitalSigningType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
@@ -54,7 +53,7 @@ public abstract class AbstractBaseDookugClient {
     private TemplateEngineType templateEngineType = TemplateEngineType.HANDLEBARS;
     private ResponseFormatType responseFormatType = ResponseFormatType.PDF;
     private String templateLanguage = "HU";
-    private DigitalSigningType digitalSigningType;
+    private String digitalSignatureProfile;
 
     private DocumentStorageMethodType documentStorageMethodType = DocumentStorageMethodType.NONE;
 
@@ -195,17 +194,16 @@ public abstract class AbstractBaseDookugClient {
     }
 
     /**
-     * @return the digitalSigningType
+     * @return the digitalSignatureProfile
      */
-    public DigitalSigningType getDigitalSigningType() {
-        return digitalSigningType;
+    public String getDigitalSignatureProfile() {
+        return digitalSignatureProfile;
     }
 
     /**
-     * @param digitalSigningType
-     *            the digitalSigningType to set
+     * @param digitalSignatureProfile the digitalSignatureProfile to set
      */
-    public void setDigitalSigningType(DigitalSigningType digitalSigningType) {
-        this.digitalSigningType = digitalSigningType;
+    public void setDigitalSignatureProfile(String digitalSignatureProfile) {
+        this.digitalSignatureProfile = digitalSignatureProfile;
     }
 }

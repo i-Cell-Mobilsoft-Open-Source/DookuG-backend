@@ -26,13 +26,10 @@ The signature can be requested in the API calls within the GeneratorSetup reques
     <ns2:generatorEngine>PDF_BOX</ns2:generatorEngine>
     <ns2:templateEngine>NONE</ns2:templateEngine>
     <ns2:responseFormat>PDF</ns2:responseFormat>
-    <ns2:addDigitalSignature>
-        <ns2:signatureName>TestSuite name</ns2:signatureName>
-        <ns2:signatureReason>TestSuite test reason</ns2:signatureReason>
-        <ns2:signatureProfile>sampleProfile</ns2:signatureProfile>
-    </ns2:addDigitalSignature>
+    <ns2:digitalSignatureProfile>sampleProfile</ns2:digitalSignatureProfile> <1>
         ...
 ----
+<1> The name of the signature profile only in case you need PDF signing
 
 The signature can be customized with the following configuration keys:
 [source,yaml]

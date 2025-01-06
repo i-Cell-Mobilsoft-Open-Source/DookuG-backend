@@ -54,7 +54,6 @@ import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.TemplateCompilerQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.document.IDocumentStore;
-import hu.icellmobilsoft.dookug.common.cdi.sign.DigitalSigningDto;
 import hu.icellmobilsoft.dookug.common.cdi.template.IDocumentGenerator;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateCompiler;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
@@ -64,7 +63,6 @@ import hu.icellmobilsoft.dookug.common.model.template.enums.DocumentStatus;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.common.util.filename.FileUtil;
 import hu.icellmobilsoft.dookug.document.service.converter.DocumentConverter;
-import hu.icellmobilsoft.dookug.engine.pdfbox.converter.DigitalSigningDtoConverter;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -246,13 +244,11 @@ public class BaseDocumentGenerateAction extends BaseAction {
 
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 try {
-                    DigitalSigningDto digitalSigningDto = DigitalSigningDtoConverter.toDigitalSigningDto(generatorSetup.getAddDigitalSignature());
-
                     if (generatorSetup.isSetParameters()) {
                         documentGenerator
-                                .generateToOutputStream(output, getMapFromParameterTypeList(generatorSetup.getParameters()), digitalSigningDto);
+                                .generateToOutputStream(output, getMapFromParameterTypeList(generatorSetup.getParameters()), generatorSetup.getDigitalSignatureProfile());
                     } else {
-                        documentGenerator.generateToOutputStream(output, generatorSetup.getParametersData(), digitalSigningDto);
+                        documentGenerator.generateToOutputStream(output, generatorSetup.getParametersData(), generatorSetup.getDigitalSignatureProfile());
                     }
                 } catch (BaseException e) {
                     throw new IOExceptionBaseExceptionWrapper(e);

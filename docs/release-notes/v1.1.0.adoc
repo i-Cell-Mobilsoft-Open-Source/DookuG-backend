@@ -6,9 +6,9 @@
 * Using the EU DSS Esig library to sign PDF documents (optional)
 * PDF signing: `signature` key removed from configuration.
 * GitHub workflows for docker build and release build
-* Coffee upgrade to 2.9.0
 * The coffee-module-etcd dependency has been removed.
-
+* The signatureName and signatureReason has been removed from the request - These are set up in the application configuration under profile name keys
+ 
 == Migration
 
 Changes are backwards compatible doesnt need any migration.

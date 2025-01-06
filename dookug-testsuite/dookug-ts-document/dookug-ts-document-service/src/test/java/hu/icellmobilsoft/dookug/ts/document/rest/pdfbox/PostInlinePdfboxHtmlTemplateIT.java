@@ -78,7 +78,7 @@ class PostInlinePdfboxHtmlTemplateIT extends AbstractGenerateDocumentIT {
         String template = FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE);
         request.getTemplates()
                 .add(new TemplateType().withTemplateName("pdfbox_template").withTemplateContent(template.getBytes(StandardCharsets.UTF_8)));
-        request.getGeneratorSetup().setAddDigitalSignature(documentGenerateWithTemplatesRequestBuilder.digitalSigningType());
+        request.getGeneratorSetup().setDigitalSignatureProfile(documentGenerateWithTemplatesRequestBuilder.getDigitalSignatureProfile());
 
         Response response = client.postDocumentGenerateEntityBody(request);
         Assertions.assertEquals(200, response.getStatus());

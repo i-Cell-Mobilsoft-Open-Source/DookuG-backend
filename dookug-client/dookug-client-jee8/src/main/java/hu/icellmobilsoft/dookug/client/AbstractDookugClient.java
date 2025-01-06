@@ -87,7 +87,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
     protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         try {
             request.getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
-            request.getGeneratorSetup().setAddDigitalSignature(getDigitalSigningType());
+            request.getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
             Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateEntityBody(request);
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
@@ -112,7 +112,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
     protected GeneratedDocumentDto postDocumentGenerateMultipart(DocumentGenerateMultipartForm request) throws BaseException {
         try {
             request.getRequest().getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
-            request.getRequest().getGeneratorSetup().setAddDigitalSignature(getDigitalSigningType());
+            request.getRequest().getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
             Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateMultipart(request);
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
@@ -314,7 +314,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
         generatorSetup.setTemplateStorageMethod(templateStorageMethodType);
         generatorSetup.setDocumentStorageMethod(getDocumentStorageMethodType());
         generatorSetup.setResponseFormat(getResponseFormatType());
-        generatorSetup.setAddDigitalSignature(getDigitalSigningType());
+        generatorSetup.setDigitalSignatureProfile(getDigitalSignatureProfile());
         if (parameters == null || parameters.isEmpty()) {
             generatorSetup.setParametersData(parametersData);
         } else {
