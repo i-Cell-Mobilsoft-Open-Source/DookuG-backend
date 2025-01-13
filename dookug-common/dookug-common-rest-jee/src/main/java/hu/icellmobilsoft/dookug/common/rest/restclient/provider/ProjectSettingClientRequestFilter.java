@@ -28,9 +28,7 @@ import jakarta.ws.rs.client.ClientRequestFilter;
 
 import org.apache.commons.lang3.StringUtils;
 
-import hu.icellmobilsoft.coffee.dto.common.LogConstants;
 import hu.icellmobilsoft.coffee.module.mp.restclient.RestClientPriority;
-import hu.icellmobilsoft.coffee.se.logging.mdc.MDC;
 import hu.icellmobilsoft.dookug.common.rest.header.IProjectHeader;
 import hu.icellmobilsoft.dookug.common.rest.header.ProjectHeader;
 
@@ -55,9 +53,6 @@ public class ProjectSettingClientRequestFilter implements ClientRequestFilter {
             if (!requestContext.getHeaders().containsKey(IProjectHeader.HEADER_FORWARDED) && StringUtils.isNotBlank(projectHeader.getForwarded())) {
                 requestContext.getHeaders().add(IProjectHeader.HEADER_FORWARDED, projectHeader.getForwarded());
             }
-        }
-        if (MDC.get(LogConstants.LOG_SESSION_ID) != null) {
-            requestContext.getHeaders().add(LogConstants.LOG_SESSION_ID, MDC.get(LogConstants.LOG_SESSION_ID).toString());
         }
     }
 }
