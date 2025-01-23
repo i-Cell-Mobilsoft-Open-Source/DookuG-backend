@@ -36,9 +36,9 @@ ENV NEXUS_OBJECT_EXTENSION=$POM_EXTENSION
 
 ENV NEXUS_DOWNLOAD_OUTPUT_FILE_NAME=$NEXUS_OBJECT_ARTIFACT_ID.$NEXUS_OBJECT_EXTENSION
 
-RUN echo "DOWNLOAD_DIR=$DOWNLOAD_DIR" && \
-    ${HOME}/script/maven-search-download.sh
-
+RUN echo "DOCKER_SONATYPE_REPOSITORY=$SONATYPE_REPOSITORY" && \
+    echo "DOWNLOAD_DIR=$DOWNLOAD_DIR" && \
+    $HOME/script/sonatype-download.sh
 ################################################################################
 # Create production image
 ################################################################################
