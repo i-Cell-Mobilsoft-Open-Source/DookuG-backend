@@ -37,9 +37,9 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.CMSPrivateKey;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 
