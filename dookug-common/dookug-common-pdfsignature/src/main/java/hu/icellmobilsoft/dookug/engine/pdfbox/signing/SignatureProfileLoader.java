@@ -34,9 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.engine.pdfbox.config.ConfigKeys;
 import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 
@@ -90,10 +90,17 @@ public class SignatureProfileLoader {
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_PASSWORD).orElseThrow(
                         () -> new InvalidParameterException(
                                 MessageFormat.format(
-                                        "keystore password cannot be empty! [" + ConfigKeys.PdfSignature.KEYSTORE_PASSWORD + "]",
+                                        "CONFIG: keystore password cannot be empty! [" + ConfigKeys.PdfSignature.KEYSTORE_PASSWORD + "]",
                                         profileName))));
         signatureProfile.setKeystoreType(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEYSTORE_TYPE));
         signatureProfile.setKeyAlias(getConfigurationValue(profileName, ConfigKeys.PdfSignature.KEY_ALIAS));
+        signatureProfile.setKeyAlias(
+                getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEY_ALIAS).orElseThrow(
+                        () -> new InvalidParameterException(
+                                MessageFormat.format(
+                                        "CONFIG: key alias cannot be empty! [" + ConfigKeys.PdfSignature.KEY_ALIAS + "]",
+                                        profileName))));
+
         signatureProfile.setName(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.NAME).orElse(null));
         signatureProfile.setReason(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.REASON).orElse(null));
 

@@ -32,9 +32,9 @@ import com.google.common.cache.LoadingCache;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
 import hu.icellmobilsoft.dookug.common.system.rest.cache.CacheMetricsCollector;
 
