@@ -1,0 +1,1856 @@
+{
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "Generated API",
+    "version" : "1.0"
+  },
+  "tags" : [ {
+    "name" : "Document generation operations",
+    "description" : "Settings and parameters received in the REST operations related to document generation, based on the template received in the request or stored in the module."
+  }, {
+    "name" : "Querying generated document",
+    "description" : "Querying generated document stored in the module database."
+  }, {
+    "name" : "Stored template operations",
+    "description" : "REST operations related to templates stored in the module."
+  } ],
+  "paths" : {
+    "/internal/dookug/document/content/{id}" : {
+      "get" : {
+        "tags" : [ "Querying generated document" ],
+        "summary" : "Modulban tárolt generált dokumentum lekérdezése azonosító alapján.",
+        "description" : "Generált és modulban tárolt dokumentum visszaadása octet-stream formátumban, illetve a fájl nevének visszaadása HTTP header-ben.\n\nNem található azonosító esetén ENTITY_NOT_FOUND hibával térünk vissza.\n\nAdatbázisban történő dokumentumtároláshoz a dokumentum generálása során a generatorSetup.documentStorageMethod=DATABASE beállítást kell használni.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Generált dokumentum azonosító",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/inline" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate document based on values specified in request",
+        "description" : "In the case of inline generation, the template, parameters and settings are also received at the endpoint, and the document is generated based on them.\n It is possible to process multiple, hierarchically ordered templates, which can be used for HTML-based document generation.\n\n The template is received in base64binary format. Parameters are received as key-value pairs or in JSON structure in base64binary format.",
+        "requestBody" : {
+          "content" : {
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            },
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/inline/metadata" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate document and return metadata based on template and settings specified in request",
+        "description" : "Similar to POST /internal/dookug/document/generate/inline but returns with the metadata of the generated document.",
+        "requestBody" : {
+          "content" : {
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            },
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentGenerateWithTemplatesRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/inline/multipart" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate document based on values specified in multipart request",
+        "description" : "Similar to POST /internal/dookug/document/generate/inline but request is coming in multipart format",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "TEMPLATE" : {
+                    "format" : "binary",
+                    "type" : "string"
+                  },
+                  "REQUEST" : {
+                    "$ref" : "#/components/schemas/DocumentGenerateRequest"
+                  }
+                }
+              },
+              "encoding" : {
+                "REQUEST" : {
+                  "contentType" : "application/xml"
+                },
+                "TEMPLATE" : {
+                  "contentType" : "application/octet-stream"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/inline/multipart/metadata" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate document and return metadata based on template and settings specified in multipart request",
+        "description" : "Similar to POST /internal/dookug/document/generate/inline/metadata but request is coming in multipart format",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "TEMPLATE" : {
+                    "format" : "binary",
+                    "type" : "string"
+                  },
+                  "REQUEST" : {
+                    "$ref" : "#/components/schemas/DocumentGenerateRequest"
+                  }
+                }
+              },
+              "encoding" : {
+                "REQUEST" : {
+                  "contentType" : "application/xml"
+                },
+                "TEMPLATE" : {
+                  "contentType" : "application/octet-stream"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/storedTemplate" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate a document based on a stored template and settings in a request",
+        "description" : "Generate and return a document based on stored template in the module's database by parameters and settings received in the request.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StoredTemplateDocumentGenerateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/generate/storedTemplate/metadata" : {
+      "post" : {
+        "tags" : [ "Document generation operations" ],
+        "summary" : "Generate document and return metadata based on stored template and request settings",
+        "description" : "Similar to POST /internal/dookug/document/generate/storedTemplate but returns with the metadata of the generated document.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StoredTemplateDocumentGenerateRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/dookug/document/storedTemplate/metadata/query" : {
+      "post" : {
+        "tags" : [ "Stored template operations" ],
+        "summary" : "Return template metadata stored based on specified filtering criteria.",
+        "description" : "Collect and return the metadata of the stored templates in a scrollable list based on the filtering, sorting and paging parameters specified in the request body.",
+        "requestBody" : {
+          "content" : {
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentMetadataQueryRequest"
+              }
+            },
+            "text/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentMetadataQueryRequest"
+              }
+            },
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DocumentMetadataQueryRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataQueryResponse"
+                }
+              },
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataQueryResponse"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DocumentMetadataQueryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system/evict" : {
+      "get" : {
+        "summary" : "Belső állapotok törlése",
+        "description" : "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. Az ismert keret szintű szolgáltatásoknál explicit hívja meg az ürítés funkcíót",
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EvictResponse"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/EvictResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AbstractAuditDtoType" : {
+        "required" : [ "version" ],
+        "type" : "object",
+        "properties" : {
+          "version" : {
+            "format" : "int64",
+            "title" : "version",
+            "maximum" : 9223372036854775807,
+            "exclusiveMaximum" : false,
+            "minimum" : -9223372036854775808,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "creationDate" : {
+            "format" : "date-time",
+            "title" : "creationDate",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          },
+          "modificationDate" : {
+            "format" : "date-time",
+            "title" : "modificationDate",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          },
+          "creatorUser" : {
+            "title" : "creatorUser",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "type" : "string"
+          },
+          "modifierUser" : {
+            "title" : "modifierUser",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "type" : "string"
+          }
+        }
+      },
+      "AbstractDtoType" : {
+        "required" : [ "version" ],
+        "type" : "object",
+        "properties" : {
+          "version" : {
+            "format" : "int64",
+            "title" : "version",
+            "maximum" : 9223372036854775807,
+            "exclusiveMaximum" : false,
+            "minimum" : -9223372036854775808,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          }
+        }
+      },
+      "BONotFound" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "BONotFoundType" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "BaseCommonIdListRequest" : {
+        "required" : [ "context", "ids" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "ids" : {
+            "title" : "ids",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "BaseCommonIdListRequestType" : {
+        "required" : [ "context", "ids" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "ids" : {
+            "title" : "ids",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "BaseExceptionResultType" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "BaseRequest" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          }
+        }
+      },
+      "BaseRequestType" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          }
+        }
+      },
+      "BaseResponse" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          }
+        }
+      },
+      "BaseResponseType" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          }
+        }
+      },
+      "BaseResultType" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          }
+        }
+      },
+      "BusinessFault" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "BusinessFaultType" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "CommonIdListType" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "title" : "id",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "ContextType" : {
+        "required" : [ "requestId", "timestamp" ],
+        "type" : "object",
+        "properties" : {
+          "requestId" : {
+            "title" : "requestId",
+            "description" : "A service hívás azonosítója, elvárt hogy\n\t\t\t\t\t\tglobálisan egyedi.",
+            "maxLength" : 36,
+            "pattern" : "[+a-zA-Z0-9_\\-]{1,36}",
+            "type" : "string"
+          },
+          "timestamp" : {
+            "format" : "date-time",
+            "title" : "timestamp",
+            "description" : "A service hívás kliens időpontja.",
+            "pattern" : "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,6})?Z",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          }
+        }
+      },
+      "DocumentGenerateRequest" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "generatorSetup" : {
+            "$ref" : "#/components/schemas/InlineGeneratorSetupType"
+          }
+        }
+      },
+      "DocumentGenerateWithTemplatesRequest" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "generatorSetup" : {
+            "$ref" : "#/components/schemas/InlineGeneratorSetupType"
+          },
+          "templates" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TemplateType"
+            }
+          }
+        }
+      },
+      "DocumentMetadataQueryOrderByType" : {
+        "enum" : [ "FILENAME", "DOCUMENT_STORAGE_METHOD", "FORMAT", "STATUS" ],
+        "type" : "string"
+      },
+      "DocumentMetadataQueryOrderType" : {
+        "type" : "object",
+        "properties" : {
+          "order" : {
+            "$ref" : "#/components/schemas/DocumentMetadataQueryOrderByType"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/OrderByTypeType"
+          }
+        }
+      },
+      "DocumentMetadataQueryParamsType" : {
+        "type" : "object",
+        "properties" : {
+          "templateId" : {
+            "type" : "string"
+          },
+          "storageMethod" : {
+            "$ref" : "#/components/schemas/DocumentStorageMethodType"
+          },
+          "storageId" : {
+            "type" : "string"
+          },
+          "filename" : {
+            "type" : "string"
+          },
+          "format" : {
+            "$ref" : "#/components/schemas/ResponseFormatType"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/DocumentStatusType"
+          }
+        }
+      },
+      "DocumentMetadataQueryRequest" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "paginationParams" : {
+            "$ref" : "#/components/schemas/QueryRequestDetails"
+          },
+          "queryOrders" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentMetadataQueryOrderType"
+            }
+          },
+          "queryParams" : {
+            "$ref" : "#/components/schemas/DocumentMetadataQueryParamsType"
+          }
+        }
+      },
+      "DocumentMetadataQueryResponse" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "paginationParams" : {
+            "$ref" : "#/components/schemas/QueryResponseDetails"
+          },
+          "rowList" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DocumentMetadataType"
+            }
+          }
+        }
+      },
+      "DocumentMetadataResponse" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "metadata" : {
+            "$ref" : "#/components/schemas/DocumentMetadataType"
+          }
+        }
+      },
+      "DocumentMetadataType" : {
+        "type" : "object",
+        "properties" : {
+          "documentId" : {
+            "type" : "string"
+          },
+          "storageMethod" : {
+            "$ref" : "#/components/schemas/DocumentStorageMethodType"
+          },
+          "filename" : {
+            "type" : "string"
+          },
+          "format" : {
+            "$ref" : "#/components/schemas/ResponseFormatType"
+          },
+          "status" : {
+            "$ref" : "#/components/schemas/DocumentStatusType"
+          }
+        }
+      },
+      "DocumentStatusType" : {
+        "enum" : [ "DONE", "FAILED", "PENDING", "SYNCING" ],
+        "type" : "string"
+      },
+      "DocumentStorageMethodType" : {
+        "enum" : [ "NONE", "DATABASE" ],
+        "type" : "string"
+      },
+      "EvictResponse" : {
+        "required" : [ "context", "funcCode" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "evictionStart" : {
+            "format" : "date-time",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          },
+          "evictionEnd" : {
+            "format" : "date-time",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          },
+          "evicted" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "FunctionCodeType" : {
+        "enum" : [ "OK", "WARN", "ERROR" ],
+        "type" : "string"
+      },
+      "GPSCoordinateType" : {
+        "required" : [ "latitude", "longitude" ],
+        "type" : "object",
+        "properties" : {
+          "latitude" : {
+            "title" : "latitude",
+            "maximum" : 9999.9999999999999999,
+            "exclusiveMaximum" : true,
+            "type" : "number"
+          },
+          "longitude" : {
+            "title" : "longitude",
+            "maximum" : 9999.9999999999999999,
+            "exclusiveMaximum" : true,
+            "type" : "number"
+          }
+        }
+      },
+      "GeneratorEngineType" : {
+        "enum" : [ "NONE", "PDF_BOX", "SAXON" ],
+        "type" : "string"
+      },
+      "GroupListType" : {
+        "type" : "object",
+        "properties" : {
+          "group" : {
+            "title" : "group",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/GroupType"
+            }
+          }
+        }
+      },
+      "GroupType" : {
+        "required" : [ "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "title" : "id",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "type" : "string"
+          },
+          "name" : {
+            "title" : "name",
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "description" : {
+            "title" : "description",
+            "maxLength" : 255,
+            "type" : "string"
+          }
+        }
+      },
+      "InlineGeneratorSetupType" : {
+        "type" : "object",
+        "properties" : {
+          "generatorEngine" : {
+            "$ref" : "#/components/schemas/GeneratorEngineType"
+          },
+          "templateEngine" : {
+            "$ref" : "#/components/schemas/TemplateEngineType"
+          },
+          "responseFormat" : {
+            "$ref" : "#/components/schemas/ResponseFormatType"
+          },
+          "digitalSignatureProfile" : {
+            "type" : "string"
+          },
+          "documentStorageMethod" : {
+            "$ref" : "#/components/schemas/DocumentStorageMethodType"
+          },
+          "parameters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ParameterType"
+            }
+          },
+          "parametersData" : {
+            "$ref" : "#/components/schemas/ParametersDataType"
+          },
+          "templateLanguage" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InvalidRequestFault" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          },
+          "error" : {
+            "title" : "error",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ValidationType"
+            }
+          }
+        }
+      },
+      "InvalidRequestFaultType" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          },
+          "error" : {
+            "title" : "error",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ValidationType"
+            }
+          }
+        }
+      },
+      "KeyValueBasicType" : {
+        "required" : [ "value" ],
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "title" : "value",
+            "type" : "string"
+          },
+          "key" : {
+            "title" : "key",
+            "type" : "string",
+            "xml" : {
+              "attribute" : true
+            }
+          }
+        }
+      },
+      "LoginType" : {
+        "required" : [ "loginName", "password" ],
+        "type" : "object",
+        "properties" : {
+          "loginName" : {
+            "title" : "loginName",
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "password" : {
+            "title" : "password",
+            "maxLength" : 255,
+            "type" : "string"
+          }
+        }
+      },
+      "OrderByTypeType" : {
+        "enum" : [ "ASC", "DESC" ],
+        "type" : "string"
+      },
+      "ParameterType" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ParametersDataType" : {
+        "type" : "object",
+        "properties" : {
+          "templateParameters" : {
+            "format" : "binary",
+            "type" : "string"
+          },
+          "generatorParameters" : {
+            "format" : "binary",
+            "type" : "string"
+          }
+        }
+      },
+      "PermissionListType" : {
+        "type" : "object",
+        "properties" : {
+          "permisson" : {
+            "title" : "permisson",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PermissionType"
+            }
+          }
+        }
+      },
+      "PermissionType" : {
+        "required" : [ "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "title" : "id",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "type" : "string"
+          },
+          "name" : {
+            "title" : "name",
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "description" : {
+            "title" : "description",
+            "maxLength" : 255,
+            "type" : "string"
+          }
+        }
+      },
+      "QueryRequestDetails" : {
+        "required" : [ "rows", "page" ],
+        "type" : "object",
+        "properties" : {
+          "rows" : {
+            "format" : "int32",
+            "title" : "rows",
+            "description" : "Adott lapra eső lekérdezett rekordok száma,\n\t\t\t\t\t\taktuális result set rowcount",
+            "maximum" : 100,
+            "exclusiveMaximum" : false,
+            "minimum" : 1,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "page" : {
+            "format" : "int32",
+            "title" : "page",
+            "description" : "Query-ben jött, a kért lap sorszáma",
+            "maximum" : 21474836,
+            "exclusiveMaximum" : false,
+            "minimum" : 1,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          }
+        }
+      },
+      "QueryResponseDetails" : {
+        "required" : [ "rows", "page", "totalRows", "maxPage" ],
+        "type" : "object",
+        "properties" : {
+          "rows" : {
+            "format" : "int32",
+            "title" : "rows",
+            "description" : "Adott lapra eső lekérdezett rekordok száma,\n\t\t\t\t\t\taktuális result set rowcount",
+            "maximum" : 100,
+            "exclusiveMaximum" : false,
+            "minimum" : 1,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "page" : {
+            "format" : "int32",
+            "title" : "page",
+            "description" : "Query-ben jött, a kért lap sorszáma",
+            "maximum" : 21474836,
+            "exclusiveMaximum" : false,
+            "minimum" : 1,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "totalRows" : {
+            "format" : "int32",
+            "title" : "totalRows",
+            "description" : "Teljes rekordszám, ami a lekérdezési\n\t\t\t\t\t\t\t\tfeltételekkel elérhető",
+            "maximum" : 2147483647,
+            "exclusiveMaximum" : false,
+            "minimum" : -2147483648,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "maxPage" : {
+            "format" : "int32",
+            "title" : "maxPage",
+            "description" : "Ennyi lap van összesen a kért rowCount/page\n\t\t\t\t\t\t\t\tparaméter alapján",
+            "maximum" : 2147483647,
+            "exclusiveMaximum" : false,
+            "minimum" : -2147483648,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          }
+        }
+      },
+      "RedisUserAuthenticationType" : {
+        "required" : [ "userName", "sessionId", "permissionList", "roleList", "groupList" ],
+        "type" : "object",
+        "properties" : {
+          "userName" : {
+            "title" : "userName",
+            "maxLength" : 30,
+            "pattern" : "[a-zA-Z0-9\\-@\\.]{6,30}",
+            "type" : "string"
+          },
+          "sessionId" : {
+            "title" : "sessionId",
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "permissionList" : {
+            "title" : "permissionList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/PermissionListType"
+            } ]
+          },
+          "roleList" : {
+            "title" : "roleList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleListType"
+            } ]
+          },
+          "groupList" : {
+            "title" : "groupList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GroupListType"
+            } ]
+          },
+          "lastRefreshTime" : {
+            "format" : "date-time",
+            "title" : "lastRefreshTime",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          },
+          "refreshToken" : {
+            "title" : "refreshToken",
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "userId" : {
+            "title" : "userId",
+            "type" : "string",
+            "xml" : {
+              "attribute" : true
+            }
+          }
+        }
+      },
+      "ResponseFormatType" : {
+        "enum" : [ "STRING", "PDF" ],
+        "type" : "string"
+      },
+      "RoleListType" : {
+        "type" : "object",
+        "properties" : {
+          "role" : {
+            "title" : "role",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RoleType"
+            }
+          }
+        }
+      },
+      "RoleType" : {
+        "required" : [ "id", "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "title" : "id",
+            "maxLength" : 30,
+            "pattern" : "[+a-zA-Z0-9_]{1,30}",
+            "type" : "string"
+          },
+          "name" : {
+            "title" : "name",
+            "maxLength" : 100,
+            "type" : "string"
+          },
+          "description" : {
+            "title" : "description",
+            "maxLength" : 255,
+            "type" : "string"
+          }
+        }
+      },
+      "SecurityType" : {
+        "required" : [ "userName", "sessionId", "permissionList", "roleList", "groupList" ],
+        "type" : "object",
+        "properties" : {
+          "userName" : {
+            "title" : "userName",
+            "maxLength" : 30,
+            "pattern" : "[a-zA-Z0-9\\-@\\.]{6,30}",
+            "type" : "string"
+          },
+          "sessionId" : {
+            "title" : "sessionId",
+            "maxLength" : 50,
+            "type" : "string"
+          },
+          "permissionList" : {
+            "title" : "permissionList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/PermissionListType"
+            } ]
+          },
+          "roleList" : {
+            "title" : "roleList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/RoleListType"
+            } ]
+          },
+          "groupList" : {
+            "title" : "groupList",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/GroupListType"
+            } ]
+          },
+          "userId" : {
+            "title" : "userId",
+            "type" : "string",
+            "xml" : {
+              "attribute" : true
+            }
+          }
+        }
+      },
+      "StatusType" : {
+        "enum" : [ "ACTIVE", "INACTIVE" ],
+        "type" : "string"
+      },
+      "StoredTemplateDocumentGenerateRequest" : {
+        "required" : [ "context" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "generatorSetup" : {
+            "$ref" : "#/components/schemas/StoredTemplateGeneratorSetupType"
+          }
+        }
+      },
+      "StoredTemplateGeneratorSetupType" : {
+        "type" : "object",
+        "properties" : {
+          "generatorEngine" : {
+            "$ref" : "#/components/schemas/GeneratorEngineType"
+          },
+          "templateEngine" : {
+            "$ref" : "#/components/schemas/TemplateEngineType"
+          },
+          "responseFormat" : {
+            "$ref" : "#/components/schemas/ResponseFormatType"
+          },
+          "digitalSignatureProfile" : {
+            "type" : "string"
+          },
+          "documentStorageMethod" : {
+            "$ref" : "#/components/schemas/DocumentStorageMethodType"
+          },
+          "parameters" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ParameterType"
+            }
+          },
+          "parametersData" : {
+            "$ref" : "#/components/schemas/ParametersDataType"
+          },
+          "templateStorageMethod" : {
+            "$ref" : "#/components/schemas/TemplateStorageMethodType"
+          },
+          "template" : {
+            "$ref" : "#/components/schemas/StoredTemplateType"
+          }
+        }
+      },
+      "StoredTemplateType" : {
+        "type" : "object",
+        "properties" : {
+          "templateName" : {
+            "type" : "string"
+          },
+          "templateLanguage" : {
+            "type" : "string"
+          },
+          "validityDate" : {
+            "format" : "date-time",
+            "type" : "string",
+            "example" : "2022-03-10T12:15:50-04:00"
+          }
+        }
+      },
+      "TechnicalFault" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "TechnicalFaultType" : {
+        "required" : [ "context", "funcCode", "faultType" ],
+        "type" : "object",
+        "properties" : {
+          "context" : {
+            "title" : "context",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/ContextType"
+            } ]
+          },
+          "funcCode" : {
+            "title" : "funcCode",
+            "type" : "string",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/FunctionCodeType"
+            } ]
+          },
+          "message" : {
+            "title" : "message",
+            "type" : "string"
+          },
+          "faultType" : {
+            "title" : "faultType",
+            "description" : "Keletkezett hiba típus, kód.",
+            "type" : "string"
+          },
+          "className" : {
+            "title" : "className",
+            "description" : "Osztály neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "exception" : {
+            "title" : "exception",
+            "description" : "Hiba stacktrace.",
+            "type" : "string"
+          },
+          "service" : {
+            "title" : "service",
+            "description" : "Service neve ahol keletkezett a hiba.",
+            "type" : "string"
+          },
+          "causedBy" : {
+            "title" : "causedBy",
+            "description" : "A hiba eredeti okozója.",
+            "type" : "object",
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/BaseExceptionResultType"
+            } ]
+          }
+        }
+      },
+      "TemplateEngineType" : {
+        "enum" : [ "NONE", "HANDLEBARS" ],
+        "type" : "string"
+      },
+      "TemplateStorageMethodType" : {
+        "enum" : [ "DATABASE" ],
+        "type" : "string"
+      },
+      "TemplateType" : {
+        "type" : "object",
+        "properties" : {
+          "templateName" : {
+            "type" : "string"
+          },
+          "templateContent" : {
+            "format" : "binary",
+            "type" : "string"
+          },
+          "initial" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "UserListType" : {
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "title" : "user",
+            "minItems" : 0,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UserType"
+            }
+          }
+        }
+      },
+      "UserType" : {
+        "required" : [ "userName" ],
+        "type" : "object",
+        "properties" : {
+          "userName" : {
+            "title" : "userName",
+            "maxLength" : 30,
+            "pattern" : "[a-zA-Z0-9\\-@\\.]{6,30}",
+            "type" : "string"
+          },
+          "userId" : {
+            "title" : "userId",
+            "type" : "string",
+            "xml" : {
+              "attribute" : true
+            }
+          }
+        }
+      },
+      "ValidationType" : {
+        "type" : "object",
+        "properties" : {
+          "field" : {
+            "title" : "field",
+            "description" : "A probléma mezője.",
+            "type" : "string"
+          },
+          "error" : {
+            "title" : "error",
+            "description" : "A probléma leírása.",
+            "type" : "string"
+          },
+          "lineNumber" : {
+            "format" : "int32",
+            "title" : "lineNumber",
+            "description" : "A probléma forrásának sora.",
+            "maximum" : 2147483647,
+            "exclusiveMaximum" : false,
+            "minimum" : -2147483648,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          },
+          "columnNumber" : {
+            "format" : "int32",
+            "title" : "columnNumber",
+            "description" : "A probléma forrásának oszlopa.",
+            "maximum" : 2147483647,
+            "exclusiveMaximum" : false,
+            "minimum" : -2147483648,
+            "exclusiveMinimum" : false,
+            "type" : "integer"
+          }
+        }
+      }
+    }
+  }
+}
