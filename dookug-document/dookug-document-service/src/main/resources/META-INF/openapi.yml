@@ -4,11 +4,11 @@ info:
     DOCUMENT operációkkal kapcsolatos szolgáltatások.
 
     Általános válaszok hiba esetén:
-    * __400__ - Bad Request
-    * __401__ - Unauthorized
-    * __404__ - Not found
-    * __418__ - Database object not found
-    * __500__ - Internal Server Error
+    * __400__ - Bad Request: XSD validation error, a required query or header parameter is missing or incorrectly provided.
+    * __401__ - Unauthorized: Unauthorized request.
+    * __404__ - Not found: Nonexistent URL (e.g., typo in the path) or a parsing error in the itemLimit query parameter.
+    * __418__ - Database object not found: The endpoint logic relies on a non-existent data record.
+    * __500__ - Internal Server Error: Technical errors, such as unavailable dependent systems or parsing issues (e.g., circular/self-referencing resolution failures).
   version: ${project.version}
   x-logo:
     url: logo.png
