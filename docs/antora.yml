@@ -1,0 +1,6 @@
+name: dookug-backend
+title: DookuG Backend
+version: true
+start_page: general/index.adoc
+nav:
+  - modules/ROOT/nav.adoc
