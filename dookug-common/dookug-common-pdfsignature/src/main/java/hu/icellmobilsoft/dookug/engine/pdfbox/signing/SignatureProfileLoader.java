@@ -97,9 +97,8 @@ public class SignatureProfileLoader {
         signatureProfile.setKeyAlias(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.KEY_ALIAS).orElseThrow(
                         () -> new InvalidParameterException(
-                                MessageFormat.format(
-                                        "CONFIG: key alias cannot be empty! [" + ConfigKeys.PdfSignature.KEY_ALIAS + "]",
-                                        profileName))));
+                                MessageFormat
+                                        .format("CONFIG: key alias cannot be empty! [" + ConfigKeys.PdfSignature.KEY_ALIAS + "]", profileName))));
 
         signatureProfile.setName(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.NAME).orElse(null));
         signatureProfile.setReason(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.REASON).orElse(null));
@@ -107,6 +106,13 @@ public class SignatureProfileLoader {
         signatureProfile.setUseEuDssSig(
                 BooleanUtils.toBoolean(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.USE_EUDSSSIG).orElse("false")));
         signatureProfile.setDssImageFile(getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.IMAGE_FILE));
+
+        signatureProfile.setDigestAlgorithm(
+                getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.DIGEST_ALGORITHM)
+                        .orElse(ConfigKeys.PdfSignature.Default.DIGEST_ALGORITHM_DEFAULT_VALUE));
+        signatureProfile.setEncryptionAlgorithm(
+                getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.ENCRYPTION_ALGORITHM)
+                        .orElse(ConfigKeys.PdfSignature.Default.ENCRYPTION_ALGORITHM_DEFAULT_VALUE));
         signatureProfile.setDssHintText(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.HINT_TEXT)
                         .orElse(ConfigKeys.PdfSignature.Default.HINT_TEXT_DEFAULT_VALUE));
@@ -157,14 +163,14 @@ public class SignatureProfileLoader {
                 BooleanUtils.toBoolean(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.USE_HINT)
                                 .orElse(ConfigKeys.PdfSignature.Default.USE_HINT_DEFAULT_VALUE)));
-        signatureProfile.setDssUseLT(
-                BooleanUtils.toBoolean(
-                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.USE_LT)
-                                .orElse(ConfigKeys.PdfSignature.Default.USE_LT_DEFAULT_VALUE)));
         signatureProfile.setDssUseLTA(
                 BooleanUtils.toBoolean(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.USE_LTA)
                                 .orElse(ConfigKeys.PdfSignature.Default.USE_LTA_DEFAULT_VALUE)));
+        signatureProfile.setDssUseLT(
+                BooleanUtils.toBoolean(
+                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.USE_LT)
+                                .orElse(ConfigKeys.PdfSignature.Default.USE_LT_DEFAULT_VALUE)));
         signatureProfile.setDssUseTimestamp(
                 BooleanUtils.toBoolean(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.USE_TIMESTAMP)
