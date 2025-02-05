@@ -9,7 +9,8 @@
 * The coffee-module-etcd dependency has been removed.
 * The signatureName and signatureReason has been removed from the request - These are set up in the application configuration under profile name keys
 * Possible extSessionId dupication (in client calls) fixed
-* SVG image fix 
+* SVG image fix
+* JsonB context handling fixes
 
 == Migration
 
