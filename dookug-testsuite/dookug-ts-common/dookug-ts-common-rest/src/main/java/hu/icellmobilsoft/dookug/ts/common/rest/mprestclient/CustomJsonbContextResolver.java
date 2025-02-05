@@ -21,10 +21,9 @@ package hu.icellmobilsoft.dookug.ts.common.rest.mprestclient;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
-import jakarta.json.bind.config.BinaryDataStrategy;
 import jakarta.ws.rs.ext.ContextResolver;
+
+import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 
 /**
  * Custom default JSON-B JAXRS provider. For MP-rest client
@@ -38,22 +37,8 @@ import jakarta.ws.rs.ext.ContextResolver;
 @Dependent
 public class CustomJsonbContextResolver implements ContextResolver<Jsonb> {
 
-    private static JsonbConfig JSONB_CONFIG = new JsonbConfig()
-            // property visibility strategy setting
-            .withPropertyVisibilityStrategy(new FieldOnlyVisibilityStrategy())
-            // binary data strategy setting
-            .withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
-    /**
-     * Create {@link Jsonb} instance with {@link FieldOnlyVisibilityStrategy} property visibility strategy.
-     *
-     * @return configured {@link Jsonb} instance
-     */
-    public static Jsonb getContext() {
-        return JsonbBuilder.newBuilder().withConfig(JSONB_CONFIG).build();
-    }
-
     @Override
     public Jsonb getContext(Class<?> type) {
-        return getContext();
+        return JsonUtil.getJsonbContext();
     }
 }
