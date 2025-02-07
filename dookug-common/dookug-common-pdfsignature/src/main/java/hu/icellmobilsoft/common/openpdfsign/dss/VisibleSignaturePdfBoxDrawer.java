@@ -176,7 +176,7 @@ public class VisibleSignaturePdfBoxDrawer extends NativePdfBoxVisibleSignatureDr
                 pdExtGfxState.getCOSObject().setItem(COSName.BM, COSName.MULTIPLY);
                 cs.setGraphicsStateParameters(pdExtGfxState);
                 tableDrawer.draw();
-                cs.transform(Matrix.getRotateInstance(((double) 360 - ImageRotationUtils.getRotation(parameters.getRotation())), 400, 200));
+                //cs.transform(Matrix.getRotateInstance(((double) 360 - ImageRotationUtils.getRotation(parameters.getRotation())), 400, 200));
                 cs.restoreGraphicsState();
             }
 

@@ -93,6 +93,16 @@ public interface ConfigKeys {
             static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "dss.";
 
             /**
+             * The digest algorithm {@value #DIGEST_ALGORITHM}
+             */
+            static final String DIGEST_ALGORITHM = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "digestAlgorithm";
+
+            /**
+             * The encryption algorithm {@value #ENCRYPTION_ALGORITHM}
+             */
+            static final String ENCRYPTION_ALGORITHM = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "encryptionAlgorithm";
+
+            /**
              * Image to be placed in signature block {@value #IMAGE_FILE}
              */
             static final String IMAGE_FILE = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "imageFile";
@@ -272,6 +282,16 @@ public interface ConfigKeys {
              * The DEFAULT private key alias in the pkcs12 keystore: {@value #DEFAULT_KEYSTORE_PRIVATE_KEY_ALIAS}
              */
             static final String DEFAULT_KEYSTORE_PRIVATE_KEY_ALIAS = "alias";
+
+            /**
+             * Default value for {@value PdfSignature.DSS#DIGEST_ALGORITHM}
+             */
+            static final String DIGEST_ALGORITHM_DEFAULT_VALUE = "SHA-256";
+
+            /**
+             * Default value for {@value PdfSignature.DSS#ENCRYPTION_ALGORITHM}
+             */
+            static final String ENCRYPTION_ALGORITHM_DEFAULT_VALUE = "RSA";
 
         }
 

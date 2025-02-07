@@ -26,9 +26,9 @@
         <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
         <version.org.apache.batic.anim>1.18</version.org.apache.batic.anim>
         <!-- DSS esig -->
-        <version.dss>6.0</version.dss>
+        <version.dss>6.1</version.dss>
         <version.easytable>0.8.5</version.easytable>
-        <version.org.apache.pdfbox>2.0.31</version.org.apache.pdfbox>
+        <version.org.apache.pdfbox>2.0.32</version.org.apache.pdfbox>
 
     </properties>
 

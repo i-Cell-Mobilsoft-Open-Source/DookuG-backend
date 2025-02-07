@@ -59,6 +59,8 @@ public class SignatureProfileDto {
     private Optional<String> dssImageFile;
     private boolean useEuDssSig;
     private boolean dssShowSignee;
+    private String digestAlgorithm;
+    private String encryptionAlgorithm;
 
     /**
      * constructor
@@ -473,6 +475,34 @@ public class SignatureProfileDto {
      */
     public void setDssPositionLeft(Float dssPositionLeft) {
         this.dssPositionLeft = dssPositionLeft;
+    }
+
+    /**
+     * @return the encryptionAlgorithm
+     */
+    public String getEncryptionAlgorithm() {
+        return encryptionAlgorithm;
+    }
+
+    /**
+     * @param encryptionAlgorithm the encryptionAlgorithm to set
+     */
+    public void setEncryptionAlgorithm(String encryptionAlgorithm) {
+        this.encryptionAlgorithm = encryptionAlgorithm;
+    }
+
+    /**
+     * @return the digestAlgorithm
+     */
+    public String getDigestAlgorithm() {
+        return digestAlgorithm;
+    }
+
+    /**
+     * @param digestAlgorithm the digestAlgorithm to set
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
     }
 
 }
