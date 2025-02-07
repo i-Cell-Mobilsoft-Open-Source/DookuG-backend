@@ -11,7 +11,7 @@ keytool -genkeypair -storepass 123456 -storetype pkcs12 -alias test -validity 10
 
 [WARNING]
 ====
-This means it will expire on November 7, 2053.
+it will expire on November 7, 2053.
 
 ====
 
@@ -76,7 +76,12 @@ dookug:
                 left: 18 <4>
                 top: 2 <5>
               width: 2 <6>
-              useTimestamp: false <7>        
+              useTimestamp: true <7>
+              tspSources:
+                - http://timestamp.digicert.com <8>
+              useLT: true <8>
+              useLTA: false <9>
+                
               
 ----
 <1> use the EU DSS library to sign the document
@@ -86,5 +91,19 @@ dookug:
 <5> Y position of the image in cm (from top left corner)
 <6> the width of the image in cm
 <7> you can add the signature timestamp to the image
+<8> for PAdES BASELINE LT
+<9> for PAdES BASELINE LTA
 
 The available configuration keys can be found <<pdfSignatureConfiguration,here>>.
+
+[IMPORTANT]
+====
+If we need PAdES BASELINE T, LT or LTA, the tspSources must be given!
+====
+
+PAdES BASELINE T: tspSources must be set 
+
+PAdES BASELINE LT: tspSources must be set and useLT=true
+
+PAdES BASELINE LTA: tspSources must be set and useLTA=true
+

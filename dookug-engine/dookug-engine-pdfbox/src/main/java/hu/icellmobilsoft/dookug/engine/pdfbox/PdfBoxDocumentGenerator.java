@@ -89,7 +89,7 @@ public class PdfBoxDocumentGenerator implements IDocumentGenerator {
         // pdfRendererBuilder.useFont(new File(FONT_PATH), "notosansthai-regular");
         pdfRendererBuilder.toStream(outputStream);
 
-        if (StringUtils.isNotBlank(digitalSignatureProfile)) {
+        if (StringUtils.isBlank(digitalSignatureProfile)) {
             // we dont need digital signature
             pdfRendererBuilder.toStream(outputStream);
             // generated pdf -> outputstream

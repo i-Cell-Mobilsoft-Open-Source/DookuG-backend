@@ -46,20 +46,25 @@ import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 
+import eu.europa.esig.dss.alert.LogOnStatusAlert;
 import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
+import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
+import eu.europa.esig.dss.enumerations.SignaturePackaging;
 import eu.europa.esig.dss.model.DSSDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
+import eu.europa.esig.dss.pades.PAdESTimestampParameters;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pades.signature.PAdESService;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxNativeObjectFactory;
 import eu.europa.esig.dss.service.crl.OnlineCRLSource;
 import eu.europa.esig.dss.service.ocsp.OnlineOCSPSource;
 import eu.europa.esig.dss.service.tsp.OnlineTSPSource;
+import eu.europa.esig.dss.spi.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.spi.x509.CommonCertificateSource;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.spi.x509.aia.DefaultAIASource;
@@ -67,7 +72,6 @@ import eu.europa.esig.dss.spi.x509.tsp.CompositeTSPSource;
 import eu.europa.esig.dss.spi.x509.tsp.TSPSource;
 import eu.europa.esig.dss.token.JKSSignatureToken;
 import eu.europa.esig.dss.token.KSPrivateKeyEntry;
-import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
@@ -219,21 +223,26 @@ public class PdfSigner {
             }
             signatureParameters.setSigningCertificate(signingToken.getKey(keyAlias).getCertificate());
             signatureParameters.setCertificateChain(signingToken.getKey(keyAlias).getCertificateChain());
+            signatureParameters.setEncryptionAlgorithm(EncryptionAlgorithm.forName(profile.getEncryptionAlgorithm(), EncryptionAlgorithm.RSA));
+            signatureParameters.setDigestAlgorithm(DigestAlgorithm.forName(profile.getDigestAlgorithm(), DigestAlgorithm.SHA256));
 
+            signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_B);
+            signatureParameters.setSignaturePackaging(SignaturePackaging.ENVELOPED);
+
+            if (profile.isDssUseTimestamp() || CollectionUtils.isNotEmpty(profile.getDssTsaList())) {
+                signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_T);
+                signatureParameters.setContentSize((int) (SignatureOptions.DEFAULT_SIGNATURE_SIZE * 1.75));
+            }
             if (profile.isDssUseLT()) {
                 // extra signature space for the use of a timestamped signature
                 signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LT);
-                signatureParameters.setContentSize((int) (SignatureOptions.DEFAULT_SIGNATURE_SIZE * 1.5));
-            } else if (profile.isDssUseLTA()) {
-                signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LTA);
                 signatureParameters.setContentSize((int) (SignatureOptions.DEFAULT_SIGNATURE_SIZE * 1.75));
-            } else if (profile.isDssUseTimestamp() || CollectionUtils.isNotEmpty(profile.getDssTsaList())) {
-                signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_T);
-                signatureParameters.setContentSize((int) (SignatureOptions.DEFAULT_SIGNATURE_SIZE * 1.5));
-            } else {
-                signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_B);
             }
-            signatureParameters.setPermission(CertificationPermission.NO_CHANGE_PERMITTED);
+            if (profile.isDssUseLTA()) {
+                signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LTA);
+                signatureParameters.setContentSize((SignatureOptions.DEFAULT_SIGNATURE_SIZE * 2));
+            }
+            // signatureParameters.setPermission(CertificationPermission.NO_CHANGE_PERMITTED);
 
             // Create common certificate verifier
             CommonCertificateVerifier commonCertificateVerifier = new CommonCertificateVerifier();
@@ -263,6 +272,9 @@ public class PdfSigner {
                 trustedCertSource.importAsTrusted(commonCertificateSource);
 
                 commonCertificateVerifier.addTrustedCertSources(trustedCertSource);
+                // alert on expired certificate
+                commonCertificateVerifier.setAlertOnExpiredCertificate(new LogOnStatusAlert());
+
             }
 
             // Create PAdESService for signature
@@ -280,7 +292,7 @@ public class PdfSigner {
                     Optional<String> imageFile = profile.getDssImageFile();
                     if (imageFile.isPresent()) {
                         imageParameters.setImage(new InMemoryDocument(Files.readAllBytes(Paths.get(imageFile.get()))));
-                    } else {
+                    } else if (getClass().getClassLoader().getResourceAsStream(SIGNATURE_PNG) != null) {
                         imageParameters.setImage(
                                 new InMemoryDocument((IOUtils.toByteArray(getClass().getClassLoader().getResourceAsStream(SIGNATURE_PNG)))));
                     }
@@ -346,10 +358,11 @@ public class PdfSigner {
             log.debug("Data to be signed loaded (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
             SignatureValue signatureValue = signingToken.sign(dataToSign, digestAlgorithm, signingToken.getKey(keyAlias));
 
-            if (service.isValidSignatureValue(dataToSign, signatureValue, signingToken.getKey(profile.getKeyAlias()).getCertificate())) {
-                log.debug("signature value is VALID (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
-            }
-
+            // if( verify ) {
+            // if (service.isValidSignatureValue(dataToSign, signatureValue, signingToken.getKey(profile.getKeyAlias()).getCertificate())) {
+            // log.debug("signature value is VALID (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
+            // }
+            // }
             log.debug("Signature value calculated (document:[{0}] profile:[{1}])", pdfFile, profile.getProfileName());
             return service.signDocument(toSignDocument, signatureParameters, signatureValue);
         } finally {
