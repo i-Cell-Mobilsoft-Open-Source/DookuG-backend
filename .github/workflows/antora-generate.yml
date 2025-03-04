@@ -5,7 +5,16 @@ on:
     branches:
       - main
     tags:
-      - '*'   # Runs on all tags
+      - dookug-*
+      - '!dookug-backend-1.0.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.6.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.5.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.4.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.3.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.2.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.1.0' # itt meg nem volt antora, ezt skippelje
+      - '!dookug-0.0.1' # itt meg nem volt antora, ezt skippelje
+
 
 jobs:
   antora-generate:
