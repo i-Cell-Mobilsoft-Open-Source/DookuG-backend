@@ -3,7 +3,7 @@ name: Antora Docs Generation
 on:
   push:
     branches:
-      - main  # Replace with your default branch
+      - main
     tags:
       - '*'   # Runs on all tags
 
