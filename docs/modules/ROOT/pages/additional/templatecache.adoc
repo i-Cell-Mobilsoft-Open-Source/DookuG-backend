@@ -2,6 +2,17 @@
 
 The application caches the TEMPLATE data stored in the database using GUAVA. The caches have a defined lifespan, and the time resets with each new request.
 
+[NOTE]
+====
+The cache key for a template is its X__ID, which is determined based on the template name, language, and validity.
+This means that if multiple templates have the same name and the first one expires, the system will automatically switch to the next valid template without being affected by the cache.
+====
+
+[TIP]
+====
+If a template's content is updated, you can clear the template cache by calling the /system/evict endpoint. This ensures that the system will use the updated content.
+====
+
 *Configuration Parameters:*
 
 You can specify the duration for which templates are kept in the cache using the DOOKUG_SERVICE_CACHE_TEMPLATE_TTL parameter, in minutes. The default is 60 minutes.
