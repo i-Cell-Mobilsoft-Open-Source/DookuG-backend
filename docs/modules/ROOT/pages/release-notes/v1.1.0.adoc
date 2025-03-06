@@ -11,6 +11,7 @@
 * Possible extSessionId dupication (in client calls) fixed
 * SVG image fix
 * JsonB context handling fixes
+* TemplatePartContent entity cleanup - unused fields are removed
 
 == Migration
 
