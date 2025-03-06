@@ -68,19 +68,6 @@ public class TemplatePartContent extends AbstractIdentifiedAuditEntity {
     private boolean compressed;
 
     /**
-     * Start of validity
-     */
-    @NotNull
-    @Column(name = "VALIDITY_START", nullable = false)
-    private OffsetDateTime validityStart;
-
-    /**
-     * End of validity
-     */
-    @Column(name = "VALIDITY_END")
-    private OffsetDateTime validityEnd;
-
-    /**
      * Getter of templatePartId
      * 
      * @return templatePartId
@@ -116,44 +103,6 @@ public class TemplatePartContent extends AbstractIdentifiedAuditEntity {
      */
     public void setContent(byte[] content) {
         this.content = content;
-    }
-
-    /**
-     * Getter of validityStart
-     * 
-     * @return validityStart
-     */
-    public OffsetDateTime getValidityStart() {
-        return validityStart;
-    }
-
-    /**
-     * Setter of validityStart
-     * 
-     * @param validityStart
-     *            validityStart
-     */
-    public void setValidityStart(OffsetDateTime validityStart) {
-        this.validityStart = validityStart;
-    }
-
-    /**
-     * Getter of validityEnd
-     * 
-     * @return validityEnd
-     */
-    public OffsetDateTime getValidityEnd() {
-        return validityEnd;
-    }
-
-    /**
-     * Setter of validityEnd
-     * 
-     * @param validityEnd
-     *            validityEnd
-     */
-    public void setValidityEnd(OffsetDateTime validityEnd) {
-        this.validityEnd = validityEnd;
     }
 
     /**
