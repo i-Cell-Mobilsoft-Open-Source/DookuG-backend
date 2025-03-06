@@ -86,6 +86,9 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
     @ConfigProperty(name = ConfigKeys.Handlebars.EscapingStrategy.DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY)
     private Optional<String> strategyKeyOptional;
 
+    @Inject
+    private EvictableConcurrentMapTemplateCache evictableConcurrentMapTemplateCache;
+
     private Handlebars handlebars;
 
     @Override
@@ -157,7 +160,7 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
     @PostConstruct
     public void init() throws BaseException {
         EscapingStrategy escapingStrategy = escapingStrategyFactory.createEscapingStrategy(strategyKeyOptional);
-        handlebars = new Handlebars(templateLoader).with(escapingStrategy).with(new ConcurrentMapTemplateCache().setReload(true));
+        handlebars = new Handlebars(templateLoader).with(escapingStrategy).with(evictableConcurrentMapTemplateCache.setReload(true));
         helperRegister.findAndRegisterHelpers(handlebars);
     }
 
