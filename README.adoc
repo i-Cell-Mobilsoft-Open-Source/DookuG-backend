@@ -1,6 +1,21 @@
-= DookuG
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+:source-highlighter: rouge
+:rouge-style: thankful_eyes
+:icons: font
 
-Document generator and template handler module
+= DookuG backend
+
+== About the project
+
+Brief overview:
+
+* Document generation module based on templates, which
+- can handle templates in different formats and inject parameter lists into them, then generate the finished document.
+- The module is designed to generate output documents (PDF, XLSX, HTML, TXT, ...) from various template formats with identifiers (TXT, HTML, object, JRXML, ...) by inserting the received parameter(s) into the received template.
+- The solution is based on a microservice architecture.
 
 == Technologies
 
@@ -17,12 +32,88 @@ Document generator and template handler module
 ** Query content of generated document
 ** Generating document from request and stored template data
 
-== Development environment
+== Development Environment
 
-For development and operation, the following are required:
+For setting up a development environment, local Docker Compose files are available in the `etc/docker-compose` directory.
 
-* Database - tested with Oracle XE and Postgres database by default
-* Uploaded table structure corresponding to the entities of the `dookug-model`.
-* Wildfly application server
-* Deployed `dookug-document-service` on the wildfly application server
-* Observability (optional) - Prometheus + Grafana
+=== Running the Full Environment
+
+With a single command, you can launch all the necessary and optional containers, including the database with Liquibase scripts, the application server, Graylog along with its dependencies, and the observability tools.
+
+.Start all containers (_click to expand_)
+[%collapsible]
+========
+Currently, Oracle XE and Postgres database profiles are available. Command for running full environment from project root directory:
+
+.Start all containers (Oracle)
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.all.yml --profile oracle up
+
+.Start all containers (PostgreSQL)
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.all.yml --profile pg up
+
+Once all containers are up and running, deploy the application as described in the <<war-deploy, Deploying the Application>> section.
+
+========
+
+=== Running Components Separately
+
+If needed, you can start individual components separately.
+
+.Running the Database (_click to expand_)
+[%collapsible]
+========
+Currently, Oracle XE and PostgreSQL databases are supported. Use one of the following commands to start the database along with Liquibase migrations from the project root directory:
+
+.Start Oracle
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.oracle.yml up --build --force-recreate
+
+.Start PostgreSQL
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.postgredb.yml up --build --force-recreate
+
+========
+
+.Running the WildFly Application Server (_click to expand_)
+[%collapsible]
+========
+
+The application server requires the corresponding database. Use the respective command based on your chosen database:
+
+.Start WildFly with Oracle
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.dookug-document-service.oracle.yml up --build --force-recreate
+
+.Start WildFly with PostgreSQL
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.dookug-document-service.postgresql.yml up --build --force-recreate
+
+========
+
+.Deploying the Application (_click to expand_)
+[%collapsible]
+========
+[[war-deploy]]
+
+.Compile the application:
+[source,shell]
+mvn clean install
+
+.Deploy the `.war` file to the application server
+[source,shell]
+mvn -f dookug-document/dookug-document-service/pom.xml exec:exec -P deploy
+
+========
+
+.Observability (optional, _click to expand_)
+[%collapsible]
+========
+
+To enable observability tools, run:
+
+.Prometheus, Grafana, Jaeger:
+[source,shell]
+docker compose -f ./etc/docker-compose/docker-compose.local.observability.yml up --build --force-recreate
+========

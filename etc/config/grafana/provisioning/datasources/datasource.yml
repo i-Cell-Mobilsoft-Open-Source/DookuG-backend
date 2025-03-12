@@ -1,0 +1,13 @@
+apiVersion: 1
+
+datasources:
+  - name: prometheus-dookug
+    type: prometheus
+    access: proxy
+    uid: dookugprometheus
+    url: http://prometheus:9090
+
+  - name: jaeger
+    type: jaeger
+    access: proxy
+    url: http://jaeger:16686
