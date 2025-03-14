@@ -90,8 +90,9 @@ dookug:
                 - http://timestamp.digicert.com <8>
               useLT: true <8>
               useLTA: false <9>
-                
-              
+              encryptionAlgorithm: RSA <10>
+              digestAlgorithm: SHA-256 <11>
+
 ----
 <1> use the EU DSS library to sign the document
 <2> the image you want to add to the document
@@ -102,6 +103,8 @@ dookug:
 <7> you can add the signature timestamp to the image
 <8> for PAdES BASELINE LT
 <9> for PAdES BASELINE LTA
+<10> encryption algorithm used for private key (for example: RSA, ECDSA)
+<11> digest algorithm used for private key
 
 The available configuration keys can be found <<pdfSignatureConfiguration,here>>.
 
