@@ -1,0 +1,20 @@
+{
+  "service_strategies": [
+  ],
+  "default_strategy": {
+    "type": "probabilistic",
+    "param": 1,
+    "operation_strategies": [
+      {
+        "operation": "/health",
+        "type": "probabilistic",
+        "param": 0.0
+      },
+      {
+        "operation": "/metrics",
+        "type": "probabilistic",
+        "param": 0.0
+      }
+    ]
+  }
+}

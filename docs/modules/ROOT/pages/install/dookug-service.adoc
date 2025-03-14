@@ -2,26 +2,25 @@
 
 == Service configuration
 
-// TODO: Restore once docker-related items are transferred to GitHub
-// .Oracle
-// [source,properties]
-// ----
-// ORACLE_DS_CONNECTION_URL=jdbc:oracle:thin:@module-dookug-oracle:1521/xepdb1
-// ORACLE_DS_USERNAME=dookug
-// ORACLE_DS_PASSWORD=developer
-// ORACLE_DS_MIN-POOL-SIZE=1
-// ORACLE_DS_MAX-POOL-SIZE=20
-// ----
-//
-// .Postgres
-// [source,properties]
-// ----
-// POSTGRESQL_DS_CONNECTION_URL=jdbc:postgresql://module-dookug-postgredb:5432/dookug_db?currentSchema=dookug
-// POSTGRESQL_DS_USERNAME=postgres
-// POSTGRESQL_DS_PASSWORD=postgres
-// POSTGRESQL_DS_MIN-POOL-SIZE=1
-// POSTGRESQL_DS_MAX-POOL-SIZE=20
-// ----
+.Oracle
+[source,properties]
+----
+ORACLE_DS_CONNECTION_URL=jdbc:oracle:thin:@module-dookug-oracle:1521/xepdb1
+ORACLE_DS_USERNAME=dookug
+ORACLE_DS_PASSWORD=developer
+ORACLE_DS_MIN-POOL-SIZE=1
+ORACLE_DS_MAX-POOL-SIZE=20
+----
+
+.Postgres
+[source,properties]
+----
+POSTGRESQL_DS_CONNECTION_URL=jdbc:postgresql://module-dookug-postgredb:5432/dookug_db?currentSchema=dookug
+POSTGRESQL_DS_USERNAME=postgres
+POSTGRESQL_DS_PASSWORD=postgres
+POSTGRESQL_DS_MIN-POOL-SIZE=1
+POSTGRESQL_DS_MAX-POOL-SIZE=20
+----
 
 .Interface
 [source,properties]
@@ -29,15 +28,26 @@
 DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED=true
 ----
 
+[[pdf-signing-config]]
 .PDF signing
 [source,properties]
 ----
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_NAME="Original document"
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_REASON="Certified by Dookug"
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORE=/home/icellmobilsoft/keys/keystore.p12
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTOREPASS=123456
-DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SIGNATURE_DEFAULT_KEYSTORETYPE=PKCS12
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_NAME="Original document"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_REASON="Certified by Dookug"
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_KEYSTORE=/home/icellmobilsoft/keys/keystore.p12
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_KEYALIAS='test'
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_KEYSTOREPASS=123456
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_KEYSTORETYPE=PKCS12
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_USEEUDSSSIG=true <1>
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_DSS_IMAGEFILE=/home/icellmobilsoft/pdfsign/sample/signature.png <2>
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_DSS_SHOWONPAGE=1 <3>
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_DSS_POSITION_LEFT=18
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_DSS_POSITION_WIDTH=2
+DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_DEFAULT_DSS_USETIMESTAMP=false
 ----
+<1> This setting enables the use of the DSS library, which allows placing the image on the PDF.
+<2> This is the image that will be added to the document.
+<3> This defines the page where the image will appear in the document.
 
 .Saxon
 [source,properties]
@@ -54,41 +64,40 @@ DOOKUG_SERVICE_ENGINE_HANDLEBARS_HELPER_JAVASCRIPT_DIRECTORY=/home/icellmobilsof
 DOOKUG_SERVICE_ENGINE_HANDLEBARS_ESCAPINGSTRATEGY=HTML_ENTITY
 ----
 
-// TODO: Restore once docker-related items are transferred to GitHub
-// .JSON logging
-// [source,properties]
-// ----
-// CONSOLE_LOGGING_JSON_ENABLED=true
-// CONSOLE_LOGGING_ENABLED=false
-// ----
+.JSON logging
+[source,properties]
+----
+CONSOLE_LOGGING_JSON_ENABLED=true
+CONSOLE_LOGGING_ENABLED=false
+----
 
-// IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLED environment variable to false to avoid duplicate logs on the console.
+IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLED environment variable to false to avoid duplicate logs on the console.
 
 == Recommended K8S Configuration
 
-// TODO: Restore once docker-related items are transferred to GitHub
-// Additional keys can be found here: https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc configuration]
+Additional keys can be found here:
 
+* https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflyoracle_jdbc[wildfly/oracle-jdbc configuration]
+* https://common.pages-dev.icellmobilsoft.hu/baseimages/docker-wildfly/master/#_wildflypostgresql_jdbc[wildfly/postgres-jdbc configuration]
 [options="header",cols="1,1,1"]
 |===
 |Parameter |Value |Description
 |JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |Maximize module heap requirement to 2G memory with UseG1GC algorithm.
-// TODO: Restore once docker-related items are transferred to GitHub
-// |ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximum size
-// |OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
-// |OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
-// |OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
-// |OPENTRACING_JAEGER_PROPAGATION|JAEGER/B3 |Jaeger propagation
-// |JAEGER_SERVICE_NAME|dookug-service |Service name visible in Jaeger (default: ROOT.war)
-// |LOGSTASH_ENABLED|1 |Enable Logstash connector (default 1)
-// |LOGSTASH_HOST|tcp:dookug-logstash |Logstash server host (do not remove "tcp:" prefix)
-// |LOGSTASH_PORT|8001 |Logstash GELF input port
-// |LOGSTASH_K8S_NAMESPACE|dookug-service |Set Logstash logging additionalFields K8S_NAMESPACE
-// |LOGGING_K8S_NAMESPACE|dookug-service |Value of k8s_namespace key in log line (log pattern)
-// |CONSOLE_LOGGING_ENABLED|false|Disable console logging in Wildfly (default: true)
-// |CONSOLE_LOGGING_JSON_ENABLED|true|Enable JSON logging on console in Wildfly. It is recommended to set CONSOLE_LOGGING_ENABLED environment variable to false, otherwise duplicate logging will occur on the console. Default: false
-// |FILE_LOGGING_ENABLED|false|Disable file logging in Wildfly (default: true)
-// |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|For OffsetDateTime types to be stored in the database, specify the zone for creation and modification dates. Default is `UTC`, but can be any valid parameter for `java.time.ZoneId.of(String zoneId)` method. Incorrect values will generate warning messages and default values will be used, which will be `TimeZone.getDefault().toZoneId()`.
+|ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximum size
+|OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
+|OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
+|OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
+|OPENTRACING_JAEGER_PROPAGATION|JAEGER/B3 |Jaeger propagation
+|JAEGER_SERVICE_NAME|dookug-document-service |Service name visible in Jaeger (default: ROOT.war)
+|LOGSTASH_ENABLED|true |Enable Logstash connector (default false)
+|LOGSTASH_HOST|tcp:graylog |Logstash server host (do not remove "tcp:" prefix)
+|LOGSTASH_PORT|12201 |Logstash GELF input port
+|LOGSTASH_K8S_NAMESPACE|dookug-document-service |Set Logstash logging additionalFields K8S_NAMESPACE
+|LOGGING_K8S_NAMESPACE|dookug-document-service |Value of k8s_namespace key in log line (log pattern)
+|CONSOLE_LOGGING_ENABLED|false|Disable console logging in Wildfly (default: true)
+|CONSOLE_LOGGING_JSON_ENABLED|true|Enable JSON logging on console in Wildfly. It is recommended to set CONSOLE_LOGGING_ENABLED environment variable to false, otherwise duplicate logging will occur on the console. Default: false
+|FILE_LOGGING_ENABLED|false|Disable file logging in Wildfly (default: true)
+|COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|For OffsetDateTime types to be stored in the database, specify the zone for creation and modification dates. Default is `UTC`, but can be any valid parameter for `java.time.ZoneId.of(String zoneId)` method. Incorrect values will generate warning messages and default values will be used, which will be `TimeZone.getDefault().toZoneId()`.
 |===
 
 .Requests/limits settings
@@ -106,6 +115,8 @@ spec:
 ----
 
 == Observability
+
+include::dashboards.adoc[leveloffset=+2]
 
 === Health - startup/liveness/readiness
 

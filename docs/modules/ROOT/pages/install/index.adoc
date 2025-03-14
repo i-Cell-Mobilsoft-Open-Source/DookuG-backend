@@ -3,9 +3,8 @@
 The Dookug module must be accessible in the environments of the project(s) that intend to utilize the service. 
 Each instance of the service, along with its infrastructure requirements, should be installed and configured for every environment (development/test/production).
 
-// TODO: Restore once docker-related items are transferred to GitHub
-// This includes:
-//
-// * a relational database (Oracle or Postgres)
+This includes:
+
+* a relational database (Oracle or Postgres)
 
 include::dookug-service.adoc[leveloffset=+1]

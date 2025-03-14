@@ -1,0 +1,37 @@
+# run from project directory
+# docker compose -f ./etc/docker-compose/docker-compose.local.oracle.yml up --build --force-recreate
+#
+# enter container
+# docker exec -it module-dookug-oracle /bin/bash
+services:
+  module-dookug-oracle:
+    container_name: module-dookug-oracle
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    ports:
+      #(Oracle Listener)
+      - '1521:1521'
+      #(EM Express)
+      - '5500:5500'
+    environment:
+      ORACLE_PWD: developer
+      ORACLE_CHARACTERSET: AL32UTF8
+    volumes:
+      - dookug-core-oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: [ 'CMD', '/opt/oracle/checkDBStatus.sh' ]
+      interval: 2s
+  dookug-liquibase:
+    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
+    environment:
+      AUTO_INSTALL: oracle
+    depends_on:
+      module-dookug-oracle:
+        condition: service_healthy
+networks: 
+  default:
+    external: true
+    # if missing: docker network create dookug-local-network
+    name: dookug-local-network
+volumes:
+  dookug-core-oracle-data:
+    name: dookug-core-oracle-data

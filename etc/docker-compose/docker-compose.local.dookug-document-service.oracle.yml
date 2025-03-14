@@ -1,0 +1,52 @@
+# run from project directory
+# docker compose -f ./etc/docker-compose/docker-compose.local.dookug-document-service.oracle.yml up --build --force-recreate
+#
+# enter container
+# docker exec -it dookug-document-service /bin/bash
+services:
+  dookug-document-service-developer:
+    container_name: dookug-document-service
+    image: icellmobilsoft/wildfly-mp-jpa-oracle-jdbc:${WILDFLY_IMAGE_VERSION}
+    volumes:
+      - './fonts/:/home/icellmobilsoft/fonts'
+      - './fop-config/:/home/icellmobilsoft/fop-config'
+      - './keys/pdf/keystore.p12:/home/icellmobilsoft/keys/keystore.p12'
+      - './pdfsign/sample/signature-green.png:/home/icellmobilsoft/pdfsign/sample/signature.png'
+      - './handlebars/helper/js:/home/icellmobilsoft/handlebars/helper/js'
+    ports:
+      - '8082:8080'
+      - '9992:9990'
+      - '8789:8787'
+    environment:
+      org_apache_deltaspike_ProjectStage: Development
+      OPENTRACING_JAEGER_AGENT_HOST: jaeger
+      JAEGER_SERVICE_NAME: dookug-document-service
+      CONSOLE_LOGGING_JSON_ENABLED: false
+      CONSOLE_LOGGING_ENABLED: true
+      LOGSTASH_ENABLED: false
+      DEBUG: true
+      HIBERNATE_DIALECT: org.hibernate.dialect.OracleDialect
+      ORACLE_DS_CONNECTION_URL: jdbc:oracle:thin:@module-dookug-oracle:1521/xepdb1
+      ORACLE_DS_USERNAME: dookug
+      ORACLE_DS_PASSWORD: developer
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEDSS_KEYSTOREPASS: 123456
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEDSS_KEYALIAS: 'test'
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_KEYSTOREPASS: 123456
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_KEYALIAS: 'test'
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_KEYSTORE: /home/icellmobilsoft/keys/keystore.p12
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_USEEUDSSSIG: true
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_USELT: false
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_TSPSOURCES: http://timestamp.digicert.com
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_IMAGEFILE: /home/icellmobilsoft/pdfsign/sample/signature.png
+      DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_SHOWONPAGE: 0
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+networks: 
+  default:
+    external: true
+    # if missing: docker network create dookug-local-network
+    name: dookug-local-network

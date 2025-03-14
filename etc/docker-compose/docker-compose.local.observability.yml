@@ -1,0 +1,28 @@
+services:
+    prometheus:
+        container_name: prometheus
+        volumes:
+            - '../config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml'
+        image: prom/prometheus:v2.45.3
+        ports:
+            - '9090:9090'
+    grafana:
+        container_name: grafana
+        volumes:
+            - '../config/grafana/provisioning/:/etc/grafana/provisioning/'
+        image: grafana/grafana:10.3.1
+        ports:
+            - '3000:3000'
+    jaeger:
+        container_name: jaeger
+        image: jaegertracing/all-in-one:1.54.0
+        volumes:
+            - '../config/jaeger/sampling_strategies.json:/etc/jaeger/sampling_strategies.json'
+        ports:
+            - '6831:6831/udp'
+            - '16686:16686'
+networks:
+  default:
+    external: true
+      # if missing: docker network create dookug-local-network
+    name: dookug-local-network
