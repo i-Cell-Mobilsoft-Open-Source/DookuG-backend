@@ -135,15 +135,17 @@ mvn verify -Dprofile=sandbox,local <2>
 == Release
 
 The release process is automated and managed by GitHub Actions.
-In case of a release, not only a Maven release is prepared, but also Docker images.
+During each release, not only are Maven artifacts built and published, but Docker images are also prepared and released.
 
-./etc/release/dookug-release.Dockerfile
-Fundamentally, it consists of three parts:
+=== Maven release
 
-. Base image setup.
-. Downloading the deployment artifact - pulling the desired deployment file from Nexus.
-. Finalizing the Docker image - copying JAR files, etc.
+The Maven release is generated and uploaded to Sonatype for distribution. You can find the released Maven artifacts at:
+https://central.sonatype.com/namespace/hu.icellmobilsoft.dookug[DookuG Backend - Maven Artifacts]
 
-./etc/release/release.docker-compose.yml
-Its purpose is to configure service variables and manage them collectively.
+=== Docker Release
 
+For Docker releases, both the Dockerfile and the docker-compose file are located in the `./etc/release` directory.
+The released Docker images are pushed to Docker Hub and can be found at the following links:
+
+- https://hub.docker.com/r/icellmobilsoft/dookug-document-service-postgres[DookuG Document Service with PostgreSQL]
+- https://hub.docker.com/r/icellmobilsoft/dookug-document-service-oracle[DookuG Document Service with Oracle]
