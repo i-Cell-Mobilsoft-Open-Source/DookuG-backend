@@ -5,7 +5,7 @@ Using the client requires only an entry in the pom.xml file, depending on the de
 [source,xml]
 ----
 <dependency>
-   <groupId>hu.icellmobilsoft.dookug</groupId>
+   <groupId>hu.icellmobilsoft.dookug.client</groupId>
    <artifactId>dookug-client-jee10</artifactId>
    <version>${version.dookug.client}</version>
 </dependency>
@@ -16,7 +16,7 @@ or
 [source,xml]
 ----
 <dependency>
-   <groupId>hu.icellmobilsoft.dookug</groupId>
+   <groupId>hu.icellmobilsoft.dookug.client</groupId>
    <artifactId>dookug-client-jee8</artifactId>
    <version>${version.dookug.client}</version>
 </dependency>

@@ -117,3 +117,33 @@ To enable observability tools, run:
 [source,shell]
 docker compose -f ./etc/docker-compose/docker-compose.local.observability.yml up --build --force-recreate
 ========
+
+== Testing
+
+The developer tests are located in the `dookug-testsuite` Maven module.
+The tests use the https://github.com/i-Cell-Mobilsoft-Open-Source/roaster[Roaster] project and execute fully autonomous REST external calls to the deployed application.
+They can be run either directly from the developer UI using the JUnit plugin or via Maven by activating the appropriate profile, for example:
+
+[source,bash]
+----
+mvn verify -Dprofile <1>
+mvn verify -Dprofile=sandbox,local <2>
+----
+<1> default parameters
+<2> Selected profiles from the `etc/config/testsuite/META-INF/roaster-[profile-name].yml` configuration files
+
+== Release
+
+The release process is automated and managed by GitHub Actions.
+In case of a release, not only a Maven release is prepared, but also Docker images.
+
+./etc/release/dookug-release.Dockerfile
+Fundamentally, it consists of three parts:
+
+. Base image setup.
+. Downloading the deployment artifact - pulling the desired deployment file from Nexus.
+. Finalizing the Docker image - copying JAR files, etc.
+
+./etc/release/release.docker-compose.yml
+Its purpose is to configure service variables and manage them collectively.
+

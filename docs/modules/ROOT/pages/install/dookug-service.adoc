@@ -28,6 +28,7 @@ POSTGRESQL_DS_MAX-POOL-SIZE=20
 DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED=true
 ----
 
+[[pdf-signing-config]]
 .PDF signing
 [source,properties]
 ----
