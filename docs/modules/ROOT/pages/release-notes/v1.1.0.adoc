@@ -16,6 +16,7 @@
 * TemplatePartContent entity cleanup - unused fields are removed
 * Bugfix: The template cache can now be properly cleared by calling the system/evict endpoint
 * Local docker compose files are now available under `etc/docker-compose` directory.
+* Fixed HandlebarsTemplateCompiler warning on startup
 
 == Migration
 
