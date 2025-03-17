@@ -153,12 +153,9 @@ public class HandlebarsTemplateCompiler implements ITemplateCompiler {
 
     /**
      * default init
-     * 
-     * @throws BaseException
-     *             if any error occurs
      */
     @PostConstruct
-    public void init() throws BaseException {
+    public void init() {
         EscapingStrategy escapingStrategy = escapingStrategyFactory.createEscapingStrategy(strategyKeyOptional);
         handlebars = new Handlebars(templateLoader).with(escapingStrategy).with(evictableConcurrentMapTemplateCache.setReload(true));
         helperRegister.findAndRegisterHelpers(handlebars);
