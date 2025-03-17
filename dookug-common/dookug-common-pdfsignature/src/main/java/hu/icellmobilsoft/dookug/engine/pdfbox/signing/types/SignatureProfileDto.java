@@ -61,6 +61,7 @@ public class SignatureProfileDto {
     private boolean dssShowSignee;
     private String digestAlgorithm;
     private String encryptionAlgorithm;
+    private String pdfBoxSignatureAlgorithm;
 
     /**
      * constructor
@@ -503,6 +504,20 @@ public class SignatureProfileDto {
      */
     public void setDigestAlgorithm(String digestAlgorithm) {
         this.digestAlgorithm = digestAlgorithm;
+    }
+
+    /**
+     * @return the pdfBoxSignatureAlgorithm
+     */
+    public String getPdfBoxSignatureAlgorithm() {
+        return pdfBoxSignatureAlgorithm;
+    }
+
+    /**
+     * @param pdfBoxSignatureAlgorithm the pdfBoxSignatureAlgorithm to set
+     */
+    public void setPdfBoxSignatureAlgorithm(String pdfBoxSignatureAlgorithm) {
+        this.pdfBoxSignatureAlgorithm = pdfBoxSignatureAlgorithm;
     }
 
 }

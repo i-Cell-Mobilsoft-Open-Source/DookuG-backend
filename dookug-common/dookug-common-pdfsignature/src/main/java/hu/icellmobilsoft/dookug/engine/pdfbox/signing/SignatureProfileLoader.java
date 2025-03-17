@@ -179,6 +179,10 @@ public class SignatureProfileLoader {
                 BooleanUtils.toBoolean(
                         getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.SHOW_SIGNEE)
                                 .orElse(ConfigKeys.PdfSignature.Default.SHOW_SIGNEE_DEFAULT_VALUE)));
+        signatureProfile.setPdfBoxSignatureAlgorithm(
+                        getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.PdfBox.SIGNATURE_ALGORITHM)
+                                .orElse(ConfigKeys.PdfSignature.Default.PDFBOX_DEFAULT_SIGNATURE_ALGORITHM));
+
         return signatureProfile;
     }
 

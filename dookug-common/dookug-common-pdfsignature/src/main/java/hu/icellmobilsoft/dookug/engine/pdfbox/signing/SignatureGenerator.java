@@ -72,6 +72,7 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 public class SignatureGenerator implements SignatureInterface {
 
     private static final String SHA256_WITH_RSA = "SHA256WithRSA";
+    // private static final String SHA256_WITH_ECDSA = "SHA256withECDSA";
     private static final String TIMEZONE_UTC = "UTC";
 
     @Inject
@@ -261,8 +262,8 @@ public class SignatureGenerator implements SignatureInterface {
             CMSPrivateKey cmsPrivateKey = privateKeyLoader.privateKeyResolver(signatureProfile);
             CMSSignedDataGenerator gen = new CMSSignedDataGenerator();
             X509Certificate cert = (X509Certificate) cmsPrivateKey.getCertificateChain()[0];
-            ContentSigner shaSigner = new JcaContentSignerBuilder(SHA256_WITH_RSA).build(cmsPrivateKey.getPrivateKey());
-
+            ContentSigner shaSigner = new JcaContentSignerBuilder(signatureProfile.getPdfBoxSignatureAlgorithm())
+                    .build(cmsPrivateKey.getPrivateKey());
             gen.addSignerInfoGenerator(new JcaSignerInfoGeneratorBuilder(new JcaDigestCalculatorProviderBuilder().build()).build(shaSigner, cert));
             gen.addCertificates(new JcaCertStore(Arrays.asList(cmsPrivateKey.getCertificateChain())));
             CMSProcessableInputStream msg = new CMSProcessableInputStream(content);
