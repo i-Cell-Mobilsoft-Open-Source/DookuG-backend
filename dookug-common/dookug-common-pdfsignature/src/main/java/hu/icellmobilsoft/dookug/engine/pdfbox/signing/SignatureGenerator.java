@@ -71,8 +71,6 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 @Model
 public class SignatureGenerator implements SignatureInterface {
 
-    private static final String SHA256_WITH_RSA = "SHA256WithRSA";
-    // private static final String SHA256_WITH_ECDSA = "SHA256withECDSA";
     private static final String TIMEZONE_UTC = "UTC";
 
     @Inject
