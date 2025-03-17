@@ -1,0 +1,31 @@
+= Grafana dashboards
+
+The module provides Grafana dashboards that enhance observability and monitoring capabilities.
+
+* backend_memory_usage.json:
+** Displays detailed memory usage.
+** Shows data for four different GC algorithms.
+* backend_base.json:
+** Shows datasource metrics.
+*** pool_available: Number of available connections.
+*** pool_in_use: Number of connections currently in use.
+*** blocking_time: Time spent waiting for a database connection when needed for a service logic operation (e.g., running a SELECT or INSERT). If no connection is available, this time increases.
+*** pool_timed_out: Number of active connections that have timed out, for example, during a pause after high system load.
+
+Dashboard tips
+
+* If the pool_in_use value consistently reaches the DS_MAX_POOL_SIZE limit, it indicates that the pool size is too small or that the CPU core-to-consumer thread count ratio is misconfigured.
+This may lead to the service handling many messages while simultaneously serving REST endpoints.
+* Similarly, if pool_available remains at 0 for extended periods, the pool size is insufficient.
+* blocking_time represents wasted time during which the service could have performed useful tasks.
+If it is high, it is worth checking whether database operation times have increased or if the pool size is too small.
+* blocking_time indicates how often the service was unable to acquire a free connection.
+This is also influenced by the default configuration in standalone.xml:
+
+[source,xml]
+<timeout>
+  <blocking-timeout-millis>5000</blocking-timeout-millis>
+  <idle-timeout-minutes>5</idle-timeout-minutes>
+</timeout>
+
+The system has 5 seconds to acquire a free connection for a database operation; otherwise, an exception will be thrown.

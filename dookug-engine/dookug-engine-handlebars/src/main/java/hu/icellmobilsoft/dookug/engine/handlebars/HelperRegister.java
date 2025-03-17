@@ -64,8 +64,6 @@ public class HelperRegister {
      *
      * @param handlebars
      *            {@link Handlebars} instance
-     * @throws BaseException
-     *             In case of fault
      */
     public void findAndRegisterHelpers(Handlebars handlebars) {
         handlebars.registerHelpers(DookugHelpers.class);
