@@ -47,7 +47,6 @@ import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 
 import eu.europa.esig.dss.alert.LogOnStatusAlert;
-import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -57,7 +56,6 @@ import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.model.SignatureValue;
 import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
-import eu.europa.esig.dss.pades.PAdESTimestampParameters;
 import eu.europa.esig.dss.pades.SignatureImageParameters;
 import eu.europa.esig.dss.pades.signature.PAdESService;
 import eu.europa.esig.dss.pdf.pdfbox.PdfBoxNativeObjectFactory;
@@ -93,6 +91,8 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfileDto;
 @Model
 public class PdfSigner {
 
+    private static final String PARAMETERS_CANNOT_BE_EMPTY = "Parameters cannot be empty";
+
     private static final String DOCUMENT_SIGNING_COMPLETE_0 = "Document signing complete: [{0}]";
 
     private static final String SIGNATURE_PNG = "signature.png";
@@ -124,7 +124,7 @@ public class PdfSigner {
      */
     public void signPdf(Path pdfFile, SignatureProfileDto profile, Path outputFile) throws BaseException {
         if (pdfFile == null || profile == null || outputFile == null) {
-            throw new InvalidParameterException("Parameters cannot be empty");
+            throw new InvalidParameterException(PARAMETERS_CANNOT_BE_EMPTY);
         }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE_0, pdfFile);
@@ -149,7 +149,7 @@ public class PdfSigner {
      */
     public void signPdf(Path originalPdfFile, SignatureProfileDto profile, OutputStream outputStream) throws BaseException {
         if (originalPdfFile == null || profile == null || outputStream == null) {
-            throw new InvalidParameterException("Parameters cannot be empty");
+            throw new InvalidParameterException(PARAMETERS_CANNOT_BE_EMPTY);
         }
         DSSDocument signedDocument = signPdf(originalPdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE_0, originalPdfFile);
@@ -189,7 +189,7 @@ public class PdfSigner {
     public void signPdf(Path pdfFile, byte[] keyStore, char[] keyStorePassword, SignatureProfileDto profile, OutputStream binaryOutput)
             throws BaseException {
         if (pdfFile == null || keyStore == null || keyStorePassword == null || profile == null || binaryOutput == null) {
-            throw new InvalidParameterException("Parameters cannot be empty");
+            throw new InvalidParameterException(PARAMETERS_CANNOT_BE_EMPTY);
         }
         DSSDocument signedDocument = signPdf(pdfFile, profile);
         log.debug(DOCUMENT_SIGNING_COMPLETE_0, pdfFile);

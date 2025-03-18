@@ -191,7 +191,23 @@ public interface ConfigKeys {
              * URL list for getting trusted certificates {@value #TRUSTED_CERTIFICATES}
              */
             static final String TRUSTED_CERTIFICATES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "trustedCertificates";
+        }
 
+        /**
+         * Configuration keys and default values for PdfBox digital signature
+         */
+        interface PdfBox {
+
+            /**
+             * prefix for pdfbox config keys: {@value #DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_PDFBOX}
+             */
+            @ConfigDoc(exclude = true)
+            static final String DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_PDFBOX = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0 + "pdfbox.";
+
+            /**
+             * The signature algorithm {@value #SIGNATURE_ALGORITHM}
+             */
+            static final String SIGNATURE_ALGORITHM = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_PDFBOX + "signatureAlgorithm";
         }
 
         /**
@@ -293,6 +309,10 @@ public interface ConfigKeys {
              */
             static final String ENCRYPTION_ALGORITHM_DEFAULT_VALUE = "RSA";
 
+            /**
+             * Default value for {@value PdfSignature.PdfBox#SIGNATURE_ALGORITHM}
+             */
+            static final String PDFBOX_DEFAULT_SIGNATURE_ALGORITHM = "SHA256WithRSA";
         }
 
     }

@@ -17,7 +17,8 @@
 * Bugfix: The template cache can now be properly cleared by calling the system/evict endpoint
 * Local docker compose files are now available under `etc/docker-compose` directory.
 * Fixed HandlebarsTemplateCompiler warning on startup
+* EC keys can be used with non-DSS digital signing
 
 == Migration
 
-Changes are backwards compatible doesnt need any migration.
+Changes are backwards compatible doesn't need any migration.
