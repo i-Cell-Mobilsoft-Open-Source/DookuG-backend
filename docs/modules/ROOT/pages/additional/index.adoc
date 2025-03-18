@@ -1,6 +1,8 @@
-ifndef::imagesdir[:imagesdir: ../images/]
+:sectnums:
+:sectnumlevels: 3
 
 = Additional informations
+ifndef::imagesdir[:imagesdir: ../images/]
 
 include::templatecache.adoc[leveloffset=+1]
 include::helpers.adoc[leveloffset=+1]

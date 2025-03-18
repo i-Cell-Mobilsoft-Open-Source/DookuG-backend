@@ -1,3 +1,6 @@
+:sectnums:
+:sectnumlevels: 3
+
 = DookuG Module Client
 
 The client aims to support management of the DookuG module, which encompasses various server-side methods.
