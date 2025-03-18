@@ -11,6 +11,12 @@
 * Possible extSessionId dupication (in client calls) fixed
 * SVG image fix
 * JsonB context handling fixes
+* docker-wildfly base image upgrade 2.0.0 -> 2.1.0
+** JSON_MODULE_ID and JSON_MODULE_VERSION envs have been set in Dockerfile.
+* TemplatePartContent entity cleanup - unused fields are removed
+* Bugfix: The template cache can now be properly cleared by calling the system/evict endpoint
+* Local docker compose files are now available under `etc/docker-compose` directory.
+* Fixed HandlebarsTemplateCompiler warning on startup
 
 == Migration
 

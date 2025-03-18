@@ -30,9 +30,6 @@ import com.github.jknack.handlebars.EscapingStrategy;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
-import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 
 /**
  * Handlebars {@link EscapingStrategy} creator class
@@ -54,10 +51,8 @@ public class EscapingStrategyFactory {
      * @param strategyKeyOptional
      *            Optional field name of strategy.
      * @return Found strategy instance
-     * @throws BaseException
-     *             In case of fault
      */
-    public EscapingStrategy createEscapingStrategy(Optional<String> strategyKeyOptional) throws BaseException {
+    public EscapingStrategy createEscapingStrategy(Optional<String> strategyKeyOptional) {
         if (strategyKeyOptional.isEmpty()) {
             return EscapingStrategy.DEF;
         }
@@ -70,11 +65,11 @@ public class EscapingStrategyFactory {
                 return clazz.cast(field.get(field));
             } else {
                 String msg = MessageFormat.format("Invalid field reference [{0}]!", strategyKey);
-                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, msg);
+                throw new IllegalStateException(msg);
             }
         } catch (Exception e) {
             String msg = MessageFormat.format("Invalid strategy key [{0}]!", strategyKey);
-            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, msg, e);
+            throw new IllegalStateException(msg, e);
         }
     }
 

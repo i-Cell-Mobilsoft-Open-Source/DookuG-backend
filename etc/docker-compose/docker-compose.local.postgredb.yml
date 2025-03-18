@@ -1,0 +1,77 @@
+# run from project directory
+# docker compose -f ./etc/docker-compose/docker-compose.local.postgredb.yml up --build --force-recreate
+#
+# enter container
+# docker exec -it module-dookug-postgredb /bin/bash
+services:
+  module-dookug-postgredb:
+    container_name: module-dookug-postgredb
+    image: icellmobilsoft/db-base-postgres_148:${DBDWH_IMAGE_VERSION}
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - module-dookug-postgredb-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD', 'pg_isready' ]
+      interval: 2s
+
+  ##run liquibase main to add objects
+  dookug-liquibase-pg-step_1:
+    container_name: module-dookug-liquibase-1
+    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
+    environment:
+      AUTO_INSTALL: postgresql
+      INSTALL_STEP: STEP_1
+    depends_on:
+      module-dookug-postgredb:
+        condition: service_healthy
+
+  ##add partition manager (internal installer)
+  dookug-pg_tools-step_01B:
+    container_name: module-dookug-partman-1b
+    image: icellmobilsoft/db-base-pg_tools:${DBDWH_IMAGE_VERSION}
+    environment:
+      AUTO_INSTALL: postgresql
+      INSTALL_URL_S1: jdbc:postgresql://module-dookug-postgredb:5432/postgres
+      INSTALL_URL_S2: jdbc:postgresql://module-dookug-postgredb:5432/dookug_db
+    depends_on:
+      dookug-liquibase-pg-step_1:
+        condition: service_completed_successfully
+
+  ##run liquibase 2
+  dookug-liquibase-pg-step_2:
+    container_name: module-dookug-liquibase-2
+    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
+    environment:
+      AUTO_INSTALL: postgresql
+      INSTALL_STEP: STEP_2
+    depends_on:
+      module-dookug-postgredb:
+          condition: service_healthy
+      dookug-pg_tools-step_01B:
+        condition: service_completed_successfully
+
+  ##add sample data
+  dookug-liquibase-pg-sample-data:
+    container_name: module-dookug-liquibase-sample-data
+    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
+    environment:
+      AUTO_INSTALL: postgresql
+      INSTALL_STEP: STEP_4
+    depends_on:
+      module-dookug-postgredb:
+          condition: service_healthy
+      dookug-liquibase-pg-step_2:
+        condition: service_completed_successfully
+
+networks:
+  default:
+    external: true
+    # if missing: docker network create dookug-local-network
+    name: dookug-local-network
+volumes:
+  module-dookug-postgredb-data:
+    name: module-dookug-postgredb-data
