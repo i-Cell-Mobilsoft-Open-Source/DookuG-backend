@@ -43,6 +43,8 @@ import hu.icellmobilsoft.dookug.engine.pdfbox.signing.types.SignatureProfile;
 @Model
 public class SignatureProfileLoader {
 
+    private static final String SHA256_WITH_RSA = "SHA256WithRSA";
+
     @Inject
     private ApplicationConfiguration applicationConfiguration;
 
@@ -72,6 +74,8 @@ public class SignatureProfileLoader {
         signatureProfileDto.setKeyAlias(getConfigurationValue(profileName, ConfigKeys.PdfDefaultSignature.KEY_ALIAS));
         signatureProfileDto.setName(getConfigurationValue(profileName, ConfigKeys.PdfDefaultSignature.NAME));
         signatureProfileDto.setReason(getConfigurationValue(profileName, ConfigKeys.PdfDefaultSignature.REASON));
+        signatureProfileDto.setSignatureAlgorithm(
+                getOptionalConfigurationValue(profileName, ConfigKeys.PdfDefaultSignature.SIGNATURE_ALGORITHM).orElse(SHA256_WITH_RSA));
 
         return signatureProfileDto;
     }

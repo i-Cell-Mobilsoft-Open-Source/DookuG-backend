@@ -1,0 +1,5 @@
+= v1.0.1
+
+== Changes / updates
+
+* EC key also can be used for PDF signing

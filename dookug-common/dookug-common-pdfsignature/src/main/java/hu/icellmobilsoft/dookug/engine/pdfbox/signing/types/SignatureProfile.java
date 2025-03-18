@@ -36,6 +36,7 @@ public class SignatureProfile {
     private String keystoreType;
     private String keystoreAlias;
     private String keyAlias;
+    private String signatureAlgorithm;
 
     /**
      * @return the name
@@ -140,6 +141,21 @@ public class SignatureProfile {
      */
     public void setKeyAlias(String keyAlias) {
         this.keyAlias = keyAlias;
+    }
+
+    /**
+     * @return the signatureAlgorithm
+     */
+    public String getSignatureAlgorithm() {
+        return signatureAlgorithm;
+    }
+
+    /**
+     * @param signatureAlgorithm
+     *            the signatureAlgorithm to set
+     */
+    public void setSignatureAlgorithm(String signatureAlgorithm) {
+        this.signatureAlgorithm = signatureAlgorithm;
     }
 
 }

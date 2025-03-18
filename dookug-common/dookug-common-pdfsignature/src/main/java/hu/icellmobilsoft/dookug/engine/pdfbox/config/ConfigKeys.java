@@ -68,5 +68,10 @@ public interface ConfigKeys {
          */
         static final String KEY_ALIAS = "keyAlias";
 
+        /**
+         * signature algorithm configuration key of signature profile {@value #SIGNATURE_ALGORITHM}
+         */
+        static final String SIGNATURE_ALGORITHM = "pdfBox.signatureAlgorithm";
+
     }
 }
