@@ -139,7 +139,16 @@ dookug:
               signatureAlgorithm: SHA256WithRSA <2>
 ----
 <1> the keystore file
-<2> the certificate algorithm used for the pdfbox engined digital signing (not DSS!). For example: `SHA256withECDSA` Default: `SHA256WithRSA` 
+<2> the certificate algorithm used for the pdfbox engined digital signing (not DSS!). For example: `SHA256withECDSA` Default: `SHA256WithRSA`
+
+[NOTE]
+====
+Here you can find the available signature algorithm identifiers
+
+https://github.com/bcgit/bc-java/blob/main/pkix/src/main/java/org/bouncycastle/operator/DefaultSignatureAlgorithmIdentifierFinder.java#L745
+
+====
+ 
 
 The available configuration keys can be found <<pdfSignatureConfiguration,here>>.
 
