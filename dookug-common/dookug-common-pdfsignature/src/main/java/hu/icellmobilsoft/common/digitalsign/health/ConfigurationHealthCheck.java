@@ -21,6 +21,7 @@ package hu.icellmobilsoft.common.digitalsign.health;
 
 import java.util.Iterator;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
@@ -34,9 +35,6 @@ import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import org.eclipse.microprofile.health.Startup;
 
-import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
 /**
@@ -53,6 +51,8 @@ public class ConfigurationHealthCheck {
 
     private static final String SIGNATURE_CONFIGURATION = "signatureConfiguration";
 
+    private HealthCheckResponseBuilder builder = HealthCheckResponse.builder().name(SIGNATURE_CONFIGURATION).up();
+
     /**
      * Bouncycastle (PdfBox) signature algorithm identifier finder for checking name resolution
      */
@@ -62,21 +62,27 @@ public class ConfigurationHealthCheck {
     private Logger logger;
 
     /**
+     * Configuration check
+     */
+    @PostConstruct
+    public void init() {
+        Config config = ConfigProvider.getConfig();
+        Iterator<String> propertyNames = config.getPropertyNames().iterator();
+        while (propertyNames.hasNext()) {
+            String propertyName = propertyNames.next();
+            if (StringUtils.endsWithIgnoreCase(propertyName, "signatureAlgorithm") && StringUtils.containsIgnoreCase(propertyName, "pdfBox")) {
+                builder = checkPdfBoxSignatureAlgorithm(builder, propertyName);
+            }
+        }
+    }
+
+    /**
      * Check pdf signature configuration
      * 
      * @return The created {@link HealthCheckResponse} contains information about whether the database is reachable.
      */
     public HealthCheckResponse checkPdfSignatureConfiguration() {
-        HealthCheckResponseBuilder builder = HealthCheckResponse.builder().name(SIGNATURE_CONFIGURATION).up();
         try {
-            Config config = ConfigProvider.getConfig();
-            Iterator<String> propertyNames = config.getPropertyNames().iterator();
-            while (propertyNames.hasNext()) {
-                String propertyName = propertyNames.next();
-                if (StringUtils.endsWithIgnoreCase(propertyName, "signatureAlgorithm") && StringUtils.containsIgnoreCase(propertyName, "pdfBox")) {
-                    builder = checkPdfBoxSignatureAlgorithm(builder, propertyName);
-                }
-            }
             return builder.build();
         } catch (Throwable e) {
             // we catch every exception and error so that the probe doesn't encounter any unhandled errors or exceptions
