@@ -213,6 +213,7 @@ public interface ConfigKeys {
         /**
          * keys for DSS server default values
          */
+        @ConfigDoc(exclude = true)
         public interface Default {
             /**
              * Default value for {@value PdfSignature.DSS#SHOW_ON_PAGE}
