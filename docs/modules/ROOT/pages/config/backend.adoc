@@ -20,6 +20,6 @@ include::../../attachments/generated/dookug-api-common-config.adoc[leveloffset=+
 [[pdfSignatureConfiguration]]
 == Pdf Signature configuration
 
-include::../../attachments/generated/dookug-pdf-signature-config.adoc[leveloffset=+1]
+include::../../attachments/generated/dookug-common-pdfsignature-config.adoc[leveloffset=+1]
 
 endif::[]
