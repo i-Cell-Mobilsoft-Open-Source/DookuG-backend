@@ -242,7 +242,7 @@ public interface ConfigKeys {
              * Default value for {@value PdfSignature.DSS#HINT_TEXT}
              */
             @ConfigDoc(exclude = true)
-            static final String HINT_TEXT_DEFAULT_VALUE = "Aláírta {0}";
+            static final String HINT_TEXT_DEFAULT_VALUE = "Signed by {0}";
 
             /**
              * Default value for {@value PdfSignature.DSS#USE_HINT}
