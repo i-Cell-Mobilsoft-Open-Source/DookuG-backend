@@ -1,6 +1,8 @@
-ifndef::imagesdir[:imagesdir: ../images]
+:sectnums:
+:sectnumlevels: 3
 
 = Backend
+ifndef::imagesdir[:imagesdir: ../images]
 
 == Services
 

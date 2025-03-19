@@ -1,6 +1,8 @@
-ifndef::imagesdir[:imagesdir: ../images]
+:sectnums:
+:sectnumlevels: 3
 
 = Overview
+ifndef::imagesdir[:imagesdir: ../images]
 
 The project aims to enable general template-based document generation for its clients.
 
