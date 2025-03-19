@@ -213,106 +213,125 @@ public interface ConfigKeys {
         /**
          * keys for DSS server default values
          */
-        @ConfigDoc(exclude = true)
         public interface Default {
             /**
              * Default value for {@value PdfSignature.DSS#SHOW_ON_PAGE}
              */
+            @ConfigDoc(exclude = true)
             static final String PAGE_DEFAULT_VALUE = "-1";
 
             /**
              * Default value for {@value PdfSignature.DSS#POSITION_TOP}
              */
+            @ConfigDoc(exclude = true)
             static final String TOP_DEFAULT_VALUE = "1.0";
 
             /**
              * Default value for {@value PdfSignature.DSS#POSITION_LEFT}
              */
+            @ConfigDoc(exclude = true)
             static final String LEFT_DEFAULT_VALUE = "1.0";
 
             /**
              * Default value for {@value PdfSignature.DSS#WIDTH}
              */
+            @ConfigDoc(exclude = true)
             static final String WIDTH_DEFAULT_VALUE = "5.0";
 
             /**
              * Default value for {@value PdfSignature.DSS#HINT_TEXT}
              */
+            @ConfigDoc(exclude = true)
             static final String HINT_TEXT_DEFAULT_VALUE = "Aláírta {0}";
 
             /**
              * Default value for {@value PdfSignature.DSS#USE_HINT}
              */
+            @ConfigDoc(exclude = true)
             static final String USE_HINT_DEFAULT_VALUE = "false";
 
             /**
              * Default value for {@value PdfSignature.DSS#USE_TIMESTAMP}
              */
+            @ConfigDoc(exclude = true)
             static final String USE_TIMESTAMP_DEFAULT_VALUE = "false";
 
             /**
              * Default value for {@value PdfSignature.DSS#SKIP_TIMESTAMP_ON_ERROR}
              */
+            @ConfigDoc(exclude = true)
             static final String SKIP_TIMESTAMP_DEFAULT_VALUE = "true";
 
             /**
              * Default value for {@value PdfSignature.DSS#USE_LT}
              */
+            @ConfigDoc(exclude = true)
             static final String USE_LT_DEFAULT_VALUE = "false";
 
             /**
              * Default value for {@value PdfSignature.DSS#USE_LTA}
              */
+            @ConfigDoc(exclude = true)
             static final String USE_LTA_DEFAULT_VALUE = "false";
 
             /**
              * Default value for {@value PdfSignature.DSS#SHOW_SIGNEE}
              */
+            @ConfigDoc(exclude = true)
             static final String SHOW_SIGNEE_DEFAULT_VALUE = "false";
 
             /**
              * Default value for {@value PdfSignature.DSS#LABEL_HINT}
              */
+            @ConfigDoc(exclude = true)
             static final String LABEL_HINT_DEFAULT_VALUE = "Hint";
 
             /**
              * Default value for {@value PdfSignature.DSS#LABEL_TIMESTAMP}
              */
+            @ConfigDoc(exclude = true)
             static final String LABEL_TIMESTAMP_DEFAULT_VALUE = "Timestamp";
 
             /**
              * Default value for {@value PdfSignature.DSS#LABEL_SIGNEE}
              */
+            @ConfigDoc(exclude = true)
             static final String LABEL_SIGNEE_DEFAULT_VALUE = "Signee";
 
             /**
              * Default value for {@value PdfSignature.DSS#TSP_SOURCES}
              */
+            @ConfigDoc(exclude = true)
             static final String TSP_SOURCES_DEFAULT_VALUE = "";
 
             /**
              * Default value for {@value PdfSignature.DSS#TRUSTED_CERTIFICATES}
              */
+            @ConfigDoc(exclude = true)
             static final String TRUSTED_CERTIFICATES_DEFAULT_VALUE = "";
 
             /**
              * The DEFAULT private key alias in the pkcs12 keystore: {@value #DEFAULT_KEYSTORE_PRIVATE_KEY_ALIAS}
              */
+            @ConfigDoc(exclude = true)
             static final String DEFAULT_KEYSTORE_PRIVATE_KEY_ALIAS = "alias";
 
             /**
              * Default value for {@value PdfSignature.DSS#DIGEST_ALGORITHM}
              */
+            @ConfigDoc(exclude = true)
             static final String DIGEST_ALGORITHM_DEFAULT_VALUE = "SHA-256";
 
             /**
              * Default value for {@value PdfSignature.DSS#ENCRYPTION_ALGORITHM}
              */
+            @ConfigDoc(exclude = true)
             static final String ENCRYPTION_ALGORITHM_DEFAULT_VALUE = "RSA";
 
             /**
              * Default value for {@value PdfSignature.PdfBox#SIGNATURE_ALGORITHM}
              */
+            @ConfigDoc(exclude = true)
             static final String PDFBOX_DEFAULT_SIGNATURE_ALGORITHM = "SHA256WithRSA";
         }
 
