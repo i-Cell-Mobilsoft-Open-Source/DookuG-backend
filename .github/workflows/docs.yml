@@ -46,7 +46,7 @@ jobs:
           pdf_build: true
           asciidoctor_params: --attribute release_version=${{steps.vars.outputs.POM_XML_PROJECT_VERSION}} --attribute=generatedDoc
           # adoc_file_ext: .ascii # default is .adoc
-          source_dir: docs/modules/ROOT/pages/ # default is .
+          source_dir: docs/modules/ROOT # default is .
           ebook_main_adoc_file: index
           # slides_build: true
           # pre_build:
