@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - bugfix/139-doc-problems # temp test
 
 jobs:
   generate-and-deploy:
@@ -26,10 +27,10 @@ jobs:
 
       - name: Copy generated docs
         run: |
-          mkdir docs/generated docs/generated/openapi docs/generated/images
-          mv dookug-document/dookug-document-service/target/openapi docs/generated/openapi/dookug-document-service
-          mv dookug-api/dookug-api-common/target/config_keys.adoc docs/generated/dookug-api-common-config.adoc
-          mv dookug-common/dookug-common-pdfsignature/target/config_keys.adoc docs/generated/dookug-common-pdfsignature-config.adoc
+          mkdir -p docs/modules/ROOT/attachments/generated/openapi
+          mv dookug-document/dookug-document-service/target/openapi docs/modules/ROOT/attachments/generated/openapi/dookug-document-service
+          mv dookug-api/dookug-api-common/target/config_keys.adoc docs/modules/ROOT/attachments/generated/dookug-api-common-config.adoc
+          mv dookug-common/dookug-common-pdfsignature/target/config_keys.adoc docs/modules/ROOT/attachments/generated/dookug-common-pdfsignature-config.adoc
 
       - name: set-release-version
         id: vars
