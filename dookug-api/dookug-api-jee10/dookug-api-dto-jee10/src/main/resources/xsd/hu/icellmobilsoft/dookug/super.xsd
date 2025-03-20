@@ -11,6 +11,7 @@
 	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict" />
 
     <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate" />
+    <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign" />
     <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon" />
 
 </xs:schema>

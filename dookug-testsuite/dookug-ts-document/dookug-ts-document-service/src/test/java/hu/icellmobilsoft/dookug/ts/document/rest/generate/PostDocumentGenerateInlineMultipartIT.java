@@ -35,8 +35,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;

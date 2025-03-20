@@ -1,3 +1,4 @@
+[[pdf-digital-signature]]
 = Digitally Signing PDFs
 
 This documentation is intended for the https://pdfbox.apache.org/[Apache PDFBox] engine and describes the process of digitally signing PDFs using a self-signed certificate, which is added to the image as `/home/icellmobilsoft/keys/keystore.p12` using the docker-compose file.

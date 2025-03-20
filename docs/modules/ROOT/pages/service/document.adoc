@@ -347,3 +347,39 @@ Headers:		Content-Type=application/octet-stream
 If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 
 In the response - for an existing document identifier - the generated document is returned, and the file name is included in the HTTP headers.
+
+
+[[signPdfDocument]]
+== Electronic document signing (PDF) 
+
+[source,text]
+----
+POST /internal/dookug/document/sign/inline/multipart
+----
+
+The document received in the request is digitally signed and returned in the response. The request must include the file to be signed and the name of the signing profile. The signing process is performed synchronously based on the parameters configured in the module for the given profile. The file is not stored on the server at any point.
+
+[source,http request]
+----
+Request method: POST
+Request URI:    http://localhost:8082/internal/dookug/document/sign/inline/multipart
+Headers:        Accept=application/octet-stream
+                Content-Type=multipart/form-data
+
+Content-Disposition: form-data; name="REQUEST"
+Content-Type: application/json
+{
+    "context": {
+      "requestId": "42ZZBS3LKJZ9IT0X",
+      "timestamp": "2025-03-19T15:47:52.113Z"
+    },
+    "digitalSignatureProfile": "SAMPLE"
+}
+--2b17c723-ec5b-4c99-8dcf-c6d8972c4564
+Content-Disposition: form-data; name="DOCUMENT"
+Content-Type: application/octet-stream
+
+<<binary content>>
+----
+
+In the response, we receive the signed document and the filename in the HTTP header.

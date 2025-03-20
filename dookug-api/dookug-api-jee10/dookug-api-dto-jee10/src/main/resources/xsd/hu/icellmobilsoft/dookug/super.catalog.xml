@@ -20,6 +20,8 @@
 
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/documentgenerate.xsd" />
+    <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign"
+        uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/documentsign.xsd" />
 
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/generator/saxon.xsd" />

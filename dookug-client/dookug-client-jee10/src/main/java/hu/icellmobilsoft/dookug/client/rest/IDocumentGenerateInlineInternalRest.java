@@ -36,7 +36,7 @@ import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
-import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;

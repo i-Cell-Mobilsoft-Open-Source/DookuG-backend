@@ -36,6 +36,10 @@ public class DocumentGeneratePath extends ServicePath {
      */
     public static final String GENERATE = "/generate";
     /**
+     * {@value #SIGN}
+     */
+    public static final String SIGN = "/sign";
+    /**
      * {@value #CONTENT}
      */
     public static final String CONTENT = "/content";
@@ -56,9 +60,17 @@ public class DocumentGeneratePath extends ServicePath {
      */
     public static final String INTERNAL_DOCUMENT_GENERATE = INTERNAL_DOCUMENT + GENERATE;
     /**
+     * {@value INTERNAL_DOCUMENT_SIGN}
+     */
+    public static final String INTERNAL_DOCUMENT_SIGN = INTERNAL_DOCUMENT + SIGN;
+    /**
      * {@value #INTERNAL_DOCUMENT_GENERATE_INLINE}
      */
     public static final String INTERNAL_DOCUMENT_GENERATE_INLINE = INTERNAL_DOCUMENT_GENERATE + INLINE;
+    /**
+     * {@value #INTERNAL_DOCUMENT_SIGN_INLINE}
+     */
+    public static final String INTERNAL_DOCUMENT_SIGN_INLINE = INTERNAL_DOCUMENT_SIGN + INLINE;
     /**
      * {@value #INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE}
      */

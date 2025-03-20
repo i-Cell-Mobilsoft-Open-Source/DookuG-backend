@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.api.rest.document;
+package hu.icellmobilsoft.dookug.api.rest.document.form;
 
 import java.io.InputStream;
 
@@ -27,60 +27,53 @@ import javax.ws.rs.core.MediaType;
 
 import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.DocumentSignRequest;
 
 /**
- * DocumentGenerate REST Multipart form
+ * DocumentSign REST Multipart form
  * 
- * @author laszlo.padar
- * @since 0.1.0
+ * @author tamas.cserhati
+ * @since 1.1.0
  */
 @Model
-public class DocumentGenerateMultipartForm {
+public class DocumentSignMultipartForm {
 
-    @FormParam("TEMPLATE")
+    @FormParam("DOCUMENT")
     @PartType(MediaType.APPLICATION_OCTET_STREAM)
-    private InputStream template;
+    private InputStream document;
 
     @FormParam("REQUEST")
     @PartType(MediaType.APPLICATION_XML)
-    private DocumentGenerateRequest request;
+    private DocumentSignRequest request;
 
     /**
-     * Multipart template part getter
-     * 
-     * @return template part
+     * @return the request
      */
-    public InputStream getTemplate() {
-        return template;
-    }
-
-    /**
-     * Multipart template part setter
-     * 
-     * @param template
-     *            template part
-     */
-    public void setTemplate(InputStream template) {
-        this.template = template;
-    }
-
-    /**
-     * Multipart request part getter
-     * 
-     * @return request part
-     */
-    public DocumentGenerateRequest getRequest() {
+    public DocumentSignRequest getRequest() {
         return request;
     }
 
     /**
-     * Multipart request part setter
-     * 
      * @param request
-     *            request part
+     *            the request to set
      */
-    public void setRequest(DocumentGenerateRequest request) {
+    public void setRequest(DocumentSignRequest request) {
         this.request = request;
     }
+
+    /**
+     * @return the document
+     */
+    public InputStream getDocument() {
+        return document;
+    }
+
+    /**
+     * @param document
+     *            the document to set
+     */
+    public void setDocument(InputStream document) {
+        this.document = document;
+    }
+
 }
