@@ -49,6 +49,11 @@ public interface IOpenapiConstants {
          * {@value #STORED_TEMPLATE}
          */
         String STORED_TEMPLATE = "Stored template operations";
+
+        /**
+         * {@value #DOCUMENT_SIGNING}
+         */
+        String DOCUMENT_SIGNING = "Document signing operations";
     }
 
     /**
@@ -73,5 +78,10 @@ public interface IOpenapiConstants {
          * {@value #STORED_TEMPLATE}
          */
         String STORED_TEMPLATE = "REST operations related to templates stored in the module.";
+
+        /**
+         * {@value #DOCUMENT_SIGNING}
+         */
+        String DOCUMENT_SIGNING = "Electronic signing of the received document.";
     }
 }

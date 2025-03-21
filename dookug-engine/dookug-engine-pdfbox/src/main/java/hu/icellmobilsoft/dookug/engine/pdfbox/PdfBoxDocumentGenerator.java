@@ -33,9 +33,9 @@ import com.openhtmltopdf.slf4j.Slf4jLogger;
 import com.openhtmltopdf.util.XRLog;
 
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 import hu.icellmobilsoft.dookug.common.cdi.DocumentGeneratorQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.constants.QualifierConstants;

@@ -24,8 +24,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
 import hu.icellmobilsoft.dookug.document.service.action.DocumentGenerateAction;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;

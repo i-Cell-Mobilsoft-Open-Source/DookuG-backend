@@ -34,7 +34,9 @@ import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 import org.eclipse.microprofile.health.Startup;
+import org.yaml.snakeyaml.util.EnumUtils;
 
+import eu.europa.esig.dss.enumerations.CertificationPermission;
 import hu.icellmobilsoft.coffee.se.logging.Logger;
 
 /**
@@ -46,8 +48,6 @@ import hu.icellmobilsoft.coffee.se.logging.Logger;
  */
 @ApplicationScoped
 public class ConfigurationHealthCheck {
-
-    private static final String OK = "OK";
 
     private static final String SIGNATURE_CONFIGURATION = "signatureConfiguration";
 
@@ -73,6 +73,9 @@ public class ConfigurationHealthCheck {
             if (StringUtils.endsWithIgnoreCase(propertyName, "signatureAlgorithm") && StringUtils.containsIgnoreCase(propertyName, "pdfBox")) {
                 builder = checkPdfBoxSignatureAlgorithm(builder, propertyName);
             }
+            if (StringUtils.endsWithIgnoreCase(propertyName, "certificatePermission") && StringUtils.containsIgnoreCase(propertyName, "dss")) {
+                builder = checkDssCertificatePermission(builder, propertyName);
+            }
         }
     }
 
@@ -89,6 +92,22 @@ public class ConfigurationHealthCheck {
             logger.error("Error occured while checking configuration.", e);
             return builder.withData("warning", e.getLocalizedMessage()).up().build();
         }
+    }
+
+    private HealthCheckResponseBuilder checkDssCertificatePermission(HealthCheckResponseBuilder builder, String propertyName) {
+        try {
+            if (propertyName == null) {
+                return builder;
+            }
+            String value = ConfigProvider.getConfig().getConfigValue(propertyName).getValue();
+            if (StringUtils.isBlank(value)) {
+                return builder;
+            }
+            EnumUtils.findEnumInsensitiveCase(CertificationPermission.class, value);
+        } catch (Exception e) {
+            builder = builder.withData(propertyName, "Invalid configuration value").down();
+        }
+        return builder;
     }
 
     private HealthCheckResponseBuilder checkPdfBoxSignatureAlgorithm(HealthCheckResponseBuilder builder, String propertyName) {
@@ -110,5 +129,4 @@ public class ConfigurationHealthCheck {
     public HealthCheck producePdfSignatureConfigStart() {
         return this::checkPdfSignatureConfiguration;
     }
-
 }

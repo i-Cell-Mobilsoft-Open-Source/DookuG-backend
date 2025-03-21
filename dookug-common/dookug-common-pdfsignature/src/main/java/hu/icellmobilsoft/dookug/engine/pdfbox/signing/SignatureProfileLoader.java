@@ -31,7 +31,9 @@ import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.util.EnumUtils;
 
+import eu.europa.esig.dss.enumerations.CertificationPermission;
 import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
@@ -182,6 +184,11 @@ public class SignatureProfileLoader {
         signatureProfile.setPdfBoxSignatureAlgorithm(
                 getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.PdfBox.SIGNATURE_ALGORITHM)
                         .orElse(ConfigKeys.PdfSignature.Default.PDFBOX_DEFAULT_SIGNATURE_ALGORITHM));
+        
+        String certificationPermission = getOptionalConfigurationValue(profileName, ConfigKeys.PdfSignature.DSS.CERTIFICATE_PERMISSION).orElse(null);
+        if (StringUtils.isNotBlank(certificationPermission)) {
+            signatureProfile.setCertificationPermission(EnumUtils.findEnumInsensitiveCase(CertificationPermission.class, certificationPermission));
+        }
 
         return signatureProfile;
     }
