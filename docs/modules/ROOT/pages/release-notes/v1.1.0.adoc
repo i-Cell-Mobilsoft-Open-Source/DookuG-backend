@@ -18,6 +18,7 @@
 * Local docker compose files are now available under `etc/docker-compose` directory.
 * Fixed HandlebarsTemplateCompiler warning on startup
 * EC keys can be used with non-DSS digital signing
+* CertificationPermission can be set in configuration. It's empty -not used- by default
 * new endpoint for PDF signing only
 
 == Migration
