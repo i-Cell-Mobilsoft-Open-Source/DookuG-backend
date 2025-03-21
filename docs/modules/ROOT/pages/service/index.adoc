@@ -6,11 +6,15 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 include::document.adoc[leveloffset=+2]
 
+ifdef::generatedDoc[]
+
 == OpenAPI Documentation
 
 Download OpenAPI Files:
 
 // Generated docs
 * dookug-rest-service
-** link:{attachmentsdir}/openapi/dookug-document-service/openapi.yaml[yaml]
-** link:{attachmentsdir}/openapi/dookug-document-service/openapi.json[json]
+** link:attachments/generated/openapi/dookug-document-service/openapi.yaml[yaml]
+** link:attachments/generated/openapi/dookug-document-service/openapi.json[json]
+
+endif::[]

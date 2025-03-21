@@ -26,10 +26,10 @@ jobs:
 
       - name: Copy generated docs
         run: |
-          mkdir docs/generated docs/generated/openapi docs/generated/images
-          mv dookug-document/dookug-document-service/target/openapi docs/generated/openapi/dookug-document-service
-          mv dookug-api/dookug-api-common/target/config_keys.adoc docs/generated/dookug-api-common-config.adoc
-          mv dookug-common/dookug-common-pdfsignature/target/config_keys.adoc docs/generated/dookug-common-pdfsignature-config.adoc
+          mkdir -p docs/modules/ROOT/attachments/generated/openapi
+          mv dookug-document/dookug-document-service/target/openapi docs/modules/ROOT/attachments/generated/openapi/dookug-document-service
+          mv dookug-api/dookug-api-common/target/config_keys.adoc docs/modules/ROOT/attachments/generated/dookug-api-common-config.adoc
+          mv dookug-common/dookug-common-pdfsignature/target/config_keys.adoc docs/modules/ROOT/attachments/generated/dookug-common-pdfsignature-config.adoc
 
       - name: set-release-version
         id: vars
@@ -45,7 +45,7 @@ jobs:
           pdf_build: true
           asciidoctor_params: --attribute release_version=${{steps.vars.outputs.POM_XML_PROJECT_VERSION}} --attribute=generatedDoc
           # adoc_file_ext: .ascii # default is .adoc
-          source_dir: docs/modules/ROOT/pages/ # default is .
+          source_dir: docs/modules/ROOT # default is .
           ebook_main_adoc_file: index
           # slides_build: true
           # pre_build:
