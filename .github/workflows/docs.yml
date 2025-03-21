@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - bugfix/139-doc-problems # temp test
 
 jobs:
   generate-and-deploy:
