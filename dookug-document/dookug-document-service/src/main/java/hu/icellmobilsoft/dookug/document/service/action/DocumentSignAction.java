@@ -64,7 +64,7 @@ public class DocumentSignAction extends BaseDocumentGenerateAction {
      * @throws BaseException
      *             if any error occurs
      */
-    public Response postSignDocument(DocumentSignMultipartForm form) throws BaseException {
+    public Response postSignDocumentMultipart(DocumentSignMultipartForm form) throws BaseException {
         if (form == null) {
             throw new InvalidParameterException("form is null!");
         }

@@ -31,19 +31,14 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
-import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
-import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.client.rest.jsonb.CustomJsonbContextResolver;
-import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 
 /**
  * REST client interface for template based document generation
@@ -59,7 +54,7 @@ public interface IDocumentSignInternalRest extends AutoCloseable {
     /**
      * Default entity log size
      */
-    int LOG_ENTITY_SIZE = 1000;
+    int LOG_ENTITY_SIZE = 300;
 
     /**
      * REST interface definition for electronic document signing
@@ -82,6 +77,6 @@ public interface IDocumentSignInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postSignDocument(@MultipartForm DocumentSignMultipartForm form) throws BaseException;
+    Response postSignDocumentMultipart(@MultipartForm DocumentSignMultipartForm form) throws BaseException;
 
 }

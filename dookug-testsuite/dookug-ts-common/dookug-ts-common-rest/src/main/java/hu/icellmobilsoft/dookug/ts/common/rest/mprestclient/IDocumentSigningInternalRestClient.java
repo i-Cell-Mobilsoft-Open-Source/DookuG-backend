@@ -23,7 +23,7 @@ import jakarta.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import hu.icellmobilsoft.dookug.api.rest.document.IDocumentSigningInternalRest;
+import hu.icellmobilsoft.dookug.api.rest.document.IDocumentSignInternalRest;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
 /**
@@ -34,6 +34,6 @@ import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
  */
 @RegisterRestClient
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_SIGN_INLINE)
-public interface IDocumentSigningInternalRestClient extends IDocumentSigningInternalRest {
+public interface IDocumentSigningInternalRestClient extends IDocumentSignInternalRest {
 
 }

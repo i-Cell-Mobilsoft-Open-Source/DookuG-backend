@@ -81,7 +81,7 @@ class PostDocumentSignMultipartIT extends AbstractGenerateDocumentIT {
         ByteArrayInputStream bis = new ByteArrayInputStream(
                 FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_DOCUMENT_TO_SIGN).getBytes());
         form.setDocument(bis);
-        Response response = client.postSignDocument(form);
+        Response response = client.postSignDocumentMultipart(form);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);

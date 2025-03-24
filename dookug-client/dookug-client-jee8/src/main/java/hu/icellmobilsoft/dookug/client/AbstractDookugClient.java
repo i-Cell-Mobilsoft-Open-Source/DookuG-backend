@@ -35,9 +35,11 @@ import hu.icellmobilsoft.coffee.dto.exception.BusinessException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentContentInternalRest;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentGenerateStoredTemplateInternalRest;
+import hu.icellmobilsoft.dookug.client.rest.IDocumentSignInternalRest;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentStoredTemplateInternalRest;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
@@ -75,6 +77,10 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
     @RestClient
     private IDocumentStoredTemplateInternalRest iDocumentStoredTemplateInternalRest;
 
+    @Inject
+    @RestClient
+    private IDocumentSignInternalRest iDocumentSignInternalRest;
+
     /**
      * The API call for postDocumentGenerateEntityBody
      * 
@@ -82,7 +88,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            request object
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         try {
@@ -107,7 +113,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            request object
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     protected GeneratedDocumentDto postDocumentGenerateMultipart(DocumentGenerateMultipartForm request) throws BaseException {
         try {
@@ -126,13 +132,36 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
     }
 
     /**
+     * The API call for postSignDocumentMultipart
+     * 
+     * @param request
+     *            request object
+     * @return {@link GeneratedDocumentDto} object with the response
+     * @throws BaseException
+     *             if any error occurs
+     */
+    protected GeneratedDocumentDto postSignDocumentMultipart(DocumentSignMultipartForm request) throws BaseException {
+        try {
+            Response serviceResponse = iDocumentSignInternalRest.postSignDocumentMultipart(request);
+
+            GeneratedDocumentDto response = new GeneratedDocumentDto();
+            response.setInputStream((InputStream) serviceResponse.getEntity());
+            response.setFileName(getResponseFileName(serviceResponse));
+            response.setHttpStatus(serviceResponse.getStatus());
+            return response;
+        } catch (ProcessingException e) {
+            throw newDookugClientException(e);
+        }
+    }
+
+    /**
      * The API call for postDocumentGenerateEntityBodyMetadata
      *
      * @param request
      *            request object
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     protected DocumentMetadataResponse postDocumentGenerateEntityBodyMetadata(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         try {
@@ -151,7 +180,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            request object
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     protected DocumentMetadataResponse postDocumentGenerateMultipartMetadata(DocumentGenerateMultipartForm request) throws BaseException {
         try {
@@ -169,7 +198,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            request object
      * @return {@link DocumentMetadataQueryResponse}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataQueryResponse postDocumentMetadataQuery(DocumentMetadataQueryRequest queryRequest) throws BaseException {
         if (queryRequest == null) {
@@ -200,7 +229,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,
@@ -231,7 +260,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            document identifier
      * @return {@link GeneratedDocumentDto}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto getDocumentContent(String documentId) throws BaseException {
         if (StringUtils.isBlank(documentId)) {
@@ -264,7 +293,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,

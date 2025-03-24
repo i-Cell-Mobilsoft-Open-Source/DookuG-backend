@@ -24,7 +24,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.IDocumentSigningInternalRest;
+import hu.icellmobilsoft.dookug.api.rest.document.IDocumentSignInternalRest;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
 import hu.icellmobilsoft.dookug.document.service.action.DocumentSignAction;
@@ -36,13 +36,13 @@ import hu.icellmobilsoft.dookug.document.service.action.DocumentSignAction;
  * @since 1.1.0
  */
 @Model
-public class DocumentSignInternalRest extends BaseRestService implements IDocumentSigningInternalRest {
+public class DocumentSignInternalRest extends BaseRestService implements IDocumentSignInternalRest {
 
     @Inject
     private DocumentSignAction documentSignAction;
 
     @Override
-    public Response postSignDocument(DocumentSignMultipartForm form) throws BaseException {
-        return wrapPathParam1(documentSignAction::postSignDocument, form, "postSignDocument", "form");
+    public Response postSignDocumentMultipart(DocumentSignMultipartForm form) throws BaseException {
+        return wrapPathParam1(documentSignAction::postSignDocumentMultipart, form, "postSignDocumentMultipart", "form");
     }
 }
