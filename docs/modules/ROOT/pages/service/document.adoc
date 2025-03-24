@@ -169,4 +169,4 @@ POST /internal/dookug/document/sign/inline/multipart
 
 The document received in the request is digitally signed and returned in the response. The request must include the file to be signed and the name of the signing profile. The signing process is performed synchronously based on the parameters configured in the module for the given profile. The file is not stored on the server at any point.
 
-In the response, we receive the signed document and the filename in the HTTP header.
+In the response, we receive the signed document and the filename in the HTTP header. The filename can be set in the request. 

@@ -29,6 +29,8 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
 
+import com.github.jknack.handlebars.internal.lang3.StringUtils;
+
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -47,7 +49,8 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.Document
 @Model
 public class DocumentSignAction extends BaseDocumentGenerateAction {
 
-    private static final String ATTACHMENT_FILENAME_SIGNED_DOCUMENT_PDF = "attachment; filename=\"signed-document.pdf\"";
+    private static final String ATTACHMENT_FILENAME = "attachment; filename=\"{0}\"";
+    private static final String DEFAULT_PDF_NAME = "signed-document.pdf";
 
     @Inject
     private SignatureGenerator signatureGenerator;
@@ -74,12 +77,18 @@ public class DocumentSignAction extends BaseDocumentGenerateAction {
             form.getDocument().transferTo(outputStream);
             // create signed pdf response
             StreamingOutput streamingOutput = createDocumentStreamingOutput(form.getRequest());
-            return Response.ok(streamingOutput).header("Content-Disposition", ATTACHMENT_FILENAME_SIGNED_DOCUMENT_PDF).build();
+            return Response.ok(streamingOutput)
+                    .header("Content-Disposition", getContentDispositionHeaderValue(form.getRequest().getFileName()))
+                    .build();
         } catch (IOException e) {
             throw new TechnicalException(
                     CoffeeFaultType.OPERATION_FAILED,
                     MessageFormat.format("Error occured while working with input stream: [{0}]", e.getLocalizedMessage()));
         }
+    }
+
+    private String getContentDispositionHeaderValue(String fileName) {
+        return MessageFormat.format(ATTACHMENT_FILENAME, StringUtils.isBlank(fileName) ? DEFAULT_PDF_NAME : fileName);
     }
 
     private StreamingOutput createDocumentStreamingOutput(DocumentSignRequest request) {

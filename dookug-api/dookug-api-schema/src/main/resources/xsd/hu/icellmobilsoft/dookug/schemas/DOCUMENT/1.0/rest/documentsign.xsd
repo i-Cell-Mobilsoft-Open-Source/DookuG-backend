@@ -26,6 +26,11 @@
                             <xsd:documentation>The signer profile configured within the module</xsd:documentation>
                         </xsd:annotation>
                     </xsd:element>
+                    <xsd:element name="fileName" type="coffeeCommon:SimpleText64NotBlankType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>The optional filename for the result stream</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
