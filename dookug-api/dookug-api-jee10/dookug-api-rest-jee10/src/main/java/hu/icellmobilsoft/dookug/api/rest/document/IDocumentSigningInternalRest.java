@@ -51,7 +51,7 @@ public interface IDocumentSigningInternalRest {
     /**
      * Default entity log size
      */
-    int LOG_ENTITY_SIZE = 1000;
+    int LOG_ENTITY_SIZE = 300;
 
     /**
      * REST interface definition for electronic document signing

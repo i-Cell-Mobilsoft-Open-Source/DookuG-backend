@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
@@ -27,13 +26,11 @@ import java.text.MessageFormat;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.StreamingOutput;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.api.dto.exception.IOExceptionBaseExceptionWrapper;
@@ -49,6 +46,8 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.Document
  */
 @Model
 public class DocumentSignAction extends BaseDocumentGenerateAction {
+
+    private static final String ATTACHMENT_FILENAME_SIGNED_DOCUMENT_PDF = "attachment; filename=\"signed-document.pdf\"";
 
     @Inject
     private SignatureGenerator signatureGenerator;
@@ -69,21 +68,18 @@ public class DocumentSignAction extends BaseDocumentGenerateAction {
         if (form.getRequest() == null || !form.getRequest().isSetDigitalSignatureProfile()) {
             throw new InvalidParameterException("Request part is invalid!");
         }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             OutputStream outputStream = signatureGenerator.getOutputStreamForUnsignedPdf();
-            // saving input stream to file
+            // saving input stream to a temporaly file
             form.getDocument().transferTo(outputStream);
             // create signed pdf response
             StreamingOutput streamingOutput = createDocumentStreamingOutput(form.getRequest());
-            streamingOutput.write(baos);
+            return Response.ok(streamingOutput).header("Content-Disposition", ATTACHMENT_FILENAME_SIGNED_DOCUMENT_PDF).build();
         } catch (IOException e) {
             throw new TechnicalException(
                     CoffeeFaultType.OPERATION_FAILED,
                     MessageFormat.format("Error occured while working with input stream: [{0}]", e.getLocalizedMessage()));
         }
-
-        return ResponseUtil.getFileResponse(baos.toByteArray(), "signed-document.pdf", MediaType.APPLICATION_OCTET_STREAM);
     }
 
     private StreamingOutput createDocumentStreamingOutput(DocumentSignRequest request) {
