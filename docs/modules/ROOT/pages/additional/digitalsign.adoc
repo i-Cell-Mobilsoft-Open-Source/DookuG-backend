@@ -108,7 +108,7 @@ dookug:
 <11> for PAdES BASELINE LTA
 <12> encryption algorithm used for private key (for example: RSA, ECDSA)
 <13> digest algorithm used for private key
-<14> certification permission can be set optionally. The values can be: NO_CHANGE_PERMITTED | MINIMAL_CHANGES_PERMITTED | MINIMAL_CHANGES_PERMITTED 
+<14> certification permission can be set optionally. The values can be: NO_CHANGE_PERMITTED | MINIMAL_CHANGES_PERMITTED | CHANGES_PERMITTED 
 
 The available configuration keys can be found <<pdfSignatureConfiguration,here>>.
 
