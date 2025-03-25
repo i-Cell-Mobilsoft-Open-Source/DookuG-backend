@@ -22,6 +22,8 @@ package hu.icellmobilsoft.dookug.engine.pdfbox.signing.types;
 import java.util.List;
 import java.util.Optional;
 
+import eu.europa.esig.dss.enumerations.CertificationPermission;
+
 /**
  * SignatureProfile DTO
  * 
@@ -62,6 +64,7 @@ public class SignatureProfileDto {
     private String digestAlgorithm;
     private String encryptionAlgorithm;
     private String pdfBoxSignatureAlgorithm;
+    private CertificationPermission certificationPermission;
 
     /**
      * constructor
@@ -486,7 +489,8 @@ public class SignatureProfileDto {
     }
 
     /**
-     * @param encryptionAlgorithm the encryptionAlgorithm to set
+     * @param encryptionAlgorithm
+     *            the encryptionAlgorithm to set
      */
     public void setEncryptionAlgorithm(String encryptionAlgorithm) {
         this.encryptionAlgorithm = encryptionAlgorithm;
@@ -500,7 +504,8 @@ public class SignatureProfileDto {
     }
 
     /**
-     * @param digestAlgorithm the digestAlgorithm to set
+     * @param digestAlgorithm
+     *            the digestAlgorithm to set
      */
     public void setDigestAlgorithm(String digestAlgorithm) {
         this.digestAlgorithm = digestAlgorithm;
@@ -514,10 +519,25 @@ public class SignatureProfileDto {
     }
 
     /**
-     * @param pdfBoxSignatureAlgorithm the pdfBoxSignatureAlgorithm to set
+     * @param pdfBoxSignatureAlgorithm
+     *            the pdfBoxSignatureAlgorithm to set
      */
     public void setPdfBoxSignatureAlgorithm(String pdfBoxSignatureAlgorithm) {
         this.pdfBoxSignatureAlgorithm = pdfBoxSignatureAlgorithm;
+    }
+
+    /**
+     * @return the certificationPermission
+     */
+    public CertificationPermission getCertificationPermission() {
+        return certificationPermission;
+    }
+
+    /**
+     * @param certificationPermission the certificationPermission to set
+     */
+    public void setCertificationPermission(CertificationPermission certificationPermission) {
+        this.certificationPermission = certificationPermission;
     }
 
 }

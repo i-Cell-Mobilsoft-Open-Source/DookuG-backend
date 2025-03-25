@@ -17,16 +17,20 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.ts.document.rest.generate;
+package hu.icellmobilsoft.dookug.ts.document.rest.sign;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -35,54 +39,61 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
-import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
-import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateRequestBuilder;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.DocumentSignRequest;
+import hu.icellmobilsoft.dookug.ts.common.builder.DocumentSignRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
-import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateInlineInternalRestClient;
+import hu.icellmobilsoft.dookug.ts.common.rest.DtoHelper;
+import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentSigningInternalRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentGenerateInlineInternalRest#postDocumentGenerateMultipart(DocumentGenerateMultipartForm)} test
+ * {@link IDocumentSignInternalRest#postSignDocument(DocumentSignMultipartForm)} test
  *
- * @author szabolcs.gemesi
- * @since 0.0.1
+ * @author tamas.cserhati
+ * @since 1.1.0
  */
 @Tag(TestSuiteGroup.JAXRS)
-@DisplayName("Generate document with non-stored template multipart form request - multipart request")
-class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
+@DisplayName("Sign document - multipart request")
+class PostDocumentSignMultipartIT extends AbstractGenerateDocumentIT {
 
     @Inject
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)
     private String documentBaseUri;
 
     @Inject
-    private DocumentGenerateRequestBuilder generateRequestBuilder;
+    private DocumentSignRequestBuilder signRequestBuilder;
 
     @Test
-    @DisplayName("Generate PDF document with non-stored template multipart form request")
+    @DisplayName("Sign PDF document multipart form request")
     void testDocumentGenerateNonStoredTemplateMultipart() throws BaseException, IOException {
-        IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
+        IDocumentSigningInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
-                .build(IDocumentGenerateInlineInternalRestClient.class);
-        DocumentGenerateRequest request = generateRequestBuilder.fullFillHandlebarsPdfBoxDatabase();
-        request.getGeneratorSetup()
-                .setParametersData(
-                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
-        DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
+                .build(IDocumentSigningInternalRestClient.class);
+        DocumentSignRequest request = (DocumentSignRequest) signRequestBuilder.createEmpty()
+                .withDigitalSignatureProfile("sampleProfile")
+                .withContext(DtoHelper.createContext());
+        DocumentSignMultipartForm form = new DocumentSignMultipartForm();
         form.setRequest(request);
-        ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
-        form.setTemplate(bis);
-        Response response = client.postDocumentGenerateMultipart(form);
+        ByteArrayInputStream bis = new ByteArrayInputStream(
+                FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_DOCUMENT_TO_SIGN).getBytes());
+        form.setDocument(bis);
+        Response response = client.postSignDocumentMultipart(form);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);
         Assertions.assertTrue(filename.contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), filename);
+        
+        try (PDDocument document = PDDocument.load(new File(filename))) {
+            List<PDSignature> signatures = document.getSignatureDictionaries();
+            Assertions.assertFalse(signatures.isEmpty());
+            System.out.println(signatures.get(0).getName());
+        }
+        
         response.close();
     }
 }

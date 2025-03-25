@@ -1,3 +1,4 @@
+[[pdf-digital-signature]]
 = Digitally Signing PDFs
 
 This documentation is intended for the https://pdfbox.apache.org/[Apache PDFBox] engine and describes the process of digitally signing PDFs using a self-signed certificate, which is added to the image as `/home/icellmobilsoft/keys/keystore.p12` using the docker-compose file.
@@ -92,6 +93,7 @@ dookug:
               useLTA: false <11>
               encryptionAlgorithm: RSA <12>
               digestAlgorithm: SHA-256 <13>
+              certificationPermission: NO_CHANGE_PERMITTED <14>
 ----
 <1> the keystore file
 <2> use the EU DSS library to sign the document
@@ -106,6 +108,7 @@ dookug:
 <11> for PAdES BASELINE LTA
 <12> encryption algorithm used for private key (for example: RSA, ECDSA)
 <13> digest algorithm used for private key
+<14> certification permission can be set optionally. The values can be: NO_CHANGE_PERMITTED | MINIMAL_CHANGES_PERMITTED | CHANGES_PERMITTED 
 
 The available configuration keys can be found <<pdfSignatureConfiguration,here>>.
 
@@ -119,6 +122,11 @@ PAdES BASELINE T: tspSources must be set
 PAdES BASELINE LT: tspSources must be set and useLT=true
 
 PAdES BASELINE LTA: tspSources must be set and useLTA=true
+
+[IMPORTANT]
+====
+If we set the certificationPermission, the PDF document will be certified and not signed in Adobe Acrobat Reader! 
+====
 
 == Simple signature (using the PdfBox ESIGN library)
 

@@ -191,6 +191,11 @@ public interface ConfigKeys {
              * URL list for getting trusted certificates {@value #TRUSTED_CERTIFICATES}
              */
             String TRUSTED_CERTIFICATES = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "trustedCertificates";
+
+            /**
+             * The certificate permission (Pdf will be either 'certificated' or - without this - 'signed') {@value #CERTIFICATE_PERMISSION}
+             */
+            String CERTIFICATE_PERMISSION = DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_PROFILE_0_DSS + "certificatePermission";
         }
 
         /**

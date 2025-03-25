@@ -29,7 +29,8 @@ import javax.enterprise.context.Dependent;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
-import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
@@ -42,6 +43,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Inli
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateStorageMethodType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateType;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.DocumentSignRequest;
 
 /**
  * Client for handling DookuG Service methods
@@ -61,7 +63,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters)
             throws BaseException {
@@ -81,7 +83,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData)
             throws BaseException {
@@ -99,7 +101,7 @@ public class DookugClient extends AbstractDookugClient {
      *            template list used for generation
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates) throws BaseException {
         DocumentGenerateWithTemplatesRequest request = new DocumentGenerateWithTemplatesRequest()
@@ -118,7 +120,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateEntityBodyMetadata(Collection<TemplateType> templates, Collection<ParameterType> parameters)
             throws BaseException {
@@ -138,7 +140,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateEntityBodyMetadata(Collection<TemplateType> templates, ParametersDataType parametersData)
             throws BaseException {
@@ -156,7 +158,7 @@ public class DookugClient extends AbstractDookugClient {
      *            template list used for generation
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateEntityBodyMetadata(Collection<TemplateType> templates) throws BaseException {
         DocumentGenerateWithTemplatesRequest request = new DocumentGenerateWithTemplatesRequest()
@@ -173,7 +175,7 @@ public class DookugClient extends AbstractDookugClient {
      *            {@link DocumentMetadataQueryParamsType}
      * @return {@link DocumentMetadataQueryResponse}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataQueryResponse postDocumentMetadataQuery(DocumentMetadataQueryParamsType queryParams) throws BaseException {
         DocumentMetadataQueryRequest request = new DocumentMetadataQueryRequest().withQueryParams(queryParams);
@@ -190,7 +192,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
@@ -210,7 +212,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link GeneratedDocumentDto} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateMultipartMetadata(InputStream template, Collection<ParameterType> parameters)
             throws BaseException {
@@ -231,7 +233,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
@@ -251,7 +253,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateMultipartMetadata(InputStream template, ParametersDataType parametersData)
             throws BaseException {
@@ -270,7 +272,7 @@ public class DookugClient extends AbstractDookugClient {
      *            template stream used for generation
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
@@ -288,7 +290,7 @@ public class DookugClient extends AbstractDookugClient {
      *            template stream used for generation
      * @return {@link DocumentMetadataResponse} object with the document's metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateMultipartMetadata(InputStream template) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
@@ -323,7 +325,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException {
@@ -350,7 +352,7 @@ public class DookugClient extends AbstractDookugClient {
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException {
@@ -375,7 +377,7 @@ public class DookugClient extends AbstractDookugClient {
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             ParametersDataType parametersData) throws BaseException {
@@ -402,7 +404,7 @@ public class DookugClient extends AbstractDookugClient {
      *            parameter list used by generation
      * @return {@link DocumentMetadataResponse}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException {
@@ -429,7 +431,7 @@ public class DookugClient extends AbstractDookugClient {
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @return {@link DocumentMetadataResponse} object with the response
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDatabaseStoredTemplateDocumentGenerateMetadata(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException {
@@ -440,5 +442,27 @@ public class DookugClient extends AbstractDookugClient {
                 TemplateStorageMethodType.DATABASE,
                 null,
                 parametersData);
+    }
+
+    /**
+     * Adding electronic signature to the PDF document
+     *
+     * @param document
+     *            The PDF document to sign
+     * @param profileName
+     *            The profile name for the configured digital signature
+     * @param fileName
+     *            optional. The fileName for the result stream
+     * @return {@link GeneratedDocumentDto} object with the response
+     * @throws BaseException
+     *             if any error occurs
+     */
+    public GeneratedDocumentDto postSignPdfDocument(InputStream document, String profileName, String fileName) throws BaseException {
+        DocumentSignMultipartForm form = new DocumentSignMultipartForm();
+        DocumentSignRequest request = new DocumentSignRequest().withDigitalSignatureProfile(profileName).withFileName(fileName);
+        request.setContext(createContext());
+        form.setRequest(request);
+        form.setDocument(document);
+        return postSignDocumentMultipart(form);
     }
 }

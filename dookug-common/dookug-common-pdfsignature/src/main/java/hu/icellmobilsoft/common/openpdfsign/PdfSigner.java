@@ -45,8 +45,10 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
 import org.bouncycastle.asn1.x500.style.IETFUtils;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import eu.europa.esig.dss.alert.LogOnStatusAlert;
+import eu.europa.esig.dss.enumerations.CertificationPermission;
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.EncryptionAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -242,7 +244,9 @@ public class PdfSigner {
                 signatureParameters.setSignatureLevel(SignatureLevel.PAdES_BASELINE_LTA);
                 signatureParameters.setContentSize((SignatureOptions.DEFAULT_SIGNATURE_SIZE * 2));
             }
-            // signatureParameters.setPermission(CertificationPermission.NO_CHANGE_PERMITTED);
+            if (profile.getCertificationPermission() != null) {
+                signatureParameters.setPermission(profile.getCertificationPermission());
+            }
 
             // Create common certificate verifier
             CommonCertificateVerifier commonCertificateVerifier = new CommonCertificateVerifier();
