@@ -15,11 +15,11 @@ ifdef::generatedDoc[]
 
 == DOOKUG-DOCUMENT service
 
-include::../generated/dookug-api-common-config.adoc[leveloffset=+1]
+include::../../attachments/generated/dookug-api-common-config.adoc[leveloffset=+1]
 
 [[pdfSignatureConfiguration]]
 == Pdf Signature configuration
 
-include::../generated/dookug-pdf-signature-config.adoc[leveloffset=+1]
+include::../../attachments/generated/dookug-common-pdfsignature-config.adoc[leveloffset=+1]
 
 endif::[]

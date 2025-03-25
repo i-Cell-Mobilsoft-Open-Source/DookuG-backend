@@ -1,0 +1,20 @@
+
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+:source-highlighter: rouge
+:rouge-style: thankful_eyes
+:icons: font
+:table-stripes: even
+ifndef::imagesdir[:imagesdir: ./images]
+
+= DookuG Module Documentation
+
+include::pages/general/index.adoc[]
+include::pages/service/index.adoc[]
+include::pages/client/index.adoc[]
+include::pages/config/index.adoc[]
+include::pages/install/index.adoc[]
+include::pages/additional/index.adoc[]
+include::pages/release-notes/index.adoc[]
