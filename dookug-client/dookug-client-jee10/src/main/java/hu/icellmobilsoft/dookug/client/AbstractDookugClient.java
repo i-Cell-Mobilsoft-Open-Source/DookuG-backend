@@ -34,7 +34,7 @@ import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
-import hu.icellmobilsoft.dookug.api.rest.document.DocumentGenerateMultipartForm;
+import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentContentInternalRest;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.client.rest.IDocumentGenerateStoredTemplateInternalRest;

@@ -16,43 +16,6 @@ During generation, we submit the initial template and the data associated with t
 
 Sample document generation request - JSON parameters in base64binary form (trimmed for readability):
 
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/inline
-Headers:		Accept=application/json
-				Content-Type=application/json
-----
-
-[source,json]
-----
-{
-  "context": {
-    "requestId": "431AZYLPPS6LJE01",
-    "timestamp": "2023-02-22T09:12:23.533Z"
-  },
-  "generatorSetup": {
-    "generatorEngine": "PDF_BOX",
-    "templateEngine": "HANDLEBARS",
-    "parametersData": "ewogICAgIklOU1RJVFVURV9OQU1FIjogIlNpw7Nmb2tpIGvDs3Jow...",
-    "responseFormat": "PDF",
-    "documentStorageMethod": "DATABASE"
-  },
-  "templates": [
-    {
-      "templateName": "main_template",
-      "templateContent": "PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KCjxzdHls...",
-      "initial": true
-    },
-    {
-      "templateName": "head_template",
-      "templateContent": "PHRhYmxlIHN0eWxlPSJoZWlnaHQ6IDE2MXB4OyB3aWR0aDog...",
-      "initial": false
-    }
-  ]
-}
-----
-
 In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMetadata]]
@@ -64,14 +27,6 @@ POST /internal/dookug/document/generate/inline/metadata
 ----
 
 There's an option to receive metadata describing the document instead of the document itself. In this case, the request URI and HTTP header differ when submitting the request.
-
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/metadata
-Headers:		Accept=application/json
-				Content-Type=application/json
-----
 
 [[generateInlineMultipart]]
 == Document generation based on multipart form
@@ -85,35 +40,6 @@ To generate, we need to submit the initial template and the data associated with
 
 Sample document generation multipart form request with key-value parameters:
 
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/multipart
-Headers:		Accept=application/octet-stream
-				Content-Type=multipart/form-data
-
-Content-Disposition: form-data; name="REQUEST"
-Content-Type: application/json
-{
-    "context": {
-      "requestId": "42ZZBR3LKJZ9IT0X",
-      "timestamp": "2023-02-21T12:57:52.113Z"
-    },
-    "generatorSetup": {
-      "generatorEngine": "PDF_BOX",
-      "templateEngine": "HANDLEBARS",
-      "parameters":[{"key":"first","value":"első"},{"key":"second","value":"í123456789öüóőúűáé-.,<>#&@{};*¤ß$"}],
-      "responseFormat": "PDF",
-      "documentStorageMethod": "DATABASE"
-    }
-}
---2b17c723-ec5b-4c99-8dcf-c6d8972c4564
-Content-Disposition: form-data; name="TEMPLATE"
-Content-Type: application/octet-stream
-
-DookuG simple test with prameters first: [{{first}}], second: [{{second}}]
-----
-
 In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMultipartMetadata]]
@@ -126,14 +52,6 @@ POST /internal/dookug/document/generate/inline/multipart/metadata
 
 There's also an option to receive metadata describing the document instead of the document itself. In this case, the request URI and HTTP header differ when submitting the request.
 
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/inline/multipart/metadata
-Headers:		Accept=application/json
-				Content-Type=multipart/form-data
-----
-
 [[generateStored]]
 == Document generation based on stored template
 
@@ -145,37 +63,6 @@ POST /internal/dookug/document/generate/storedTemplate
 To generate, we need to submit the name of the template from which the document is generated, along with the data associated with the generation. The latter matches the data sent for document generation based on the request body, supplemented with how the template is stored.
 
 Sample document generation based on stored template request - JSON parameters in base64binary form (trimmed for readability):
-
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/storedTemplate
-Headers:		Accept=application/json
-				Content-Type=application/json
-----
-
-[source,json]
-----
-{
-  "context": {
-    "requestId": "431BIFEOUJ0ODU01",
-    "timestamp": "2023-02-22T09:26:45.121Z"
-  },
-  "generatorSetup": {
-    "templateStorageMethod": "DATABASE",
-    "template": {
-      "templateName": "DEV_TEMPLATE_HANDLEBARS",
-      "templateLanguage": "HU",
-      "validityDate": "2023-02-22T09:26:45.130074Z"
-    },
-    "generatorEngine": "PDF_BOX",
-    "templateEngine": "HANDLEBARS",
-    "parametersData": "ewogICJ0aXRsZSI6ICJwZWxkYSBjaW0iLAogICJjdXJyZW50WWV...",
-    "responseFormat": "PDF",
-    "documentStorageMethod": "DATABASE"
-  }
-}
-----
 
 In the response, we receive the generated document and the filename in the HTTP header.
 
@@ -191,14 +78,6 @@ There's an option to receive metadata describing the document instead of the doc
 
 The template key stored in the database consists of the templateName and templateLanguage values.
 
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/generate/storedTemplate/metadata
-Headers:		Accept=application/json
-				Content-Type=application/json
-----
-
 '''
 
 Saving the document depends on the `documentStorageMethod` parameter. It can take two values: `NONE` and `DATABASE`. If `NONE` is specified, the document is not saved, and therefore cannot be queried later. In case of `DATABASE`, the generated document is saved in a database table, from where it can be retrieved later. Other data related to the document are also saved in the database:
@@ -213,26 +92,6 @@ Saving the document depends on the `documentStorageMethod` parameter. It can tak
 '''
 
 During generation, the initial template is provided in any form of the response, the generated file is received, or metadata describing the document is received, as a DocumentMetadataResponse type object.
-
-Sample DocumentMetadataResponse:
-
-[source,json]
-----
-{
-    "context": {
-      "requestId": "42ZZBQ5K7W43FI6W",
-      "timestamp": "2023-02-21T12:57:50.888Z"
-    },
-    "funcCode": "OK",
-    "metadata": {
-      "documentId": "42ZZBQ3ISCXWVO6V",
-      "storageMethod": "DATABASE",
-      "filename": "filename.pdf",
-      "format": "PDF",
-      "status" : "DONE"
-    }
-}
-----
 
 [[queryDocumentMetadata]]
 == Query Document Metadata
@@ -270,58 +129,9 @@ In addition to the mentioned sorting options, there is a default sorting by docu
 
 Sample DocumentMetadataQueryRequest:
 
-[source,http request]
-----
-Request method:	POST
-Request URI:	http://localhost:8082/internal/dookug/document/storedTemplate/metadata/query
-Headers:		Accept=application/json
-				Content-Type=application/json; charset=UTF-8
-----
-
-[source,json]
-----
-{
-    "context": {
-      "requestId": "43183LDKQNC2R702",
-      "timestamp": "2023-02-22T09:15:14.168Z"
-    },
-    "paginationParams": {
-      "rows": 10,
-      "page": 1
-    },
-    "queryParams": {
-      "status": "DONE",
-      "storageMethod": "DATABASE",
-      "filename": "filename.pdf",
-      "format": "PDF",
-      "templateId" : "MAIN_TEMPLATE"
-    }
-}
-----
-
 If documents are found based on the submitted parameters, the response returns a list of up to 100 elements.
 
 Sample DocumentMetadataQueryResponse:
-
-[source,json]
-----
-{
-    "context": {
-      "requestId": "43183LDKQNC2R702",
-      "timestamp": "2023-02-22T09:15:14.168Z"
-    },
-    "funcCode": "OK",
-    "rowList": [
-      {
-        "documentId": "43183KXXW2KCI206",
-        "storageMethod": "DATABASE",
-        "filename": "filename.pdf",
-        "format": "PDF",
-        "status" : "DONE"
-      }
-    ]
-}
-----
 
 [[getDocument]]
 == Get Document
@@ -347,3 +157,16 @@ Headers:		Content-Type=application/octet-stream
 If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 
 In the response - for an existing document identifier - the generated document is returned, and the file name is included in the HTTP headers.
+
+
+[[signPdfDocument]]
+== Electronic document signing (PDF) 
+
+[source,text]
+----
+POST /internal/dookug/document/sign/inline/multipart
+----
+
+The document received in the request is digitally signed and returned in the response. The request must include the file to be signed and the name of the signing profile. The signing process is performed synchronously based on the parameters configured in the module for the given profile. The file is not stored on the server at any point.
+
+In the response, we receive the signed document and the filename in the HTTP header. The filename can be set in the request. 

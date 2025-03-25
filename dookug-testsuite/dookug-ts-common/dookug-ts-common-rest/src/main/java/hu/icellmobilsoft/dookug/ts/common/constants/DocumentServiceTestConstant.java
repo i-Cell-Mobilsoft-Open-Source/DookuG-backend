@@ -47,6 +47,11 @@ public interface DocumentServiceTestConstant {
     String PDF_BOX_TEMPLATE_PARAMETERS = "pdfbox/pdfbox_template_parameters.json";
 
     /**
+     * {@value #PDF_DOCUMENT_TO_SIGN}
+     */
+    String PDF_DOCUMENT_TO_SIGN = "sign/document_to_sign.pdf";
+
+    /**
      * {@value #EXPECTED_500}
      */
     String EXPECTED_500 = "HTTP 500 státusznak kell lennie!";

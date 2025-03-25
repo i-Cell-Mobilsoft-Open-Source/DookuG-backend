@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign"
+            xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+            xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+            xmlns:apiRestCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"
+            targetNamespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"/>
+    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common"/>
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"/>
+
+    <!-- SIMPLE TYPES -->
+
+    <xsd:complexType name="DocumentSignRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Document sign request type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="digitalSignatureProfile" type="coffeeCommon:SimpleText64NotBlankType">
+                        <xsd:annotation>
+                            <xsd:documentation>The signer profile configured within the module</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="fileName" type="coffeeCommon:SimpleText64NotBlankType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>The optional filename for the result stream</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- REQUEST/RESPONSE ELEMENTS -->
+    <xsd:element name="DocumentSignRequest"> 
+        <xsd:annotation>
+            <xsd:documentation>Document sign request</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="DocumentSignRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
