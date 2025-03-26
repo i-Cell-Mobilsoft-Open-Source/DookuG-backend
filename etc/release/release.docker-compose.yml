@@ -1,7 +1,7 @@
 services:
   dookug-rest-service-oracle-release:
     build:
-      context: ../..
+      context: .
       dockerfile: dookug-release.Dockerfile
       args:
         WILDFLY_BASE_IMAGE: 'icellmobilsoft/wildfly-mp-jpa-oracle-jdbc:${WILDFLY_IMAGE_VERSION}'
@@ -20,7 +20,7 @@ services:
     image: "$DOCKER_SERVICE_DOOKUG_DOCUMENT_ORACLE:$RELEASED_VERSION"
   dookug-rest-service-postgres-release:
     build:
-      context: ../..
+      context: .
       dockerfile: dookug-release.Dockerfile
       args:
         WILDFLY_BASE_IMAGE: 'icellmobilsoft/wildfly-mp-jpa-postgresql-jdbc:${WILDFLY_IMAGE_VERSION}'
