@@ -39,8 +39,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.junit.jupiter.api.Assertions;
 
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
@@ -97,10 +98,11 @@ public abstract class AbstractGenerateDocumentIT extends BaseIT {
      *            the input stream
      * @param filename
      *            the file name
+     * @return the optional path of the file written to disk or null
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
-    protected void writeFileIfEnabled(InputStream inputStream, String filename) throws BaseException {
+    protected Optional<String> writeFileIfEnabled(InputStream inputStream, String filename) throws BaseException {
         try {
             inputStream.transferTo(resultContent);
             if (isWriteDocumentEnabled()) {
@@ -108,9 +110,11 @@ public abstract class AbstractGenerateDocumentIT extends BaseIT {
                 File generatedFile = new File(path);
 
                 FileUtils.copyInputStreamToFile(new ByteArrayInputStream(resultContent.toByteArray()), generatedFile);
+                return Optional.of(path);
             }
+            return Optional.empty();
         } catch (IOException e) {
-            throw new TechnicalException(e.getLocalizedMessage());
+            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, e.getLocalizedMessage());
         }
     }
 
