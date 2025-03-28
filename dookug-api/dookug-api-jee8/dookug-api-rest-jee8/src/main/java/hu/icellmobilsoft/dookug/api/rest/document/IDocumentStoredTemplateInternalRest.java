@@ -26,6 +26,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.ParameterIn;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import hu.icellmobilsoft.coffee.dto.exception.BaseException;
@@ -35,6 +38,8 @@ import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataQueryResponse;
+
+import static org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRING;
 
 /**
  * REST endpoint for stored template operations
@@ -55,10 +60,11 @@ public interface IDocumentStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Return template metadata stored based on specified filtering criteria.",
-            description = "Collect and return the metadata of the stored templates in a scrollable list based on the filtering, sorting "
-                    + "and paging parameters specified in the request body.")
+    @Operation(summary = "Retrieve stored template metadata based on specified filtering criteria.",
+            description = "Collects and returns the metadata of generated and stored documents in a paginated list based on the filtering, sorting, and pagination parameters provided in the request body.")
     @POST
+    @Parameter(in = ParameterIn.HEADER, name = "test", description = "test",
+            schema = @Schema(type = STRING, example = "4JI15FK8DL2JB2QS"))
     @Path(DocumentGeneratePath.METADATA_QUERY)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })

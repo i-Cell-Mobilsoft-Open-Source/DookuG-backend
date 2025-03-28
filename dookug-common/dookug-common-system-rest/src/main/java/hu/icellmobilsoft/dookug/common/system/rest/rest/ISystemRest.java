@@ -64,9 +64,13 @@ public interface ISystemRest {
      *             if an error occurs
      */
     @GET
-    @Operation(summary = "Belső állapotok törlése",
-            description = "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. "
-                    + "Az ismert keret szintű szolgáltatásoknál explicit hívja meg az ürítés funkcíót")
+    @Operation(summary = "Clearing internal states",
+            description = """
+                    Iterates through implementations of the hu.icellmobilsoft.dookug.common.core.evictable.Evictable interface. \
+                    Explicitly invokes the eviction function for known framework-level services.
+
+                    Should be used when a template's content is updated, you can clear the template cache by calling \
+                    the /system/evict endpoint. This ensures that the system will use the updated content.""")
     @Path(DocumentGeneratePath.SYSTEM_EVICT)
     @Produces(value = { MediaType.TEXT_XML, MediaType.APPLICATION_XML })
     EvictResponse getEvict() throws BaseException;
