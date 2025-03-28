@@ -93,7 +93,7 @@ class PostDocumentSignMultipartIT extends AbstractGenerateDocumentIT {
             try (PDDocument document = PDDocument.load(new File(filePathOpt.get()))) {
                 List<PDSignature> signatures = document.getSignatureDictionaries();
                 Assertions.assertFalse(signatures.isEmpty());
-                System.out.println(signatures.get(0).getName());
+                System.out.println(signatures.getFirst().getName());
             }
         }
 
