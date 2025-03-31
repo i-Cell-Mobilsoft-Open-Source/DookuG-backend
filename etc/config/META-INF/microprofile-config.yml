@@ -63,3 +63,4 @@ org.xml.sax.parser: com.sun.org.apache.xerces.internal.parsers.SAXParser
 javax.xml.parsers.DocumentBuilderFactory: com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl
 javax.xml.parsers.SAXParserFactory: com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl
 entityExpansionLimit: 100
+mp.openapi.filter: hu.icellmobilsoft.dookug.common.system.rest.openapi.OpenAPIFilter
