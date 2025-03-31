@@ -14,8 +14,6 @@ POST /internal/dookug/document/generate/inline
 
 During generation, we submit the initial template and the data associated with the generation in the request body: template and engine processing the document, response format, and document storage method.
 
-Sample document generation request - JSON parameters in base64binary form (trimmed for readability):
-
 In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMetadata]]
@@ -38,8 +36,6 @@ POST /internal/dookug/document/generate/inline/multipart
 
 To generate, we need to submit the initial template and the data associated with the generation. The latter matches the data sent for document generation based on the request body.
 
-Sample document generation multipart form request with key-value parameters:
-
 In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMultipartMetadata]]
@@ -61,8 +57,6 @@ POST /internal/dookug/document/generate/storedTemplate
 ----
 
 To generate, we need to submit the name of the template from which the document is generated, along with the data associated with the generation. The latter matches the data sent for document generation based on the request body, supplemented with how the template is stored.
-
-Sample document generation based on stored template request - JSON parameters in base64binary form (trimmed for readability):
 
 In the response, we receive the generated document and the filename in the HTTP header.
 
@@ -127,11 +121,7 @@ Sorting parameters can be:
 For sorting, you can specify whether to sort in ascending or descending order for each parameter individually.
 In addition to the mentioned sorting options, there is a default sorting by document identifier.
 
-Sample DocumentMetadataQueryRequest:
-
 If documents are found based on the submitted parameters, the response returns a list of up to 100 elements.
-
-Sample DocumentMetadataQueryResponse:
 
 [[getDocument]]
 == Get Document
@@ -142,17 +132,6 @@ GET /internal/dookug/document/content/{documentId}
 ----
 
 The purpose of this endpoint is to retrieve a previously generated and saved document based on the provided identifier.
-
-Sample document retrieval request:
-
-[source]
-----
-Request method:	GET
-Request URI:	http://localhost:8082/internal/dookug/document/content/43183KXXW2KCI206 <1>
-Headers:		Content-Type=application/octet-stream
-----
-
-<1> Identifier of the generated document
 
 If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 
