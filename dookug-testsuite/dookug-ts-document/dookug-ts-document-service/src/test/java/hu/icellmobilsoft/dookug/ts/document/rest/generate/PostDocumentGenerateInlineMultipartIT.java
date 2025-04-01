@@ -23,9 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -89,48 +86,5 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
         Assertions.assertTrue(filename.contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), filename);
         response.close();
-    }
-    
-    public static void main(String[] args) throws Exception {
-        PostDocumentGenerateInlineMultipartIT a = new PostDocumentGenerateInlineMultipartIT();
-        Calendar c = Calendar.getInstance();
-        //c.set(2025, 02, 28, 0, 0, 0);
-        //c.clear(Calendar.MILLISECOND);
-        long s = a.getNextBankingDay(c);
-        java.util.Date d2 = new Date();
-        d2.setTime(s);
-        System.out.println(d2);
-        
-    }
-    
-    public long getNextBankingDay(Calendar date) throws hu.icellmobilsoft.coffee.se.api.exception.TechnicalException {
-        boolean ok = false;
-        Calendar cal = (Calendar) date.clone();
-        
-        // Normalize time to midnight
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        
-        java.sql.Date d = java.sql.Date.valueOf("2025-03-31");
-        List<Long> nonWorkingDays = List.of(d.getTime());
-        while (!ok) {
-            cal.add(Calendar.DAY_OF_MONTH, 1);
-            if (!isWeekend(cal) && !nonWorkingDays.contains(cal.getTimeInMillis())) {
-                ok = true;
-            }
-        }
-
-        return cal.getTimeInMillis();
-    }
-    
-
-    public boolean isWeekend(Calendar date) {
-        int day = date.get(Calendar.DAY_OF_WEEK);
-        if (Calendar.SATURDAY == day || Calendar.SUNDAY == day) {
-            return true;
-        }
-        return false;
     }
 }
