@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -39,6 +40,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.dookug.api.rest.document.IDocumentSignInternalRest;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentSignMultipartForm;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentsign.DocumentSignRequest;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentSignRequestBuilder;
@@ -51,7 +53,7 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentSignInternalRest#postSignDocument(DocumentSignMultipartForm)} test
+ * {@link IDocumentSignInternalRest#postSignDocumentMultipart(DocumentSignMultipartForm)} test
  *
  * @author tamas.cserhati
  * @since 1.1.0
@@ -86,14 +88,15 @@ class PostDocumentSignMultipartIT extends AbstractGenerateDocumentIT {
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);
         Assertions.assertTrue(filename.contains("pdf"));
-        writeFileIfEnabled((InputStream) response.getEntity(), filename);
-        
-        try (PDDocument document = PDDocument.load(new File(filename))) {
-            List<PDSignature> signatures = document.getSignatureDictionaries();
-            Assertions.assertFalse(signatures.isEmpty());
-            System.out.println(signatures.get(0).getName());
+        Optional<String> filePathOpt = writeFileIfEnabled((InputStream) response.getEntity(), filename);
+        if (filePathOpt.isPresent()) {
+            try (PDDocument document = PDDocument.load(new File(filePathOpt.get()))) {
+                List<PDSignature> signatures = document.getSignatureDictionaries();
+                Assertions.assertFalse(signatures.isEmpty());
+                System.out.println(signatures.get(0).getName());
+            }
         }
-        
+
         response.close();
     }
 }

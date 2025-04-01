@@ -47,7 +47,7 @@ import org.apache.xmlgraphics.util.MimeConstants;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -108,7 +108,7 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     }
 
     @Override
-    @Traced(component = "XSLT-PDF", kind = "generateOutputStream")
+    @Traced(component = "XSLT-PDF", kind = "INTERNAL")
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, String digitalSignatureProfile)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();

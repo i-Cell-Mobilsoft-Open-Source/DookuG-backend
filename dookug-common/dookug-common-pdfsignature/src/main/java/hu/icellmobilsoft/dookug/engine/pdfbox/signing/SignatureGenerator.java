@@ -159,7 +159,7 @@ public class SignatureGenerator implements SignatureInterface {
      * @throws BaseException
      *             on error
      */
-    @Traced(component = "pdfSignature", kind = "sign-pdfbox-detached")
+    @Traced(component = "sign-pdfbox-detached", kind = "INTERNAL")
     public void addPdfBoxDetachedSignature(OutputStream signedPdfOutputStream, String name, String reason) throws BaseException {
         signDetached(signedPdfOutputStream, name, reason);
     }
@@ -174,7 +174,7 @@ public class SignatureGenerator implements SignatureInterface {
      * @throws BaseException
      *             on error
      */
-    @Traced(component = "pdfSignature", kind = "sign-dss-esig")
+    @Traced(component = "sign-dss-esig", kind = "INTERNAL")
     public void addDssESignature(OutputStream signedPdfOutputStream, SignatureProfileDto signatureProfile) throws BaseException {
         pdfSigner.signPdf(tempFile, signatureProfile, signedPdfOutputStream);
     }
