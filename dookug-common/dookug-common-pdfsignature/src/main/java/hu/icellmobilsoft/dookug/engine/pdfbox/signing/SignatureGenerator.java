@@ -54,6 +54,7 @@ import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
@@ -159,7 +160,7 @@ public class SignatureGenerator implements SignatureInterface {
      * @throws BaseException
      *             on error
      */
-    @Traced(component = "sign-pdfbox-detached", kind = "INTERNAL")
+    @Traced(component = "sign-pdfbox-detached", kind = SpanAttribute.INTERNAL)
     public void addPdfBoxDetachedSignature(OutputStream signedPdfOutputStream, String name, String reason) throws BaseException {
         signDetached(signedPdfOutputStream, name, reason);
     }
@@ -174,7 +175,7 @@ public class SignatureGenerator implements SignatureInterface {
      * @throws BaseException
      *             on error
      */
-    @Traced(component = "sign-dss-esig", kind = "INTERNAL")
+    @Traced(component = "sign-dss-esig", kind = SpanAttribute.INTERNAL)
     public void addDssESignature(OutputStream signedPdfOutputStream, SignatureProfileDto signatureProfile) throws BaseException {
         pdfSigner.signPdf(tempFile, signatureProfile, signedPdfOutputStream);
     }
