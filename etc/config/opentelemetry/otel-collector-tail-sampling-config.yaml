@@ -1,0 +1,171 @@
+extensions:
+# vissza tudja adni a betöltött sampling jsont ha szükség lenne rá
+#  jaegerremotesampling:
+#    source:
+#      reload_interval: 30s
+#      remote:
+##        endpoint: jaeger-collector:14250
+#        endpoint: jaeger:14250
+#  jaegerremotesampling/1:
+#    source:
+#      reload_interval: 30s
+#      file: /etc/otelcol/sampling_strategies.json
+  health_check:
+  pprof:
+    endpoint: 0.0.0.0:1777
+  zpages:
+    endpoint: 0.0.0.0:55679
+# https://opentelemetry.io/docs/collector/configuration/#receivers
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+processors:
+  tail_sampling:
+   decision_wait: 5s #decision_wait (default = 30s): Wait time since the first span of a trace before making a sampling decision
+   #num_traces: 100 num_traces (default = 50000): Number of traces kept in memory
+   #expected_new_traces_per_sec: 10 expected_new_traces_per_sec (default = 0): Expected number of new traces (helps in allocating data structures)
+   policies: [
+       # example for always sample by service name
+       {
+       name: always_sample_by_service_name,
+       type: and,
+       and:
+         {
+           and_sub_policy:
+             [
+               {
+                 name: services-using-tail_sampling-policy,
+                 type: string_attribute,
+                 string_attribute:
+                   {
+                     key: service.name,
+                     values:
+                       [bs-sample-service],
+                     invert_match: false,
+                   },
+               },
+               { name: sample-all-policy, type: always_sample },
+             ],
+         }
+      },
+      {
+        # example for probabilistic by service and path
+        name: probabilistic_by_service_and_path,
+        type: and,
+        and:
+          {
+            and_sub_policy:
+              [
+                {
+                  # filter by service name
+                  name: service-name-policy,
+                  type: string_attribute,
+                  string_attribute:
+                    {
+                      key: service.name,
+                      values: [bs-sample-service],
+                    },
+                },
+                {
+                  # filter by route
+                  name: route-live-ready-policy,
+                  type: string_attribute,
+                  string_attribute:
+                    {
+                      key: http.route,
+                      values: [/rest/sample/],
+                      enabled_regex_matching: true,
+                    },
+                },
+                {
+                  # apply probabilistic sampling
+                  name: probabilistic-policy,
+                  type: probabilistic,
+                  probabilistic: { sampling_percentage: 100 },
+                },
+              ],
+          },
+      },
+      {
+        # example for always sample if there is an error in bs-sample-service
+        name: error-status-policy,
+        type: and,
+        and:
+          {
+            and_sub_policy:
+              [
+                {
+                  name: service-name-policy,
+                  type: string_attribute,
+                  string_attribute:
+                    {
+                      key: service.name,
+                      values:
+                        [bs-sample-service],
+                    },
+                },
+                {
+                  name: trace-status-policy,
+                  type: status_code,
+                  status_code: { status_codes: [ERROR] },
+                },
+              ],
+          },
+      },
+      {
+        # example for latency in bs-sample-service
+        name: latency-policy,
+        type: and,
+        and:
+          {
+            and_sub_policy:
+              [
+                {
+                  name: service-name-policy,
+                  type: string_attribute,
+                  string_attribute:
+                    {
+                      key: service.name,
+                      values:
+                        [bs-sample-service],
+                    },
+                },
+                {
+                  name: latency-sub-policy,
+                  type: latency,
+                  latency: {threshold_ms: 1000, upper_threshold_ms: 10000}
+                },
+              ],
+          },
+      },
+   ]
+  batch:
+# https://opentelemetry.io/docs/collector/configuration/#exporters
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:1234"
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  logging:
+    loglevel: debug
+#  debug:
+#    verbosity: detailed
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [tail_sampling]
+      exporters: [otlp/jaeger,logging]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      # https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/26343
+      exporters: [prometheus]
+  extensions: [health_check, pprof, zpages]
+#  extensions: [health_check, pprof, zpages, jaegerremotesampling/1]
+  
+  

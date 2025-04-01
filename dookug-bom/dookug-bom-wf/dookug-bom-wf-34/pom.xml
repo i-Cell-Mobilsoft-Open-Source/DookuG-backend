@@ -1,0 +1,341 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.icellmobilsoft.dookug</groupId>
+        <artifactId>dookug-bom-wf</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>dookug-bom-wf-34</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <version.org.wildfly.bom.wildfly-ee>34.0.1.Final</version.org.wildfly.bom.wildfly-ee>
+
+        <!-- from wildfly-ee import-->
+        <version.org.jboss.logging.jboss-logging>3.6.1.Final</version.org.jboss.logging.jboss-logging>
+        <version.commons-codec>1.17.1</version.commons-codec>
+        <version.commons-io>2.16.1</version.commons-io>
+        <version.commons-collections>3.2.2</version.commons-collections>
+        <version.commons-beanutils>1.9.4</version.commons-beanutils>
+        <version.org.hibernate.orm>6.6.1.Final</version.org.hibernate.orm>
+        
+        <version.org.jboss.resteasy>6.2.11.Final</version.org.jboss.resteasy>
+
+        <!-- from wildfly-microprofile import-->
+        <version.org.eclipse.microprofile.config>3.1</version.org.eclipse.microprofile.config>
+        <version.org.eclipse.microprofile.health>4.0.1</version.org.eclipse.microprofile.health>
+        <version.io.micrometer>1.12.4</version.io.micrometer>
+        <version.org.eclipse.microprofile.openapi>3.1.2</version.org.eclipse.microprofile.openapi>
+        <version.io.opentelemetry>1.29.0</version.io.opentelemetry>
+        <version.org.eclipse.microprofile.rest.client>3.0.1</version.org.eclipse.microprofile.rest.client>
+
+        <!-- smallrye-reactive-messaging-api override and include in this WF version
+        <version.org.eclipse.microprofile.reactive.messaging>3.0</version.org.eclipse.microprofile.reactive.messaging -->
+        <version.io.smallrye.reactive.smallrye-reactive-messaging-api>4.24.0</version.io.smallrye.reactive.smallrye-reactive-messaging-api>
+
+        <version.org.eclipse.microprofile.reactive-streams-operators>3.0.1</version.org.eclipse.microprofile.reactive-streams-operators>
+        <version.org.apache.kafka>3.5.1</version.org.apache.kafka>
+        <version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>4.24.0</version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>
+        <version.io.vertx.vertx-core>4.5.10</version.io.vertx.vertx-core>
+
+        <!-- from org.wildfly.bom:wildfly-ee-with-tools -->
+        <version.com.h2database>2.2.224</version.com.h2database>
+        <version.io.smallrye.config>3.9.1</version.io.smallrye.config>
+        <version.io.smallrye.common.smallrye-common-constraint>2.5.0</version.io.smallrye.common.smallrye-common-constraint>
+
+        <!-- benne van, de nem a bom-ban -->
+        <version.commons-lang3>3.15.0</version.commons-lang3>
+        <version.com.google.guava.guava>33.0.0-jre</version.com.google.guava.guava>
+        <version.com.google.code.gson>2.8.9</version.com.google.code.gson>
+        <version.org.yaml.snakeyaml>2.4</version.org.yaml.snakeyaml>
+        <!-- BUG https://issues.redhat.com/browse/WFLY-20058 -->
+        <version.io.netty>4.1.115.Final</version.io.netty>
+
+        <version.org.bouncycastle>1.78.1</version.org.bouncycastle>
+        
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- bom imports -->
+            <!-- https://github.com/wildfly/wildfly/blob/34.0.1.Final/boms/user/README.adoc -->
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-ee</artifactId>
+                <version>${version.org.wildfly.bom.wildfly-ee}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wildfly.bom</groupId>
+                <artifactId>wildfly-expansion</artifactId>
+                <version>${version.org.wildfly.bom.wildfly-ee}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- VVVVVVVVVVVVVVVVVVV -->
+            <!-- Provided-re allitas -->
+            <!-- VVVVVVVVVVVVVVVVVVV -->
+
+            <!-- https://github.com/wildfly/boms -->
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${version.org.jboss.logging.jboss-logging}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${version.commons-codec}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons-io}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${version.org.hibernate.orm}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Resteasy 4+: resteasy-jaxrs szet van bontva core, core-spi es egyebekre-->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-core</artifactId>
+                <version>${version.org.jboss.resteasy}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-core-spi</artifactId>
+                <version>${version.org.jboss.resteasy}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- from wildfly-microprofile import -->
+            <dependency>
+                <groupId>org.eclipse.microprofile.config</groupId>
+                <artifactId>microprofile-config-api</artifactId>
+                <version>${version.org.eclipse.microprofile.config}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.openapi</groupId>
+                <artifactId>microprofile-openapi-api</artifactId>
+                <version>${version.org.eclipse.microprofile.openapi}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.rest.client</groupId>
+                <artifactId>microprofile-rest-client-api</artifactId>
+                <version>${version.org.eclipse.microprofile.rest.client}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.health</groupId>
+                <artifactId>microprofile-health-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.org.eclipse.microprofile.health}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.osgi</groupId>
+                        <artifactId>org.osgi.annotation.versioning</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.opentelemetry}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-context</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.opentelemetry}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.micrometer}</version>
+            </dependency>
+            <!-- https://github.com/eclipse/microprofile-reactive-messaging/issues/10 -->
+            <!-- FYI: wildfly-27.0.1.Final https://github.com/wildfly/wildfly/blob/27.x/microprofile/galleon-common/src/main/resources/modules/system/layers/base/org/eclipse/microprofile/reactive-messaging/api/main/module.xml#L27 -->
+            <!-- dependency>
+                <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
+                <artifactId>microprofile-reactive-messaging-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.org.eclipse.microprofile.reactive.messaging}</version>
+            </dependency -->
+            <dependency>
+                <groupId>io.smallrye.reactive</groupId>
+                <artifactId>smallrye-reactive-messaging-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.smallrye.reactive.smallrye-reactive-messaging-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
+                <artifactId>microprofile-reactive-streams-operators-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.org.eclipse.microprofile.reactive-streams-operators}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <scope>provided</scope>
+                <version>${version.org.apache.kafka}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.reactive</groupId>
+                <artifactId>smallrye-reactive-messaging-kafka-api</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-core</artifactId>
+                <scope>provided</scope>
+                <version>${version.io.vertx.vertx-core}</version>
+            </dependency>
+
+            <!-- from wildfly-jakartaee8-with-tools -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${version.com.h2database}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- benne van, de nem a bom-ban -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${version.commons-lang3}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.com.google.guava.guava}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${version.com.google.code.gson}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.config</groupId>
+                <artifactId>smallrye-config</artifactId>
+                <version>${version.io.smallrye.config}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.config</groupId>
+                <artifactId>smallrye-config-common</artifactId>
+                <version>${version.io.smallrye.config}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.smallrye.common</groupId>
+                <artifactId>smallrye-common-constraint</artifactId>
+                <version>${version.io.smallrye.common.smallrye-common-constraint}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${version.org.yaml.snakeyaml}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- vertx kapcsan erintett fuggosegek-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-http2</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec-socks</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler-proxy</artifactId>
+                <version>${version.io.netty}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${version.commons-beanutils}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${version.commons-collections}</version>
+                <scope>provided</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${version.org.bouncycastle}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${version.org.bouncycastle}</version>
+                <scope>provided</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+</project>

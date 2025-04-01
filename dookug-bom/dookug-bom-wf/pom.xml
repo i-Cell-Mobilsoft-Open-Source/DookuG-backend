@@ -12,6 +12,7 @@
     <modules>
         <module>dookug-bom-wf-27</module>
         <module>dookug-bom-wf-26</module>
+        <module>dookug-bom-wf-34</module>
     </modules>
     
 </project>

@@ -22,6 +22,7 @@ package hu.icellmobilsoft.dookug.common.system.rest.metrics.provider;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,16 +37,12 @@ import jakarta.ws.rs.ext.WriterInterceptor;
 import jakarta.ws.rs.ext.WriterInterceptorContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.metrics.Metadata;
-import org.eclipse.microprofile.metrics.MetricRegistry;
-import org.eclipse.microprofile.metrics.MetricType;
-import org.eclipse.microprofile.metrics.MetricUnits;
-import org.eclipse.microprofile.metrics.Tag;
-import org.eclipse.microprofile.metrics.Timer;
 
 import hu.icellmobilsoft.coffee.cdi.logger.AppLogger;
 import hu.icellmobilsoft.coffee.cdi.logger.ThisLogger;
 import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 
 /**
  * JAXRS provider that handles the metrics around request/response
@@ -56,6 +53,8 @@ import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
 @Provider
 public class RequestResponseMetricsProvider implements ContainerRequestFilter, WriterInterceptor {
 
+    private static final String DESC_RESPONSE_TIME = "Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.";
+
     @Inject
     @ThisLogger
     private AppLogger log;
@@ -64,7 +63,7 @@ public class RequestResponseMetricsProvider implements ContainerRequestFilter, W
     private MetricsContainer metricsContainer;
 
     @Inject
-    private MetricRegistry metricRegistry;
+    private MeterRegistry meterRegistry;
 
     @Context
     private HttpServletResponse httpServletResponse;
@@ -116,15 +115,7 @@ public class RequestResponseMetricsProvider implements ContainerRequestFilter, W
      *            url
      */
     private void updateResponseTimer(String url) {
-        Metadata metadata = Metadata.builder() //
-                .withName("sample_http_response_time")
-                .withDescription("Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.")
-                .withType(MetricType.TIMER)
-                .withUnit(MetricUnits.MILLISECONDS)
-                .build();
-        Tag responseCodeTag = new Tag("url", url);
-
-        Timer timer = metricRegistry.timer(metadata, responseCodeTag);
-        timer.update(Duration.between(metricsContainer.getStartTime(), LocalDateTime.now()));
+        Timer timer = Timer.builder("document_service_http_response_time").description(DESC_RESPONSE_TIME).tags("url", url).register(meterRegistry);
+        timer.record(Duration.between(metricsContainer.getStartTime(), LocalDateTime.now()).toMillis(), TimeUnit.MILLISECONDS);
     }
 }

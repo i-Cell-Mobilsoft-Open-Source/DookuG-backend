@@ -39,6 +39,23 @@ services:
       DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_TSPSOURCES: http://timestamp.digicert.com
       DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_IMAGEFILE: /home/icellmobilsoft/pdfsign/sample/signature.png
       DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_SHOWONPAGE: 0
+      
+#      OPENTRACING_JAEGER_AGENT_HOST: jaeger
+#      JAEGER_SERVICE_NAME: bs-sample-service
+      OPENTELEMETRY_SERVICE_NAME: dookug-document-service
+      # alternative config
+#      OTEL_SERVICE_NAME: bs-sample-service
+      OPENTELEMETRY_SAMPLER_TYPE: on # default is ratio with 0.01
+      # 1. -> jaeger, hagyomanyos
+      #OPENTELEMETRY_EXPORTER_ENDPOINT: http://jaeger:14250
+      # 2. -> jaeger otlp
+      #OPENTELEMETRY_EXPORTER_TYPE: otlp # default is jeager
+      #OPENTELEMETRY_EXPORTER_ENDPOINT: http://jaeger:4317
+      # 3. -> otlp-collector -> jaeger otlp
+      OPENTELEMETRY_EXPORTER_TYPE: otlp # default is otlp, "The 'jaeger' exporter is no longer supported.", but the docs say its allowed
+      OPENTELEMETRY_EXPORTER_ENDPOINT: http://opentelemetry-collector:4317
+      MICROMETER_ENDPOINT: http://opentelemetry-collector:4318/v1/metrics
+
     deploy:
       resources:
         limits:
