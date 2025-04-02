@@ -53,7 +53,7 @@ import io.micrometer.core.instrument.Timer;
 @Provider
 public class RequestResponseMetricsProvider implements ContainerRequestFilter, WriterInterceptor {
 
-    private static final String DESC_RESPONSE_TIME = "Beérkező HTTP kérések száma és a hozzájuk tartozó válaszidők.";
+    private static final String DESC_RESPONSE_TIME = "Number of incoming HTTP requests and their response times.";
 
     @Inject
     @ThisLogger

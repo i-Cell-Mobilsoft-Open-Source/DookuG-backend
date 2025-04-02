@@ -138,7 +138,7 @@ Sample DocumentMetadataQueryResponse:
 
 [source,text]
 ----
-POST /internal/dookug/document/content/{documentId}
+GET /internal/dookug/document/content/{documentId}
 ----
 
 The purpose of this endpoint is to retrieve a previously generated and saved document based on the provided identifier.
