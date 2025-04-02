@@ -5,4 +5,5 @@ include::v0.5.0.adoc[leveloffset=+1]
 include::v0.6.0.adoc[leveloffset=+1]
 include::v1.0.0.adoc[leveloffset=+1]
 include::v1.1.0.adoc[leveloffset=+1]
+include::v2.0.0.adoc[leveloffset=+1]
 

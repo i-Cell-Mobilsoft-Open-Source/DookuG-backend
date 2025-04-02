@@ -1,0 +1,16 @@
+= v1.1.0
+
+== Changes / updates
+
+* Wildfly has been upgraded 27 -> 34 (Wildfly baseimage 4.0.0) 
+* Microprofile metrics -> opentelemetry, as metrics are no longer supported.
+
+[NOTE]
+====
+A Telemetry collector must be configured in the network.
+
+====
+
+== Migration
+
+Changes are backwards compatible doesn't need any migration.

@@ -19,8 +19,6 @@ services:
       - '8789:8787'
     environment:
       org_apache_deltaspike_ProjectStage: Development
-      OPENTRACING_JAEGER_AGENT_HOST: jaeger
-      JAEGER_SERVICE_NAME: dookug-document-service
       CONSOLE_LOGGING_JSON_ENABLED: false
       CONSOLE_LOGGING_ENABLED: true
       LOGSTASH_ENABLED: false
@@ -41,7 +39,7 @@ services:
       DOOKUG_SERVICE_ENGINE_PDF_DIGITALSIGN_SAMPLEPROFILE_DSS_SHOWONPAGE: 0
       
 #      OPENTRACING_JAEGER_AGENT_HOST: jaeger
-#      JAEGER_SERVICE_NAME: bs-sample-service
+#      JAEGER_SERVICE_NAME: dookug-document-service
       OPENTELEMETRY_SERVICE_NAME: dookug-document-service
       # alternative config
 #      OTEL_SERVICE_NAME: bs-sample-service
@@ -49,7 +47,7 @@ services:
       # 1. -> jaeger, hagyomanyos
       #OPENTELEMETRY_EXPORTER_ENDPOINT: http://jaeger:14250
       # 2. -> jaeger otlp
-      #OPENTELEMETRY_EXPORTER_TYPE: otlp # default is jeager
+      #OPENTELEMETRY_EXPORTER_TYPE: otlp # default is jaeger
       #OPENTELEMETRY_EXPORTER_ENDPOINT: http://jaeger:4317
       # 3. -> otlp-collector -> jaeger otlp
       OPENTELEMETRY_EXPORTER_TYPE: otlp # default is otlp, "The 'jaeger' exporter is no longer supported.", but the docs say its allowed
