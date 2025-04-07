@@ -43,7 +43,7 @@ import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
  * @author szabolcs.gemesi
  * @since 0.0.1
  */
-@Tag(name = IOpenapiConstants.Tag.DOCUMENT_CONTENT, description = IOpenapiConstants.Description.DOCUMENT_CONTENT)
+@Tag(name = IOpenapiConstants.Tag.QUERY, description = IOpenapiConstants.Description.QUERY)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_CONTENT)
 public interface IDocumentContentInternalRest {
 

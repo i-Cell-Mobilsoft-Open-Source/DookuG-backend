@@ -47,7 +47,7 @@ import static org.eclipse.microprofile.openapi.annotations.enums.SchemaType.STRI
  * @author mate.biro
  * @since 0.2.0
  */
-@Tag(name = IOpenapiConstants.Tag.STORED_TEMPLATE, description = IOpenapiConstants.Description.STORED_TEMPLATE)
+@Tag(name = IOpenapiConstants.Tag.QUERY, description = IOpenapiConstants.Description.QUERY)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
 public interface IDocumentStoredTemplateInternalRest {
 
