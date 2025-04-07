@@ -2,7 +2,67 @@
 
 == Document Generation
 
-The module provides multiple options for document generation. For each option, we need to specify the template and how the document should be processed by the engine, in what format we want to receive the file, and how we want to store the generated document. If the format of the generated document is not a STRING value but an engine that can process the document is not provided, or if STRING format is desired but PDF_BOX engine is specified, an INVALID_INPUT error will be returned. When generating documents based on the initial template, parameters must also be specified. There are several options for specifying it, one of which is to send it in key-value pairs. The other option is to expect a json structure that is to be sent in base64binary form in the request.
+The module provides multiple options for document generation. For each option, we can specify:
+
+* The generator setup (`request.generatorSetup`):
+** Template engine for parameter substitution (NONE, HANDLEBARS) (`request.generatorSetup.templateEngine`)
+** Document generator engine (NONE, PDF_BOX, SAXON) (`request.generatorSetup.generatorEngine`)
+** Response format (STRING, PDF) (`request.generatorSetup.responseFormat`)
+** Storage type (NONE, DATABASE)
+** Optional parameters (`request.generatorSetup.parameters` or `request.generatorSetup.parametersData.templateParameters` or `request.generatorSetup.parametersData.generatorParameters`)
+** Optional digital signature profile (`request.generatorSetup.digitalSignatureProfile`)
+** Optional template language, in case of inline generation (`request.generatorSetup.templateLanguage`)
+** Template, in case of a stored one, specifying the following attributes for finding it in cache or the database:
+*** `templateName`
+*** `templateLanguage`
+*** Optional `validityDate`
+
+* The templates (`request.templates`), as list of `TemplateType` objects, in case of inline generation,
+specifying the `templateName`, `templateContent` and the `inital` flag, representing the initial template and other template parts
+
+Firstly, the generator setup is validated based on the response format
+and the generator engine:
+
+* If the response format is PDF, then the generator engine can only be PDF_BOX or SAXON
+* If the response format is STRING, then the generator engine can only be NONE
+
+Secondly, in the template compilation phase the following scenarios can occur, based on the template engine,
+the parameters or parametersData:
+
+* If the template engine is HANDLEBARS, then compilation takes place:
+** If parameters are provided (key - value pairs) OR
+** If parametersData is provided (json key - value pairs in binary string format, can be zipped as well (GZIP)) OR
+** No parameters are provided (compilation with empty context)
+* If the template engine is NONE:
+** You can send only one template in the templates list with no parameters or parametersData
+** No compilation will occur
+
+Thirdly, on document generation, optional signing and optional storage:
+
+* The document stream is created if the generator engine is PDF_BOX or SAXON:
+** PDF_BOX:
+*** The document is created by the compiled html
+*** Optionally the document can be signed if the digital signature profile was provided in the request
+** SAXON:
+*** With this generator the compilation happens during generation by the provided parametersData (`request.generatorSetup.parametersData.generatorParameters`)
+*** Optionally the document can be signed if the digital signature profile was provided in the request
+*** NOTE: It is possible to combine SAXON with HANDLEBARS. This way you can compile XSLT templates dynamically:
+**** Set the template engine to HANDLEBARS and the generator to SAXON
+**** Provide XSLT template parts in the templates list (main template can contain HANDLEBARS placeholders)
+**** Provide XSLT template parameters in the generatorSetup.parametersData
+
+* Storage, based on storage method type
+** DATABASE:
+*** The document is saved with parameters, parametersData or null parametersData and the document is returned
+** NONE:
+*** The document is returned
+
+and how the document should be processed by the engine, in what format we want to receive the file,
+and how we want to store the generated document. If the format of the generated document is not a STRING value but an engine
+hat can process the document is not provided, or if STRING format is desired but PDF_BOX engine is specified,
+an INVALID_INPUT error will be returned. When generating documents based on the initial template, parameters must also be specified.
+There are several options for specifying it, one of which is to send it in key-value pairs. The other option is to expect a json structure
+that is to be sent in base64binary form in the request.
 
 [[generateInline]]
 == Document generation based on request body
