@@ -66,8 +66,8 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate document based on values specified in multipart request",
-            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + " but request is coming in multipart format")
+    @Operation(summary = "Generates document based on the template sent in a multipart request, and returns it.",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + " but request is coming in multipart format.")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -87,10 +87,18 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate document based on values specified in request",
-            description = "In the case of inline generation, the template, parameters and settings are also received at the endpoint, and the document is generated based on them.\n"
-                    + " It is possible to process multiple, hierarchically ordered templates, which can be used for HTML-based document generation.\n\n"
-                    + " The template is received in base64binary format. Parameters are received as key-value pairs or in JSON structure in base64binary format.")
+    @Operation(summary = "Generates document based on the template sent in the request, and returns it.",
+            description = "The request must include the data related to the template and the document generation process:\n\n" +
+                    "* It is possible to process multiple, hierarchically ordered templates, which can be used for " +
+                    "HTML-based document generation.\n" +
+                    "* Template parameters are received as key-value pairs (generatorSetup/parameters) or in JSON structure " +
+                    "in base64binary format (generatorSetup/parametersData).\n" +
+                    "* A PDF can also be generated, optionally with an electronic signature. To enable this, the name of " +
+                    "the signature profile configured in the system must be provided in the request (generatorSetup/digitalSignatureProfile) " +
+                    "— the signature will then be applied to the PDF accordingly.\n" +
+                    "* There is a switch (generatorSetup/documentStorageMethod) in the request to store the generated document " +
+                    "in the module’s database, but we do not recommend using this feature. If the document needs to be stored, " +
+                    "it should be forwarded to a dedicated service (e.g. DocStore) designed for that purpose.")
     @POST
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })
@@ -110,9 +118,9 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate document and return metadata based on template and settings specified in multipart request",
-            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE + DocumentGeneratePath.METADATA
-                    + " but request is coming in multipart format")
+    @Operation(summary = "Generates document based on the template sent in a multipart request, and returns it's metadata.",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
+                    + " but request is coming in multipart format, and returns the metadata of the generated document.")
     @Path(DocumentGeneratePath.MULTIPART_METADATA)
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -130,9 +138,9 @@ public interface IDocumentGenerateInlineInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate document and return metadata based on template and settings specified in request",
+    @Operation(summary = "Generates document based on the template sent in the request, and returns it's metadata.",
             description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
-                    + " but returns with the metadata of the generated document.")
+                    + " but returns the metadata of the generated document.")
     @POST
     @Path(DocumentGeneratePath.METADATA)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
