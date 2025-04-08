@@ -43,7 +43,7 @@ import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
  * @author szabolcs.gemesi
  * @since 0.0.1
  */
-@Tag(name = IOpenapiConstants.Tag.DOCUMENT_CONTENT, description = IOpenapiConstants.Description.DOCUMENT_CONTENT)
+@Tag(name = IOpenapiConstants.Tag.QUERY, description = IOpenapiConstants.Description.QUERY)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_CONTENT)
 public interface IDocumentContentInternalRest {
 
@@ -57,14 +57,12 @@ public interface IDocumentContentInternalRest {
      *             on error
      */
     @GET
-    @Operation(summary = "Modulban tárolt generált dokumentum lekérdezése azonosító alapján.",
-            description = "Generált és modulban tárolt dokumentum visszaadása octet-stream formátumban, illetve a fájl nevének visszaadása HTTP header-ben.\n\n"
-                    + "Nem található azonosító esetén ENTITY_NOT_FOUND hibával térünk vissza.\n\n"
-                    + "Adatbázisban történő dokumentumtároláshoz a dokumentum generálása során a generatorSetup.documentStorageMethod=DATABASE beállítást kell használni.")
+    @Operation(summary = "Retrieving a generated document stored in the module by ID.",
+            description = "The requested document stored in the module is returned in octet-stream format, with the file name included in the HTTP header.")
     @Path(DocumentGeneratePath.ID)
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
-            description = "Generált dokumentum azonosító") String documentId) throws BaseException;
+            description = "Generated document ID") String documentId) throws BaseException;
 }

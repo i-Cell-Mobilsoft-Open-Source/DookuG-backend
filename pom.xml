@@ -105,7 +105,7 @@
                 <plugin>
                     <groupId>io.smallrye</groupId>
                     <artifactId>smallrye-open-api-maven-plugin</artifactId>
-                    <version>3.11.0</version>
+                    <version>3.13.0</version>
                     <executions>
                         <execution>
                             <goals>
@@ -121,6 +121,7 @@
 							Maven phase, which seems to cause the issue -->
                             <configuration>
                                 <outputDirectory>${project.build.directory}/openapi</outputDirectory>
+                                <configProperties>${project.build.directory}/classes/META-INF/microprofile-config.yml</configProperties>
                             </configuration>
                         </execution>
                     </executions>

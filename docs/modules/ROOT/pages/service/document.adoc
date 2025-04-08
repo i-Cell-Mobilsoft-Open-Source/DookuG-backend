@@ -2,7 +2,61 @@
 
 == Document Generation
 
-The module provides multiple options for document generation. For each option, we need to specify the template and how the document should be processed by the engine, in what format we want to receive the file, and how we want to store the generated document. If the format of the generated document is not a STRING value but an engine that can process the document is not provided, or if STRING format is desired but PDF_BOX engine is specified, an INVALID_INPUT error will be returned. When generating documents based on the initial template, parameters must also be specified. There are several options for specifying it, one of which is to send it in key-value pairs. The other option is to expect a json structure that is to be sent in base64binary form in the request.
+The module provides multiple options for document generation. For each option, we can specify:
+
+* The generator setup (`request.generatorSetup`):
+** Template engine for parameter substitution (NONE, HANDLEBARS) (`request.generatorSetup.templateEngine`)
+** Document generator engine (NONE, PDF_BOX, SAXON) (`request.generatorSetup.generatorEngine`)
+** Response format (STRING, PDF) (`request.generatorSetup.responseFormat`)
+** Storage type (NONE, DATABASE)
+** Optional parameters (`request.generatorSetup.parameters` or `request.generatorSetup.parametersData.templateParameters` or `request.generatorSetup.parametersData.generatorParameters`)
+** Optional digital signature profile (`request.generatorSetup.digitalSignatureProfile`)
+** Optional template language, in case of inline SAXON generation (`request.generatorSetup.templateLanguage`)
+** Template, in case of a stored one, specifying the following attributes for finding it in cache or the database,
+or for SAXON generation, choosing the language within the XSLT:
+*** `templateName`
+*** `templateLanguage`
+*** Optional `validityDate`
+
+* The templates (`request.templates`), as list of `TemplateType` objects, in case of inline generation,
+specifying the `templateName`, `templateContent` in base64 binary format and the `inital` flag, representing the initial template and other template parts
+
+Firstly, the generator setup is validated based on the response format
+and the generator engine:
+
+* If the response format is PDF, then the generator engine can only be PDF_BOX or SAXON
+* If the response format is STRING, then the generator engine can only be NONE
+
+Secondly, in the template compilation phase the following scenarios can occur, based on the template engine,
+the parameters or parametersData:
+
+* If the template engine is HANDLEBARS, then compilation takes place:
+** If parameters are provided (key - value pairs) OR
+** If parametersData is provided (json key - value pairs in base64 binary format, can be zipped as well (GZIP)) OR
+** No parameters are provided (compilation with empty context)
+* If the template engine is NONE:
+** You can send only one template in the templates list with no parameters or parametersData
+** No compilation will occur
+
+Thirdly, on document generation, optional signing and optional storage:
+
+* The document stream is created if the generator engine is PDF_BOX or SAXON:
+** PDF_BOX:
+*** The document is created by the compiled html
+*** Optionally the document can be signed if the digital signature profile was provided in the request
+** SAXON:
+*** With this generator the compilation happens during generation by the provided parametersData (`request.generatorSetup.parametersData.generatorParameters`)
+*** Optionally the document can be signed if the digital signature profile was provided in the request
+*** NOTE: It is possible to combine SAXON with HANDLEBARS. This way you can compile XSLT templates dynamically:
+**** Set the template engine to HANDLEBARS and the generator to SAXON
+**** Provide XSLT template parts in the templates list (main template can contain HANDLEBARS placeholders)
+**** Provide XSLT template parameters in the generatorSetup.parametersData
+
+* Storage, based on storage method type
+** DATABASE:
+*** The document is saved with parameters, parametersData or null parametersData and the document is returned
+** NONE:
+*** The document is returned
 
 [[generateInline]]
 == Document generation based on request body
@@ -13,8 +67,6 @@ POST /internal/dookug/document/generate/inline
 ----
 
 During generation, we submit the initial template and the data associated with the generation in the request body: template and engine processing the document, response format, and document storage method.
-
-Sample document generation request - JSON parameters in base64binary form (trimmed for readability):
 
 In the response, we receive the generated document and the filename in the HTTP header.
 
@@ -38,8 +90,6 @@ POST /internal/dookug/document/generate/inline/multipart
 
 To generate, we need to submit the initial template and the data associated with the generation. The latter matches the data sent for document generation based on the request body.
 
-Sample document generation multipart form request with key-value parameters:
-
 In the response, we receive the generated document and the filename in the HTTP header.
 
 [[generateInlineMultipartMetadata]]
@@ -61,8 +111,6 @@ POST /internal/dookug/document/generate/storedTemplate
 ----
 
 To generate, we need to submit the name of the template from which the document is generated, along with the data associated with the generation. The latter matches the data sent for document generation based on the request body, supplemented with how the template is stored.
-
-Sample document generation based on stored template request - JSON parameters in base64binary form (trimmed for readability):
 
 In the response, we receive the generated document and the filename in the HTTP header.
 
@@ -127,32 +175,17 @@ Sorting parameters can be:
 For sorting, you can specify whether to sort in ascending or descending order for each parameter individually.
 In addition to the mentioned sorting options, there is a default sorting by document identifier.
 
-Sample DocumentMetadataQueryRequest:
-
 If documents are found based on the submitted parameters, the response returns a list of up to 100 elements.
-
-Sample DocumentMetadataQueryResponse:
 
 [[getDocument]]
 == Get Document
 
 [source,text]
 ----
-POST /internal/dookug/document/content/{documentId}
+GET /internal/dookug/document/content/{documentId}
 ----
 
 The purpose of this endpoint is to retrieve a previously generated and saved document based on the provided identifier.
-
-Sample document retrieval request:
-
-[source]
-----
-Request method:	GET
-Request URI:	http://localhost:8082/internal/dookug/document/content/43183KXXW2KCI206 <1>
-Headers:		Content-Type=application/octet-stream
-----
-
-<1> Identifier of the generated document
 
 If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 

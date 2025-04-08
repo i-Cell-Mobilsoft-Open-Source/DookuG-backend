@@ -232,7 +232,7 @@ num4 = 20
 {{math 'A' num1 num2}}  // -1
 ----
 |
-0.1.0 |
+0.1.0
 |===
 
 === Additional Helper Functions

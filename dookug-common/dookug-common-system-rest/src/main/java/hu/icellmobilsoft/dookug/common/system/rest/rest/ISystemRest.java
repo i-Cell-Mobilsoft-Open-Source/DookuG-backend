@@ -27,8 +27,10 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
 
@@ -54,7 +56,7 @@ public interface ISystemRest {
     @GET
     @Path(DocumentGeneratePath.VERSION_INFO)
     @Produces(MediaType.TEXT_PLAIN)
-    public String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
+    String versionInfo(@Context HttpServletRequest servletRequest) throws BaseException;
 
     /**
      * Clear caches
@@ -63,10 +65,13 @@ public interface ISystemRest {
      * @throws BaseException
      *             if an error occurs
      */
+    @Tag(name = IOpenapiConstants.Tag.MAINTENANCE, description = IOpenapiConstants.Description.MAINTENANCE)
     @GET
-    @Operation(summary = "Belső állapotok törlése",
-            description = "a hu.icellmobilsoft.taxi.common.core.evictable.Evictable interface implementációkon iterál végig. "
-                    + "Az ismert keret szintű szolgáltatásoknál explicit hívja meg az ürítés funkcíót")
+    @Operation(summary = "Clearing internal state",
+            description = "Iterates over implementations of the hu.icellmobilsoft.dookug.common.core.evictable.Evictable interface, "
+                    + "and explicitly calls the clear function for known framework-level services.\n\n"
+                    + "If there’s a change at runtime in the content of a template stored in the TEMPLATE_PART_CONTENT "
+                    + "database table, this endpoint must be called to apply the changes, since the module caches this data.")
     @Path(DocumentGeneratePath.SYSTEM_EVICT)
     @Produces(value = { MediaType.TEXT_XML, MediaType.APPLICATION_XML })
     EvictResponse getEvict() throws BaseException;
