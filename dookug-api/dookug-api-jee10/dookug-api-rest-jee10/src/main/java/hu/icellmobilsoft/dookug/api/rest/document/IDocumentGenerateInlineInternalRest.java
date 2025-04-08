@@ -31,10 +31,10 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
@@ -88,17 +88,9 @@ public interface IDocumentGenerateInlineInternalRest {
      *             on error
      */
     @Operation(summary = "Generates document based on the template sent in the request, and returns it.",
-            description = "The request must include the data related to the template and the document generation process:\n\n" +
-                    "* It is possible to process multiple, hierarchically ordered templates, which can be used for " +
-                    "HTML-based document generation.\n" +
-                    "* Template parameters are received as key-value pairs (generatorSetup/parameters) or in JSON structure " +
-                    "in base64binary format (generatorSetup/parametersData).\n" +
-                    "* A PDF can also be generated, optionally with an electronic signature. To enable this, the name of " +
-                    "the signature profile configured in the system must be provided in the request (generatorSetup/digitalSignatureProfile) " +
-                    "— the signature will then be applied to the PDF accordingly.\n" +
-                    "* There is a switch (generatorSetup/documentStorageMethod) in the request to store the generated document " +
-                    "in the module’s database, but we do not recommend using this feature. If the document needs to be stored, " +
-                    "it should be forwarded to a dedicated service (e.g. DocStore) designed for that purpose.")
+            description = "The module provides multiple options for document generation. The Handlebars template engine can be used if needed. " +
+                    "The output can be string or PDF. In case of PDF, two generator engines are available: PdfBox and Saxon. " +
+                    "The generated documents can be optionally signed or saved to the database.")
     @POST
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })

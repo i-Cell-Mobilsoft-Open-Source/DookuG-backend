@@ -57,9 +57,8 @@ public interface IDocumentContentInternalRest {
      *             on error
      */
     @GET
-    @Operation(summary = "Retrieve a generated document stored in the module by its ID.",
-            description = "Returns a generated document stored in the module in octet-stream format, along with the file name in the HTTP header.\n\n"
-                    + "If the ID is not found, it returns an ENTITY_NOT_FOUND error.")
+    @Operation(summary = "Retrieving a generated document stored in the module by ID.",
+            description = "The requested document stored in the module is returned in octet-stream format, with the file name included in the HTTP header.")
     @Path(DocumentGeneratePath.ID)
     @Produces(value = { MediaType.APPLICATION_OCTET_STREAM })
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
