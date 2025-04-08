@@ -63,8 +63,6 @@ public interface IDocumentStoredTemplateInternalRest {
     @Operation(summary = "Retrieve stored template metadata based on specified filtering criteria.",
             description = "Collects and returns the metadata of generated and stored documents in a paginated list based on the filtering, sorting, and pagination parameters provided in the request body.")
     @POST
-    @Parameter(in = ParameterIn.HEADER, name = "test", description = "test",
-            schema = @Schema(type = STRING, example = "4JI15FK8DL2JB2QS"))
     @Path(DocumentGeneratePath.METADATA_QUERY)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
