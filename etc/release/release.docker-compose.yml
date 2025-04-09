@@ -1,8 +1,8 @@
 services:
   dookug-rest-service-oracle-release:
     build:
-      context: ../..
-      dockerfile: dookug-release.Dockerfile
+      context: ..
+      dockerfile: release/dookug-release.Dockerfile
       args:
         WILDFLY_BASE_IMAGE: 'icellmobilsoft/wildfly-mp-jpa-oracle-jdbc:${WILDFLY_IMAGE_VERSION}'
         ARTIFACT_DOWNLOADER_IMAGE: icellmobilsoft/builder-nexus-download:${OSS_BASE_IMAGE_VERSION}
@@ -12,16 +12,16 @@ services:
         # The CI scripts load the value of RELEASED_VERSION based on the started process.
         POM_VERSION: '$RELEASED_VERSION'
         # env for defaults
-        DEFAULT_FONTS_DIRECTORY: 'etc/docker-compose/fonts'
-        DEFAULT_HANDLEBARS_DIRECTORY: 'etc/docker-compose/handlebars'
-        DEFAULT_FOP_CONFIG_DIRECTORY: 'etc/docker-compose/fop-config'
-        DEFAULT_PDFSIGN_DIRECTORY: 'etc/docker-compose/pdfsign'
-        DEFAULT_KEYS_DIRECTORY: 'etc/docker-compose/keys'
+        DEFAULT_FONTS_DIRECTORY: 'docker-compose/fonts'
+        DEFAULT_HANDLEBARS_DIRECTORY: 'docker-compose/handlebars'
+        DEFAULT_FOP_CONFIG_DIRECTORY: 'docker-compose/fop-config'
+        DEFAULT_PDFSIGN_DIRECTORY: 'docker-compose/pdfsign'
+        DEFAULT_KEYS_DIRECTORY: 'docker-compose/keys'
     image: "$DOCKER_SERVICE_DOOKUG_DOCUMENT_ORACLE:$RELEASED_VERSION"
   dookug-rest-service-postgres-release:
     build:
-      context: ../..
-      dockerfile: dookug-release.Dockerfile
+      context: ..
+      dockerfile: release/dookug-release.Dockerfile
       args:
         WILDFLY_BASE_IMAGE: 'icellmobilsoft/wildfly-mp-jpa-postgresql-jdbc:${WILDFLY_IMAGE_VERSION}'
         ARTIFACT_DOWNLOADER_IMAGE: icellmobilsoft/builder-nexus-download:${OSS_BASE_IMAGE_VERSION}
@@ -31,9 +31,9 @@ services:
         # The CI scripts load the value of RELEASED_VERSION based on the started process.
         POM_VERSION: '$RELEASED_VERSION'
         # env for defaults
-        DEFAULT_FONTS_DIRECTORY: 'etc/docker-compose/fonts'
-        DEFAULT_HANDLEBARS_DIRECTORY: 'etc/docker-compose/handlebars'
-        DEFAULT_FOP_CONFIG_DIRECTORY: 'etc/docker-compose/fop-config'
-        DEFAULT_PDFSIGN_DIRECTORY: 'etc/docker-compose/pdfsign'
-        DEFAULT_KEYS_DIRECTORY: 'etc/docker-compose/keys'
+        DEFAULT_FONTS_DIRECTORY: 'docker-compose/fonts'
+        DEFAULT_HANDLEBARS_DIRECTORY: 'docker-compose/handlebars'
+        DEFAULT_FOP_CONFIG_DIRECTORY: 'docker-compose/fop-config'
+        DEFAULT_PDFSIGN_DIRECTORY: 'docker-compose/pdfsign'
+        DEFAULT_KEYS_DIRECTORY: 'docker-compose/keys'
     image: "$DOCKER_SERVICE_DOOKUG_DOCUMENT_POSTGRES:$RELEASED_VERSION"

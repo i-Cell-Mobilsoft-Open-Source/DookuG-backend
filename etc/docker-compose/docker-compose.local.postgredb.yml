@@ -19,7 +19,7 @@ services:
       interval: 2s
 
   ##run liquibase main to add objects
-  dookug-liquibase-pg-step_1:
+  dookug-liquibase-step_1:
     container_name: module-dookug-liquibase-1
     image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
     environment:
@@ -38,11 +38,11 @@ services:
       INSTALL_URL_S1: jdbc:postgresql://module-dookug-postgredb:5432/postgres
       INSTALL_URL_S2: jdbc:postgresql://module-dookug-postgredb:5432/dookug_db
     depends_on:
-      dookug-liquibase-pg-step_1:
+      dookug-liquibase-step_1:
         condition: service_completed_successfully
 
   ##run liquibase 2
-  dookug-liquibase-pg-step_2:
+  dookug-liquibase-step_2:
     container_name: module-dookug-liquibase-2
     image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
     environment:
@@ -55,7 +55,7 @@ services:
         condition: service_completed_successfully
 
   ##add sample data
-  dookug-liquibase-pg-sample-data:
+  dookug-liquibase-sample-data:
     container_name: module-dookug-liquibase-sample-data
     image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
     environment:
@@ -64,7 +64,7 @@ services:
     depends_on:
       module-dookug-postgredb:
           condition: service_healthy
-      dookug-liquibase-pg-step_2:
+      dookug-liquibase-step_2:
         condition: service_completed_successfully
 
 networks:

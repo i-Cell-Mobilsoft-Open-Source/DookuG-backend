@@ -3,7 +3,7 @@
   <parent>
     <groupId>hu.icellmobilsoft.dookug</groupId>
     <artifactId>dookug-bom</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>dookug-bom-all-jee10</artifactId>
@@ -11,12 +11,13 @@
 
     <properties>
         <version.hu.icellmobilsoft.coffee>${version.hu.icellmobilsoft.coffee.ee10}</version.hu.icellmobilsoft.coffee>
+        <version.hu.icellmobilsoft.frappee>2.0.0-SNAPSHOT</version.hu.icellmobilsoft.frappee>
         <version.org.eclipse.microprofile>5.0</version.org.eclipse.microprofile>
-        <version.hu.icellmobilsoft.roaster>2.2.0</version.hu.icellmobilsoft.roaster>
+        <version.hu.icellmobilsoft.roaster>2.5.0</version.hu.icellmobilsoft.roaster>
         
         <version.apache.commons.text>1.11.0</version.apache.commons.text>
         <version.org.junit.jupiter>5.8.2</version.org.junit.jupiter>
-        <version.io.smallrye.config.source.yaml>3.0.0</version.io.smallrye.config.source.yaml>
+        <version.io.smallrye.config.source.yaml>3.9.1</version.io.smallrye.config.source.yaml>
         
         <version.com.github.jknack.handlebars>4.3.1</version.com.github.jknack.handlebars>
         <version.com.openhtmltopdf.openhtmltopdf-pdfbox>1.0.10</version.com.openhtmltopdf.openhtmltopdf-pdfbox>
@@ -44,7 +45,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-bom-wf-27</artifactId>
+                <artifactId>dookug-bom-wf-34</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -74,6 +75,13 @@
                 <groupId>hu.icellmobilsoft.coffee</groupId>
                 <artifactId>coffee-bom-project</artifactId>
                 <version>${version.hu.icellmobilsoft.coffee}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>hu.icellmobilsoft.frappee</groupId>
+                <artifactId>frappee-bom-project</artifactId>
+                <version>${version.hu.icellmobilsoft.frappee}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

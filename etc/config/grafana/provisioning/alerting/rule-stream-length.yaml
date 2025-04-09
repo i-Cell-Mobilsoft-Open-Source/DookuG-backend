@@ -1,0 +1,74 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: testgroup
+      folder: testdir
+      interval: 2m
+      rules:
+        - uid: fdqrmk4dx1n28b
+          title: Stream length
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: fixeduid
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                expr: redis_stream_length{stream="sample"}
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                useBackend: false
+            - refId: C
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                  - evaluator:
+                      params:
+                        - 1
+                      type: gt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                        - C
+                    reducer:
+                      params: [ ]
+                      type: last
+                    type: query
+                datasource:
+                  type: __expr__
+                  uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: tXr59Ball
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: tXr59Ball
+            __panelId__: "2"
+            description: ""
+            runbook_url: ""
+            summary: "A {{$labels.stream}} aktuális hossza: {{$values.A}}, a megengedett határérték: {{$values.C}}."
+          labels:
+            "": ""
+            severity: critical
+          isPaused: false
+          notification_settings:
+            receiver: cp_email
