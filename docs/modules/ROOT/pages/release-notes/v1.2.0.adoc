@@ -1,0 +1,11 @@
+= v1.2.0
+
+Accidental release. Does not contain functional changes compared to v1.1.0, only in gitHub ci.
+
+== Changes / updates
+
+* gitHub ci: enabling manual docker release on tags.
+
+== Migration
+
+Changes are backwards compatible doesn't need any migration.
