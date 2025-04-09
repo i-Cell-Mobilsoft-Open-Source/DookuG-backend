@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug</groupId>
         <artifactId>dookug-engine</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>dookug-engine-handlebars</artifactId>
