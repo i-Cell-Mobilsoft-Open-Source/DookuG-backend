@@ -9,7 +9,7 @@
 
     <groupId>hu.icellmobilsoft.dookug</groupId>
     <artifactId>dookug</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
 
     <packaging>pom</packaging>
 
@@ -29,7 +29,8 @@
         <connection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/coffee.git</connection>
         <developerConnection>scm:git:git@github.com:i-Cell-Mobilsoft-Open-Source/DookuG-backend.git</developerConnection>
         <url>https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend</url>
-    </scm>
+      <tag>dookug-1.2.0</tag>
+  </scm>
 
     <issueManagement>
         <system>github issues</system>
