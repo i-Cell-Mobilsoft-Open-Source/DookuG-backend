@@ -3,7 +3,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.dookug</groupId>
         <artifactId>dookug-api</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>dookug-api-jee8</artifactId>
