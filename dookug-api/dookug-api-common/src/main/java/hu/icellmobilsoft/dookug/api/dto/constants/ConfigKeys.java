@@ -356,14 +356,14 @@ public interface ConfigKeys {
             /**
              * Xslt template cache TTL in minutes
              */
-            @ConfigDoc(since = "1.1.0", defaultValue = Defaults.TTL_IN_MINUTES,
+            @ConfigDoc(since = "2.0.0", defaultValue = Defaults.TTL_IN_MINUTES,
                     description = "How long until the system invalidates the cache content. By default, " + Defaults.TTL_IN_MINUTES + " minutes.")
             String TTL = DOOKUG_SERVICE_CACHE_XSLT + Keys.TTL;
 
             /**
              * Define to make xslt cache metrics
              */
-            @ConfigDoc(since = "1.1.0",
+            @ConfigDoc(since = "2.0.0",
                     description = "Metrics related to the Template cache should be generated. By default, they are not generated.",
                     defaultValue = Defaults.ENABLESTATISTIC)
             String ENABLESTATISTIC = DOOKUG_SERVICE_CACHE_XSLT + Keys.ENABLESTATISTIC;
@@ -371,7 +371,7 @@ public interface ConfigKeys {
             /**
              * Enabling keystore cache
              */
-            @ConfigDoc(since = "1.1.0", description = "Does the module use template caching for saxon?", defaultValue = Defaults.ENABLED)
+            @ConfigDoc(since = "2.0.0", description = "Does the module use template caching for saxon?", defaultValue = Defaults.ENABLED)
             String ENABLED = DOOKUG_SERVICE_CACHE_XSLT + Keys.ENABLED;
         }
 
