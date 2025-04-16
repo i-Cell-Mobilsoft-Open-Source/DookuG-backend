@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Map;
@@ -30,14 +31,15 @@ import java.util.Optional;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.apps.FOUserAgent;
@@ -48,10 +50,10 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
-import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.api.dto.constants.ConfigKeys;
 import hu.icellmobilsoft.dookug.common.cdi.DocumentGeneratorQualifier;
@@ -66,7 +68,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Inli
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.generator.saxon.SaxonGeneratorParametersData;
-import net.sf.saxon.TransformerFactoryImpl;
 
 /**
  * Saxon / XSLT implementation for document generation
@@ -77,6 +78,8 @@ import net.sf.saxon.TransformerFactoryImpl;
 @DocumentGeneratorQualifier(QualifierConstants.DocumentGeneratorType.SAXON)
 @ApplicationScoped
 public class SaxonDocumentGenerator implements IDocumentGenerator {
+
+    private static final String EMPTY_DATASET = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<empty/>";
 
     @Inject
     private TemplateContainer templateContainer;
@@ -102,6 +105,9 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     @Inject
     private SignatureGenerator signatureGenerator;
 
+    @Inject
+    private XSLTTemplateCache xsltTemplateCache;
+
     @Override
     public void generateToOutputStream(OutputStream outputStream, Map<String, String> parameterData, String digitalSignatureProfile)
             throws BaseException {
@@ -113,11 +119,13 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     public void generateToOutputStream(OutputStream outputStream, ParametersDataType parameterData, String digitalSignatureProfile)
             throws BaseException {
         BaseGeneratorSetupType generatorSetup = requestContainer.getGeneratorSetup();
-        SaxonGeneratorParametersData saxonParameters = jaxbTool
-                .unmarshalXML(SaxonGeneratorParametersData.class, parameterData.getGeneratorParameters(), XsdConstants.SUPER_XSD_PATH);
 
-        if (!saxonParameters.isSetXmlDataset()) {
-            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "xmlDataSet is missing from setup!");
+        SaxonGeneratorParametersData saxonParameters;
+        if (parameterData != null && parameterData.getGeneratorParameters() != null && parameterData.getGeneratorParameters().length > 0) {
+            saxonParameters = jaxbTool
+                    .unmarshalXML(SaxonGeneratorParametersData.class, parameterData.getGeneratorParameters(), XsdConstants.SUPER_XSD_PATH);
+        } else {
+            saxonParameters = new SaxonGeneratorParametersData().withXmlDataset(EMPTY_DATASET.getBytes(StandardCharsets.UTF_8));
         }
 
         if (!saxonParameters.isSetFopConfig() && fopConfigPathOpt.isEmpty()) {
@@ -143,17 +151,14 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
             }
 
             // Saxon transformer initialization
-            TransformerFactory factory = TransformerFactory
-                    .newInstance(TransformerFactoryImpl.class.getName(), TransformerFactoryImpl.class.getClassLoader());
-            //
-            // factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-            // Unfortunately, this generates an error: 'XTSE0010: xsl:result-document is disabled when extension functions are disabled'
-            //
-            Transformer transformer = factory.newTransformer(new StreamSource(templateStream));
+            String key = DigestUtils.sha1Hex(templateContainer.getCompiledResultAsBytes());
+            Templates template = xsltTemplateCache.get(key);
+            Transformer transformer = template.newTransformer();
 
             // Start XSLT transformation and FOP processing
             transformer.setParameter(xsltLangVarOpt.get(), getLanguage(generatorSetup).toUpperCase());
             transformer.transform(params, result);
+
             // add digital signing if needed by configuration
             signatureGenerator.addDigitalSignatureIfNeeded(outputStream, digitalSignatureProfile);
 
@@ -174,30 +179,20 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
     /**
      * Get the FO stream
      * 
-     * TODO: this should be cached!
-     * 
      * @param outputStream
      *            generate output
      * @param saxonParameters
      * @param digitalSignatureProfile
      *            nullable, the digital signature profile name
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     @Traced
     private Result getFOStream(OutputStream outputStream, SaxonGeneratorParametersData saxonParameters, String digitalSignatureProfile)
             throws BaseException {
         try {
             // create an instance of fop factory
-            FopFactory fopFactory = null;
-            if (saxonParameters.getFopConfig() != null) {
-                try (InputStream fopConfig = new ByteArrayInputStream(saxonParameters.getFopConfig())) {
-                    fopFactory = FopFactory.newInstance(Path.of(fopConfigPathOpt.get()).toUri(), fopConfig);
-                }
-            }
-            if (fopFactory == null) {
-                fopFactory = FopFactory.newInstance(new File(fopConfigPathOpt.get()));
-            }
+            FopFactory fopFactory = newFopFactory(saxonParameters);
 
             // a user agent is needed for transformation
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
@@ -218,6 +213,29 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
                     MessageFormat.format("XSLT FO transformation failed with error: [{0}]", e.getLocalizedMessage()),
                     e);
         }
+    }
+
+    private FopFactory newFopFactory(SaxonGeneratorParametersData saxonParameters) throws BaseException {
+        try {
+            // create an instance of fop factory
+            FopFactory fopFactory = null;
+            if (saxonParameters.getFopConfig() != null) {
+                try (InputStream fopConfig = new ByteArrayInputStream(saxonParameters.getFopConfig())) {
+                    fopFactory = FopFactory.newInstance(Path.of(fopConfigPathOpt.get()).toUri(), fopConfig);
+                }
+            }
+            if (fopFactory == null) {
+                fopFactory = FopFactory.newInstance(new File(fopConfigPathOpt.get()));
+            }
+
+            return fopFactory;
+        } catch (Exception e) {
+            throw new TechnicalException(
+                    CoffeeFaultType.OPERATION_FAILED,
+                    MessageFormat.format("XSLT FO transformation failed with error: [{0}]", e.getLocalizedMessage()),
+                    e);
+        }
+
     }
 
     private String getLanguage(BaseGeneratorSetupType baseGeneratorSetup) {

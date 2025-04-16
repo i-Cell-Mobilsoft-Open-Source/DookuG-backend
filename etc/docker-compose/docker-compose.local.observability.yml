@@ -24,7 +24,7 @@ services:
     opentelemetry-collector:
         container_name: opentelemetry-collector
         #TODO collector "The number of requests this listener has served" but should have "Number of all requests"
-        image: otel/opentelemetry-collector:0.123.0
+        image: otel/opentelemetry-collector:0.92.0
         # contrib collector repo e.g. tail_sampling processor
         # https://github.com/open-telemetry/opentelemetry-collector-contrib
         # image: otel/opentelemetry-collector-contrib:0.123.0
