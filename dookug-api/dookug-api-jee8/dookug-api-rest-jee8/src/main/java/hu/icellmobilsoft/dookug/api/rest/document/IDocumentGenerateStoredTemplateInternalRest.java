@@ -64,8 +64,10 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate a document based on a stored template and settings in a request",
-            description = "Generate and return a document based on stored template in the module's database by parameters and settings received in the request.")
+    @Operation(summary = "Generates document based on the template stored in the module's database, and returns it.",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
+                    + ", but instead of sending the template in the request, "
+                    + "it is referenced by its ID, as it is stored in the module’s database.")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(value = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM })
@@ -83,9 +85,10 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generate document and return metadata based on stored template and request settings",
-            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE
-                    + " but returns with the metadata of the generated document.")
+    @Operation(summary = "Generates document based on the template stored in the module's database, and returns it's metadata.",
+            description = "Similar to POST " + DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_INLINE
+                    + " but instead of sending the template in the request, it is referenced by its ID, "
+                    + "as it is stored in the module’s database. Returns the metadata of the generated document.")
     @POST
     @Path(DocumentGeneratePath.METADATA)
     @Consumes(MediaType.APPLICATION_JSON)

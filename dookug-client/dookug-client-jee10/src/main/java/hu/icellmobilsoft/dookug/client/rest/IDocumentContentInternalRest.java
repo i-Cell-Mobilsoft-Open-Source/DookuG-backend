@@ -64,6 +64,6 @@ public interface IDocumentContentInternalRest extends AutoCloseable {
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
-            description = "Generált dokumentum azonosító") String documentId) throws BaseException;
+            description = "Generated document ID") String documentId) throws BaseException;
 
 }

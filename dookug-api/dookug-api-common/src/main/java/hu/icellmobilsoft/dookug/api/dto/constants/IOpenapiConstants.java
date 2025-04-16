@@ -38,22 +38,22 @@ public interface IOpenapiConstants {
         /**
          * {@value #DOCUMENT_GENERATE}
          */
-        String DOCUMENT_GENERATE = "Document generation operations";
+        String DOCUMENT_GENERATE = "Document generation";
 
         /**
-         * {@value #DOCUMENT_CONTENT}
+         * {@value #QUERY}
          */
-        String DOCUMENT_CONTENT = "Querying generated document";
-
-        /**
-         * {@value #STORED_TEMPLATE}
-         */
-        String STORED_TEMPLATE = "Stored template operations";
+        String QUERY = "Querying generated document";
 
         /**
          * {@value #DOCUMENT_SIGNING}
          */
-        String DOCUMENT_SIGNING = "Document signing operations";
+        String DOCUMENT_SIGNING = "Document signing";
+
+        /**
+         * {@value #MAINTENANCE}
+         */
+        String MAINTENANCE = "Maintenance";
     }
 
     /**
@@ -66,22 +66,21 @@ public interface IOpenapiConstants {
         /**
          * {@value #DOCUMENT_GENERATE}
          */
-        String DOCUMENT_GENERATE = "Settings and parameters received in the REST operations related to document generation, "
-                + "based on the template received in the request or stored in the module.";
+        String DOCUMENT_GENERATE = "Document generation based on a template, using the settings from the requests and the parameters provided for the template.";
 
         /**
-         * {@value #DOCUMENT_CONTENT}
+         * {@value #QUERY}
          */
-        String DOCUMENT_CONTENT = "Querying generated document stored in the module database.";
-
-        /**
-         * {@value #STORED_TEMPLATE}
-         */
-        String STORED_TEMPLATE = "REST operations related to templates stored in the module.";
+        String QUERY = "Downloading files or querying metadata.";
 
         /**
          * {@value #DOCUMENT_SIGNING}
          */
         String DOCUMENT_SIGNING = "Electronic signing of the received document.";
+
+        /**
+         * {@value #MAINTENANCE}
+         */
+        String MAINTENANCE = "Clearing internal state.";
     }
 }

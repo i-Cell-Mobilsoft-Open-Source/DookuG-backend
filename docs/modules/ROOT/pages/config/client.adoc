@@ -13,15 +13,15 @@ dookug:
 
 It is advisable to specify the following parameters for the client operation:
 
-[options="header",cols="3"]
+[options="header",cols="4"]
 |===
-| Parameter Key | Mandatory | Description
+| Parameter Key | ENV | Mandatory | Description
 //-------------
-| dookug.client.document/mp-rest/url | yes | Base URL of the DookuG module
-| dookug.client.document/mp-rest/connectTimeout | | Connection Timeout (defaults to 5 seconds if unspecified)
-| dookug.client.document/mp-rest/readTimeout | | Read Timeout (defaults to 1 minute if unspecified)
-| dookug.service.cache.template.ttl | no | Template cache expiration time in minutes, default is 60 minutes
-| dookug.service.cache.template.enablestatistic | no | Whether to generate metrics for caching, defaults to false
+| dookug.client.document/mp-rest/url | DOOKUG_CLIENT_DOCUMENT_MP_REST_URL | yes | Base URL of the DookuG module
+| dookug.client.document/mp-rest/connectTimeout | DOOKUG_CLIENT_DOCUMENT_MP_REST_CONNECT_TIMEOUT | | Connection Timeout (defaults to 5 seconds if unspecified)
+| dookug.client.document/mp-rest/readTimeout | DOOKUG_CLIENT_DOCUMENT_MP_REST_READ_TIMEOUT | | Read Timeout (defaults to 1 minute if unspecified)
+| dookug.service.cache.template.ttl | DOOKUG_SERVICE_CACHE_TEMPLATE_TTL | no | Template cache expiration time in minutes, default is 60 minutes
+| dookug.service.cache.template.enablestatistic | DOOKUG_SERVICE_CACHE_TEMPLATE_ENABLESTATISTIC | no | Whether to generate metrics for caching, defaults to false
 |===
 
 Additional parameters can also be specified, as outlined in the [Microprofile RestClient documentation](https://download.eclipse.org/microprofile/microprofile-rest-client-2.0/microprofile-rest-client-spec-2.0.html#mpconfig:~:text=Client%20CDI%20Support-,Support%20for%20MicroProfile%20Config,-Configuration%20Keys).

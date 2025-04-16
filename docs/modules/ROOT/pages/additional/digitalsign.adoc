@@ -59,7 +59,7 @@ dookug:
 If you need to replace the certificate used for digital signing (e.g., due to expiration), follow these steps:
 
 - mount the new keystore file as a docker volume
-- edit the <<pdf-signing-config, configurations of digital signing>> if necessary
+- edit the xref:../install/dookug-service.adoc#pdf-signing-config[configurations of digital signing] if necessary
 
 No application release is required. Restarting the service with the new certificate is sufficient.
 

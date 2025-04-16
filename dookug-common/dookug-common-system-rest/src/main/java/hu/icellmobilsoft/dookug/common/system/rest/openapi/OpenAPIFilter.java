@@ -23,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.OASFilter;
 import org.eclipse.microprofile.openapi.models.media.Schema;
 
+import hu.icellmobilsoft.dookug.common.util.date.DateUtil;
+
 /**
  * Openapi filter.<br>
  *
@@ -43,6 +45,9 @@ public class OpenAPIFilter implements OASFilter {
         if (schema != null && StringUtils.isNotBlank(schema.getPattern())) {
             // If there is a pattern, it must be a string at request/response level (in dto it can be an object e.g. XmlGregorianCalendar)
             schema.setType(Schema.SchemaType.STRING);
+        }
+        if (schema != null && schema.getFormat() != null && StringUtils.equals("date-time", schema.getFormat())) {
+            schema.setExample(DateUtil.nowUTCTruncatedToMillis().toString());
         }
         return schema;
     }

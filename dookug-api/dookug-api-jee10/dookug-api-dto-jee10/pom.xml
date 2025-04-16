@@ -69,10 +69,16 @@
                     <verbose>true</verbose>
                     <schemaDirectory>src/main/resources</schemaDirectory>
                     <args>
+                        <arguments>-openapify</arguments>
                         <arguments>-Xfluent-api</arguments>
                         <arguments>-Xannotate</arguments>
                     </args>
                     <plugins>
+                        <plugin>
+                            <groupId>hu.icellmobilsoft.jaxb</groupId>
+                            <artifactId>openapi-jaxb-plugin</artifactId>
+                            <version>2.0.0</version>
+                        </plugin>
                         <plugin>
                             <groupId>net.java.dev.jaxb2-commons</groupId>
                             <artifactId>jaxb-fluent-api</artifactId>

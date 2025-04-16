@@ -64,8 +64,10 @@ public interface IDocumentSignInternalRest {
      */
     @Operation(summary = "Digitally signing the document received in a multipart request and returning it in the response.",
             description = "The document received in the request is digitally signed and returned in the response. "
-                    + "The request must use multipart format. The process is synchronous, and the file is not stored. The signing is "
-                    + "performed based on the parameters specified in the module configuration")
+                    + "The request must include the file to be signed and the name of the signing profile. "
+                    + "The signing process is performed synchronously based on the parameters configured in the module for the given profile. "
+                    + "The file is not stored on the server at any point.\n\n"
+                    + "In the response, we receive the signed document and the filename in the HTTP header. The filename can be set in the request.")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)

@@ -42,7 +42,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
  * @author mate.biro
  * @since 0.2.0
  */
-@Tag(name = IOpenapiConstants.Tag.STORED_TEMPLATE, description = IOpenapiConstants.Description.STORED_TEMPLATE)
+@Tag(name = IOpenapiConstants.Tag.QUERY, description = IOpenapiConstants.Description.QUERY)
 @Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
 public interface IDocumentStoredTemplateInternalRest {
 
@@ -55,9 +55,10 @@ public interface IDocumentStoredTemplateInternalRest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Return template metadata stored based on specified filtering criteria.",
-            description = "Collect and return the metadata of the stored templates in a scrollable list based on the filtering, sorting "
-                    + "and paging parameters specified in the request body.")
+    @Operation(summary = "Returns the data recorded in the module for the requested documents based on the specified filtering criteria.",
+            description = "Collecting the metadata of the requested documents from the DOCUMENT data table based on the filtering, sorting, "
+                    + "and pagination parameters provided in the request body at the endpoint, and returning it in the response.\n\n"
+                    + "It is mandatory to filter by the type of storage in the `storageMethod` parameter.")
     @POST
     @Path(DocumentGeneratePath.METADATA_QUERY)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
