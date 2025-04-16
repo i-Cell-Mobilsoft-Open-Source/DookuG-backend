@@ -124,15 +124,12 @@ public class SaxonDocumentGenerator implements IDocumentGenerator {
         if (parameterData != null && parameterData.getGeneratorParameters() != null && parameterData.getGeneratorParameters().length > 0) {
             saxonParameters = jaxbTool
                     .unmarshalXML(SaxonGeneratorParametersData.class, parameterData.getGeneratorParameters(), XsdConstants.SUPER_XSD_PATH);
-            if (!saxonParameters.isSetXmlDataset()) {
-                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "xmlDataSet is missing from setup!");
-            }
-
-            if (!saxonParameters.isSetFopConfig() && fopConfigPathOpt.isEmpty()) {
-                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "FOP config file not configured!");
-            }
         } else {
             saxonParameters = new SaxonGeneratorParametersData().withXmlDataset(EMPTY_DATASET.getBytes(StandardCharsets.UTF_8));
+        }
+
+        if (!saxonParameters.isSetFopConfig() && fopConfigPathOpt.isEmpty()) {
+            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "FOP config file not configured!");
         }
 
         if (xsltLangVarOpt.isEmpty()) {
