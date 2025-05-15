@@ -206,7 +206,7 @@ public class BaseDocumentGenerateAction extends BaseAction {
     }
 
     private Document createDocument(BaseGeneratorSetupType generatorSetup, byte[] content) throws BaseException {
-        Document document = new Document(RandomUtil.generateId(), generatorSetup.getResponseFormat().name(), content, DocumentStatus.DONE.name());
+        Document document = new Document(generatorSetup.getResponseFormat().name(), content, DocumentStatus.DONE.name());
         document.setStorageType(generatorSetup.getDocumentStorageMethod().name());
         document.setFilename(
                 FileUtil.createFilename(

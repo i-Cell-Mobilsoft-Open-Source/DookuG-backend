@@ -29,8 +29,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
@@ -70,8 +72,9 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *            {@link DocumentGenerateMultipartForm} The multipart form object
      * @return Generated document by request
      * @throws BaseException
-     *             if error
+     *             if any error occurs
      */
+    @Traced(component = "template-generation", kind = SpanAttribute.SERVER)
     public Response postDocumentGenerate(DocumentGenerateMultipartForm form) throws BaseException {
         if (form == null) {
             throw new InvalidParameterException("form is null!");
@@ -92,7 +95,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *            {@link DocumentGenerateWithTemplatesRequest} The multipart form object
      * @return Generated document by request
      * @throws BaseException
-     *             if error
+     *             if any error occurs
      */
     public Response postDocumentGenerate(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         if (request == null) {
@@ -108,7 +111,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *            multipart form
      * @return the document metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateMetadata(DocumentGenerateMultipartForm form) throws BaseException {
         if (form == null) {
@@ -128,7 +131,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *            request object
      * @return the document metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postDocumentGenerateMetadata(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         if (request == null) {

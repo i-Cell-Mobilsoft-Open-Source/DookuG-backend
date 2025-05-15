@@ -88,12 +88,7 @@ Additional keys can be found here:
 |===
 |Parameter |Value |Description
 |JAVA_OPTS |-Xms2000m -Xmx2000m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -XX:+PrintCommandLineFlags -XX:+UseG1GC |Maximize module heap requirement to 2G memory with UseG1GC algorithm.
-|ORACLE_DS_MAX_POOL_SIZE/POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximum size
-|OPENTRACING_JAEGER_AGENT_HOST|jaeger |Jaeger host
-|OPENTRACING_JAEGER_AGENT_PORT|6831 |Jaeger agent port
-|OPENTRACING_JAEGER_AGENT_SAMPLER_PORT|5778 |Jaeger agent sampler port
-|OPENTRACING_JAEGER_PROPAGATION|JAEGER/B3 |Jaeger propagation
-|JAEGER_SERVICE_NAME|dookug-document-service |Service name visible in Jaeger (default: ROOT.war)
+|ORACLE_DS_MAX_POOL_SIZE / POSTGRESQL_DS_MAX_POOL_SIZE|30 |Datasource pool maximum size
 |LOGSTASH_ENABLED|true |Enable Logstash connector (default false)
 |LOGSTASH_HOST|tcp:graylog |Logstash server host (do not remove "tcp:" prefix)
 |LOGSTASH_PORT|12201 |Logstash GELF input port
@@ -103,6 +98,13 @@ Additional keys can be found here:
 |CONSOLE_LOGGING_JSON_ENABLED|true|Enable JSON logging on console in Wildfly. It is recommended to set CONSOLE_LOGGING_ENABLED environment variable to false, otherwise duplicate logging will occur on the console. Default: false
 |FILE_LOGGING_ENABLED|false|Disable file logging in Wildfly (default: true)
 |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|For OffsetDateTime types to be stored in the database, specify the zone for creation and modification dates. Default is `UTC`, but can be any valid parameter for `java.time.ZoneId.of(String zoneId)` method. Incorrect values will generate warning messages and default values will be used, which will be `TimeZone.getDefault().toZoneId()`.
+|OPENTELEMETRY_SERVICE_NAME| dookug-document-service| The service name to display
+|OPENTELEMETRY_SAMPLER_TYPE| on| default is ratio with 0.01
+|OPENTELEMETRY_EXPORTER_TYPE| otlp| default is otlp, "The 'jaeger' exporter is no longer supported.", but the docs say its allowed
+|OPENTELEMETRY_EXPORTER_ENDPOINT| http://opentelemetry-collector:4317 |The telemetry collector connection parameters 
+|MICROMETER_ENDPOINT| http://opentelemetry-collector:4318/v1/metrics |The micrometer endpoint
+
+
 |===
 
 .Requests/limits settings

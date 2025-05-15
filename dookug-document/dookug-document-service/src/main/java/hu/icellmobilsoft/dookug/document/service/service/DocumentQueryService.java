@@ -35,6 +35,8 @@ import jakarta.persistence.criteria.Selection;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.common.common.OrderByTypeType;
 import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -71,6 +73,7 @@ public class DocumentQueryService extends BaseService<Document> {
      * @throws BaseException
      *             if database error occurs
      */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public PagingResult<Document> findByQueryParams(DocumentMetadataQueryParamsType queryParams, QueryRequestDetails paginationParams,
             List<DocumentMetadataQueryOrderType> queryOrders) throws BaseException {
         String methodInfo = getCalledMethodWithParamsBase("findByQueryParams", "queryParams", "paginationParams", "queryOrders");

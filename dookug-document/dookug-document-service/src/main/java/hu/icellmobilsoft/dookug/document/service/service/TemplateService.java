@@ -25,6 +25,8 @@ import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.jpa.service.BaseService;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.document.service.repository.TemplateRepository;
@@ -54,6 +56,7 @@ public class TemplateService extends BaseService<Template> {
      * @throws BaseException
      *             on error
      */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public Template findByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate) throws BaseException {
         return wrapValidated(
                 templateRepository::findByNameLanguageAndValidity,
@@ -79,6 +82,7 @@ public class TemplateService extends BaseService<Template> {
      * @throws BaseException
      *             on error
      */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate)
             throws BaseException {
         return wrapValidated(
