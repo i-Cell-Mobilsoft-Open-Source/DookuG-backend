@@ -81,7 +81,7 @@ IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLE
 .Opentelemetry
 [source,properties]
 ----
-OTEL_SDK_DISABLED=false
+OTEL_SDK_DISABLED=false #optional, default is false
 OPENTELEMETRY_SERVICE_NAME=dookug-document-service
 OTEL_SERVICE_NAME=dookug-document-service <1>
 OPENTELEMETRY_SAMPLER_TYPE: on # default is ratio with 0.01
