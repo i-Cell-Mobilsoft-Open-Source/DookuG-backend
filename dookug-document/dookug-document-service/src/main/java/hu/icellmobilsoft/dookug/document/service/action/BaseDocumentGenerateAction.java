@@ -39,6 +39,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -101,8 +103,9 @@ public class BaseDocumentGenerateAction extends BaseAction {
      *            the generator configuration
      * @return the {@link Document}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
+    @Traced(component = SpanAttribute.COMPONENT_KEY, kind = SpanAttribute.INTERNAL)
     protected Document generateDocument(BaseGeneratorSetupType generatorSetup) throws BaseException {
         validateSetup(generatorSetup);
 
@@ -217,6 +220,7 @@ public class BaseDocumentGenerateAction extends BaseAction {
         return document;
     }
 
+    @Traced(component = SpanAttribute.COMPONENT_KEY, kind = SpanAttribute.INTERNAL)
     private Document saveDocument(BaseGeneratorSetupType generatorSetup, byte[] content) throws BaseException {
         IDocumentStore iDocumentStore = CDI.current()
                 .select(IDocumentStore.class, new StorageMethodQualifier.Literal(generatorSetup.getDocumentStorageMethod().name()))
