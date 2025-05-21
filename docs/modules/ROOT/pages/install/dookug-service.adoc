@@ -78,6 +78,20 @@ CONSOLE_LOGGING_ENABLED=false
 
 IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLED environment variable to false to avoid duplicate logs on the console.
 
+.Opentelemetry
+[source,properties]
+----
+OTEL_SDK_DISABLED=false
+OPENTELEMETRY_SERVICE_NAME=dookug-document-service
+OTEL_SERVICE_NAME=dookug-document-service <1>
+OPENTELEMETRY_SAMPLER_TYPE: on # default is ratio with 0.01
+OPENTELEMETRY_EXPORTER_TYPE: otlp
+OPENTELEMETRY_EXPORTER_ENDPOINT: http://opentelemetry-collector:4317
+MICROMETER_ENDPOINT: http://opentelemetry-collector:4318/v1/metrics
+
+----
+<1> If the OPENTELEMETRY_SERVICE_NAME variable wouldn't work
+
 == Recommended K8S Configuration
 
 Additional keys can be found here:
