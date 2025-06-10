@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.common.system.rest.rest;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.rest.system.AbstractWildFlySystemRest;
+import hu.icellmobilsfoft.coffee.module.wildfly.rest.system.AbstractWildFlySystemRest;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.system.rest.cache.EvictAction;
 
