@@ -8,6 +8,7 @@
 * Saxon template caching
 * Microprofile metrics -> opentelemetry, as metrics are no longer supported.
 * Added some extra Traced annotation to the DB calls
+* Liquibase installer image has been upgraded to 2.0.0
 
 [NOTE]
 ====
