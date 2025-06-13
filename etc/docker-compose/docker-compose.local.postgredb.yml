@@ -18,54 +18,15 @@ services:
       test: [ 'CMD', 'pg_isready' ]
       interval: 2s
 
-  ##run liquibase main to add objects
-  dookug-liquibase-step_1:
-    container_name: module-dookug-liquibase-1
+  ##run liquibase
+  dookug-liquibase:
+    container_name: module-dookug-liquibase
     image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
     environment:
       AUTO_INSTALL: postgresql
-      INSTALL_STEP: STEP_1
     depends_on:
       module-dookug-postgredb:
         condition: service_healthy
-
-  ##add partition manager (internal installer)
-  dookug-pg_tools-step_01B:
-    container_name: module-dookug-partman-1b
-    image: icellmobilsoft/db-base-pg_tools:${DBDWH_IMAGE_VERSION}
-    environment:
-      AUTO_INSTALL: postgresql
-      INSTALL_URL_S1: jdbc:postgresql://module-dookug-postgredb:5432/postgres
-      INSTALL_URL_S2: jdbc:postgresql://module-dookug-postgredb:5432/dookug_db
-    depends_on:
-      dookug-liquibase-step_1:
-        condition: service_completed_successfully
-
-  ##run liquibase 2
-  dookug-liquibase-step_2:
-    container_name: module-dookug-liquibase-2
-    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
-    environment:
-      AUTO_INSTALL: postgresql
-      INSTALL_STEP: STEP_2
-    depends_on:
-      module-dookug-postgredb:
-          condition: service_healthy
-      dookug-pg_tools-step_01B:
-        condition: service_completed_successfully
-
-  ##add sample data
-  dookug-liquibase-sample-data:
-    container_name: module-dookug-liquibase-sample-data
-    image: icellmobilsoft/dookug_db:${DOOKUG_LIQUIBASE_VERSION}
-    environment:
-      AUTO_INSTALL: postgresql
-      INSTALL_STEP: STEP_4
-    depends_on:
-      module-dookug-postgredb:
-          condition: service_healthy
-      dookug-liquibase-step_2:
-        condition: service_completed_successfully
 
 networks:
   default:
