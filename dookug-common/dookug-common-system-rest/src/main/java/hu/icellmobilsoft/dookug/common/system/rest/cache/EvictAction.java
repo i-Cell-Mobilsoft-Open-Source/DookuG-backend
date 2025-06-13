@@ -19,20 +19,11 @@
  */
 package hu.icellmobilsoft.dookug.common.system.rest.cache;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import jakarta.enterprise.inject.Any;
-import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Model;
-import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.cdi.util.ProxyUtils;
-import hu.icellmobilsoft.coffee.configuration.ApplicationConfiguration;
-import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
-import hu.icellmobilsoft.dookug.common.core.evictable.Evictable;
-import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
-import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
+import hu.icellmobilsoft.coffee.dto.common.config.evict.EvictResponse;
+import hu.icellmobilsoft.coffee.dto.evict.Evictable;
+import hu.icellmobilsoft.coffee.rest.action.evict.AbstractEvictAction;
 
 /**
  * {@link Evictable} services can delete their states on demand. The action iterates through these services
@@ -41,45 +32,11 @@ import hu.icellmobilsoft.dookug.schemas.common._1_0.config.evict.EvictResponse;
  * @since 0.6.0
  */
 @Model
-public class EvictAction extends BaseAction {
+public class EvictAction extends AbstractEvictAction {
 
-    @Inject
-    private ApplicationConfiguration applicationConfiguration;
-
-    @Any
-    @Inject
-    private Instance<Evictable> evictables;
-
-    /**
-     * Evict operation iterates through the {@link Evictable} interface implementations for known framework level services explicitly calling the
-     * 'clear' function
-     *
-     * @return {@link EvictResponse} dto, list of names of classes implementing {@link Evictable} with the names of the known framework level services
-     */
+    @Override
     public EvictResponse evict() {
-        EvictResponse response = new EvictResponse();
-        response.setEvictionStart(DateUtil.nowUTC());
-
-        List<String> evicted = new ArrayList<>();
-
-        applicationConfiguration.clear();
-        evicted.add(getName(applicationConfiguration));
-
-        if (!evictables.isUnsatisfied()) {
-            evictables.forEach(evictable -> {
-                evictable.evict();
-                evicted.add(getName(evictable));
-            });
-        }
-
-        response.setEvictionEnd(DateUtil.nowUTC());
-        response.withEvicted(evicted);
-        handleSuccessResultType(response);
-        return response;
-    }
-
-    private String getName(Object evictable) {
-        return ProxyUtils.getUnproxiedClass(evictable.getClass()).getName();
+        return super.evict();
     }
 
 }

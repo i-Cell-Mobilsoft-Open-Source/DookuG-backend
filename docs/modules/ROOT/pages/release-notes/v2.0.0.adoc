@@ -2,7 +2,9 @@
 
 == Changes / updates
 
-* Wildfly has been upgraded 27 -> 34 (Wildfly baseimage 4.0.0) 
+* Wildfly has been upgraded 27 -> 34 (Wildfly baseimage 4.0.0)
+* Coffee has been upgraded 2.9.0 -> 2.11.0
+* Frappee has been upgraded 1.0.0 -> 2.0.0
 * Saxon template caching
 * Microprofile metrics -> opentelemetry, as metrics are no longer supported.
 * Added some extra Traced annotation to the DB calls
