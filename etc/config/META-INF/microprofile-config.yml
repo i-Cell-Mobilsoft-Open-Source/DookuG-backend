@@ -6,6 +6,8 @@
 # Coffee config
 #-------------------------------
 coffee:
+  app:
+    name: ${service.name}
   config:
     resource:
       bundles: i18n.messages
