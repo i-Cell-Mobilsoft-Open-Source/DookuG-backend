@@ -28,20 +28,20 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
+import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
-import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -65,9 +65,6 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
     @Inject
     private TemplateDataContainer templateData;
-
-    @Inject
-    private RequestContainer requestContainer;
 
     /**
      * Multipart form based document generation. The form contains all required data.
@@ -121,16 +118,13 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         if (form == null) {
             throw new InvalidParameterException("form is null!");
         }
-        if (form.getRequest() != null && form.getRequest().getContext() != null) {
-            requestContainer.setRequestId(form.getRequest().getContext().getRequestId());
-        }
         BaseGeneratorSetupType generatorSetup = form.getRequest().getGeneratorSetup();
         byte[] template = readInputStream(form.getTemplate());
         templateData.setTemplateName(MULTIPART_INLINE_TEMPLATE_NAME);
         // TODO a multipart inputnak valoszinu gzip csomagolt szerepe lesz, egyelore 1 inputot varunk el tole.
         return documentGenerateMetadata(
                 List.of(new TemplateType().withTemplateName("simple").withTemplateContent(template).withInitial(true)),
-                generatorSetup);
+                generatorSetup, form.getRequest().getContext());
     }
 
     /**
@@ -144,12 +138,9 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         if (request == null) {
             throw new InvalidParameterException("request is null!");
         }
-        if (request.getContext() != null) {
-            requestContainer.setRequestId(request.getContext().getRequestId());
-        }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();
-        return documentGenerateMetadata(request.getTemplates(), generatorSetup);
+        return documentGenerateMetadata(request.getTemplates(), generatorSetup, request.getContext());
     }
 
     private Response documentGenerate(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup) throws BaseException {
@@ -163,15 +154,15 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
     }
 
-    private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup)
-            throws BaseException {
+    private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup,
+            ContextType context) throws BaseException {
 
         for (TemplateType templateType : templates) {
             templateContainer.addTemplate(new Template(templateType.getTemplateName(), templateType.getTemplateContent()), templateType.isInitial());
         }
         Document document = generateDocument(generatorSetup);
 
-        return toDocumentMetadataResponse(document);
+        return toDocumentMetadataResponse(document, context);
     }
 
     private byte[] readInputStream(InputStream is) throws BaseException {

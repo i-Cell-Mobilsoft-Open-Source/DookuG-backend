@@ -21,7 +21,6 @@ package hu.icellmobilsoft.dookug.document.service.action;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -31,7 +30,6 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
-import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
@@ -45,9 +43,6 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Stor
 @Model
 public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAction {
 
-    @Inject
-    private RequestContainer requestContainer;
-
     /**
      * Document generation with stored template data. Storage of template depends on implementation.
      * 
@@ -60,9 +55,6 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
     public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
-        }
-        if (request.getContext() != null) {
-            requestContainer.setRequestId(request.getContext().getRequestId());
         }
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
@@ -82,13 +74,9 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
-        if (request.getContext() != null) {
-            requestContainer.setRequestId(request.getContext().getRequestId());
-        }
-
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return toDocumentMetadataResponse(document);
+        return toDocumentMetadataResponse(document, request.getContext());
     }
 
     private Document generateAndGetDocument(StoredTemplateGeneratorSetupType generatorSetup) throws BaseException {

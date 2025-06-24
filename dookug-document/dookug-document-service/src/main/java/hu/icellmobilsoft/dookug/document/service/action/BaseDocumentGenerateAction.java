@@ -41,6 +41,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
+import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
@@ -272,14 +273,18 @@ public class BaseDocumentGenerateAction extends BaseAction {
      * 
      * @param document
      *            document to convert
+     * @param context
+     *            the original request context
      * @return the metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
-    protected DocumentMetadataResponse toDocumentMetadataResponse(Document document) throws BaseException {
+    protected DocumentMetadataResponse toDocumentMetadataResponse(Document document, ContextType context) throws BaseException {
         DocumentMetadataResponse response = documentConverter.convert(document);
         handleSuccessResultType(response);
-        response.getContext().setRequestId(requestContainer.getOrDefaultRequestId());
+        if (context != null && context.isSetRequestId()) {
+            response.getContext().setRequestId(context.getRequestId());
+        }
         return response;
     }
 }
