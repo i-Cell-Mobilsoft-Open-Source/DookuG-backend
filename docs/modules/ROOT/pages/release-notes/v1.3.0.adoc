@@ -3,6 +3,7 @@
 == Changes / updates
 
 * Saxon template caching
+* The response context includes the original requestId when it is applicable
 
 == Migration
 

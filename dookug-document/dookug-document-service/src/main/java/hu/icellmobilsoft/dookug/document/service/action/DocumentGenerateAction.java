@@ -28,11 +28,12 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
@@ -120,7 +121,8 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         // TODO a multipart inputnak valoszinu gzip csomagolt szerepe lesz, egyelore 1 inputot varunk el tole.
         return documentGenerateMetadata(
                 List.of(new TemplateType().withTemplateName("simple").withTemplateContent(template).withInitial(true)),
-                generatorSetup);
+                generatorSetup,
+                form.getRequest().getContext());
     }
 
     /**
@@ -136,7 +138,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();
-        return documentGenerateMetadata(request.getTemplates(), generatorSetup);
+        return documentGenerateMetadata(request.getTemplates(), generatorSetup, request.getContext());
     }
 
     private Response documentGenerate(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup) throws BaseException {
@@ -150,8 +152,8 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
     }
 
-    private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup)
-            throws BaseException {
+    private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup,
+            ContextType context) throws BaseException {
 
         for (TemplateType templateType : templates) {
             templateContainer.addTemplate(new Template(templateType.getTemplateName(), templateType.getTemplateContent()), templateType.isInitial());
@@ -159,7 +161,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
         Document document = generateDocument(generatorSetup);
 
-        return toDocumentMetadataResponse(document);
+        return toDocumentMetadataResponse(document, context);
     }
 
     private byte[] readInputStream(InputStream is) throws BaseException {
