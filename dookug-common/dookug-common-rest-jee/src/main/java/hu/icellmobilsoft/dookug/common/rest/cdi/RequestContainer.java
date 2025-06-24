@@ -27,6 +27,7 @@ import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.rest.cdi.BaseRequestContainer;
+import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.dookug.common.rest.header.ProjectHeader;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 
@@ -52,6 +53,8 @@ public class RequestContainer {
     private ProjectHeader defaultProjectHeader = new ProjectHeader();
 
     private BaseGeneratorSetupType generatorSetup;
+
+    private String requestId;
 
     /**
      * Producer for project header bean
@@ -123,5 +126,27 @@ public class RequestContainer {
      */
     public void setGeneratorSetup(BaseGeneratorSetupType generatorSetup) {
         this.generatorSetup = generatorSetup;
+    }
+
+    /**
+     * @return the requestId
+     */
+    public String getRequestId() {
+        return requestId;
+    }
+
+    /**
+     * @param requestId
+     *            the requestId to set
+     */
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    /**
+     * @return the requestId
+     */
+    public String getOrDefaultRequestId() {
+        return requestId == null ? RandomUtil.generateId() : requestId;
     }
 }

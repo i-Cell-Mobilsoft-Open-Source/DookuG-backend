@@ -41,6 +41,7 @@ import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
+import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -64,6 +65,9 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
     @Inject
     private TemplateDataContainer templateData;
+
+    @Inject
+    private RequestContainer requestContainer;
 
     /**
      * Multipart form based document generation. The form contains all required data.
@@ -117,6 +121,9 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         if (form == null) {
             throw new InvalidParameterException("form is null!");
         }
+        if (form.getRequest() != null && form.getRequest().getContext() != null) {
+            requestContainer.setRequestId(form.getRequest().getContext().getRequestId());
+        }
         BaseGeneratorSetupType generatorSetup = form.getRequest().getGeneratorSetup();
         byte[] template = readInputStream(form.getTemplate());
         templateData.setTemplateName(MULTIPART_INLINE_TEMPLATE_NAME);
@@ -136,6 +143,9 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
     public DocumentMetadataResponse postDocumentGenerateMetadata(DocumentGenerateWithTemplatesRequest request) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("request is null!");
+        }
+        if (request.getContext() != null) {
+            requestContainer.setRequestId(request.getContext().getRequestId());
         }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();
@@ -159,7 +169,6 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         for (TemplateType templateType : templates) {
             templateContainer.addTemplate(new Template(templateType.getTemplateName(), templateType.getTemplateContent()), templateType.isInitial());
         }
-
         Document document = generateDocument(generatorSetup);
 
         return toDocumentMetadataResponse(document);
