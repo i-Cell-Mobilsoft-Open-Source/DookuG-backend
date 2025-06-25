@@ -78,7 +78,7 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
 
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return toDocumentMetadataResponse(document);
+        return toDocumentMetadataResponse(document, request.getContext());
     }
 
     private Document generateAndGetDocument(StoredTemplateGeneratorSetupType generatorSetup) throws BaseException {
