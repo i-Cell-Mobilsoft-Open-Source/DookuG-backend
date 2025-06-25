@@ -1,0 +1,9 @@
+= v2.1.0
+
+== Changes / updates
+
+* The response context includes the original requestId when it is applicable
+
+== Migration
+
+Changes are backwards compatible doesn't need any migration.

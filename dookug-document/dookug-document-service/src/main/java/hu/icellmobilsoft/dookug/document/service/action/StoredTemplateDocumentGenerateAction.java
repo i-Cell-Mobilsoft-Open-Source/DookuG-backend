@@ -24,9 +24,9 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
@@ -50,13 +50,12 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
      * @return Generated PDF
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
-
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
         return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
@@ -69,16 +68,15 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
      * @return {@link DocumentMetadataResponse}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
-
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return toDocumentMetadataResponse(document);
+        return toDocumentMetadataResponse(document, request.getContext());
     }
 
     private Document generateAndGetDocument(StoredTemplateGeneratorSetupType generatorSetup) throws BaseException {

@@ -41,11 +41,11 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
+import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
-import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
@@ -62,6 +62,7 @@ import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
 import hu.icellmobilsoft.dookug.common.model.template.enums.DocumentStatus;
+import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.common.util.filename.FileUtil;
 import hu.icellmobilsoft.dookug.document.service.converter.DocumentConverter;
@@ -90,6 +91,9 @@ public class BaseDocumentGenerateAction extends BaseAction {
 
     @Inject
     private DocumentConverter documentConverter;
+
+    @Inject
+    private RequestContainer requestContainer;
 
     @Inject
     @ConfigProperty(name = ConfigKeys.Interface.DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED,
@@ -249,10 +253,13 @@ public class BaseDocumentGenerateAction extends BaseAction {
             public void write(OutputStream output) throws IOException, WebApplicationException {
                 try {
                     if (generatorSetup.isSetParameters()) {
-                        documentGenerator
-                                .generateToOutputStream(output, getMapFromParameterTypeList(generatorSetup.getParameters()), generatorSetup.getDigitalSignatureProfile());
+                        documentGenerator.generateToOutputStream(
+                                output,
+                                getMapFromParameterTypeList(generatorSetup.getParameters()),
+                                generatorSetup.getDigitalSignatureProfile());
                     } else {
-                        documentGenerator.generateToOutputStream(output, generatorSetup.getParametersData(), generatorSetup.getDigitalSignatureProfile());
+                        documentGenerator
+                                .generateToOutputStream(output, generatorSetup.getParametersData(), generatorSetup.getDigitalSignatureProfile());
                     }
                 } catch (BaseException e) {
                     throw new IOExceptionBaseExceptionWrapper(e);
@@ -266,13 +273,18 @@ public class BaseDocumentGenerateAction extends BaseAction {
      * 
      * @param document
      *            document to convert
+     * @param context
+     *            the original request context
      * @return the metadata
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
-    protected DocumentMetadataResponse toDocumentMetadataResponse(Document document) throws BaseException {
+    protected DocumentMetadataResponse toDocumentMetadataResponse(Document document, ContextType context) throws BaseException {
         DocumentMetadataResponse response = documentConverter.convert(document);
         handleSuccessResultType(response);
+        if (context != null && context.isSetRequestId()) {
+            response.getContext().setRequestId(context.getRequestId());
+        }
         return response;
     }
 }
