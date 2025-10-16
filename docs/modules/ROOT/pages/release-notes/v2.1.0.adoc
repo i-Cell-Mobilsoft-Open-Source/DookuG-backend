@@ -3,6 +3,7 @@
 == Changes / updates
 
 * The response context includes the original requestId when it is applicable
+* Documentation fixes regarding OPENTELEMETRY_SAMPLER_TYPE and OPENTELEMETRY_SAMPLER_RATIO environment variables
 
 == Migration
 
