@@ -84,7 +84,8 @@ IMPORTANT: If logging in JSON format is required, set the CONSOLE_LOGGING_ENABLE
 OTEL_SDK_DISABLED=false #optional, default is false
 OPENTELEMETRY_SERVICE_NAME=dookug-document-service
 OTEL_SERVICE_NAME=dookug-document-service <1>
-OPENTELEMETRY_SAMPLER_TYPE: on # default is ratio with 0.01
+OPENTELEMETRY_SAMPLER_TYPE: ratio
+OPENTELEMETRY_SAMPLER_RATIO: 0.01
 OPENTELEMETRY_EXPORTER_TYPE: otlp
 OPENTELEMETRY_EXPORTER_ENDPOINT: http://opentelemetry-collector:4317
 MICROMETER_ENDPOINT: http://opentelemetry-collector:4318/v1/metrics
@@ -113,7 +114,8 @@ Additional keys can be found here:
 |FILE_LOGGING_ENABLED|false|Disable file logging in Wildfly (default: true)
 |COFFEE_MODEL_BASE_JAVA_TIME_TIMEZONE_ID|UTC|For OffsetDateTime types to be stored in the database, specify the zone for creation and modification dates. Default is `UTC`, but can be any valid parameter for `java.time.ZoneId.of(String zoneId)` method. Incorrect values will generate warning messages and default values will be used, which will be `TimeZone.getDefault().toZoneId()`.
 |OPENTELEMETRY_SERVICE_NAME| dookug-document-service| The service name to display
-|OPENTELEMETRY_SAMPLER_TYPE| on| default is ratio with 0.01
+|OPENTELEMETRY_SAMPLER_TYPE| ratio| on (full sampling) / off (no sampling) / ratio (default: ratio)
+|OPENTELEMETRY_SAMPLER_RATIO| 0.01| needed if OPENTELEMETRY_SAMPLER_TYPE=ratio (default: 0.01)
 |OPENTELEMETRY_EXPORTER_TYPE| otlp| default is otlp, "The 'jaeger' exporter is no longer supported.", but the docs say its allowed
 |OPENTELEMETRY_EXPORTER_ENDPOINT| http://opentelemetry-collector:4317 |The telemetry collector connection parameters 
 |MICROMETER_ENDPOINT| http://opentelemetry-collector:4318/v1/metrics |The micrometer endpoint
