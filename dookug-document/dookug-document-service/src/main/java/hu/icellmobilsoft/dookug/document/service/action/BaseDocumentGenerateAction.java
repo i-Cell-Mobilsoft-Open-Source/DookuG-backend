@@ -194,7 +194,7 @@ public class BaseDocumentGenerateAction extends BaseAction {
                 templateCompiler.compile(getMapFromParameterTypeList(generatorSetup.getParameters()));
             } else if (generatorSetup.isSetParametersData()) {
                 byte[] parametersData = generatorSetup.getParametersData().getTemplateParameters();
-                if (parametersDataGzipped) {
+                if (parametersDataGzipped && GZIPUtil.isCompressed(parametersData)) {
                     parametersData = GZIPUtil.decompress(parametersData);
                 }
                 templateCompiler.compile(parametersData);
