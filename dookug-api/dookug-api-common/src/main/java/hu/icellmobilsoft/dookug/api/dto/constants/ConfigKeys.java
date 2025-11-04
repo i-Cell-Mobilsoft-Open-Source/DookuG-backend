@@ -40,14 +40,14 @@ public interface ConfigKeys {
          * {@code #DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED} default value
          */
         @ConfigDoc(exclude = true)
-        String DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT = "false";
+        String DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT = "true";
 
         /**
          * *Interface configuration*
          *
          * Logical config key.
          *
-         * The module expects the incoming "parametersData" field in the request to be compressed using gzip.
+         * The module enables the incoming "parametersData" field in the request to be compressed using gzip.
          */
         @ConfigDoc(since = "0.1.0", defaultValue = DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT)
         String DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED = "dookug.service.interface.parametersdata.gzipped";

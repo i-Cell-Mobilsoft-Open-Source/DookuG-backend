@@ -4,7 +4,9 @@
 
 * Saxon template caching
 * The response context includes the original requestId when it is applicable
+* The `dookug.service.interface.parametersdata.gzipped` config default value changed to `true`,
+and with the true value the backend can process compressed and uncompressed parameters too.
 
 == Migration
 
-Changes are backwards compatible doesn't need any migration.
+Changes are backwards compatible, doesn't need any migration.

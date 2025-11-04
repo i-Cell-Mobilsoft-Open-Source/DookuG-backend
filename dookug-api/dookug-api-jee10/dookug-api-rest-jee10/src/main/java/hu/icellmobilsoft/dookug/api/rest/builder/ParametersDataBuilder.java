@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,8 +23,10 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.lang3.StringUtils;
 
+import hu.icellmobilsoft.coffee.dto.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.JsonConversionException;
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.coffee.tool.utils.marshalling.MarshallingUtil;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
@@ -32,7 +34,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.generator.saxon.Saxon
 
 /**
  * {@link ParametersDataType} builder
- * 
+ *
  * @author tamas.cserhati
  * @since 0.0.1
  */
@@ -42,7 +44,7 @@ public class ParametersDataBuilder {
 
     /**
      * Instantiate a new builder
-     * 
+     *
      * @return a new builder instance
      */
     public static ParametersDataBuilder newBuilder() {
@@ -53,7 +55,7 @@ public class ParametersDataBuilder {
 
     /**
      * get ParametersDataType.withGeneratorParameters(saxonParameters coming in method parameters)
-     * 
+     *
      * @param fopConfig
      *            the fopConfig
      * @param xmlDataset
@@ -74,7 +76,7 @@ public class ParametersDataBuilder {
 
     /**
      * get ParametersDataType.withGeneratorParameters(fopConfig, xmlDataset)
-     * 
+     *
      * @param fopConfig
      *            the fopConfig
      * @param xmlDataset
@@ -87,7 +89,7 @@ public class ParametersDataBuilder {
 
     /**
      * get ParametersDataType.withGeneratorParameters(xmlDataset)
-     * 
+     *
      * @param xmlDataset
      *            the xml dataset uncompressed
      * @return the configured {@link ParametersDataType} object
@@ -98,7 +100,7 @@ public class ParametersDataBuilder {
 
     /**
      * build the requested object
-     * 
+     *
      * @return the {@link ParametersDataType} set up
      */
     public ParametersDataType build() {
@@ -107,7 +109,7 @@ public class ParametersDataBuilder {
 
     /**
      * build the requested object as a marshalled byte array
-     * 
+     *
      * @return the configured parametersData as a byte array
      */
     public byte[] binaryBuild() {
@@ -116,7 +118,7 @@ public class ParametersDataBuilder {
 
     /**
      * Create template parameters from (JSON) object
-     * 
+     *
      * @param templateParameters
      *            the object to add as binary template parameters
      * @return the builder
@@ -127,13 +129,32 @@ public class ParametersDataBuilder {
         if (templateParameters == null) {
             return this;
         }
-        parametersData.setTemplateParameters(JsonUtil.toJson(templateParameters).getBytes(StandardCharsets.UTF_8));
+        parametersData.setTemplateParameters(toJsonBytes(templateParameters));
+        return this;
+    }
+
+    /**
+     * Create template parameters from (JSON) object with compression
+     *
+     * @param templateParameters
+     *            the object to add as binary template parameters
+     * @return the builder
+     * @throws JsonConversionException
+     *             if json conversion error occurs
+     * @throws TechnicalException
+     *             on compression error
+     */
+    public ParametersDataBuilder withTemplateParametersCompressed(Object templateParameters) throws BaseException {
+        if (templateParameters == null) {
+            return this;
+        }
+        parametersData.setTemplateParameters(GZIPUtil.compress(toJsonBytes(templateParameters)));
         return this;
     }
 
     /**
      * Create template parameters from an UTF-8 JSON string
-     * 
+     *
      * @param templateParametersJson
      *            the json string uses for template parameters
      * @return the builder
@@ -147,8 +168,25 @@ public class ParametersDataBuilder {
     }
 
     /**
+     * Create template parameters from an UTF-8 JSON string with compression
+     *
+     * @param templateParametersJson
+     *            the json string uses for template parameters
+     * @return the builder
+     * @throws TechnicalException
+     *             on compression error
+     */
+    public ParametersDataBuilder withTemplateParametersCompressed(String templateParametersJson) throws BaseException {
+        if (StringUtils.isBlank(templateParametersJson)) {
+            return this;
+        }
+        parametersData.setTemplateParameters(GZIPUtil.compress(templateParametersJson.getBytes(StandardCharsets.UTF_8)));
+        return this;
+    }
+
+    /**
      * Create a {@link SaxonGeneratorParametersData} object to set as SAXON XSLT generator parameter for the DookuG service
-     * 
+     *
      * @param saxonParameters
      *            the saxon parameters
      * @return the builder
@@ -160,5 +198,9 @@ public class ParametersDataBuilder {
         String saxonParametersXml = MarshallingUtil.marshall(saxonParameters);
         parametersData.setGeneratorParameters(saxonParametersXml.getBytes(StandardCharsets.UTF_8));
         return this;
+    }
+
+    private byte[] toJsonBytes(Object templateParameters) throws JsonConversionException {
+        return JsonUtil.toJson(templateParameters).getBytes(StandardCharsets.UTF_8);
     }
 }
