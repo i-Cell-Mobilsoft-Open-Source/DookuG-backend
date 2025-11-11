@@ -1,3 +1,6 @@
+:sectnums:
+:sectnumlevels: 3
+
 = Installation, Deployment
 
 The Dookug module must be accessible in the environments of the project(s) that intend to utilize the service. 
