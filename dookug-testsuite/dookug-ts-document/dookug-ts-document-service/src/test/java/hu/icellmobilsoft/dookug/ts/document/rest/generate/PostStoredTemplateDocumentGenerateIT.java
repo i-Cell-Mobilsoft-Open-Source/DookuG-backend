@@ -76,7 +76,8 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
-        Response response = client.postStoredTemplateDocumentGenerate(request);
+        Boolean compressed = false;
+        Response response = client.postStoredTemplateDocumentGenerate(request, compressed);
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertTrue(getFilename(response).contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
@@ -101,7 +102,8 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                                                 FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS)
                                                         .getBytes(StandardCharsets.UTF_8)))
                                 .build());
-        Response response = client.postStoredTemplateDocumentGenerate(request);
+        Boolean compressed = false;
+        Response response = client.postStoredTemplateDocumentGenerate(request, compressed);
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertTrue(getFilename(response).contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
@@ -115,7 +117,8 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(RandomUtil.generateId());
-        try (Response response = client.postStoredTemplateDocumentGenerate(request)) {
+        Boolean compressed = false;
+        try (Response response = client.postStoredTemplateDocumentGenerate(request, compressed)) {
             Assertions.assertNotEquals(Response.Status.OK, response.getStatusInfo().toEnum());
         } catch (RestClientResponseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);

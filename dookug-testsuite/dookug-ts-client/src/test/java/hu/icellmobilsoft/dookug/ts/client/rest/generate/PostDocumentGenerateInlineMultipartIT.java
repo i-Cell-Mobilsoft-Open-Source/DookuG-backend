@@ -53,8 +53,12 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
     @DisplayName("Generate PDF document with non-stored template json request with json parameter data")
     void testDocumentGenerateNonStoredTemplateWithParameterData() throws BaseException {
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
+        Boolean compressed = false;
         GeneratedDocumentDto documentDto = client
-                .postDocumentGenerateMultipart(bis, templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
+                .postDocumentGenerateMultipart(
+                        bis,
+                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS),
+                        compressed);
         Assertions.assertNotNull(documentDto.getFileName());
         Assertions.assertTrue(documentDto.getFileName().contains("pdf"));
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
@@ -64,7 +68,8 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
     @DisplayName("Generate PDF document with non-stored template json request")
     void testDocumentGenerateNonStoredTemplate() throws BaseException {
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
-        GeneratedDocumentDto documentDto = client.postDocumentGenerateMultipart(bis);
+        Boolean compressed = false;
+        GeneratedDocumentDto documentDto = client.postDocumentGenerateMultipart(bis, compressed);
         Assertions.assertNotNull(documentDto.getFileName());
         Assertions.assertTrue(documentDto.getFileName().contains("pdf"));
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());

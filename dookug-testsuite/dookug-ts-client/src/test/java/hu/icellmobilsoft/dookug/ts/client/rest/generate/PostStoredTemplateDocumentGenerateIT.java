@@ -56,11 +56,13 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
     @Test
     @DisplayName("Generate PDF document with stored template")
     void storedTemplateDocumentGenerate() throws BaseException {
+        Boolean compressed = false;
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
+                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
+                compressed);
         Assertions.assertNotNull(documentDto.getFileName());
         Assertions.assertTrue(documentDto.getFileName().contains("pdf"));
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
@@ -70,11 +72,13 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
     @DisplayName("Generate PDF document with non-stored template - BONotFound")
     void storedTemplateBONotFound() {
         try {
+            Boolean compressed = false;
             client.postDatabaseStoredTemplateDocumentGenerate(
                     RandomUtil.generateId(),
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                    templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
+                    templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
+                    compressed);
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);
             Assertions.assertEquals(CoffeeFaultType.ENTITY_NOT_FOUND, ((BONotFoundException) e.getCause()).getFaultTypeEnum());

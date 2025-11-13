@@ -30,18 +30,8 @@ import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
 public class ServicePath extends BaseServicePath {
 
     /**
-     * {@value #TEST}
+     * Query parameter name for compressed content indication
      */
-    public static final String TEST = "/test";
-
-    /**
-     * {@value #EVICT}
-     */
-    public static final String EVICT = "/evict";
-
-    /**
-     * {@value #SYSTEM_EVICT}
-     */
-    public static final String SYSTEM_EVICT = SYSTEM + EVICT;
+    public static final String PARAM_COMPRESSED = "compressed";
 
 }

@@ -21,11 +21,9 @@ package hu.icellmobilsoft.dookug.document.service.action;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
@@ -48,17 +46,19 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      * 
      * @param request
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
+     * @param compressed
+     *            if true, the response content will be GZIP compressed
      * @return Generated PDF
      * @throws BaseException
      *             if any error occurs
      */
-    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request, Boolean compressed) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+        return getResponse(compressed, document);
     }
 
     /**

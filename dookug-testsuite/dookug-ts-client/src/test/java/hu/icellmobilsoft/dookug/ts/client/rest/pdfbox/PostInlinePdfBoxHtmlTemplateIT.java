@@ -56,7 +56,8 @@ class PostInlinePdfBoxHtmlTemplateIT extends AbstractGenerateDocumentIT {
     @DisplayName("input html template, output pdf")
     void inputHtmlTest() throws BaseException, IOException {
         client.setTemplateEngineType(TemplateEngineType.NONE);
-        GeneratedDocumentDto resp = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.PdfBoxTest.readPdfTemplate());
+        Boolean compressed = false;
+        GeneratedDocumentDto resp = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.PdfBoxTest.readPdfTemplate(), compressed);
 
         Assertions.assertEquals(200, resp.getHttpStatus());
         InputStream responseStream = resp.getInputStream();
@@ -68,11 +69,12 @@ class PostInlinePdfBoxHtmlTemplateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("error html template")
-    void errorHtmlTest() throws BaseException, IOException {
+    void errorHtmlTest() {
         client.setTemplateEngineType(TemplateEngineType.NONE);
 
         try {
-            client.postDocumentGenerateEntityBody(DookugClientRequestHelper.PdfBoxTest.readPdfTemplateError());
+            Boolean compressed = false;
+            client.postDocumentGenerateEntityBody(DookugClientRequestHelper.PdfBoxTest.readPdfTemplateError(), compressed);
             Assertions.fail("Nem hibás válasz (elvárt http státuszkód: 500)");
         } catch (BaseException e) {
             Assertions.assertNotNull(e.getCause());

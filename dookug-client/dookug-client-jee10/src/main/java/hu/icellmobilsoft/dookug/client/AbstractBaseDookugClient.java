@@ -92,11 +92,11 @@ public abstract class AbstractBaseDookugClient {
         if (response == null) {
             return null;
         }
-        String headerContentDispostition = response.getHeaderString(HttpHeaders.CONTENT_DISPOSITION);
-        if (StringUtils.isBlank(headerContentDispostition)) {
+        String headerContentDisposition = response.getHeaderString(HttpHeaders.CONTENT_DISPOSITION);
+        if (StringUtils.isBlank(headerContentDisposition)) {
             return null;
         }
-        Matcher m = FILENAME_PATTERN.matcher(headerContentDispostition);
+        Matcher m = FILENAME_PATTERN.matcher(headerContentDisposition);
         if (m.find()) {
             return m.group(1);
         }

@@ -54,7 +54,7 @@ import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.IDocumentGenerateSto
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 
 /**
- * {@link IDocumentContentInternalRest#getDocumentContent(String)} test
+ * {@link IDocumentContentInternalRest#getDocumentContent(String, Boolean)} test
  * 
  * @author szabolcs.gemesi
  * @since 0.0.1
@@ -80,7 +80,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentContentInternalRestClient.class);
         try {
-            contentRestClient.getDocumentContent(RandomUtil.generateId());
+            Boolean compressed = false;
+            contentRestClient.getDocumentContent(RandomUtil.generateId(), compressed);
         } catch (RestClientResponseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);
             Assertions.assertEquals(CoffeeFaultType.ENTITY_NOT_FOUND, ((BONotFoundException) e.getCause()).getFaultTypeEnum());
@@ -94,7 +95,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentContentInternalRestClient.class);
         try {
-            contentRestClient.getDocumentContent("   ");
+            Boolean compressed = false;
+            contentRestClient.getDocumentContent("   ", compressed);
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BaseException);
             Assertions.assertEquals(CoffeeFaultType.WRONG_OR_MISSING_PARAMETERS, ((BaseException) e.getCause()).getFaultTypeEnum());
@@ -118,7 +120,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertNotNull(metadataResponse.getMetadata());
 
         // get document content
-        Response response = contentRestClient.getDocumentContent(metadataResponse.getMetadata().getDocumentId());
+        Boolean compressed = false;
+        Response response = contentRestClient.getDocumentContent(metadataResponse.getMetadata().getDocumentId(), compressed);
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(metadataResponse.getMetadata().getFilename(), getFilename(response));
         writeFileIfEnabled((InputStream) response.getEntity(), metadataResponse.getMetadata().getFilename());
@@ -140,7 +143,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
 
         // generate document with stored template
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
-        Response generateResponse = storedTemplateRestClient.postStoredTemplateDocumentGenerate(request);
+        Boolean compressed = false;
+        Response generateResponse = storedTemplateRestClient.postStoredTemplateDocumentGenerate(request, compressed);
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), generateResponse.getStatus());
         String filename = getFilename(generateResponse);
         Assertions.assertNotNull(filename);
@@ -152,7 +156,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertEquals(1, queryResponse.getRowList().size());
 
         // get document content
-        Response response = contentRestClient.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId());
+        Response response = contentRestClient.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId(), compressed);
         Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
         Assertions.assertEquals(filename, getFilename(response));
         writeFileIfEnabled((InputStream) response.getEntity(), filename);

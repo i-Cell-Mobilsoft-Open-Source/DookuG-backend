@@ -62,10 +62,11 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
     @DisplayName("Get document content by a random id - BO Not Found")
     void getDocumentContentNotExistingDocumentId() {
         try {
-            client.getDocumentContent(RandomUtil.generateId());
+            Boolean compressed = false;
+            client.getDocumentContent(RandomUtil.generateId(), compressed);
         } catch (BaseException e) {
             Assertions.assertEquals(CoffeeFaultType.REST_CLIENT_EXCEPTION, e.getFaultTypeEnum());
-            Assertions.assertTrue(e.getCause() instanceof BaseException);
+            Assertions.assertInstanceOf(BaseException.class, e.getCause());
             Assertions.assertEquals(CoffeeFaultType.ENTITY_NOT_FOUND, ((BaseException) e.getCause()).getFaultTypeEnum());
         }
     }
@@ -85,7 +86,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertNotNull(metadataResponse.getMetadata());
 
         // get document content
-        GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId());
+        Boolean compressed = false;
+        GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId(), compressed);
         Assertions.assertEquals(metadataResponse.getMetadata().getFilename(), documentDto.getFileName());
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
     }
@@ -96,11 +98,13 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
 
         // generate document with stored template
         client.setDocumentStorageMethodType(DocumentStorageMethodType.DATABASE);
+        Boolean compressed = false;
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
+                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
+                compressed);
         Assertions.assertNotNull(documentDto.getFileName());
 
         // metadata query
@@ -111,7 +115,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertTrue(CollectionUtils.isNotEmpty(queryResponse.getRowList()));
 
         // get document content
-        GeneratedDocumentDto generatedDocumentDto = client.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId());
+        GeneratedDocumentDto generatedDocumentDto = client.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId(), compressed);
         Assertions.assertEquals(documentDto.getFileName(), generatedDocumentDto.getFileName());
         writeFileIfEnabled(generatedDocumentDto.getInputStream(), generatedDocumentDto.getFileName());
     }

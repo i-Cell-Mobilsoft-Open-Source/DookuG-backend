@@ -74,7 +74,8 @@ class PostDocumentGenerateInlineHandlebarsOnlyEntityBodyIT extends AbstractGener
                 // build API interface
                 .build(IDocumentGenerateInlineInternalRestClient.class);
 
-        Response response = client.postDocumentGenerateEntityBody(documentGenerateWithTemplatesRequestBuilder.parametersKeyValue());
+        Boolean compressed = false;
+        Response response = client.postDocumentGenerateEntityBody(documentGenerateWithTemplatesRequestBuilder.parametersKeyValue(), compressed);
 
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
@@ -91,7 +92,8 @@ class PostDocumentGenerateInlineHandlebarsOnlyEntityBodyIT extends AbstractGener
                 // build API interface
                 .build(IDocumentGenerateInlineInternalRestClient.class);
 
-        Response response = client.postDocumentGenerateEntityBody(documentGenerateWithTemplatesRequestBuilder.simpleParametersJson());
+        Boolean compressed = false;
+        Response response = client.postDocumentGenerateEntityBody(documentGenerateWithTemplatesRequestBuilder.simpleParametersJson(), compressed);
 
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
@@ -110,7 +112,8 @@ class PostDocumentGenerateInlineHandlebarsOnlyEntityBodyIT extends AbstractGener
 
         DocumentGenerateWithTemplatesRequest request = documentGenerateWithTemplatesRequestBuilder.simpleParametersJson();
         request.getGeneratorSetup().setParametersData(null);
-        Response response = client.postDocumentGenerateEntityBody(request);
+        Boolean compressed = false;
+        Response response = client.postDocumentGenerateEntityBody(request, compressed);
 
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();

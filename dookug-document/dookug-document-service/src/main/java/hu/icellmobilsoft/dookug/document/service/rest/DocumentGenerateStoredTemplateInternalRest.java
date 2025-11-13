@@ -44,10 +44,15 @@ public class DocumentGenerateStoredTemplateInternalRest extends BaseRestService 
     private StoredTemplateDocumentGenerateAction storedTemplateDocumentGenerateAction;
 
     @Override
-    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request, Boolean compressed) throws BaseException {
         saveGeneratorSetup(request);
-        return wrapPathParam1(storedTemplateDocumentGenerateAction::postStoredTemplateDocumentGenerate, request, "postStoredTemplateDocumentGenerate",
-                "request");
+        return wrapPathParam2(
+                storedTemplateDocumentGenerateAction::postStoredTemplateDocumentGenerate,
+                request,
+                compressed,
+                "postStoredTemplateDocumentGenerate",
+                "request",
+                "compressed");
     }
 
     @Override

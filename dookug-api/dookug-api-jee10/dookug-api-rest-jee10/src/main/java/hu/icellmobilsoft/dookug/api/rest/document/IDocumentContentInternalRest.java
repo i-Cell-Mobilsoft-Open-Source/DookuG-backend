@@ -23,6 +23,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -30,10 +31,10 @@ import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
@@ -52,6 +53,8 @@ public interface IDocumentContentInternalRest {
      * 
      * @param documentId
      *            document entity unique identifier
+     * @param compressed
+     *            compressed (GZIP) content indication
      * @return Document content output stream
      * @throws BaseException
      *             on error
@@ -64,5 +67,8 @@ public interface IDocumentContentInternalRest {
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
-            description = "Generated document ID") String documentId) throws BaseException;
+            description = "Generated document ID") String documentId,
+            @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
+                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+            throws BaseException;
 }

@@ -22,14 +22,12 @@ package hu.icellmobilsoft.dookug.document.service.action;
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.document.IDocumentStore;
@@ -57,11 +55,13 @@ public class DocumentContentAction extends BaseAction {
      * 
      * @param documentId
      *            document id
+     * @param compressed
+     *            if true, the response content will be GZIP compressed
      * @return Generated document
      * @throws BaseException
      *             on error
      */
-    public Response getDocumentContent(String documentId) throws BaseException {
+    public Response getDocumentContent(String documentId, Boolean compressed) throws BaseException {
         if (StringUtils.isBlank(documentId)) {
             throw new InvalidParameterException("Document id cannot be blank!");
         }
@@ -73,6 +73,7 @@ public class DocumentContentAction extends BaseAction {
                 .select(IDocumentStore.class, new StorageMethodQualifier.Literal(databaseDocument.getStorageType()))
                 .get();
         Document document = documentStore.getDocumentById(documentId);
-        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+
+        return getResponse(compressed, document);
     }
 }

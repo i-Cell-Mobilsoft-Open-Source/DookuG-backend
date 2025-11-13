@@ -82,7 +82,8 @@ class PostInlineInvalidInputIT extends AbstractGenerateDocumentIT {
                 .add(new TemplateType().withTemplateName("pdfbox_template").withTemplateContent(template.getBytes(StandardCharsets.UTF_8)));
 
         try {
-            client.postDocumentGenerateEntityBody(request);
+            Boolean compressed = false;
+            client.postDocumentGenerateEntityBody(request, compressed);
             Assertions.fail(DocumentServiceTestConstant.EXPECTED_500);
         } catch (RestClientResponseException e) {
             String message = e.getCause().getLocalizedMessage();
@@ -108,7 +109,8 @@ class PostInlineInvalidInputIT extends AbstractGenerateDocumentIT {
                 .add(new TemplateType().withTemplateName("pdfbox_template").withTemplateContent(template.getBytes(StandardCharsets.UTF_8)));
 
         try {
-            client.postDocumentGenerateEntityBody(request);
+            Boolean compressed = false;
+            client.postDocumentGenerateEntityBody(request, compressed);
             Assertions.fail(DocumentServiceTestConstant.EXPECTED_500);
         } catch (RestClientResponseException e) {
             String message = e.getCause().getLocalizedMessage();

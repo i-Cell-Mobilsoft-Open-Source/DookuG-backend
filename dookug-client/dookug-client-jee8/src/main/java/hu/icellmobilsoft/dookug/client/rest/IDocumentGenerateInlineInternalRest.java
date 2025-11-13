@@ -23,9 +23,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -64,6 +66,8 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
      * 
      * @param form
      *            multipart form input
+     * @param compressed
+     *            compressed (GZIP) content indication
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -76,13 +80,18 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form) throws BaseException;
+    Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form,
+            @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
+                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+            throws BaseException;
 
     /**
      * REST interface definition for document generation by structured input
      * 
      * @param request
      *            structured input
+     * @param compressed
+     *            compressed (GZIP) content indication
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -94,7 +103,9 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateEntityBody(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentGenerateWithTemplatesRequest request)
+    Response postDocumentGenerateEntityBody(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentGenerateWithTemplatesRequest request,
+            @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
+                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
             throws BaseException;
 
     /**

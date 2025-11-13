@@ -57,16 +57,18 @@ class PostSaxonStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("input xslt template, output pdf")
-    void inputHtmlTest() throws BaseException, IOException {
+    void inputHtmlTest() throws BaseException {
         client.setTemplateEngineType(TemplateEngineType.NONE);
         client.setGeneratorEngineType(GeneratorEngineType.SAXON);
         client.setResponseFormatType(ResponseFormatType.PDF);
 
+        Boolean compressed = false;
         GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.PROJECT_STORED_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 ParametersDataBuilder.getSaxonParameters(
-                        FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8)));
+                        FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8)),
+                compressed);
 
         Assertions.assertEquals(200, resp.getHttpStatus());
         InputStream responseStream = resp.getInputStream();

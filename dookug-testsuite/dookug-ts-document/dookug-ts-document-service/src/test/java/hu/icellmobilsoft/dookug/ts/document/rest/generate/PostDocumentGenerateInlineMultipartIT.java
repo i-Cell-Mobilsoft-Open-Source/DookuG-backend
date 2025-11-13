@@ -47,7 +47,7 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentGenerateInlineInternalRest#postDocumentGenerateMultipart(DocumentGenerateMultipartForm)} test
+ * {@link IDocumentGenerateInlineInternalRest#postDocumentGenerateMultipart(DocumentGenerateMultipartForm, Boolean)} test
  *
  * @author szabolcs.gemesi
  * @since 0.0.1
@@ -65,7 +65,7 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("Generate PDF document with non-stored template multipart form request")
-    void testDocumentGenerateNonStoredTemplateMultipart() throws BaseException, IOException {
+    void testDocumentGenerateNonStoredTemplateMultipart() throws BaseException {
         IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateInlineInternalRestClient.class);
@@ -77,7 +77,8 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
         form.setTemplate(bis);
-        Response response = client.postDocumentGenerateMultipart(form);
+        Boolean compressed = false;
+        Response response = client.postDocumentGenerateMultipart(form, compressed);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);
