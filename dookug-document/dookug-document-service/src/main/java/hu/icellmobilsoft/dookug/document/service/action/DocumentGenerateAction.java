@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
@@ -154,7 +156,10 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
         Document document = generateDocument(generatorSetup);
 
-        return getResponse(true, document);
+        return ResponseUtil.getFileResponse(
+                compressed ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                document.getFilename(),
+                MediaType.APPLICATION_OCTET_STREAM);
     }
 
     private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup,

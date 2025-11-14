@@ -81,7 +81,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @param request
      *            request object
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
@@ -109,7 +109,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @param request
      *            request object
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error

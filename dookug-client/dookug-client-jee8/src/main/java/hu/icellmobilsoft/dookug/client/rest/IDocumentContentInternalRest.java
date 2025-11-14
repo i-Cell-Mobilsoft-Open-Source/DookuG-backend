@@ -56,7 +56,7 @@ public interface IDocumentContentInternalRest extends AutoCloseable {
      * @param documentId
      *            document entity unique identifier
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return Document content output stream
      * @throws BaseException
      *             on error
@@ -69,7 +69,7 @@ public interface IDocumentContentInternalRest extends AutoCloseable {
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
             description = "Generated document ID") String documentId,
             @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
-                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+                    description = "If true, the response content will be GZIP compressed") Boolean compressed)
             throws BaseException;
 
 }

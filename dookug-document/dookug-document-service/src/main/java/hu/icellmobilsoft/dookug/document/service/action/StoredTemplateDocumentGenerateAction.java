@@ -19,8 +19,11 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action;
 
+import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
@@ -58,7 +61,10 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
         }
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return getResponse(compressed, document);
+        return ResponseUtil.getFileResponse(
+                compressed ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                document.getFilename(),
+                MediaType.APPLICATION_OCTET_STREAM);
     }
 
     /**

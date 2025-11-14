@@ -62,7 +62,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parameters
      *            parameter list used by generation
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -85,7 +85,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parametersData
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -106,7 +106,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param templates
      *            template list used for generation
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -199,7 +199,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parameters
      *            parameter list used by generation
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -243,7 +243,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parametersData
      *            parameters which can be built by the {@link ParametersDataBuilder}
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -285,7 +285,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param template
      *            template stream used for generation
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -340,7 +340,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parameters
      *            parameter list used by generation
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -370,7 +370,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parametersData
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
@@ -398,7 +398,7 @@ public class DookugClient extends AbstractDookugClient {
      * @param parametersData
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs

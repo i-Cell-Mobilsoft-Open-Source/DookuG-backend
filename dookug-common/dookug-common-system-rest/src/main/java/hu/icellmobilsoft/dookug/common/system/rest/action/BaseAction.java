@@ -33,7 +33,6 @@ import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
-import hu.icellmobilsoft.dookug.common.system.rest.util.ResponseUtil;
 
 /**
  * Base class for all other business logic action class
@@ -58,25 +57,5 @@ public class BaseAction extends AbstractBaseAction {
         context.setRequestId(RandomUtil.generateId());
         context.setTimestamp(DateUtil.nowUTCTruncatedToMillis());
         return context;
-    }
-
-    /**
-     * Creates response for the given document, with optional compression
-     * 
-     * @param compressed
-     *            if true, response will be GZIP compressed
-     * @param document
-     *            document to create response for
-     * @return response containing the document content
-     * @throws BaseException
-     *             if error occurs during compression
-     */
-    public Response getResponse(Boolean compressed, Document document) throws BaseException {
-        if (Boolean.TRUE.equals(compressed)) {
-            byte[] documentContent = GZIPUtil.compress(document.getContent());
-            return ResponseUtil.getGZipResponse(documentContent, document.getFilename());
-        } else {
-            return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
-        }
     }
 }

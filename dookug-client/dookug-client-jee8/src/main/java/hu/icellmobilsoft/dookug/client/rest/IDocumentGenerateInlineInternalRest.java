@@ -67,7 +67,7 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
      * @param form
      *            multipart form input
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -82,7 +82,7 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form,
             @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
-                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+                    description = "If true, the response content will be GZIP compressed") Boolean compressed)
             throws BaseException;
 
     /**
@@ -91,7 +91,7 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
      * @param request
      *            structured input
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -105,7 +105,7 @@ public interface IDocumentGenerateInlineInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response postDocumentGenerateEntityBody(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentGenerateWithTemplatesRequest request,
             @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
-                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+                    description = "If true, the response content will be GZIP compressed") Boolean compressed)
             throws BaseException;
 
     /**

@@ -63,7 +63,7 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
      * @param request
      *            structured input
      * @param compressed
-     *            compressed (GZIP) content indication
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -79,7 +79,7 @@ public interface IDocumentGenerateStoredTemplateInternalRest {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response postStoredTemplateDocumentGenerate(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) StoredTemplateDocumentGenerateRequest request,
             @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
-                    description = "Query parameter name for compressed (GZIP) content indication") Boolean compressed)
+                    description = "If true, the response content will be GZIP compressed") Boolean compressed)
             throws BaseException;
 
     /**

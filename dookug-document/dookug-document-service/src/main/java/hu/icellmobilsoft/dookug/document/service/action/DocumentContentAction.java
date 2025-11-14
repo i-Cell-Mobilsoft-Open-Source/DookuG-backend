@@ -22,12 +22,15 @@ package hu.icellmobilsoft.dookug.document.service.action;
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
+import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.document.IDocumentStore;
@@ -74,6 +77,9 @@ public class DocumentContentAction extends BaseAction {
                 .get();
         Document document = documentStore.getDocumentById(documentId);
 
-        return getResponse(compressed, document);
+        return ResponseUtil.getFileResponse(
+                compressed ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                document.getFilename(),
+                MediaType.APPLICATION_OCTET_STREAM);
     }
 }
