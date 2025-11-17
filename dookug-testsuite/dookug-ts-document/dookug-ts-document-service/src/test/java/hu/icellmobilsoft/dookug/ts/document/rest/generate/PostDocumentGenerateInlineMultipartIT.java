@@ -77,8 +77,7 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
         form.setTemplate(bis);
-        Boolean compressed = false;
-        Response response = client.postDocumentGenerateMultipart(form, compressed);
+        Response response = client.postDocumentGenerateMultipart(form, false);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);

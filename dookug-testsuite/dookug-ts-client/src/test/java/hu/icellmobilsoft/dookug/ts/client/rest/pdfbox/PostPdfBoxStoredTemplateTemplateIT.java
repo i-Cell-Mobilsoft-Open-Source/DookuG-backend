@@ -63,13 +63,12 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
         client.setGeneratorEngineType(GeneratorEngineType.PDF_BOX);
         client.setResponseFormatType(ResponseFormatType.PDF);
 
-        Boolean compressed = false;
         GeneratedDocumentDto resp = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 emptyParameterData(),
-                compressed);
+                false);
 
         Assertions.assertEquals(200, resp.getHttpStatus());
         InputStream responseStream = resp.getInputStream();
@@ -84,13 +83,12 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
         client.setTemplateEngineType(TemplateEngineType.NONE);
 
         try {
-            Boolean compressed = false;
             client.postDatabaseStoredTemplateDocumentGenerate(
                     DocumentServiceTestConstant.DEV_ERROR_TEMPLATE_NAME,
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                     emptyParameterData(),
-                    compressed);
+                    false);
             Assertions.fail("Nem hibás válasz (elvárt http státuszkód: 500)");
         } catch (BaseException e) {
             Assertions.assertNotNull(e.getCause());

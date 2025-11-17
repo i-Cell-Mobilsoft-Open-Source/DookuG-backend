@@ -60,11 +60,10 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
     void simpleKeyValueTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        Boolean compressed = false;
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
                 DookugClientRequestHelper.SimpleKeyValue.createTemplateAsStream(), //
                 DookugClientRequestHelper.SimpleKeyValue.createParameters(),
-                compressed);
+                false);
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -77,11 +76,10 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
     void simpleJsonTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        Boolean compressed = false;
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
                 DookugClientRequestHelper.SimpleJson.createTemplateAsStream(), //
                 DookugClientRequestHelper.SimpleJson.createParametersData(),
-                compressed);
+                false);
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -94,10 +92,9 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
     void noParamTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        Boolean compressed = false;
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
                 DookugClientRequestHelper.SimpleJson.createTemplateAsStream(),
-                compressed);
+                false);
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);

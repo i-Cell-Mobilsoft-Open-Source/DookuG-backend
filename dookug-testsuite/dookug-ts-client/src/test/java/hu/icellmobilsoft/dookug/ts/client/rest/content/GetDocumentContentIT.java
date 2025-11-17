@@ -62,8 +62,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
     @DisplayName("Get document content by a random id - BO Not Found")
     void getDocumentContentNotExistingDocumentId() {
         try {
-            Boolean compressed = false;
-            client.getDocumentContent(RandomUtil.generateId(), compressed);
+            client.getDocumentContent(RandomUtil.generateId(), false);
         } catch (BaseException e) {
             Assertions.assertEquals(CoffeeFaultType.REST_CLIENT_EXCEPTION, e.getFaultTypeEnum());
             Assertions.assertInstanceOf(BaseException.class, e.getCause());
@@ -86,8 +85,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertNotNull(metadataResponse.getMetadata());
 
         // get document content
-        Boolean compressed = false;
-        GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId(), compressed);
+        GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId(), false);
         Assertions.assertEquals(metadataResponse.getMetadata().getFilename(), documentDto.getFileName());
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
     }
@@ -98,13 +96,12 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
 
         // generate document with stored template
         client.setDocumentStorageMethodType(DocumentStorageMethodType.DATABASE);
-        Boolean compressed = false;
         GeneratedDocumentDto documentDto = client.postDatabaseStoredTemplateDocumentGenerate(
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
                 templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
-                compressed);
+                false);
         Assertions.assertNotNull(documentDto.getFileName());
 
         // metadata query
@@ -115,7 +112,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         Assertions.assertTrue(CollectionUtils.isNotEmpty(queryResponse.getRowList()));
 
         // get document content
-        GeneratedDocumentDto generatedDocumentDto = client.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId(), compressed);
+        GeneratedDocumentDto generatedDocumentDto = client.getDocumentContent(queryResponse.getRowList().get(0).getDocumentId(), false);
         Assertions.assertEquals(documentDto.getFileName(), generatedDocumentDto.getFileName());
         writeFileIfEnabled(generatedDocumentDto.getInputStream(), generatedDocumentDto.getFileName());
     }
