@@ -12,6 +12,7 @@
 ** xref:../service/document.adoc#generateStored[Document generation based on stored template]
 ** On the Java Client it can be controlled by the client's `setResponseContentGzipped` method.
 By default, it is `false`.
+* OSS Sonatype -> Maven Central repository migration
 
 == Migration
 
