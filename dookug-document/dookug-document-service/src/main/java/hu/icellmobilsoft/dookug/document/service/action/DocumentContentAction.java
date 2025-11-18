@@ -25,6 +25,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
@@ -58,13 +59,13 @@ public class DocumentContentAction extends BaseAction {
      * 
      * @param documentId
      *            document id
-     * @param compressed
+     * @param responseContentGzipped
      *            if true, the response content will be GZIP compressed
      * @return Generated document
      * @throws BaseException
      *             on error
      */
-    public Response getDocumentContent(String documentId, Boolean compressed) throws BaseException {
+    public Response getDocumentContent(String documentId, Boolean responseContentGzipped) throws BaseException {
         if (StringUtils.isBlank(documentId)) {
             throw new InvalidParameterException("Document id cannot be blank!");
         }
@@ -78,7 +79,7 @@ public class DocumentContentAction extends BaseAction {
         Document document = documentStore.getDocumentById(documentId);
 
         return ResponseUtil.getFileResponse(
-                compressed ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                BooleanUtils.isTrue(responseContentGzipped) ? GZIPUtil.compress(document.getContent()) : document.getContent(),
                 document.getFilename(),
                 MediaType.APPLICATION_OCTET_STREAM);
     }

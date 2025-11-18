@@ -163,8 +163,8 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
     }
 
     @Test
-    @DisplayName("Create document by stored template and get compressed document by the generation response's metadata")
-    void testGetDocumentGzippedByStoredResponseMetadata() throws BaseException, IOException {
+    @DisplayName("Create document by stored template and get document by the generation response's metadata - Gzipped response")
+    void testGetGzippedDocumentByStoredResponseMetadata() throws BaseException, IOException {
         IDocumentContentInternalRestClient contentRestClient = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentContentInternalRestClient.class);

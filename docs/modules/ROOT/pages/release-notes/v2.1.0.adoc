@@ -4,9 +4,13 @@
 
 * The response context includes the original requestId when it is applicable
 * Documentation fixes regarding OPENTELEMETRY_SAMPLER_TYPE and OPENTELEMETRY_SAMPLER_RATIO environment variables
-* The `dookug.service.interface.parametersdata.gzipped` config default value changed to `true`,
-and with the true value the backend can process compressed and uncompressed parameters too.
+* The `dookug.service.interface.parametersdata.gzipped` config default value changed to `true`, and with the true value the backend can process compressed and uncompressed parameters too.
+* Option to download generated documents in compressed (GZIP) format by setting the `responseContentGzipped` URL query parameter to `true` for the following endpoints:
+** xref:../service/document.adoc#getDocument[Get Document]
+** xref:../service/document.adoc#generateInline[Document generation based on request body]
+** xref:../service/document.adoc#generateInlineMultipart[Document generation based on multipart form]
+** xref:../service/document.adoc#generateStored[Document generation based on stored template]
 
 == Migration
 
-Changes are backwards compatible, doesn't need any migration.
+* Client methods are extended to accept the `responseContentGzipped` parameter to download generated documents in compressed (GZIP) format.

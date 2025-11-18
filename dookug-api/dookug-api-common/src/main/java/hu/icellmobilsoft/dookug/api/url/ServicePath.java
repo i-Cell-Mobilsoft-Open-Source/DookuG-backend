@@ -32,6 +32,6 @@ public class ServicePath extends BaseServicePath {
     /**
      * Query parameter name for compressed content indication
      */
-    public static final String PARAM_COMPRESSED = "compressed";
+    public static final String PARAM_RESPONSE_CONTENT_GZIPPED = "responseContentGzipped";
 
 }

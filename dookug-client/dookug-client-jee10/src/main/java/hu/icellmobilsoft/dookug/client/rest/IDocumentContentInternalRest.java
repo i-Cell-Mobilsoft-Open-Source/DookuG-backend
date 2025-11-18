@@ -55,7 +55,7 @@ public interface IDocumentContentInternalRest extends AutoCloseable {
      * 
      * @param documentId
      *            document entity unique identifier
-     * @param compressed
+     * @param responseContentGzipped
      *            if true, the response content will be GZIP compressed
      * @return Document content output stream
      * @throws BaseException
@@ -68,8 +68,8 @@ public interface IDocumentContentInternalRest extends AutoCloseable {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
             description = "Generated document ID") String documentId,
-            @QueryParam(DocumentGeneratePath.PARAM_COMPRESSED) @Parameter(name = DocumentGeneratePath.PARAM_COMPRESSED,
-                    description = "If true, the response content will be GZIP compressed") Boolean compressed)
+            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
+                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
             throws BaseException;
 
 }

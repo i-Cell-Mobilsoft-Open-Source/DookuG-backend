@@ -41,7 +41,13 @@ public class DocumentContentInternalRest extends BaseRestService implements IDoc
     private DocumentContentAction documentDataAction;
 
     @Override
-    public Response getDocumentContent(String documentId, Boolean compressed) throws BaseException {
-        return wrapPathParam2(documentDataAction::getDocumentContent, documentId, compressed, "getDocumentContent", "documentId", "compressed");
+    public Response getDocumentContent(String documentId, Boolean responseContentGzipped) throws BaseException {
+        return wrapPathParam2(
+                documentDataAction::getDocumentContent,
+                documentId,
+                responseContentGzipped,
+                "getDocumentContent",
+                "documentId",
+                "responseContentGzipped");
     }
 }

@@ -3,25 +3,25 @@
 
 The client currently has multiple methods to generate documents, retrieve metadata of the created documents, and fetch the generated document itself.
 
-During document generation, some methods return the generated document:
+During document generation, some methods return the generated document. The generated documents can be fetched in GZIP compressed format if needed:
 
 [source,java]
 ----
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException;
+public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
 
-public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException;
+public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
 ----
 
 It is important to note that `ParametersDataType` type parameters can be created manually, but a `ParametersDataBuilder` helper class is provided to configure the desired settings using a fluent API. This was required by the SAXON template engine, as additional parameters are necessary for generating XSLT templates, without which documents cannot be generated. The desired configuration can be easily extracted from the builder for the SAXON engine by calling the `getSaxonParameters(byte[], byte[], boolean)` method, where the FOP configuration content, the XML dataset, and the compression status of the XML can be specified, or through overloaded methods, just the content of the XML file.
@@ -201,9 +201,9 @@ Example of client usage:
  ParameterType parameter1 = new ParameterType().withKey("first").withValue("első");
  ParameterType parameter2 = new ParameterType().withKey("second").withValue("í189öüóőúűáé-.,<>#&@{};*¤ß$");
  ...
- client.setResponseFormatType(ResponseFormatType.STRING);
- client.setGeneratorEngineType(GeneratorEngineType.NONE);
- GeneratedDocumentDto response = dookugClient.postDocumentGenerateEntityBody(List.of(template), List.of(parameter1,parameter2));
+ dookugClient.setResponseFormatType(ResponseFormatType.STRING);
+ dookugClient.setGeneratorEngineType(GeneratorEngineType.NONE);
+ GeneratedDocumentDto response = dookugClient.postDocumentGenerateEntityBody(List.of(template), List.of(parameter1,parameter2), false);
 ----
 
 Or similarly, generating a document but with a PDF document format, multipart input, and returning the metadata:
@@ -220,13 +220,13 @@ Or similarly, generating a document but with a PDF document format, multipart in
  ParameterType parameter1 = new ParameterType().withKey("first").withValue("első");
  ParameterType parameter2 = new ParameterType().withKey("second").withValue("í189öüóőúűáé-.,<>#&@{};*¤ß$");
  ...
- client.setResponseFormatType(ResponseFormatType.PDF); //ez a default
- client.setGeneratorEngineType(GeneratorEngineType.PDF_BOX); //ez a default
- client.setTemplateEngineType(GeneratorEngineType.HANDLEBARS); //ez a default
+ dookugMultipartClient.setResponseFormatType(ResponseFormatType.PDF); // this is the default
+ dookugMultipartClient.setGeneratorEngineType(GeneratorEngineType.PDF_BOX); // this is the default
+ dookugMultipartClient.setTemplateEngineType(GeneratorEngineType.HANDLEBARS); // this is the default
  DocumentMetadataResponse response = dookugMultipartClient.postDocumentGenerateMultipartMetadata(new ByteArrayInputStream(template), List.of(parameter1, parameter2));
 ----
 
-=== Using Saxon-HE Engine in the Client
+== Using Saxon-HE Engine in the Client
 
 To use the Saxon-HE engine in the client, an XSLT template is required for generating a PDF file from an XML. In this case, only PDF can be the output format. You also need to provide a `fop-config.xml` file in the request, which helps regulate the use of fonts, for example.
 

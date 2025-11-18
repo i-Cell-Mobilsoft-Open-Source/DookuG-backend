@@ -19,10 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.ts.document.rest.generate;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
@@ -53,7 +56,7 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentGenerateStoredTemplateInternalRest#postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest)} test
+ * {@link IDocumentGenerateStoredTemplateInternalRest#postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest, Boolean)} test
  *
  * @author szabolcs.gemesi
  * @since 0.0.1
@@ -81,6 +84,27 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
         Assertions.assertTrue(getFilename(response).contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
         response.close();
+    }
+
+    @Test
+    @DisplayName("Generate PDF document with stored template - Gzipped response")
+    void storedTemplateGzippedDocumentGenerate() throws BaseException, IOException {
+        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(documentBaseUri))
+                .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
+        StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
+
+        try (Response response = client.postStoredTemplateDocumentGenerate(request, true)) {
+            String filename = getFilename(response);
+            Assertions.assertEquals(200, response.getStatus());
+            Assertions.assertTrue(filename.contains("pdf"));
+
+            // Check compression and write file
+            var contentBytes = ((InputStream) response.getEntity()).readAllBytes();
+            Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
+            writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), filename);
+
+        }
     }
 
     @Test
