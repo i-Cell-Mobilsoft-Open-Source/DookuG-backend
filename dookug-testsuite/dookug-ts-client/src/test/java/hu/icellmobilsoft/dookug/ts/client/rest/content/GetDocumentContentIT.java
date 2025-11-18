@@ -19,9 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.ts.client.rest.content;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import jakarta.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -88,6 +92,31 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId());
         Assertions.assertEquals(metadataResponse.getMetadata().getFilename(), documentDto.getFileName());
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
+    }
+
+    @Test
+    @DisplayName("Create document by stored template and get document by the generation response's metadata - Gzipped response")
+    void testGetGzippedDocumentByStoredResponseMetadata() throws BaseException, IOException {
+
+        // generate document with stored template
+        client.setDocumentStorageMethodType(DocumentStorageMethodType.DATABASE);
+        DocumentMetadataResponse metadataResponse = client.postDatabaseStoredTemplateDocumentGenerateMetadata(
+                DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
+                DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
+                OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
+                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
+        Assertions.assertEquals(FunctionCodeType.OK, metadataResponse.getFuncCode());
+        Assertions.assertNotNull(metadataResponse.getMetadata());
+
+        // get document content
+        client.setResponseContentGzipped(true);
+        GeneratedDocumentDto documentDto = client.getDocumentContent(metadataResponse.getMetadata().getDocumentId());
+        Assertions.assertEquals(metadataResponse.getMetadata().getFilename(), documentDto.getFileName());
+
+        // Check compression and write file
+        var contentBytes = documentDto.getInputStream().readAllBytes();
+        Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
+        writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), documentDto.getFileName());
     }
 
     @Test
