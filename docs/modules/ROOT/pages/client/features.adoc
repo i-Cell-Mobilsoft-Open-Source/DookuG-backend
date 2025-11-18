@@ -156,7 +156,7 @@ The `setDigitalSigningType(digitalSigningType)` allows controlling whether the g
 
 If no settings are specified, the default values are `PDF_BOX` + `HANDLEBARS` + `PDF` + `NONE` without a digital signature.
 
-The `setResponseContentGzipped(boolean)` method allows controlling whether the generated document should be returned in GZIP compressed format.
+The `setResponseContentGzipped(boolean)` method allows controlling whether the generated document should be returned in GZIP compressed format. By default, the response is not compressed.
 
 The `postDocumentGenerateEntityBody()` methods call the following REST endpoint in the module:
 
