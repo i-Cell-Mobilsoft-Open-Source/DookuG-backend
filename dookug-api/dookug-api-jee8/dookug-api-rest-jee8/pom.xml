@@ -8,6 +8,7 @@
         <version>2.1.0-SNAPSHOT</version>
     </parent>
 
+    <name>${project.artifactId}</name>
     <artifactId>dookug-api-rest-jee8</artifactId>
 
     <dependencies>

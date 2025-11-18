@@ -13,6 +13,7 @@
         <version.org.jboss.resteasy>6.2.1.Final</version.org.jboss.resteasy>
     </properties>
 
+    <name>${project.artifactId}</name>
     <artifactId>dookug-client-common</artifactId>
 
     <dependencies>

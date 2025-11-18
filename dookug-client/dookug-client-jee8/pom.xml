@@ -21,6 +21,7 @@
 
 	</properties>
 
+    <name>${project.artifactId}</name>
 	<artifactId>dookug-client-jee8</artifactId>
 
 	<dependencies>
