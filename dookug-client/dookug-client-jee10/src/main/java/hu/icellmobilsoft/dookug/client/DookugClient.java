@@ -233,7 +233,8 @@ public class DookugClient extends AbstractDookugClient {
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData) throws BaseException {
+    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData)
+            throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         DocumentGenerateRequest request = new DocumentGenerateRequest().withGeneratorSetup(createGeneratorSetup().withParametersData(parametersData));
         request.setContext(createContext());
@@ -359,7 +360,8 @@ public class DookugClient extends AbstractDookugClient {
                 templateValidity,
                 TemplateStorageMethodType.DATABASE,
                 null,
-                parametersData);
+                parametersData
+        );
     }
 
     /**

@@ -68,7 +68,7 @@ class PostInlinePdfBoxHtmlTemplateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("error html template")
-    void errorHtmlTest() throws BaseException, IOException {
+    void errorHtmlTest() {
         client.setTemplateEngineType(TemplateEngineType.NONE);
 
         try {

@@ -57,7 +57,7 @@ class PostSaxonStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("input xslt template, output pdf")
-    void inputHtmlTest() throws BaseException, IOException {
+    void inputHtmlTest() throws BaseException {
         client.setTemplateEngineType(TemplateEngineType.NONE);
         client.setGeneratorEngineType(GeneratorEngineType.SAXON);
         client.setResponseFormatType(ResponseFormatType.PDF);

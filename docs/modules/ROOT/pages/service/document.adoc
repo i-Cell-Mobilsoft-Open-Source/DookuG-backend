@@ -63,12 +63,12 @@ Thirdly, on document generation, optional signing and optional storage:
 
 [source,text]
 ----
-POST /internal/dookug/document/generate/inline
+POST /internal/dookug/document/generate/inline?responseContentGzipped={true|false}
 ----
 
 During generation, we submit the initial template and the data associated with the generation in the request body: template and engine processing the document, response format, and document storage method.
 
-In the response, we receive the generated document and the filename in the HTTP header.
+In the response, we receive the generated document (Gzipped if needed) and the filename in the HTTP header.
 
 [[generateInlineMetadata]]
 == Document generation based on request body, with metadata response
@@ -85,12 +85,12 @@ There's an option to receive metadata describing the document instead of the doc
 
 [source,text]
 ----
-POST /internal/dookug/document/generate/inline/multipart
+POST /internal/dookug/document/generate/inline/multipart?responseContentGzipped={true|false}
 ----
 
 To generate, we need to submit the initial template and the data associated with the generation. The latter matches the data sent for document generation based on the request body.
 
-In the response, we receive the generated document and the filename in the HTTP header.
+In the response, we receive the generated document (Gzipped if needed) and the filename in the HTTP header.
 
 [[generateInlineMultipartMetadata]]
 == Document generation based on multipart form, with metadata response
@@ -107,12 +107,12 @@ There's also an option to receive metadata describing the document instead of th
 
 [source,text]
 ----
-POST /internal/dookug/document/generate/storedTemplate
+POST /internal/dookug/document/generate/storedTemplate?responseContentGzipped={true|false}
 ----
 
 To generate, we need to submit the name of the template from which the document is generated, along with the data associated with the generation. The latter matches the data sent for document generation based on the request body, supplemented with how the template is stored.
 
-In the response, we receive the generated document and the filename in the HTTP header.
+In the response, we receive the generated document (Gzipped if needed) and the filename in the HTTP header.
 
 [[generateStoredMetadata]]
 == Document generation based on stored template, with metadata response
@@ -182,14 +182,14 @@ If documents are found based on the submitted parameters, the response returns a
 
 [source,text]
 ----
-GET /internal/dookug/document/content/{documentId}
+GET /internal/dookug/document/content/{documentId}?responseContentGzipped={true|false}
 ----
 
 The purpose of this endpoint is to retrieve a previously generated and saved document based on the provided identifier.
 
 If no document is found for the submitted identifier, an ENTITY_NOT_FOUND error is returned.
 
-In the response - for an existing document identifier - the generated document is returned, and the file name is included in the HTTP headers.
+In the response - for an existing document identifier - the generated document is returned (Gzipped if needed), and the file name is included in the HTTP headers.
 
 
 [[signPdfDocument]]

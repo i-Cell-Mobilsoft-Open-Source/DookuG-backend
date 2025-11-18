@@ -28,6 +28,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
@@ -71,12 +73,14 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *
      * @param form
      *            {@link DocumentGenerateMultipartForm} The multipart form object
+     * @param responseContentGzipped
+     *            if the response should be compressed
      * @return Generated document by request
      * @throws BaseException
      *             if any error occurs
      */
     @Traced(component = "template-generation", kind = SpanAttribute.SERVER)
-    public Response postDocumentGenerate(DocumentGenerateMultipartForm form) throws BaseException {
+    public Response postDocumentGenerate(DocumentGenerateMultipartForm form, Boolean responseContentGzipped) throws BaseException {
         if (form == null) {
             throw new InvalidParameterException("form is null!");
         }
@@ -86,7 +90,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         // TODO a multipart inputnak valoszinu gzip csomagolt szerepe lesz, egyelore 1 inputot varunk el tole.
         return documentGenerate(
                 List.of(new TemplateType().withTemplateName("simple").withTemplateContent(template).withInitial(true)),
-                generatorSetup);
+                generatorSetup, responseContentGzipped);
     }
 
     /**
@@ -94,17 +98,19 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
      *
      * @param request
      *            {@link DocumentGenerateWithTemplatesRequest} The multipart form object
+     * @param responseContentGzipped
+     *            if the response should be compressed
      * @return Generated document by request
      * @throws BaseException
      *             if any error occurs
      */
-    public Response postDocumentGenerate(DocumentGenerateWithTemplatesRequest request) throws BaseException {
+    public Response postDocumentGenerate(DocumentGenerateWithTemplatesRequest request, Boolean responseContentGzipped) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("request is null!");
         }
         templateData.setTemplateName(INLINE_TEMPLATE_NAME);
         InlineGeneratorSetupType generatorSetup = request.getGeneratorSetup();
-        return documentGenerate(request.getTemplates(), generatorSetup);
+        return documentGenerate(request.getTemplates(), generatorSetup, responseContentGzipped);
     }
 
     /**
@@ -124,7 +130,8 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         // TODO a multipart inputnak valoszinu gzip csomagolt szerepe lesz, egyelore 1 inputot varunk el tole.
         return documentGenerateMetadata(
                 List.of(new TemplateType().withTemplateName("simple").withTemplateContent(template).withInitial(true)),
-                generatorSetup, form.getRequest().getContext());
+                generatorSetup,
+                form.getRequest().getContext());
     }
 
     /**
@@ -143,7 +150,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
         return documentGenerateMetadata(request.getTemplates(), generatorSetup, request.getContext());
     }
 
-    private Response documentGenerate(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup) throws BaseException {
+    private Response documentGenerate(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup, Boolean responseContentGzipped) throws BaseException {
 
         for (TemplateType templateType : templates) {
             templateContainer.addTemplate(new Template(templateType.getTemplateName(), templateType.getTemplateContent()), templateType.isInitial());
@@ -151,7 +158,10 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
         Document document = generateDocument(generatorSetup);
 
-        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseUtil.getFileResponse(
+                BooleanUtils.isTrue(responseContentGzipped) ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                document.getFilename(),
+                MediaType.APPLICATION_OCTET_STREAM);
     }
 
     private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup,

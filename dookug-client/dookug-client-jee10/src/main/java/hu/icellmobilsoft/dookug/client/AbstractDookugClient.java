@@ -84,11 +84,12 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * @throws BaseException
      *             on error
      */
-    protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request) throws BaseException {
+    protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request)
+            throws BaseException {
         try {
             request.getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
             request.getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
-            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateEntityBody(request);
+            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateEntityBody(request, isResponseContentGzipped());
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
             response.setInputStream((InputStream) serviceResponse.getEntity());
@@ -113,7 +114,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
         try {
             request.getRequest().getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
             request.getRequest().getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
-            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateMultipart(request);
+            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateMultipart(request, isResponseContentGzipped());
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
             response.setInputStream((InputStream) serviceResponse.getEntity());
@@ -216,7 +217,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
                     templateName,
                     templateLanguage,
                     templateValidity);
-            Response serviceResponse = iDocumentGenerateStoredTemplateInternalRest.postStoredTemplateDocumentGenerate(request);
+            Response serviceResponse = iDocumentGenerateStoredTemplateInternalRest.postStoredTemplateDocumentGenerate(request, isResponseContentGzipped());
 
             return convertResponseToDto(serviceResponse);
         } catch (ProcessingException e) {
@@ -239,7 +240,7 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
         }
 
         try {
-            Response response = iDocumentContentInternalRest.getDocumentContent(documentId);
+            Response response = iDocumentContentInternalRest.getDocumentContent(documentId, isResponseContentGzipped());
             return convertResponseToDto(response);
         } catch (ProcessingException e) {
             throw newDookugClientException(e);

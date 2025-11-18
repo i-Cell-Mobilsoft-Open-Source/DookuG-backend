@@ -19,10 +19,13 @@
  */
 package hu.icellmobilsoft.dookug.ts.document.rest.generate;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
@@ -53,7 +56,7 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentGenerateStoredTemplateInternalRest#postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest)} test
+ * {@link IDocumentGenerateStoredTemplateInternalRest#postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest, Boolean)} test
  *
  * @author szabolcs.gemesi
  * @since 0.0.1
@@ -76,7 +79,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
-        Response response = client.postStoredTemplateDocumentGenerate(request);
+        Response response = client.postStoredTemplateDocumentGenerate(request, false);
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertTrue(getFilename(response).contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
@@ -84,8 +87,29 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
     }
 
     @Test
+    @DisplayName("Generate PDF document with stored template - Gzipped response")
+    void storedTemplateGzippedDocumentGenerate() throws BaseException, IOException {
+        IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(documentBaseUri))
+                .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
+        StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(DocumentServiceTestConstant.DEV_TEMPLATE_NAME);
+
+        try (Response response = client.postStoredTemplateDocumentGenerate(request, true)) {
+            String filename = getFilename(response);
+            Assertions.assertEquals(200, response.getStatus());
+            Assertions.assertTrue(filename.contains("pdf"));
+
+            // Check compression and write file
+            var contentBytes = ((InputStream) response.getEntity()).readAllBytes();
+            Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
+            writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), filename);
+
+        }
+    }
+
+    @Test
     @DisplayName("Generate PDF document with stored saxon template")
-    void storedTemplateDocumenSaxontGenerate() throws BaseException {
+    void storedTemplateDocumentSaxonGenerate() throws BaseException {
         IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
@@ -101,7 +125,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                                                 FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS)
                                                         .getBytes(StandardCharsets.UTF_8)))
                                 .build());
-        Response response = client.postStoredTemplateDocumentGenerate(request);
+        Response response = client.postStoredTemplateDocumentGenerate(request, false);
         Assertions.assertEquals(200, response.getStatus());
         Assertions.assertTrue(getFilename(response).contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
@@ -115,7 +139,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
         StoredTemplateDocumentGenerateRequest request = requestBuilder.fullFillDatabaseStorage(RandomUtil.generateId());
-        try (Response response = client.postStoredTemplateDocumentGenerate(request)) {
+        try (Response response = client.postStoredTemplateDocumentGenerate(request, false)) {
             Assertions.assertNotEquals(Response.Status.OK, response.getStatusInfo().toEnum());
         } catch (RestClientResponseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);

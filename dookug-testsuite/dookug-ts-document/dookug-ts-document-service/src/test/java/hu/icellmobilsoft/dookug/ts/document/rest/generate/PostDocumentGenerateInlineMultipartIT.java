@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
@@ -47,7 +48,7 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
- * {@link IDocumentGenerateInlineInternalRest#postDocumentGenerateMultipart(DocumentGenerateMultipartForm)} test
+ * {@link IDocumentGenerateInlineInternalRest#postDocumentGenerateMultipart(DocumentGenerateMultipartForm, Boolean)} test
  *
  * @author szabolcs.gemesi
  * @since 0.0.1
@@ -65,7 +66,7 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("Generate PDF document with non-stored template multipart form request")
-    void testDocumentGenerateNonStoredTemplateMultipart() throws BaseException, IOException {
+    void testDocumentGenerateNonStoredTemplateMultipart() throws BaseException {
         IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateInlineInternalRestClient.class);
@@ -77,12 +78,41 @@ class PostDocumentGenerateInlineMultipartIT extends AbstractGenerateDocumentIT {
         form.setRequest(request);
         ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
         form.setTemplate(bis);
-        Response response = client.postDocumentGenerateMultipart(form);
+        Response response = client.postDocumentGenerateMultipart(form, false);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);
         Assertions.assertTrue(filename.contains("pdf"));
         writeFileIfEnabled((InputStream) response.getEntity(), filename);
         response.close();
+    }
+
+    @Test
+    @DisplayName("Generate PDF document with non-stored template multipart form request - Gzipped response")
+    void testGzippedDocumentGenerateNonStoredTemplateMultipart() throws BaseException, IOException {
+        IDocumentGenerateInlineInternalRestClient client = RestClientBuilder.newBuilder()
+                .baseUri(URI.create(documentBaseUri))
+                .build(IDocumentGenerateInlineInternalRestClient.class);
+        DocumentGenerateRequest request = generateRequestBuilder.fullFillHandlebarsPdfBoxDatabase();
+        request.getGeneratorSetup()
+                .setParametersData(
+                        templateParameterDataFromFile(DocumentServiceTestConstant.PDF_BOX_TEMPLATE_PARAMETERS));
+        DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
+        form.setRequest(request);
+        ByteArrayInputStream bis = new ByteArrayInputStream(FileUtil.readFileFromResource(DocumentServiceTestConstant.PDF_BOX_TEMPLATE).getBytes());
+        form.setTemplate(bis);
+
+        try (Response response = client.postDocumentGenerateMultipart(form, true)) {
+            Assertions.assertEquals(200, response.getStatus());
+            String filename = getFilename(response);
+            Assertions.assertNotNull(filename);
+            Assertions.assertTrue(filename.contains("pdf"));
+
+            // Check compression and write file
+            var contentBytes = ((InputStream) response.getEntity()).readAllBytes();
+            Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
+            writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), filename);
+
+        }
     }
 }

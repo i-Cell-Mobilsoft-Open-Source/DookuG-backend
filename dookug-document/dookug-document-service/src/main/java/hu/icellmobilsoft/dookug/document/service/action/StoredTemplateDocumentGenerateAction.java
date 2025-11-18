@@ -24,9 +24,12 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
@@ -48,17 +51,22 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      * 
      * @param request
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Generated PDF
      * @throws BaseException
      *             if any error occurs
      */
-    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request, Boolean responseContentGzipped) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseUtil.getFileResponse(
+                BooleanUtils.isTrue(responseContentGzipped) ? GZIPUtil.compress(document.getContent()) : document.getContent(),
+                document.getFilename(),
+                MediaType.APPLICATION_OCTET_STREAM);
     }
 
     /**
