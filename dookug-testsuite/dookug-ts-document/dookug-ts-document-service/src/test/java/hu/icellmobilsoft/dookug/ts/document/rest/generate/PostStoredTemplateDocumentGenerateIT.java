@@ -109,7 +109,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("Generate PDF document with stored saxon template")
-    void storedTemplateDocumenSaxontGenerate() throws BaseException {
+    void storedTemplateDocumentSaxonGenerate() throws BaseException {
         IDocumentGenerateStoredTemplateInternalRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateStoredTemplateInternalRestClient.class);
