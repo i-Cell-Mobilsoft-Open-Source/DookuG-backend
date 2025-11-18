@@ -60,8 +60,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
-                false);
+                templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         Assertions.assertNotNull(documentDto.getFileName());
         Assertions.assertTrue(documentDto.getFileName().contains("pdf"));
         writeFileIfEnabled(documentDto.getInputStream(), documentDto.getFileName());
@@ -75,8 +74,7 @@ class PostStoredTemplateDocumentGenerateIT extends AbstractGenerateDocumentIT {
                     RandomUtil.generateId(),
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                    templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()),
-                    false);
+                    templateParameterDataFromObject(StoredTemplateDocumentGenerateRequestBuilder.getDevTemplateMainParameterData()));
         } catch (BaseException e) {
             Assertions.assertTrue(e.getCause() instanceof BONotFoundException);
             Assertions.assertEquals(CoffeeFaultType.ENTITY_NOT_FOUND, ((BONotFoundException) e.getCause()).getFaultTypeEnum());

@@ -59,20 +59,17 @@ public class DookugClient extends AbstractDookugClient {
      *            template list used for generation
      * @param parameters
      *            parameter list used by generation
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters,
-            Boolean responseContentGzipped)
+    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters)
             throws BaseException {
         DocumentGenerateWithTemplatesRequest request = new DocumentGenerateWithTemplatesRequest()
                 .withGeneratorSetup(createGeneratorSetup().withParameters(parameters))
                 .withTemplates(templates);
         request.setContext(createContext());
-        return postDocumentGenerateEntityBody(request, responseContentGzipped);
+        return postDocumentGenerateEntityBody(request);
     }
 
     /**
@@ -82,20 +79,17 @@ public class DookugClient extends AbstractDookugClient {
      *            template list used for generation
      * @param parametersData
      *            parameters which can be built by the {@link ParametersDataBuilder}
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData,
-            Boolean responseContentGzipped)
+    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData)
             throws BaseException {
         DocumentGenerateWithTemplatesRequest request = new DocumentGenerateWithTemplatesRequest()
                 .withGeneratorSetup(createGeneratorSetup().withParametersData(parametersData))
                 .withTemplates(templates);
         request.setContext(createContext());
-        return postDocumentGenerateEntityBody(request, responseContentGzipped);
+        return postDocumentGenerateEntityBody(request);
     }
 
     /**
@@ -103,18 +97,16 @@ public class DookugClient extends AbstractDookugClient {
      * 
      * @param templates
      *            template list used for generation
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Boolean responseContentGzipped) throws BaseException {
+    public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates) throws BaseException {
         DocumentGenerateWithTemplatesRequest request = new DocumentGenerateWithTemplatesRequest()
                 .withGeneratorSetup(createGeneratorSetup().withParametersData(null))
                 .withTemplates(templates);
         request.setContext(createContext());
-        return postDocumentGenerateEntityBody(request, responseContentGzipped);
+        return postDocumentGenerateEntityBody(request);
     }
 
     /**
@@ -196,19 +188,17 @@ public class DookugClient extends AbstractDookugClient {
      *            template stream used for generation
      * @param parameters
      *            parameter list used by generation
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException {
+    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         DocumentGenerateRequest request = new DocumentGenerateRequest().withGeneratorSetup(createGeneratorSetup().withParameters(parameters));
         request.setContext(createContext());
         form.setRequest(request);
         form.setTemplate(template);
-        return postDocumentGenerateMultipart(form, responseContentGzipped);
+        return postDocumentGenerateMultipart(form);
     }
 
     /**
@@ -239,19 +229,18 @@ public class DookugClient extends AbstractDookugClient {
      *            template stream used for generation
      * @param parametersData
      *            parameters which can be built by the {@link ParametersDataBuilder}
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException {
+    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData)
+            throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         DocumentGenerateRequest request = new DocumentGenerateRequest().withGeneratorSetup(createGeneratorSetup().withParametersData(parametersData));
         request.setContext(createContext());
         form.setRequest(request);
         form.setTemplate(template);
-        return postDocumentGenerateMultipart(form, responseContentGzipped);
+        return postDocumentGenerateMultipart(form);
     }
 
     /**
@@ -280,19 +269,17 @@ public class DookugClient extends AbstractDookugClient {
      *
      * @param template
      *            template stream used for generation
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
-    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Boolean responseContentGzipped) throws BaseException {
+    public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template) throws BaseException {
         DocumentGenerateMultipartForm form = new DocumentGenerateMultipartForm();
         DocumentGenerateRequest request = new DocumentGenerateRequest().withGeneratorSetup(createGeneratorSetup().withParametersData(null));
         request.setContext(createContext());
         form.setRequest(request);
         form.setTemplate(template);
-        return postDocumentGenerateMultipart(form, responseContentGzipped);
+        return postDocumentGenerateMultipart(form);
     }
 
     /**
@@ -334,22 +321,19 @@ public class DookugClient extends AbstractDookugClient {
      *            is used by default.
      * @param parameters
      *            parameter list used by generation
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
-            OffsetDateTime templateValidity, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException {
+            OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
                 templateLanguage,
                 templateValidity,
                 TemplateStorageMethodType.DATABASE,
                 parameters,
-                null,
-                responseContentGzipped);
+                null);
     }
 
     /**
@@ -364,22 +348,20 @@ public class DookugClient extends AbstractDookugClient {
      *            is used by default.
      * @param parametersData
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
-            OffsetDateTime templateValidity, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException {
+            OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
                 templateLanguage,
                 templateValidity,
                 TemplateStorageMethodType.DATABASE,
                 null,
-                parametersData,
-                responseContentGzipped);
+                parametersData
+        );
     }
 
     /**
@@ -392,22 +374,19 @@ public class DookugClient extends AbstractDookugClient {
      *            required, the language of the template
      * @param parametersData
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             on error
      */
     public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
-            ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException {
+            ParametersDataType parametersData) throws BaseException {
         return postStoredTemplateDocumentGenerate(
                 templateName,
                 templateLanguage,
                 OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS),
                 TemplateStorageMethodType.DATABASE,
                 null,
-                parametersData,
-                responseContentGzipped);
+                parametersData);
     }
 
     /**

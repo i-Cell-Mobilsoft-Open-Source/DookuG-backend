@@ -67,8 +67,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
                 DocumentServiceTestConstant.DEV_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                emptyParameterData(),
-                false);
+                emptyParameterData());
 
         Assertions.assertEquals(200, resp.getHttpStatus());
         InputStream responseStream = resp.getInputStream();
@@ -87,8 +86,7 @@ class PostPdfBoxStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
                     DocumentServiceTestConstant.DEV_ERROR_TEMPLATE_NAME,
                     DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                     OffsetDateTime.now().truncatedTo(ChronoUnit.MICROS),
-                    emptyParameterData(),
-                    false);
+                    emptyParameterData());
             Assertions.fail("Nem hibás válasz (elvárt http státuszkód: 500)");
         } catch (BaseException e) {
             Assertions.assertNotNull(e.getCause());

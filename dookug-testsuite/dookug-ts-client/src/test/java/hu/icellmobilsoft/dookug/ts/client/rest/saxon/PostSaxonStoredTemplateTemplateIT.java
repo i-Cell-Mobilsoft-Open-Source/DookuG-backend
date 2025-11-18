@@ -66,8 +66,7 @@ class PostSaxonStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
                 DocumentServiceTestConstant.PROJECT_STORED_TEMPLATE_NAME,
                 DocumentServiceTestConstant.DEFAULT_LANGUAGE_HU,
                 ParametersDataBuilder.getSaxonParameters(
-                        FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8)),
-                false);
+                        FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_TEMPLATE_PARAMS).getBytes(StandardCharsets.UTF_8)));
 
         Assertions.assertEquals(200, resp.getHttpStatus());
         InputStream responseStream = resp.getInputStream();

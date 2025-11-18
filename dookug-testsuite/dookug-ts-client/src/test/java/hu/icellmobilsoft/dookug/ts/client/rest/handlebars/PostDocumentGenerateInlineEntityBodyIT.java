@@ -71,8 +71,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(
                 DookugClientRequestHelper.SimpleKeyValue.createTemplate(), //
-                DookugClientRequestHelper.SimpleKeyValue.createParameters(),
-                false);
+                DookugClientRequestHelper.SimpleKeyValue.createParameters());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -87,8 +86,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(
                 DookugClientRequestHelper.SimpleJson.createTemplate(), //
-                DookugClientRequestHelper.SimpleJson.createParametersData(),
-                false);
+                DookugClientRequestHelper.SimpleJson.createParametersData());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -101,7 +99,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
     void noParamTest() throws BaseException, IOException {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
-        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.SimpleJson.createTemplate(), false);
+        GeneratedDocumentDto response = client.postDocumentGenerateEntityBody(DookugClientRequestHelper.SimpleJson.createTemplate());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -127,7 +125,7 @@ class PostDocumentGenerateInlineEntityBodyIT extends BaseConfigurableWeldIT {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client
-                .postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), parameters, false);
+                .postDocumentGenerateEntityBody(DookugClientRequestHelper.BuiltInHelpers.createTemplate(), parameters);
 
         // then
         Assertions.assertEquals(200, response.getHttpStatus());

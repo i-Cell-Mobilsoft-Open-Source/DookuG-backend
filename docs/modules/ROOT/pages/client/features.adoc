@@ -3,25 +3,26 @@
 
 The client currently has multiple methods to generate documents, retrieve metadata of the created documents, and fetch the generated document itself.
 
-During document generation, some methods return the generated document. The generated documents can be fetched in GZIP compressed format if needed:
+During document generation, some methods return the generated document.
+The generated documents can be fetched in GZIP compressed format if needed with the client's `setResponseContentGzipped(boolean)` method:
 
 [source,java]
 ----
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Collection<ParameterType> parameters) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, ParametersDataType parametersData) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateEntityBody(Collection<TemplateType> templates) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Collection<ParameterType> parameters) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, ParametersDataType parametersData) throws BaseException;
 
-public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDocumentGenerateMultipart(InputStream template) throws BaseException;
 
-public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, Collection<ParameterType> parameters, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, Collection<ParameterType> parameters) throws BaseException;
 
-public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException;
+public GeneratedDocumentDto postDatabaseStoredTemplateDocumentGenerate(String templateName, OffsetDateTime templateValidity, ParametersDataType parametersData) throws BaseException;
 ----
 
 It is important to note that `ParametersDataType` type parameters can be created manually, but a `ParametersDataBuilder` helper class is provided to configure the desired settings using a fluent API. This was required by the SAXON template engine, as additional parameters are necessary for generating XSLT templates, without which documents cannot be generated. The desired configuration can be easily extracted from the builder for the SAXON engine by calling the `getSaxonParameters(byte[], byte[], boolean)` method, where the FOP configuration content, the XML dataset, and the compression status of the XML can be specified, or through overloaded methods, just the content of the XML file.
@@ -121,6 +122,11 @@ setDocumentStorageMethodType()
 setDigitalSigningType()
 ----
 
+[source,java]
+----
+setResponseContentGzipped()
+----
+
 The `setGeneratorEngineType()` allows setting the engine used for output generation, which currently can be:
 
 * `PDF_BOX` -- uses [Apache PdfBox](https://pdfbox.apache.org/)
@@ -149,6 +155,8 @@ The `setDigitalSigningType(digitalSigningType)` allows controlling whether the g
 * `keyAlias` - the identifier of the key in the keystore, used to identify the signing key (optional, but recommended as it defaults to searching for the `test` key)
 
 If no settings are specified, the default values are `PDF_BOX` + `HANDLEBARS` + `PDF` + `NONE` without a digital signature.
+
+The `setResponseContentGzipped(boolean)` method allows controlling whether the generated document should be returned in GZIP compressed format.
 
 The `postDocumentGenerateEntityBody()` methods call the following REST endpoint in the module:
 
@@ -203,7 +211,7 @@ Example of client usage:
  ...
  dookugClient.setResponseFormatType(ResponseFormatType.STRING);
  dookugClient.setGeneratorEngineType(GeneratorEngineType.NONE);
- GeneratedDocumentDto response = dookugClient.postDocumentGenerateEntityBody(List.of(template), List.of(parameter1,parameter2), false);
+ GeneratedDocumentDto response = dookugClient.postDocumentGenerateEntityBody(List.of(template), List.of(parameter1,parameter2));
 ----
 
 Or similarly, generating a document but with a PDF document format, multipart input, and returning the metadata:

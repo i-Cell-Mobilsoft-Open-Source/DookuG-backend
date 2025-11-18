@@ -62,8 +62,7 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
                 DookugClientRequestHelper.SimpleKeyValue.createTemplateAsStream(), //
-                DookugClientRequestHelper.SimpleKeyValue.createParameters(),
-                false);
+                DookugClientRequestHelper.SimpleKeyValue.createParameters());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -78,8 +77,7 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
                 DookugClientRequestHelper.SimpleJson.createTemplateAsStream(), //
-                DookugClientRequestHelper.SimpleJson.createParametersData(),
-                false);
+                DookugClientRequestHelper.SimpleJson.createParametersData());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
@@ -93,8 +91,7 @@ class PostDocumentGenerateInlineMultipartBodyIT extends BaseConfigurableWeldIT {
         client.setResponseFormatType(ResponseFormatType.STRING);
         client.setGeneratorEngineType(GeneratorEngineType.NONE);
         GeneratedDocumentDto response = client.postDocumentGenerateMultipart( //
-                DookugClientRequestHelper.SimpleJson.createTemplateAsStream(),
-                false);
+                DookugClientRequestHelper.SimpleJson.createTemplateAsStream());
 
         Assertions.assertEquals(200, response.getHttpStatus());
         String replacedTemplate = new String(response.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
