@@ -13,6 +13,9 @@
 ** On the Java Client it can be controlled by the client's `setResponseContentGzipped` method.
 By default, it is `false`.
 * OSS Sonatype -> Maven Central repository migration
+* `parent-oss-pom` upgrade *1.4.0 -> 1.5.0*
+* `docker-base` upgrade *1.5.0 -> 1.7.0*
+** including `builder-nexus-download` and setting the `NEXUS_REPOSITORY_TYPE=central` environment variable in release Dockerfiles
 
 == Migration
 
