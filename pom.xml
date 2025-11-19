@@ -4,7 +4,7 @@
     <parent>
         <groupId>hu.icellmobilsoft.pom</groupId>
         <artifactId>parent-oss-pom</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
 
     <groupId>hu.icellmobilsoft.dookug</groupId>
@@ -13,6 +13,7 @@
 
     <packaging>pom</packaging>
 
+    <name>DookuG Document Generator</name>
     <description>Document generator and template management service</description>
     <url>https://github.com/i-Cell-Mobilsoft-Open-Source/DookuG-backend</url>
     <inceptionYear>2023</inceptionYear>
@@ -173,17 +174,6 @@
         </plugins>
     </build>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
     <repositories>
         <repository>
             <releases>
@@ -192,9 +182,9 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-            <id>ossrh</id>
-            <name>Internal Release Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central-snapshots</id>
+            <name>Maven Central Snapshots Repository</name>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </repository>
         <repository>
             <releases>
@@ -204,8 +194,8 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <id>central</id>
-            <name>Central Repository</name>
+            <id>central-releases</id>
+            <name>Maven Central Releases Repository</name>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
     </repositories>
@@ -253,18 +243,6 @@
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
                             </gpgArguments>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <serverId>ossrh</serverId>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                            <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                         </configuration>
                     </plugin>
                 </plugins>
