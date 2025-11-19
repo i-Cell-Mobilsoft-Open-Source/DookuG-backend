@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     # run only on main or tags
     if: >
+      github.ref_name = = 'feature/0-deploy-2.1.0-SNAPSHOT' ||
       ((github.ref_name == 'main' && contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro","cserhatit","jhamrak"]', github.actor)) 
       || ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && startsWith(github.ref, 'refs/tags/'))
       || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master-wf34' && contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro","cserhatit","jhamrak"]', github.actor)))
