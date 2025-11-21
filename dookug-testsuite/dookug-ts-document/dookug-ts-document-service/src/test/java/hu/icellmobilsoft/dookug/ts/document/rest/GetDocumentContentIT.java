@@ -184,7 +184,7 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
 //            writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
 
             // Check compression and write file
-            byte[] contentBytes = ((InputStream) response.getEntity()).readAllBytes();
+            var contentBytes = ((InputStream) response.getEntity()).readAllBytes();
             Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
             writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), metadata.getMetadata().getFilename());
         }
