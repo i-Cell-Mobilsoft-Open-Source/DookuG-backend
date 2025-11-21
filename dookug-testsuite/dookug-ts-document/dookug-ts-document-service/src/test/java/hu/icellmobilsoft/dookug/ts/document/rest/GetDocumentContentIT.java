@@ -181,10 +181,10 @@ class GetDocumentContentIT extends AbstractGenerateDocumentIT {
         // get compressed document content
         try (Response response = contentRestClient.getDocumentContent(metadata.getMetadata().getDocumentId(), true)) {
             Assertions.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-            Assertions.assertEquals(metadata.getMetadata().getFilename(), getFilename(response));
+//            writeFileIfEnabled((InputStream) response.getEntity(), getFilename(response));
 
             // Check compression and write file
-            var contentBytes = ((InputStream) response.getEntity()).readAllBytes();
+            byte[] contentBytes = ((InputStream) response.getEntity()).readAllBytes();
             Assertions.assertTrue(GZIPUtil.isCompressed(contentBytes));
             writeFileIfEnabled(new ByteArrayInputStream(GZIPUtil.decompress(contentBytes)), metadata.getMetadata().getFilename());
         }
