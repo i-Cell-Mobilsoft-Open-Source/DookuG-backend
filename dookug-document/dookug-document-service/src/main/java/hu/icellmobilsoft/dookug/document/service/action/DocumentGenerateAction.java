@@ -25,17 +25,13 @@ import java.util.List;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-
-import org.apache.commons.lang3.BooleanUtils;
 
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
-import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
@@ -44,6 +40,7 @@ import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
+import hu.icellmobilsoft.dookug.common.system.rest.util.ResponseUtil;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
@@ -158,10 +155,7 @@ public class DocumentGenerateAction extends BaseDocumentGenerateAction {
 
         Document document = generateDocument(generatorSetup);
 
-        return ResponseUtil.getFileResponse(
-                BooleanUtils.isTrue(responseContentGzipped) ? GZIPUtil.compress(document.getContent()) : document.getContent(),
-                document.getFilename(),
-                MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseUtil.getFileResponse(document, responseContentGzipped);
     }
 
     private DocumentMetadataResponse documentGenerateMetadata(List<TemplateType> templates, BaseGeneratorSetupType generatorSetup,
