@@ -39,7 +39,7 @@ ENV NEXUS_REPOSITORY_TYPE=central
 
 RUN echo "DOCKER_SONATYPE_REPOSITORY=$SONATYPE_REPOSITORY" && \
     echo "DOWNLOAD_DIR=$DOWNLOAD_DIR" && \
-    $HOME/script/sonatype-download.sh
+    $HOME/script/common-nexus-download.sh
 ################################################################################
 # Create production image
 ################################################################################
