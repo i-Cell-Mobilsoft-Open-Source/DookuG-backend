@@ -6,6 +6,7 @@ services:
       args:
         WILDFLY_BASE_IMAGE: 'icellmobilsoft/wildfly-mp-jpa-oracle-jdbc:${WILDFLY_IMAGE_VERSION}'
         ARTIFACT_DOWNLOADER_IMAGE: icellmobilsoft/builder-nexus-download:${OSS_BASE_IMAGE_VERSION}
+        NEXUS_REPOSITORY_URL: https://central.sonatype.com/repository/maven-snapshots
         POM_GROUP_ID: 'hu.icellmobilsoft.dookug'
         POM_ARTIFACT_ID: 'dookug-document-service'
         POM_EXTENSION: 'war'
