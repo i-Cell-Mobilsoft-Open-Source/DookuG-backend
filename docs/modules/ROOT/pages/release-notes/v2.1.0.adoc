@@ -16,6 +16,7 @@ By default, it is `false`.
 ** `parent-oss-pom` upgrade *1.4.0 -> 1.5.0*
 ** `docker-base` upgrade *1.5.0 -> 1.7.0*
 *** including `builder-nexus-download` and setting the `NEXUS_REPOSITORY_TYPE=central` environment variable in release Dockerfiles
+* Liquibase installer image upgrade *2.0.0* -> *2.1.0*
 
 == Migration
 
