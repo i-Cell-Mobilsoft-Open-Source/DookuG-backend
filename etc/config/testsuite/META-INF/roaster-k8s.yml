@@ -1,0 +1,12 @@
+# K8S host should be set as environment variable
+dookug:
+  write:
+    document: true
+  service:
+    document:
+      base:
+        uri: https://${K8S_HOST}
+      management:
+        uri: https://${K8S_HOST}
+  client:
+    document/mp-rest/url: https://${K8S_HOST}
