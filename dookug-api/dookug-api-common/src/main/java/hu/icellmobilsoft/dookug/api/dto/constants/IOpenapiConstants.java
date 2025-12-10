@@ -54,6 +54,11 @@ public interface IOpenapiConstants {
          * {@value #MAINTENANCE}
          */
         String MAINTENANCE = "Maintenance";
+
+        /**
+         * {@value #DEV_TOOLS}
+         */
+        String DEV_TOOLS = "WebAppDevTools";
     }
 
     /**
@@ -82,5 +87,12 @@ public interface IOpenapiConstants {
          * {@value #MAINTENANCE}
          */
         String MAINTENANCE = "Clearing internal state.";
+
+        /**
+         * {@value #DEV_TOOLS}
+         */
+        String DEV_TOOLS = "Internal endpoints supporting the web application. Enables template upload and document " +
+                "generation testing before committing templates to the service database. " +
+                "Not intended for external or production use.";
     }
 }
