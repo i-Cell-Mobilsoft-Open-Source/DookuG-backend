@@ -28,10 +28,6 @@ package hu.icellmobilsoft.dookug.api.url;
 public class DocumentGeneratePath extends ServicePath {
 
     /**
-     * {@value #DOCUMENT}
-     */
-    public static final String DOCUMENT = "/dookug/document";
-    /**
      * {@value #GENERATE}
      */
     public static final String GENERATE = "/generate";
@@ -47,10 +43,6 @@ public class DocumentGeneratePath extends ServicePath {
      * {@value #INLINE}
      */
     public static final String INLINE = "/inline";
-    /**
-     * {@value #STOREDTEMPLATE}
-     */
-    public static final String STOREDTEMPLATE = "/storedTemplate";
     /**
      * {@value #INTERNAL_DOCUMENT}
      */
@@ -89,22 +81,12 @@ public class DocumentGeneratePath extends ServicePath {
     public static final String MULTIPART = "/multipart";
 
     /**
-     * {@value #METADATA}
-     */
-    public static final String METADATA = "/metadata";
-
-    /**
-     * {@value #METADATA_QUERY}
-     */
-    public static final String METADATA_QUERY = METADATA + QUERY;
-
-    /**
      * {@value #MULTIPART_METADATA}
      */
     public static final String MULTIPART_METADATA = MULTIPART + METADATA;
 
     /**
-     * Rest path common constant for META-INF/MANIFET.MF file content in response
+     * Rest path common constant for META-INF/MANIFEST.MF file content in response
      */
     public static final String VERSION_INFO = "/versionInfo";
 
