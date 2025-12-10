@@ -17,44 +17,35 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.document.service.action;
+package hu.icellmobilsoft.dookug.document.service.rest.test;
 
 import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
+import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
+import hu.icellmobilsoft.dookug.api.rest.test.IDocumentStoredTemplateTest;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
+import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
+import hu.icellmobilsoft.dookug.document.service.action.test.StoredTemplateAction;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 
 /**
- * Stored template action
+ * Stored template test service rest implementation
  *
  * @author mate.biro
  * @since 2.2.0
  */
 @Model
-public class StoredTemplateAction extends BaseAction {
+public class DocumentStoredTemplateTest extends BaseRestService implements IDocumentStoredTemplateTest {
 
-    /**
-     * Template query, can be filtered and paginated
-     *
-     * @param request
-     *            {@link TemplateQueryRequest}
-     * @return {@link TemplateQueryResponse}
-     * @throws BaseException
-     *             on error
-     */
-    public TemplateQueryResponse postTemplateQuery(TemplateQueryRequest request) throws BaseException {
-        if (request == null) {
-            throw new InvalidParameterException("request cannot be null!");
-        }
+    @Inject
+    private StoredTemplateAction storedTemplateAction;
 
-        // TODO implement template query logic
-
-        TemplateQueryResponse response = new TemplateQueryResponse();
-        handleSuccessResultType(response, request);
-        return response;
-
+    @Override
+    public TemplateQueryResponse postTemplateQuery(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) TemplateQueryRequest request)
+            throws BaseException {
+        return wrapPathParam1(storedTemplateAction::postTemplateQuery, request, "postTemplateQuery", "request");
     }
 }
