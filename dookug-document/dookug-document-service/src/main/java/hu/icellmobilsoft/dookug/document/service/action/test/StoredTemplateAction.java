@@ -20,12 +20,19 @@
 package hu.icellmobilsoft.dookug.document.service.action.test;
 
 import jakarta.enterprise.inject.Model;
+import jakarta.inject.Inject;
 
+import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
+import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
+import hu.icellmobilsoft.dookug.document.service.service.test.TemplateQueryService;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.rest.common.BaseRequestType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateType;
 
 /**
  * Stored template action
@@ -35,6 +42,9 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
  */
 @Model
 public class StoredTemplateAction extends BaseAction {
+
+    @Inject
+    private TemplateQueryService templateQueryService;
 
     /**
      * Template query, can be filtered and paginated
@@ -50,11 +60,44 @@ public class StoredTemplateAction extends BaseAction {
             throw new InvalidParameterException("request cannot be null!");
         }
 
-        // TODO implement template query logic
+        PagingResult<Template> pagingResult = templateQueryService
+                .findByQueryParams(request.getQueryParams(), defaultPaginationParams(request.getPaginationParams()), request.getQueryOrders());
 
+        return toTemplateQueryResponse(pagingResult, request);
+    }
+
+    private TemplateQueryResponse toTemplateQueryResponse(PagingResult<Template> pagingResult, BaseRequestType baseRequestType) {
         TemplateQueryResponse response = new TemplateQueryResponse();
-        handleSuccessResultType(response, request);
+        handleSuccessResultType(response, baseRequestType);
+
+        for (Template template : pagingResult.getResults()) {
+            TemplateType templateType = new TemplateType();
+            templateType.setTemplateId(template.getId());
+            templateType.setLanguage(template.getLanguage());
+            templateType.setName(template.getName());
+            templateType.setDescription(template.getDescription());
+            // TODO DTO enum
+            templateType.setTemplateEngine(template.getTemplateEngine().name());
+            // TODO DTO enum
+            templateType.setGeneratorEngine(template.getGeneratorEngine().name());
+            templateType.setValidityStart(template.getValidityStart());
+            templateType.setValidityEnd(template.getValidityEnd());
+            // TODO calculate last updated at (insdate or moddate if not null)
+            templateType.setLastUpdatedAt(template.getValidityStart());
+            response.withRowList(templateType);
+        }
+
         return response;
+    }
+
+    // TODO: common utility?
+    private QueryRequestDetails defaultPaginationParams(QueryRequestDetails queryRequestDetails) {
+        if (queryRequestDetails == null) {
+            queryRequestDetails = new QueryRequestDetails();
+            queryRequestDetails.setPage(1);
+            queryRequestDetails.setRows(15);
+        }
+        return queryRequestDetails;
 
     }
 }
