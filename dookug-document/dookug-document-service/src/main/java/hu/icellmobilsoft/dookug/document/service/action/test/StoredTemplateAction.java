@@ -82,8 +82,7 @@ public class StoredTemplateAction extends BaseAction {
             templateType.setGeneratorEngine(template.getGeneratorEngine().name());
             templateType.setValidityStart(template.getValidityStart());
             templateType.setValidityEnd(template.getValidityEnd());
-            // TODO calculate last updated at (insdate or moddate if not null)
-            templateType.setLastUpdatedAt(template.getValidityStart());
+            templateType.setLastUpdatedAt(template.getModificationDate() != null ? template.getModificationDate() : template.getCreationDate());
             response.withRowList(templateType);
         }
 

@@ -49,8 +49,7 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParamsType;
 
 /**
- * {@link Template} database query operations
- * TODO refactor common query service
+ * {@link Template} database query operations TODO refactor common query service
  *
  * @author mate.biro
  * @since 2.2.0
@@ -137,8 +136,17 @@ public class TemplateQueryService extends BaseService<Template> {
             for (TemplateQueryOrderType order : queryOrders) {
                 Path<?> attr = switch (order.getOrder()) {
                     case NAME -> root.get(Template_.name);
-                    // TODO calculate last updated at (insdate or moddate if not null)??
-                    case LAST_UPDATED_AT -> root.get(Template_.validityStart);
+                    case LAST_UPDATED_AT -> {
+                        // TODO refact
+                        // COALESCE(modificationDate, creationDate)
+                        var lastUpdatedExpr = builder.coalesce(
+                                root.get(Template_.modificationDate),
+                                root.get(Template_.creationDate)
+                        );
+                        // handleAttr expects a Path\<?\>, but it only uses it as an Expression
+                        // so we can safely cast here
+                        yield (Path<?>) lastUpdatedExpr;
+                    }
                     case DESCRIPTION -> root.get(Template_.description);
                     case LANGUAGE -> root.get(Template_.language);
                     case VALIDITY_START -> root.get(Template_.validityStart);
