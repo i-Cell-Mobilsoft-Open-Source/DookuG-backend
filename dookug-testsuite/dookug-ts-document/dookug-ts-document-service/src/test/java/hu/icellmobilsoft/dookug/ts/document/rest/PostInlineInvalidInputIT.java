@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
 import jakarta.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +38,6 @@ import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateType;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateWithTemplatesRequestBuilder;

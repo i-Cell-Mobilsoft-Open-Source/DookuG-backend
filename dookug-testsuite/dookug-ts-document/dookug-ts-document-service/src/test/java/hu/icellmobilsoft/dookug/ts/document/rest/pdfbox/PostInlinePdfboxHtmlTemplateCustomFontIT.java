@@ -37,12 +37,12 @@ import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.document.IDocumentGenerateInlineInternalRest;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateWithTemplatesRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateType;
 import hu.icellmobilsoft.dookug.ts.common.builder.DocumentGenerateWithTemplatesRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;

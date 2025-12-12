@@ -34,10 +34,10 @@ import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.dookug.client.exception.DookugClientException;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
 import hu.icellmobilsoft.dookug.client.util.RandomUtil;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 
 /**
  * DookuG client ososztaly
