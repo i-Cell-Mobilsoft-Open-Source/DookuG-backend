@@ -1,11 +1,56 @@
-<xsd:schema 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-    xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
-    xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common" 
-    targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
-    elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xsd:schema
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+        xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+        targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+        elementFormDefault="qualified" attributeFormDefault="unqualified">
 
-    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common" />
+    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common"/>
+
+    <xsd:simpleType name="GeneratorEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Implementation of document generation according to a 3rd party library.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Generate engine not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PDF_BOX">
+                <xsd:annotation>
+                    <xsd:documentation>Apache - PDFBox</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SAXON">
+                <xsd:annotation>
+                    <xsd:documentation>SAXON</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TemplateEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Implementation of template management using third-party technology.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Template engine not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HANDLEBARS">
+                <xsd:annotation>
+                    <xsd:documentation>Extending Handlebars template syntax to include Mustache template syntax. More
+                        information:
+                        https://github.com/jknack/handlebars.java
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:simpleType name="TemplateNameType">
         <xsd:annotation>

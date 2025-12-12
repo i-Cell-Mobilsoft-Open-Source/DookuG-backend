@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.dookug.ts.client.rest.saxon;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -34,9 +33,9 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
 import hu.icellmobilsoft.dookug.client.DookugClient;
 import hu.icellmobilsoft.dookug.client.type.GeneratedDocumentDto;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.AbstractGenerateDocumentIT;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;

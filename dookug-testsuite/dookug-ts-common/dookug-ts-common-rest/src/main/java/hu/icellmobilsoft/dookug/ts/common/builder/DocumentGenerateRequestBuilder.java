@@ -24,13 +24,13 @@ import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.builder.ParametersDataBuilder;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 import hu.icellmobilsoft.dookug.ts.common.rest.DtoHelper;
 import hu.icellmobilsoft.roaster.api.dto.BaseBuilder;
 

@@ -66,13 +66,13 @@ import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.common.util.filename.FileUtil;
 import hu.icellmobilsoft.dookug.document.service.converter.DocumentConverter;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.ParameterType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.BaseGeneratorSetupType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
-import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 
 /**
  * Base document generation action
