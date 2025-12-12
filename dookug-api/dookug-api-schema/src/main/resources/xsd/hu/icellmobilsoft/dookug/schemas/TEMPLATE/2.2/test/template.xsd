@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"
+            xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
+            xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
+            xmlns:apiRestCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"
+            targetNamespace="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"
+            elementFormDefault="qualified">
+
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"/>
+    <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common"/>
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"/>
+
+    <!-- SIMPLE TYPES -->
+
+    <xsd:simpleType name="TemplateQueryOrderByType">
+        <xsd:annotation>
+            <xsd:documentation>Type of document sorting</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:enumeration value="NAME">
+                <xsd:annotation>
+                    <xsd:documentation>Template name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LAST_UPDATED_AT">
+                <xsd:annotation>
+                    <xsd:documentation>Template last updated at</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DESCRIPTION">
+                <xsd:annotation>
+                    <xsd:documentation>Template description</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LANGUAGE">
+                <xsd:annotation>
+                    <xsd:documentation>Template language</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VALIDITY_START">
+                <xsd:annotation>
+                    <xsd:documentation>Template validity start</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VALIDITY_END">
+                <xsd:annotation>
+                    <xsd:documentation>Template validity end</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- COMPLEX TYPES -->
+
+    <xsd:complexType name="TemplateQueryOrderType">
+        <xsd:annotation>
+            <xsd:documentation>Template sorting type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="order" type="TemplateQueryOrderByType">
+                <xsd:annotation>
+                    <xsd:documentation>Sorting by column</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="type" type="coffeeCommon:OrderByTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>Sorting type: ASC - Ascending, DESC - Descending</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TemplateQueryParamsType">
+        <xsd:annotation>
+            <xsd:documentation>Template filtering parameters</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="apiCommon:TemplateNameType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="language" type="coffeeCommon:SimpleText30NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template language</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validityStart" type="coffeeCommon:TimestampType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template validity start</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validityEnd" type="coffeeCommon:TimestampType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template validity end</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TemplateType">
+        <xsd:annotation>
+            <xsd:documentation>Type describing template</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="apiCommon:TemplateNameType">
+                <xsd:annotation>
+                    <xsd:documentation>Template name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="description" type="coffeeCommon:SimpleText1024NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Template description</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templateEngine" type="apiCommon:TemplateEngineType">
+                <xsd:annotation>
+                    <xsd:documentation>Template engine</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="generatorEngine" type="apiCommon:GeneratorEngineType">
+                <xsd:annotation>
+                    <xsd:documentation>Document generator engine</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="language" type="coffeeCommon:SimpleText30NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Template language</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validityStart" type="coffeeCommon:TimestampType">
+                <xsd:annotation>
+                    <xsd:documentation>Validity start</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="validityEnd" type="coffeeCommon:TimestampType">
+                <xsd:annotation>
+                    <xsd:documentation>Validity end</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="lastUpdatedAt" type="coffeeCommon:TimestampType">
+                <xsd:annotation>
+                    <xsd:documentation>Template last updated at</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templateId" type="coffeeCommon:EntityIdType">
+                <xsd:annotation>
+                    <xsd:documentation>Template id</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- REQUEST/RESPONSE TYPES -->
+
+    <xsd:complexType name="TemplateQueryRequestType">
+        <xsd:annotation>
+            <xsd:documentation>Querying template request type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="paginationParams" type="coffeeCommon:QueryRequestDetails" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>Pagination parameters</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="queryOrders" type="TemplateQueryOrderType" minOccurs="0"
+                                 maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Query order settings</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="queryParams" type="TemplateQueryParamsType">
+                        <xsd:annotation>
+                            <xsd:documentation>Query filter settings</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="TemplateQueryResponseType">
+        <xsd:annotation>
+            <xsd:documentation>Querying template response type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseResponseType">
+                <xsd:sequence>
+                    <xsd:element name="paginationParams" type="coffeeCommon:QueryResponseDetails">
+                        <xsd:annotation>
+                            <xsd:documentation>Pagination parameters</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="rowList" type="TemplateType" minOccurs="0" maxOccurs="100">
+                        <xsd:annotation>
+                            <xsd:documentation>Document metadata list</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!-- REQUEST/RESPONSE ELEMENTS -->
+
+    <xsd:element name="TemplateQueryRequest">
+        <xsd:annotation>
+            <xsd:documentation>Template query request</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="TemplateQueryRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="TemplateQueryResponse">
+        <xsd:annotation>
+            <xsd:documentation>Template query response</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="TemplateQueryResponseType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
