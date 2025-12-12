@@ -125,7 +125,7 @@ public class TemplateQueryService extends BaseService<Template> {
 
         if (queryParams.isSetValidityEnd()) {
             predicates.add(
-                    builder.lessThan(root.get(Template_.validityEnd), queryParams.getValidityEnd()));
+                    builder.lessThanOrEqualTo(root.get(Template_.validityEnd), queryParams.getValidityEnd()));
         }
     }
 
@@ -136,17 +136,7 @@ public class TemplateQueryService extends BaseService<Template> {
             for (TemplateQueryOrderType order : queryOrders) {
                 Path<?> attr = switch (order.getOrder()) {
                     case NAME -> root.get(Template_.name);
-                    case LAST_UPDATED_AT -> {
-                        // TODO refact
-                        // COALESCE(modificationDate, creationDate)
-                        var lastUpdatedExpr = builder.coalesce(
-                                root.get(Template_.modificationDate),
-                                root.get(Template_.creationDate)
-                        );
-                        // handleAttr expects a Path\<?\>, but it only uses it as an Expression
-                        // so we can safely cast here
-                        yield (Path<?>) lastUpdatedExpr;
-                    }
+                    case LAST_UPDATED_AT -> getLastUpdatedAt(builder, root);
                     case DESCRIPTION -> root.get(Template_.description);
                     case LANGUAGE -> root.get(Template_.language);
                     case VALIDITY_START -> root.get(Template_.validityStart);
@@ -157,6 +147,11 @@ public class TemplateQueryService extends BaseService<Template> {
         }
         orders.add(builder.asc(root.get(Template_.id)));
         return orders;
+    }
+
+    private Path<?> getLastUpdatedAt(CriteriaBuilder builder, Root<Template> root) {
+        var lastUpdatedExpr = builder.coalesce(root.get(Template_.modificationDate), root.get(Template_.creationDate));
+        return (Path<?>) lastUpdatedExpr;
     }
 
     private void handleAttr(Path<?> attr, CriteriaBuilder builder, List<Order> orders, OrderByTypeType orderType) {
