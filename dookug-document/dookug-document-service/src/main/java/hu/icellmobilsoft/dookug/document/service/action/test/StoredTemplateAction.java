@@ -19,19 +19,21 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action.test;
 
-import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
-import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
+import hu.icellmobilsoft.coffee.dto.common.common.QueryResponseDetails;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
+import hu.icellmobilsoft.coffee.jpa.sql.paging.QueryMetaData;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.document.service.service.test.TemplateQueryService;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.rest.common.BaseRequestType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
@@ -87,7 +89,20 @@ public class StoredTemplateAction extends BaseAction {
             response.withRowList(templateType);
         }
 
+        setResponseDetails(pagingResult, response);
+
         return response;
+    }
+
+    // TODO: common utility?
+    private void setResponseDetails(PagingResult<Template> pagingResult, TemplateQueryResponse response) {
+        QueryMetaData details = pagingResult.getDetails();
+        QueryResponseDetails responseDetails = new QueryResponseDetails();
+        responseDetails.setTotalRows(details.getTotalRows().intValue());
+        responseDetails.setPage(details.getPage().intValue());
+        responseDetails.setRows(details.getRows().intValue());
+        responseDetails.setMaxPage(details.getMaxPage().intValue());
+        response.setPaginationParams(responseDetails);
     }
 
     // TODO: common utility?
