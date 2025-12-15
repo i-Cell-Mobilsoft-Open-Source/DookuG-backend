@@ -26,8 +26,8 @@ import jakarta.enterprise.inject.Model;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Order;
-import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Selection;
@@ -134,7 +134,7 @@ public class TemplateQueryService extends BaseService<Template> {
         List<Order> orders = new ArrayList<>();
         if (!CollectionUtils.isEmpty(queryOrders)) {
             for (TemplateQueryOrderType order : queryOrders) {
-                Path<?> attr = switch (order.getOrder()) {
+                Expression<?> attr = switch (order.getOrder()) {
                     case NAME -> root.get(Template_.name);
                     case LAST_UPDATED_AT -> getLastUpdatedAt(builder, root);
                     case DESCRIPTION -> root.get(Template_.description);
@@ -149,12 +149,11 @@ public class TemplateQueryService extends BaseService<Template> {
         return orders;
     }
 
-    private Path<?> getLastUpdatedAt(CriteriaBuilder builder, Root<Template> root) {
-        var lastUpdatedExpr = builder.coalesce(root.get(Template_.modificationDate), root.get(Template_.creationDate));
-        return (Path<?>) lastUpdatedExpr;
+    private Expression<?> getLastUpdatedAt(CriteriaBuilder builder, Root<Template> root) {
+        return builder.coalesce(root.get(Template_.modificationDate), root.get(Template_.creationDate));
     }
 
-    private void handleAttr(Path<?> attr, CriteriaBuilder builder, List<Order> orders, OrderByTypeType orderType) {
+    private void handleAttr(Expression<?> attr, CriteriaBuilder builder, List<Order> orders, OrderByTypeType orderType) {
         if (attr != null) {
             Order orderBy;
             if (orderType == OrderByTypeType.ASC) {

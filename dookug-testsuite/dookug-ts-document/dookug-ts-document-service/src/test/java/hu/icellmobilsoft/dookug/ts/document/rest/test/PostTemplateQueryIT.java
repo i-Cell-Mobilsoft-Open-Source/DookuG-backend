@@ -23,6 +23,7 @@ import java.net.URI;
 
 import jakarta.inject.Inject;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -32,12 +33,11 @@ import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParamsType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
+import hu.icellmobilsoft.dookug.ts.common.builder.test.TemplateQueryRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
-import hu.icellmobilsoft.dookug.ts.common.rest.DtoHelper;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.test.IDocumentStoredTemplateTestRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 
@@ -55,6 +55,9 @@ public class PostTemplateQueryIT extends BaseIT {
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)
     private String documentBaseUri;
 
+    @Inject
+    private TemplateQueryRequestBuilder templateQueryRequestBuilder;
+
     @Test
     @DisplayName("Template query test")
     void testTemplateQuery() throws BaseException {
@@ -63,13 +66,12 @@ public class PostTemplateQueryIT extends BaseIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentStoredTemplateTestRestClient.class);
 
-        // TODO build request
-        TemplateQueryRequest request = new TemplateQueryRequest();
-        request.setContext(DtoHelper.createContext());
-        request.setQueryParams(new TemplateQueryParamsType());
+        TemplateQueryRequest request = templateQueryRequestBuilder.fullFill();
 
         TemplateQueryResponse response = storedTemplateTestRestClient.postTemplateQuery(request);
 
         Assertions.assertEquals(FunctionCodeType.OK, response.getFuncCode());
+        Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getRowList()));
+        Assertions.assertNotNull(response.getPaginationParams());
     }
 }
