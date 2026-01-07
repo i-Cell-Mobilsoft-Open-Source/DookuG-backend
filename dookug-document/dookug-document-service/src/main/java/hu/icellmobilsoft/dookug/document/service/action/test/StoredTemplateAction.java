@@ -19,23 +19,30 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action.test;
 
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
-import hu.icellmobilsoft.coffee.dto.common.common.QueryResponseDetails;
-import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
-import hu.icellmobilsoft.coffee.jpa.sql.paging.QueryMetaData;
+import org.apache.commons.lang3.StringUtils;
+
+import hu.icellmobilsoft.coffee.dto.common.common.OrderByTypeType;
+import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.document.service.service.test.TemplateQueryService;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
-import hu.icellmobilsoft.dookug.schemas.common._1_0.rest.common.BaseRequestType;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryOrderByType;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryOrderType;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParamsType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateType;
 
@@ -51,31 +58,134 @@ public class StoredTemplateAction extends BaseAction {
     @Inject
     private TemplateQueryService templateQueryService;
 
+    @Inject
+    private JaxbTool jaxbTool;
+
     /**
      * Template query, can be filtered and paginated
-     *
-     * @param request
-     *            {@link TemplateQueryRequest}
+     * 
+     * @param name
+     *            template name filter
+     * @param language
+     *            template language filter
+     * @param validityStart
+     *            validity start filter
+     * @param validityEnd
+     *            validity end filter
+     * @param sort
+     *            sorting criteria
+     * 
      * @return {@link TemplateQueryResponse}
      * @throws BaseException
      *             on error
      */
-    public TemplateQueryResponse postTemplateQuery(TemplateQueryRequest request) throws BaseException {
-        if (request == null) {
-            throw new InvalidParameterException("request cannot be null!");
+    public TemplateQueryResponse getTemplateMetaDataQuery(String name, String language, String validityStart, String validityEnd, String sort)
+            throws BaseException {
+
+        // TODO converter
+        TemplateQueryParamsType queryParams = new TemplateQueryParamsType();
+        if (StringUtils.isNotBlank(name)) {
+            queryParams.setName(name);
+        }
+        if (StringUtils.isNotBlank(language)) {
+            queryParams.setLanguage(language);
+        }
+        if (StringUtils.isNotBlank(validityStart)) {
+            try {
+                queryParams.setValidityStart(OffsetDateTime.parse(validityStart));
+            } catch (DateTimeParseException e) {
+                throw new IllegalArgumentException("Invalid 'validityStart', expected ISO-8601 OffsetDateTime.", e);
+            }
+        }
+        if (StringUtils.isNotBlank(validityEnd)) {
+            try {
+                queryParams.setValidityEnd(OffsetDateTime.parse(validityEnd));
+            } catch (DateTimeParseException e) {
+                throw new IllegalArgumentException("Invalid 'validityEnd', expected ISO-8601 OffsetDateTime.", e);
+            }
         }
 
-        PagingResult<Template> pagingResult = templateQueryService
-                .findByQueryParams(request.getQueryParams(), defaultPaginationParams(request.getPaginationParams()), request.getQueryOrders());
+        // validate by XSD
+        jaxbTool.marshalXML(queryParams, XsdConstants.SUPER_XSD_PATH);
 
-        return toTemplateQueryResponse(pagingResult, request);
+        List<TemplateQueryOrderType> queryOrders = parseSort(sort);
+
+        List<Template> templates = templateQueryService.findByQueryParams(queryParams, queryOrders);
+
+        return toTemplateQueryResponse(templates);
     }
 
-    private TemplateQueryResponse toTemplateQueryResponse(PagingResult<Template> pagingResult, BaseRequestType baseRequestType) {
-        TemplateQueryResponse response = new TemplateQueryResponse();
-        handleSuccessResultType(response, baseRequestType);
+    private List<TemplateQueryOrderType> parseSort(String sort) {
+        List<TemplateQueryOrderType> orders = new ArrayList<>();
+        if (StringUtils.isBlank(sort)) {
+            return orders;
+        }
 
-        for (Template template : pagingResult.getResults()) {
+        for (String token : sort.split(",")) {
+            String part = token.trim();
+            if (part.isEmpty()) {
+                continue;
+            }
+
+            String field;
+            String direction;
+            int colonIdx = part.indexOf(':');
+            if (colonIdx < 0) {
+                field = part;
+                direction = "ASC";
+            } else {
+                field = part.substring(0, colonIdx).trim();
+                direction = part.substring(colonIdx + 1).trim();
+                if (direction.isEmpty()) {
+                    direction = "ASC";
+                }
+            }
+
+            TemplateQueryOrderByType orderBy = SORT_FIELD_MAP.get(field);
+            TemplateQueryOrderType orderType = getTemplateQueryOrderType(orderBy, field, direction);
+            orders.add(orderType);
+        }
+        return orders;
+    }
+
+    private TemplateQueryOrderType getTemplateQueryOrderType(TemplateQueryOrderByType orderBy, String field, String direction) {
+        if (orderBy == null) {
+            throw new IllegalArgumentException("Unsupported sort field: " + field);
+        }
+
+        OrderByTypeType type = switch (direction.toUpperCase()) {
+            case "ASC" -> OrderByTypeType.ASC;
+            case "DESC" -> OrderByTypeType.DESC;
+            default -> throw new IllegalArgumentException("Invalid sort direction for '" + field + "': " + direction);
+        };
+
+        TemplateQueryOrderType orderType = new TemplateQueryOrderType();
+        orderType.setOrder(orderBy);
+        orderType.setType(type);
+        return orderType;
+    }
+
+    private final Map<String, TemplateQueryOrderByType> SORT_FIELD_MAP = Map.of(
+            "name",
+            TemplateQueryOrderByType.NAME,
+            "lastUpdatedAt",
+            TemplateQueryOrderByType.LAST_UPDATED_AT,
+            "description",
+            TemplateQueryOrderByType.DESCRIPTION,
+            "language",
+            TemplateQueryOrderByType.LANGUAGE,
+            "validityStart",
+            TemplateQueryOrderByType.VALIDITY_START,
+            "validityEnd",
+            TemplateQueryOrderByType.VALIDITY_END
+    );
+
+    private TemplateQueryResponse toTemplateQueryResponse(List<Template> templates) {
+        TemplateQueryResponse response = new TemplateQueryResponse();
+        handleSuccessResultType(response);
+
+        for (Template template : templates) {
+            // TODO converter
             TemplateType templateType = new TemplateType();
             templateType.setTemplateId(template.getId());
             templateType.setLanguage(template.getLanguage());
@@ -89,30 +199,7 @@ public class StoredTemplateAction extends BaseAction {
             response.withRowList(templateType);
         }
 
-        setResponseDetails(pagingResult, response);
-
         return response;
     }
 
-    // TODO: common utility?
-    private void setResponseDetails(PagingResult<Template> pagingResult, TemplateQueryResponse response) {
-        QueryMetaData details = pagingResult.getDetails();
-        QueryResponseDetails responseDetails = new QueryResponseDetails();
-        responseDetails.setTotalRows(details.getTotalRows().intValue());
-        responseDetails.setPage(details.getPage().intValue());
-        responseDetails.setRows(details.getRows().intValue());
-        responseDetails.setMaxPage(details.getMaxPage().intValue());
-        response.setPaginationParams(responseDetails);
-    }
-
-    // TODO: common utility?
-    private QueryRequestDetails defaultPaginationParams(QueryRequestDetails queryRequestDetails) {
-        if (queryRequestDetails == null) {
-            queryRequestDetails = new QueryRequestDetails();
-            queryRequestDetails.setPage(1);
-            queryRequestDetails.setRows(15);
-        }
-        return queryRequestDetails;
-
-    }
 }

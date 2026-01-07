@@ -36,4 +36,29 @@ public class TemplatePath extends ServicePath {
      * {@value #TEST_DOCUMENT_STOREDTEMPLATE}
      */
     public static final String TEST_DOCUMENT_STOREDTEMPLATE = TEST_DOCUMENT + STOREDTEMPLATE;
+
+    /**
+     * {@value #PARAM_NAME}
+     */
+    public static final String PARAM_NAME = "name";
+
+    /**
+     * {@value #PARAM_LANGUAGE}
+     */
+    public static final String PARAM_LANGUAGE = "language";
+
+    /**
+     * {@value #PARAM_VALIDITY_START}
+     */
+    public static final String PARAM_VALIDITY_START = "validityStart";
+
+    /**
+     * {@value #PARAM_VALIDITY_END}
+     */
+    public static final String PARAM_VALIDITY_END = "validityEnd";
+
+    /**
+     * {@value #PARAM_SORT}
+     */
+    public static final String PARAM_SORT = "sort";
 }

@@ -20,21 +20,19 @@
 package hu.icellmobilsoft.dookug.api.rest.test;
 
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
-import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
-import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 import hu.icellmobilsoft.dookug.api.url.TemplatePath;
-import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 
 /**
@@ -48,20 +46,38 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
 public interface IDocumentStoredTemplateTest {
 
     /**
-     * Retrieval of template metadata with filtering, sorting, and pagination.
+     * REST interface definition for template metadata querying with filtering, sorting
      *
-     * @param request
-     *            TemplateQueryRequest object containing filtering, sorting, and pagination parameters
-     * @return TemplateQueryResponse containing the requested template metadata
+     * @param name
+     *            template name filter
+     * @param language
+     *            template language filter
+     * @param validityStart
+     *            template validity start filter
+     * @param validityEnd
+     *            template validity end filter
+     * @param sort
+     *            sorting criteria
+     * @return list of template metadata
      * @throws BaseException
      *             on error
      */
-    @POST
-    @Operation(summary = "Retrieval of template metadata with filtering, sorting, and pagination.",
-            description = "Returns template metadata from the TEMPLATE table according to the specified filtering, sorting, and pagination parameters.")
-    @Path(DocumentGeneratePath.METADATA_QUERY)
+    @GET
+    @Operation(summary = "Retrieval of template metadata with filtering and sorting.",
+            description = "Returns template metadata from the TEMPLATE table according to the specified filtering and sorting parameters.")
+    @Path(TemplatePath.METADATA)
     @Consumes(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
-    TemplateQueryResponse postTemplateQuery(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) TemplateQueryRequest request)
+    TemplateQueryResponse getTemplateMetaDataQuery(@QueryParam(TemplatePath.PARAM_NAME) @Parameter(name = TemplatePath.PARAM_NAME,
+            description = "Template name") String name,
+            @QueryParam(TemplatePath.PARAM_LANGUAGE) @Parameter(name = TemplatePath.PARAM_LANGUAGE,
+                    description = "Template language") String language,
+            @QueryParam(TemplatePath.PARAM_VALIDITY_START) @Parameter(name = TemplatePath.PARAM_VALIDITY_START,
+                    description = "Template validity start") String validityStart,
+            @QueryParam(TemplatePath.PARAM_VALIDITY_END) @Parameter(name = TemplatePath.PARAM_VALIDITY_END,
+                    description = "Template validity end") String validityEnd,
+            @QueryParam(TemplatePath.PARAM_SORT) @Parameter(
+                    name = TemplatePath.PARAM_SORT,
+                    description = "Sorting, e.g. `name:asc,language:desc,validityStart:asc`") String sort)
             throws BaseException;
 }

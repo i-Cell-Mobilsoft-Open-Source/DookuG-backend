@@ -154,34 +154,6 @@
 
     <!-- REQUEST/RESPONSE TYPES -->
 
-    <xsd:complexType name="TemplateQueryRequestType">
-        <xsd:annotation>
-            <xsd:documentation>Querying template request type</xsd:documentation>
-        </xsd:annotation>
-        <xsd:complexContent>
-            <xsd:extension base="apiRestCommon:BaseRequestType">
-                <xsd:sequence>
-                    <xsd:element name="paginationParams" type="coffeeCommon:QueryRequestDetails" minOccurs="0">
-                        <xsd:annotation>
-                            <xsd:documentation>Pagination parameters</xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:element>
-                    <xsd:element name="queryOrders" type="TemplateQueryOrderType" minOccurs="0"
-                                 maxOccurs="unbounded">
-                        <xsd:annotation>
-                            <xsd:documentation>Query order settings</xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:element>
-                    <xsd:element name="queryParams" type="TemplateQueryParamsType">
-                        <xsd:annotation>
-                            <xsd:documentation>Query filter settings</xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:element>
-                </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
-    </xsd:complexType>
-
     <xsd:complexType name="TemplateQueryResponseType">
         <xsd:annotation>
             <xsd:documentation>Querying template response type</xsd:documentation>
@@ -189,12 +161,7 @@
         <xsd:complexContent>
             <xsd:extension base="apiRestCommon:BaseResponseType">
                 <xsd:sequence>
-                    <xsd:element name="paginationParams" type="coffeeCommon:QueryResponseDetails">
-                        <xsd:annotation>
-                            <xsd:documentation>Pagination parameters</xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:element>
-                    <xsd:element name="rowList" type="TemplateType" minOccurs="0" maxOccurs="100">
+                    <xsd:element name="rowList" type="TemplateType" minOccurs="0" maxOccurs="unbounded">
                         <xsd:annotation>
                             <xsd:documentation>Document metadata list</xsd:documentation>
                         </xsd:annotation>
@@ -205,17 +172,6 @@
     </xsd:complexType>
 
     <!-- REQUEST/RESPONSE ELEMENTS -->
-
-    <xsd:element name="TemplateQueryRequest">
-        <xsd:annotation>
-            <xsd:documentation>Template query request</xsd:documentation>
-        </xsd:annotation>
-        <xsd:complexType>
-            <xsd:complexContent>
-                <xsd:extension base="TemplateQueryRequestType"/>
-            </xsd:complexContent>
-        </xsd:complexType>
-    </xsd:element>
 
     <xsd:element name="TemplateQueryResponse">
         <xsd:annotation>

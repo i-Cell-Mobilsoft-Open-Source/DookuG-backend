@@ -22,13 +22,10 @@ package hu.icellmobilsoft.dookug.document.service.rest.test;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.cdi.annotation.xml.ValidateXML;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.rest.test.IDocumentStoredTemplateTest;
-import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
 import hu.icellmobilsoft.dookug.document.service.action.test.StoredTemplateAction;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 
 /**
@@ -44,8 +41,20 @@ public class DocumentStoredTemplateTest extends BaseRestService implements IDocu
     private StoredTemplateAction storedTemplateAction;
 
     @Override
-    public TemplateQueryResponse postTemplateQuery(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) TemplateQueryRequest request)
+    public TemplateQueryResponse getTemplateMetaDataQuery(String name, String language, String validityStart, String validityEnd, String sort)
             throws BaseException {
-        return wrapPathParam1(storedTemplateAction::postTemplateQuery, request, "postTemplateQuery", "request");
+        return wrapPathParam5(
+                storedTemplateAction::getTemplateMetaDataQuery,
+                name,
+                language,
+                validityStart,
+                validityEnd,
+                sort,
+                "getTemplateMetaDataQuery",
+                "name",
+                "language",
+                "validityStart",
+                "validityEnd",
+                "sort");
     }
 }

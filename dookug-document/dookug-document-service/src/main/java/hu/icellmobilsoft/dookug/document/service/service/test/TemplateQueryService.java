@@ -37,11 +37,6 @@ import org.apache.commons.collections.CollectionUtils;
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.common.common.OrderByTypeType;
-import hu.icellmobilsoft.coffee.dto.common.common.QueryRequestDetails;
-import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingResult;
-import hu.icellmobilsoft.coffee.jpa.sql.paging.PagingUtil;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.model.template.Template_;
 import hu.icellmobilsoft.dookug.common.system.jpa.service.BaseService;
@@ -58,38 +53,29 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
 public class TemplateQueryService extends BaseService<Template> {
 
     /**
-     * {@link Template} lister that can be filtered and paged
+     * Find {@link Template} by query parameters
      *
      * @param queryParams
-     *            {@link TemplateQueryParamsType}
-     * @param paginationParams
-     *            {@link QueryRequestDetails}
+     *            query parameters
      * @param queryOrders
-     *            {@link List} of {@link TemplateQueryOrderType}
-     * @return {@link PagingResult} of {@link Template}
-     * @throws BaseException
-     *             if database error occurs
+     *            query ordering
+     * @return list of {@link Template}
      */
     @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
-    public PagingResult<Template> findByQueryParams(TemplateQueryParamsType queryParams, QueryRequestDetails paginationParams,
-            List<TemplateQueryOrderType> queryOrders) throws BaseException {
-        String methodInfo = getCalledMethodWithParamsBase("findByQueryParams", "queryParams", "paginationParams", "queryOrders");
-        logEnter(methodInfo, queryParams, paginationParams, queryOrders);
+    public List<Template> findByQueryParams(TemplateQueryParamsType queryParams, List<TemplateQueryOrderType> queryOrders) {
+        String methodInfo = getCalledMethodWithParamsBase("findByQueryParams", "templateMetaDataQueryParams", "sort");
+        logEnter(methodInfo, queryParams, queryOrders);
         try {
-            if (queryParams == null || paginationParams == null || queryOrders == null) {
-                throw new InvalidParameterException("queryParams, paginationParams or queryOrders is null!");
-            }
-            TypedQuery<Template> query = createTemplateQuery(queryParams, queryOrders, false, Template.class);
-            TypedQuery<Long> countQuery = createTemplateQuery(queryParams, queryOrders, true, Long.class);
-            return PagingUtil.getPagingResult(query, countQuery.getSingleResult(), paginationParams.getPage(), paginationParams.getRows());
+            TypedQuery<Template> query = createTemplateQuery(queryParams, queryOrders, Template.class);
+            return query.getResultList();
         } finally {
-            logReturn(methodInfo, queryParams, paginationParams, queryOrders);
+            logReturn(methodInfo, queryParams, queryOrders);
         }
     }
 
     @SuppressWarnings("unchecked")
     private <T> TypedQuery<T> createTemplateQuery(TemplateQueryParamsType queryParams, List<TemplateQueryOrderType> queryOrders,
-            boolean countQuery, Class<T> rootClass) {
+            Class<T> rootClass) {
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> query = builder.createQuery(rootClass);
         Root<Template> root = query.from(Template.class);
@@ -97,13 +83,10 @@ public class TemplateQueryService extends BaseService<Template> {
         ArrayList<Predicate> predicates = new ArrayList<>();
         addQueryFilters(queryParams, builder, root, predicates);
 
-        if (countQuery) {
-            query.select((Selection<? extends T>) builder.count(root));
-        } else {
-            query.select((Selection<? extends T>) root);
-            List<Order> os = createOrdering(queryOrders, builder, root);
-            query.orderBy(os);
-        }
+        query.select((Selection<? extends T>) root);
+        List<Order> os = createOrdering(queryOrders, builder, root);
+        query.orderBy(os);
+
         query.where(builder.and(predicates.toArray(new Predicate[0])));
         return getEntityManager().createQuery(query);
     }

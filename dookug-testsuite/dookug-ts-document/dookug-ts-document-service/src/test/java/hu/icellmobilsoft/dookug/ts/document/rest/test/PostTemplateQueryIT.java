@@ -33,16 +33,14 @@ import org.junit.jupiter.api.Test;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
-import hu.icellmobilsoft.dookug.ts.common.builder.test.TemplateQueryRequestBuilder;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.test.IDocumentStoredTemplateTestRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 
 /**
- * {@link IDocumentStoredTemplateTestRestClient#postTemplateQuery(TemplateQueryRequest)} test
+ * {@link IDocumentStoredTemplateTestRestClient#getTemplateMetaDataQuery} test
  *
  * @author mate.biro
  * @since 2.2.0
@@ -55,9 +53,6 @@ public class PostTemplateQueryIT extends BaseIT {
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)
     private String documentBaseUri;
 
-    @Inject
-    private TemplateQueryRequestBuilder templateQueryRequestBuilder;
-
     @Test
     @DisplayName("Template query test")
     void testTemplateQuery() throws BaseException {
@@ -66,12 +61,9 @@ public class PostTemplateQueryIT extends BaseIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentStoredTemplateTestRestClient.class);
 
-        TemplateQueryRequest request = templateQueryRequestBuilder.fullFill();
-
-        TemplateQueryResponse response = storedTemplateTestRestClient.postTemplateQuery(request);
+        TemplateQueryResponse response = storedTemplateTestRestClient.getTemplateMetaDataQuery(null, null, null, null, null);
 
         Assertions.assertEquals(FunctionCodeType.OK, response.getFuncCode());
         Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getRowList()));
-        Assertions.assertNotNull(response.getPaginationParams());
     }
 }
