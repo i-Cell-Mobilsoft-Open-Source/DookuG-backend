@@ -124,9 +124,9 @@
                     <xsd:documentation>Document generator engine</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="language" type="coffeeCommon:SimpleText30NotBlankType">
+            <xsd:element name="languages" type="coffeeCommon:SimpleText30NotBlankType" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Template language</xsd:documentation>
+                    <xsd:documentation>Template languages</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="validityStart" type="coffeeCommon:TimestampType">
@@ -144,13 +144,26 @@
                     <xsd:documentation>Template last updated at</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="templateId" type="coffeeCommon:EntityIdType">
+            <xsd:element name="templateIds" type="coffeeCommon:EntityIdType" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Template id</xsd:documentation>
+                    <xsd:documentation>Template ids</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+
+    <!-- ELEMENTS -->
+
+    <xsd:element name="TemplateQueryParams">
+        <xsd:annotation>
+            <xsd:documentation>Template query parameters</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="TemplateQueryParamsType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
 
     <!-- REQUEST/RESPONSE TYPES -->
 

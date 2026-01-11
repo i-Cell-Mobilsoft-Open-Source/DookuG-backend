@@ -18,6 +18,10 @@
             <artifactId>dookug-ts-common-resources</artifactId>
         </dependency>
         <dependency>
+            <groupId>hu.icellmobilsoft.dookug.testsuite</groupId>
+            <artifactId>dookug-ts-common-db</artifactId>
+        </dependency>
+        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
         </dependency>

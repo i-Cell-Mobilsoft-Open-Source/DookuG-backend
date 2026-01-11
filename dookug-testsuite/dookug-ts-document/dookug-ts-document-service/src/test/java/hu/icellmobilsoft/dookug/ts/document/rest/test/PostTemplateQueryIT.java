@@ -20,24 +20,34 @@
 package hu.icellmobilsoft.dookug.ts.document.rest.test;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.inject.Inject;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
+import hu.icellmobilsoft.dookug.common.model.template.enums.GeneratorEngine;
+import hu.icellmobilsoft.dookug.common.model.template.enums.TemplateEngine;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
+import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.test.IDocumentStoredTemplateTestRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
+import hu.icellmobilsoft.roaster.common.util.FileUtil;
 
 /**
  * {@link IDocumentStoredTemplateTestRestClient#getTemplateMetaDataQuery} test
@@ -47,11 +57,39 @@ import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
  */
 @Tag(TestSuiteGroup.INTEGRATION)
 @DisplayName("Template query test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PostTemplateQueryIT extends BaseIT {
 
     @Inject
     @ConfigProperty(name = TsConfigKey.DOOKUG_SERVICE_DOCUMENT_BASE_URI)
     private String documentBaseUri;
+
+    @Inject
+    private TemplateDBHelper templateDbHelper;
+
+    private final List<TemplateDBHelper.TemplateHierarchy> templateHierarchies = new ArrayList<>();
+
+    @BeforeAll
+    public void insert() {
+        for (int i = 0; i < 2; i++) {
+            TemplateDBHelper.TemplateHierarchy templateHierarchy = templateDbHelper
+                    .createTemplateHierarchies(
+                            "DEV_TEMPLATE_XSLT_" + i,
+                            TemplateEngine.NONE,
+                            GeneratorEngine.SAXON,
+                            List.of("HU", "EN", "DE"),
+                            List.of("DEV_TEMPLATE_XSLT_FULL_" + i),
+                            FileUtil.readFileFromResource(DocumentServiceTestConstant.XSLT_PDF_TEMPLATE_MAIN).getBytes(),
+                            DateUtil.nowUTC().minusDays(1),
+                            DateUtil.nowUTC().plusDays(1));
+            templateHierarchies.add(templateHierarchy);
+        }
+    }
+
+    @AfterAll
+    public void delete() {
+        templateHierarchies.forEach(t -> templateDbHelper.deleteTemplateHierarchy(t));
+    }
 
     @Test
     @DisplayName("Template query test")
@@ -61,7 +99,7 @@ public class PostTemplateQueryIT extends BaseIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentStoredTemplateTestRestClient.class);
 
-        TemplateQueryResponse response = storedTemplateTestRestClient.getTemplateMetaDataQuery(null, null, null, null, null);
+        TemplateQueryResponse response = storedTemplateTestRestClient.getTemplateMetaDataQuery(null, "DE", null, null, "lastUpdatedAt:DESC,name:ASC");
 
         Assertions.assertEquals(FunctionCodeType.OK, response.getFuncCode());
         Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getRowList()));

@@ -19,11 +19,14 @@
  */
 package hu.icellmobilsoft.dookug.document.service.action.test;
 
+import java.text.MessageFormat;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
@@ -36,13 +39,15 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
+import hu.icellmobilsoft.dookug.common.model.template.enums.GeneratorEngine;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
+import hu.icellmobilsoft.dookug.document.service.converter.test.TemplateQueryParamsConverter;
 import hu.icellmobilsoft.dookug.document.service.service.test.TemplateQueryService;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryOrderByType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryOrderType;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParamsType;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParams;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryResponse;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateType;
 
@@ -60,6 +65,9 @@ public class StoredTemplateAction extends BaseAction {
 
     @Inject
     private JaxbTool jaxbTool;
+
+    @Inject
+    private TemplateQueryParamsConverter templateQueryParamsConverter;
 
     /**
      * Template query, can be filtered and paginated
@@ -82,40 +90,26 @@ public class StoredTemplateAction extends BaseAction {
     public TemplateQueryResponse getTemplateMetaDataQuery(String name, String language, String validityStart, String validityEnd, String sort)
             throws BaseException {
 
-        // TODO converter
-        TemplateQueryParamsType queryParams = new TemplateQueryParamsType();
-        if (StringUtils.isNotBlank(name)) {
-            queryParams.setName(name);
-        }
-        if (StringUtils.isNotBlank(language)) {
-            queryParams.setLanguage(language);
-        }
-        if (StringUtils.isNotBlank(validityStart)) {
-            try {
-                queryParams.setValidityStart(OffsetDateTime.parse(validityStart));
-            } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("Invalid 'validityStart', expected ISO-8601 OffsetDateTime.", e);
-            }
-        }
-        if (StringUtils.isNotBlank(validityEnd)) {
-            try {
-                queryParams.setValidityEnd(OffsetDateTime.parse(validityEnd));
-            } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("Invalid 'validityEnd', expected ISO-8601 OffsetDateTime.", e);
-            }
-        }
-
-        // validate by XSD
-        jaxbTool.marshalXML(queryParams, XsdConstants.SUPER_XSD_PATH);
-
-        List<TemplateQueryOrderType> queryOrders = parseSort(sort);
+        TemplateQueryParams queryParams = getTemplateQueryParams(name, language, validityStart, validityEnd);
+        List<TemplateQueryOrderType> queryOrders = getTemplateQueryOrders(sort);
 
         List<Template> templates = templateQueryService.findByQueryParams(queryParams, queryOrders);
 
         return toTemplateQueryResponse(templates);
     }
 
-    private List<TemplateQueryOrderType> parseSort(String sort) {
+    private TemplateQueryParams getTemplateQueryParams(String name, String language, String validityStart, String validityEnd) throws BaseException {
+
+        TemplateQueryParams queryParams = templateQueryParamsConverter.convert(name, language, validityStart, validityEnd);
+
+        // validate by XSD
+        jaxbTool.marshalXML(queryParams, XsdConstants.SUPER_XSD_PATH);
+
+        return queryParams;
+    }
+
+    private List<TemplateQueryOrderType> getTemplateQueryOrders(String sort) {
+
         List<TemplateQueryOrderType> orders = new ArrayList<>();
         if (StringUtils.isBlank(sort)) {
             return orders;
@@ -141,22 +135,24 @@ public class StoredTemplateAction extends BaseAction {
                 }
             }
 
-            TemplateQueryOrderByType orderBy = SORT_FIELD_MAP.get(field);
-            TemplateQueryOrderType orderType = getTemplateQueryOrderType(orderBy, field, direction);
+            TemplateQueryOrderType orderType = getTemplateQueryOrderType(field, direction);
             orders.add(orderType);
         }
         return orders;
     }
 
-    private TemplateQueryOrderType getTemplateQueryOrderType(TemplateQueryOrderByType orderBy, String field, String direction) {
+    private TemplateQueryOrderType getTemplateQueryOrderType(String field, String direction) {
+
+        TemplateQueryOrderByType orderBy = SORT_FIELD_MAP.get(field);
+
         if (orderBy == null) {
-            throw new IllegalArgumentException("Unsupported sort field: " + field);
+            throw new IllegalArgumentException(MessageFormat.format("Unsupported sort field: [{0}]", field));
         }
 
         OrderByTypeType type = switch (direction.toUpperCase()) {
             case "ASC" -> OrderByTypeType.ASC;
             case "DESC" -> OrderByTypeType.DESC;
-            default -> throw new IllegalArgumentException("Invalid sort direction for '" + field + "': " + direction);
+            default -> throw new IllegalArgumentException(MessageFormat.format("Invalid sort direction for [{0}]:[{1}]", field, direction));
         };
 
         TemplateQueryOrderType orderType = new TemplateQueryOrderType();
@@ -184,22 +180,92 @@ public class StoredTemplateAction extends BaseAction {
         TemplateQueryResponse response = new TemplateQueryResponse();
         handleSuccessResultType(response);
 
-        for (Template template : templates) {
-            // TODO converter
-            TemplateType templateType = new TemplateType();
-            templateType.setTemplateId(template.getId());
-            templateType.setLanguage(template.getLanguage());
-            templateType.setName(template.getName());
-            templateType.setDescription(template.getDescription());
-            templateType.setTemplateEngine(EnumUtil.convert(template.getTemplateEngine(), TemplateEngineType.class));
-            templateType.setGeneratorEngine(EnumUtil.convert(template.getGeneratorEngine(), GeneratorEngineType.class));
-            templateType.setValidityStart(template.getValidityStart());
-            templateType.setValidityEnd(template.getValidityEnd());
-            templateType.setLastUpdatedAt(template.getModificationDate() != null ? template.getModificationDate() : template.getCreationDate());
-            response.withRowList(templateType);
-        }
+        List<TemplateType> rowList = buildRowList(templates);
+        response.withRowList(rowList);
 
         return response;
+    }
+
+    /**
+     * Builds the row list for the response, grouping SAXON templates by name and validity period.
+     */
+    private List<TemplateType> buildRowList(List<Template> templates) {
+        List<TemplateType> result = new ArrayList<>();
+        // Track SAXON groups in insertion order (first encounter decides output position)
+        Map<TemplateGroupKey, GroupAcc> saxonGroups = new LinkedHashMap<>();
+
+        for (Template template : templates) {
+            if (template.getGeneratorEngine() == GeneratorEngine.SAXON) {
+                TemplateGroupKey key = new TemplateGroupKey(template.getName(), template.getValidityStart(), template.getValidityEnd());
+                GroupAcc acc = saxonGroups.computeIfAbsent(key, k -> {
+                    TemplateType tt = new TemplateType();
+                    tt.setName(template.getName());
+                    tt.setDescription(template.getDescription());
+                    tt.setTemplateEngine(EnumUtil.convert(template.getTemplateEngine(), TemplateEngineType.class));
+                    tt.setGeneratorEngine(EnumUtil.convert(template.getGeneratorEngine(), GeneratorEngineType.class));
+                    tt.setValidityStart(template.getValidityStart());
+                    tt.setValidityEnd(template.getValidityEnd());
+                    tt.setLastUpdatedAt(template.getModificationDate() != null ? template.getModificationDate() : template.getCreationDate());
+                    // append to result at first encounter to keep order
+                    result.add(tt);
+                    return new GroupAcc(tt);
+                });
+                // accumulate ids and languages for the group
+                acc.templateType.withTemplateIds(template.getId());
+                if (template.getLanguage() != null && acc.languages.add(template.getLanguage())) {
+                    acc.templateType.withLanguages(template.getLanguage());
+                }
+                // update lastUpdatedAt if a newer modification/creation date is seen
+                OffsetDateTime updatedAt = template.getModificationDate() != null ? template.getModificationDate() : template.getCreationDate();
+                OffsetDateTime current = acc.templateType.getLastUpdatedAt();
+                if (current == null || (updatedAt != null && updatedAt.isAfter(current))) {
+                    acc.templateType.setLastUpdatedAt(updatedAt);
+                }
+            } else {
+                // non-SAXON: add directly in encounter order
+                TemplateType templateType = new TemplateType();
+                templateType.withTemplateIds(template.getId());
+                if (template.getLanguage() != null) {
+                    templateType.withLanguages(template.getLanguage());
+                }
+                templateType.setName(template.getName());
+                templateType.setDescription(template.getDescription());
+                templateType.setTemplateEngine(EnumUtil.convert(template.getTemplateEngine(), TemplateEngineType.class));
+                templateType.setGeneratorEngine(EnumUtil.convert(template.getGeneratorEngine(), GeneratorEngineType.class));
+                templateType.setValidityStart(template.getValidityStart());
+                templateType.setValidityEnd(template.getValidityEnd());
+                templateType.setLastUpdatedAt(template.getModificationDate() != null ? template.getModificationDate() : template.getCreationDate());
+                result.add(templateType);
+            }
+        }
+        return result;
+    }
+
+    // helper accumulator for a group
+    private static final class GroupAcc {
+        final TemplateType templateType;
+        final LinkedHashSet<String> languages = new LinkedHashSet<>();
+        GroupAcc(TemplateType templateType) {
+            this.templateType = templateType;
+        }
+    }
+
+    // used only for grouping SAXON templates
+    private record TemplateGroupKey(String name, OffsetDateTime validityStart, OffsetDateTime validityEnd) {
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof TemplateGroupKey that)) {
+                return false;
+            }
+            return Objects.equals(name, that.name)
+                    && Objects.equals(validityStart, that.validityStart)
+                    && Objects.equals(validityEnd, that.validityEnd);
+        }
+
     }
 
 }
