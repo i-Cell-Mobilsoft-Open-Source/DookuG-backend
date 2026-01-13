@@ -42,7 +42,7 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
  * @since 2.2.0
  */
 @Tag(name = IOpenapiConstants.Tag.DEV_TOOLS, description = IOpenapiConstants.Description.DEV_TOOLS)
-@Path(TemplatePath.TEST_DOCUMENT_STOREDTEMPLATE)
+@Path(TemplatePath.TEST_DOCUMENT_STORED_TEMPLATE)
 public interface IDocumentStoredTemplateTest {
 
     /**

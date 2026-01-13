@@ -33,6 +33,6 @@ import hu.icellmobilsoft.dookug.api.url.TemplatePath;
  * @since 2.2.0
  */
 @RegisterRestClient
-@Path(TemplatePath.TEST_DOCUMENT_STOREDTEMPLATE)
+@Path(TemplatePath.TEST_DOCUMENT_STORED_TEMPLATE)
 public interface IDocumentStoredTemplateTestRestClient extends IDocumentStoredTemplateTest {
 }
