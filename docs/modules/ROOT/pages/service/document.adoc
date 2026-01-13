@@ -206,6 +206,7 @@ In the response, we receive the signed document and the filename in the HTTP hea
 
 == WebAppDevTools
 
+[[listTemplateMetadata]]
 === Template Metadata Retrieval
 
 [source,text]
