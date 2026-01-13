@@ -1,4 +1,4 @@
-/*-
+package hu.icellmobilsoft.dookug.ts.common.db.provider;/*-
  * #%L
  * DookuG
  * %%

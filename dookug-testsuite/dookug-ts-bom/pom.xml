@@ -21,7 +21,6 @@
         <version.awaitility>4.0.3</version.awaitility>
         <version.org.assertj.assertj-core>3.24.2</version.org.assertj.assertj-core>
         <version.postgresql>42.2.18</version.postgresql>
-        <version.hibernate>8.0.0.Final</version.hibernate>
     </properties>
 
     <dependencyManagement>
@@ -104,11 +103,6 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${version.postgresql}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${version.hibernate}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

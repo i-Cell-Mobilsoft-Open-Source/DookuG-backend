@@ -45,6 +45,7 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQuer
 import hu.icellmobilsoft.dookug.ts.base.BaseIT;
 import hu.icellmobilsoft.dookug.ts.common.config.TsConfigKey;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
+import hu.icellmobilsoft.dookug.ts.common.db.helper.TemplateDBHelper;
 import hu.icellmobilsoft.dookug.ts.common.rest.mprestclient.test.IDocumentStoredTemplateTestRestClient;
 import hu.icellmobilsoft.roaster.api.TestSuiteGroup;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
@@ -67,12 +68,12 @@ public class PostTemplateQueryIT extends BaseIT {
     @Inject
     private TemplateDBHelper templateDbHelper;
 
-    private final List<TemplateDBHelper.TemplateHierarchy> templateHierarchies = new ArrayList<>();
+    private final List<hu.icellmobilsoft.dookug.ts.common.db.helper.TemplateDBHelper.TemplateHierarchy> templateHierarchies = new ArrayList<>();
 
     @BeforeAll
     public void insert() {
         for (int i = 0; i < 2; i++) {
-            TemplateDBHelper.TemplateHierarchy templateHierarchy = templateDbHelper
+            hu.icellmobilsoft.dookug.ts.common.db.helper.TemplateDBHelper.TemplateHierarchy templateHierarchy = templateDbHelper
                     .createTemplateHierarchies(
                             "DEV_TEMPLATE_XSLT_" + i,
                             TemplateEngine.NONE,

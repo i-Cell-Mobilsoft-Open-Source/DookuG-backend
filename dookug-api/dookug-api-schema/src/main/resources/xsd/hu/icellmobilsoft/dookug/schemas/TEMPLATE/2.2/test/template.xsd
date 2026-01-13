@@ -88,12 +88,16 @@
             </xsd:element>
             <xsd:element name="validityStart" type="coffeeCommon:TimestampType" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Template validity start</xsd:documentation>
+                    <xsd:documentation>Template validity start - inclusive, input is set to start of the day in the
+                        query
+                    </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="validityEnd" type="coffeeCommon:TimestampType" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Template validity end</xsd:documentation>
+                    <xsd:documentation>Template validity end - exclusive, input is set to start of next day in the
+                        query
+                    </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>

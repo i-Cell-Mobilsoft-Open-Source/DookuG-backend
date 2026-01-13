@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-package hu.icellmobilsoft.dookug.ts.document.rest.test;
+package hu.icellmobilsoft.dookug.ts.common.db.helper;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -57,38 +57,41 @@ public class TemplateDBHelper {
         private List<TemplatePartContent> templatePartContents = new ArrayList<>();
         private List<TemplateTemplatePart> templateTemplateParts = new ArrayList<>();
 
+        /**
+         * Getter for created templates.
+         * 
+         * @return created {@link Template}(s)
+         */
         public List<Template> getTemplates() {
             return templates;
         }
 
+        /**
+         * Getter for created template parts.
+         * 
+         * @return created {@link TemplatePart}(s)
+         */
         public List<TemplatePart> getTemplateParts() {
             return templateParts;
         }
 
+        /**
+         * Getter for created template part contents.
+         * 
+         * @return created {@link TemplatePartContent}(s)
+         */
         public List<TemplatePartContent> getTemplatePartContents() {
             return templatePartContents;
         }
 
+        /**
+         * Getter for created template-template part link entries.
+         * 
+         * @return created {@link TemplateTemplatePart}(s)
+         */
         public List<TemplateTemplatePart> getTemplateTemplateParts() {
             return templateTemplateParts;
         }
-    }
-
-    /**
-     * Convenience wrapper for creating a hierarchy for a single template.
-     */
-    public TemplateHierarchy createTemplateHierarchy(String templateName, TemplateEngine templateEngine,
-            GeneratorEngine generatorEngine, List<String> languages, List<String> partKeys, byte[] content, OffsetDateTime validityStart,
-            OffsetDateTime validityEnd) {
-        return createTemplateHierarchies(
-                templateName,
-                templateEngine,
-                generatorEngine,
-                languages,
-                partKeys,
-                content,
-                validityStart,
-                validityEnd);
     }
 
     /**
@@ -107,6 +110,11 @@ public class TemplateDBHelper {
      *            list of {@link TemplatePart#getKey()} values to be created once and shared
      * @param content
      *            byte[] content to be set for all created {@link TemplatePartContent}(s)
+     * 
+     * @param validityStart
+     *            {@link Template#getValidityStart()}
+     * @param validityEnd
+     *            {@link Template#getValidityEnd()}
      * @return created template hierarchy wrapped in a {@link TemplateHierarchy} instance
      */
     public TemplateHierarchy createTemplateHierarchies(String templateName, TemplateEngine templateEngine,
@@ -174,7 +182,6 @@ public class TemplateDBHelper {
 
     /**
      * Deletes the entire template hierarchy created by
-     * {@link #createTemplateHierarchy(String, TemplateEngine, GeneratorEngine, List, List, byte[], OffsetDateTime, OffsetDateTime)} or
      * {@link #createTemplateHierarchies(String, TemplateEngine, GeneratorEngine, List, List, byte[], OffsetDateTime, OffsetDateTime)}.
      *
      * @param hierarchy

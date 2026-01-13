@@ -220,8 +220,14 @@ Filtering:
 
 * name - exact match
 * language - exact match
-* validityStart - Format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
-* validityEnd - Format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
+* validityStart
+** inclusive
+** input is set to start of the day in the query
+** format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
+* validityEnd
+** exclusive
+** input is set to start of next day in the query
+** format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
 
 Ordering (ASC/DESC) can be specified for each sorting parameter individually:
 
