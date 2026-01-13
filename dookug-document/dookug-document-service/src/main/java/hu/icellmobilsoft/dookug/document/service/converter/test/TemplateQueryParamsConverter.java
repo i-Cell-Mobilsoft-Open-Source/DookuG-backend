@@ -26,6 +26,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
+import hu.icellmobilsoft.dookug.common.util.date.DateUtil;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateQueryParams;
 
 /**
@@ -53,23 +54,28 @@ public class TemplateQueryParamsConverter {
      *             if date parsing fails
      */
     public TemplateQueryParams convert(String name, String language, String validityStart, String validityEnd) {
+
         TemplateQueryParams queryParams = new TemplateQueryParams();
+
         if (StringUtils.isNotBlank(name)) {
             queryParams.setName(name);
         }
+
         if (StringUtils.isNotBlank(language)) {
             queryParams.setLanguage(language);
         }
+
         if (StringUtils.isNotBlank(validityStart)) {
             try {
-                queryParams.setValidityStart(OffsetDateTime.parse(validityStart));
+                queryParams.setValidityStart(DateUtil.startOfDay(OffsetDateTime.parse(validityStart)));
             } catch (DateTimeParseException e) {
                 throw new IllegalArgumentException("Invalid 'validityStart', expected ISO-8601 OffsetDateTime.", e);
             }
         }
+
         if (StringUtils.isNotBlank(validityEnd)) {
             try {
-                queryParams.setValidityEnd(OffsetDateTime.parse(validityEnd));
+                queryParams.setValidityEnd(DateUtil.endOfDayExclusive(OffsetDateTime.parse(validityEnd)));
             } catch (DateTimeParseException e) {
                 throw new IllegalArgumentException("Invalid 'validityEnd', expected ISO-8601 OffsetDateTime.", e);
             }

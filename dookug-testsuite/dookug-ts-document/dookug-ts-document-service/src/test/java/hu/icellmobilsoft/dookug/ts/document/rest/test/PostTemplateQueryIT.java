@@ -99,7 +99,7 @@ public class PostTemplateQueryIT extends BaseIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentStoredTemplateTestRestClient.class);
 
-        TemplateQueryResponse response = storedTemplateTestRestClient.getTemplateMetaDataQuery(null, "DE", null, null, "lastUpdatedAt:DESC,name:ASC");
+        TemplateQueryResponse response = storedTemplateTestRestClient.getTemplateMetaDataQuery(null, null, null, null, "lastUpdatedAt:DESC,name");
 
         Assertions.assertEquals(FunctionCodeType.OK, response.getFuncCode());
         Assertions.assertTrue(CollectionUtils.isNotEmpty(response.getRowList()));

@@ -63,6 +63,7 @@ public class TemplateQueryService extends BaseService<Template> {
      */
     @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public List<Template> findByQueryParams(TemplateQueryParamsType queryParams, List<TemplateQueryOrderType> queryOrders) {
+
         String methodInfo = getCalledMethodWithParamsBase("findByQueryParams", "templateMetaDataQueryParams", "sort");
         logEnter(methodInfo, queryParams, queryOrders);
         try {
@@ -76,6 +77,7 @@ public class TemplateQueryService extends BaseService<Template> {
     @SuppressWarnings("unchecked")
     private <T> TypedQuery<T> createTemplateQuery(TemplateQueryParamsType queryParams, List<TemplateQueryOrderType> queryOrders,
             Class<T> rootClass) {
+
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> query = builder.createQuery(rootClass);
         Root<Template> root = query.from(Template.class);
@@ -93,6 +95,7 @@ public class TemplateQueryService extends BaseService<Template> {
 
     private void addQueryFilters(TemplateQueryParamsType queryParams, CriteriaBuilder builder, Root<Template> root,
             List<Predicate> predicates) {
+
         if (queryParams.isSetName()) {
             predicates.add(builder.equal(root.get(Template_.name), queryParams.getName()));
         }
@@ -108,14 +111,14 @@ public class TemplateQueryService extends BaseService<Template> {
 
         if (queryParams.isSetValidityEnd()) {
             predicates.add(
-                    builder.lessThanOrEqualTo(root.get(Template_.validityEnd), queryParams.getValidityEnd()));
+                    builder.lessThan(root.get(Template_.validityEnd), queryParams.getValidityEnd()));
         }
     }
 
     private List<Order> createOrdering(List<TemplateQueryOrderType> queryOrders, CriteriaBuilder builder, Root<Template> root) {
 
         List<Order> orders = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(queryOrders)) {
+        if (CollectionUtils.isNotEmpty(queryOrders)) {
             for (TemplateQueryOrderType order : queryOrders) {
                 Expression<?> attr = switch (order.getOrder()) {
                     case NAME -> root.get(Template_.name);
@@ -127,24 +130,31 @@ public class TemplateQueryService extends BaseService<Template> {
                 };
                 handleAttr(attr, builder, orders, order.getType() == null ? OrderByTypeType.ASC : order.getType());
             }
+        } else {
+            orders.add(builder.desc(getLastUpdatedAt(builder, root)));
         }
         orders.add(builder.asc(root.get(Template_.id)));
         return orders;
     }
 
     private Expression<?> getLastUpdatedAt(CriteriaBuilder builder, Root<Template> root) {
+
         return builder.coalesce(root.get(Template_.modificationDate), root.get(Template_.creationDate));
     }
 
     private void handleAttr(Expression<?> attr, CriteriaBuilder builder, List<Order> orders, OrderByTypeType orderType) {
-        if (attr != null) {
-            Order orderBy;
-            if (orderType == OrderByTypeType.ASC) {
-                orderBy = builder.asc(attr);
-            } else {
-                orderBy = builder.desc(attr);
-            }
-            orders.add(orderBy);
+
+        if (attr == null) {
+            return;
         }
+
+        Order orderBy;
+        if (orderType == OrderByTypeType.ASC) {
+            orderBy = builder.asc(attr);
+        } else {
+            orderBy = builder.desc(attr);
+        }
+        orders.add(orderBy);
+
     }
 }

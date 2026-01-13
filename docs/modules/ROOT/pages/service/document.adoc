@@ -202,4 +202,33 @@ POST /internal/dookug/document/sign/inline/multipart
 
 The document received in the request is digitally signed and returned in the response. The request must include the file to be signed and the name of the signing profile. The signing process is performed synchronously based on the parameters configured in the module for the given profile. The file is not stored on the server at any point.
 
-In the response, we receive the signed document and the filename in the HTTP header. The filename can be set in the request. 
+In the response, we receive the signed document and the filename in the HTTP header. The filename can be set in the request.
+
+== WebAppDevTools
+
+=== Template Metadata Retrieval
+
+[source,text]
+----
+GET /test/dookug/document/storedTemplate/metadata
+----
+
+Returns template metadata list from the TEMPLATE table according to the specified filtering, sorting url query parameters.
+
+Filtering:
+
+* name - exact match
+* language - exact match
+* validityStart - Format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
+* validityEnd - Format: yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ
+
+Ordering (ASC/DESC) can be specified for each sorting parameter individually:
+
+* name
+* lastUpdatedAt → default DESC
+* description
+* language
+* validityStart
+* validityEnd
+
+XSLT (generator_engine=saxon) templates are grouped in the response based on their name and validity.

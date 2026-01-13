@@ -4,6 +4,8 @@
 
 * Removed unused TEMPLATE_ENGINE and GENERATOR_ENGINE attributes from the TEMPLATE_PART entity.
 * Liquibase installer image upgrade *2.1.0* -> *2.2.0-SNAPSHOT*
+* New WebAppDevTool endpoints:
+** Retrieval of template metadata with filtering, sorting
 
 == Migration
 

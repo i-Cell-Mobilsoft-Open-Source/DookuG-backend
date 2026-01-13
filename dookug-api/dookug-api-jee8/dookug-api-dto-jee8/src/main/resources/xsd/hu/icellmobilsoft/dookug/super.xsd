@@ -17,4 +17,6 @@
     <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign" />
     <xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon" />
 
+	<xs:import namespace="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"/>
+
 </xs:schema>

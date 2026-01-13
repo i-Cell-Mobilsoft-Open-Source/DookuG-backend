@@ -98,9 +98,9 @@ public class TemplateDBHelper {
      * @param templateName
      *            {@link Template#getName()} values
      * @param templateEngine
-     *            {@link Template#getTemplateEngine()} and {@link TemplatePart#getTemplateEngine()}
+     *            {@link Template#getTemplateEngine()}}
      * @param generatorEngine
-     *            {@link Template#getGeneratorEngine()} and {@link TemplatePart#getGeneratorEngine()}
+     *            {@link Template#getGeneratorEngine()}}
      * @param languages
      *            list of{@link Template#getLanguage()}
      * @param partKeys
@@ -122,14 +122,12 @@ public class TemplateDBHelper {
             TemplatePart templatePart = new TemplatePart();
             templatePart.setDescription("test template part description");
             templatePart.setKey(partKey);
-            templatePart.setTemplateEngine(templateEngine);
-            templatePart.setGeneratorEngine(generatorEngine);
             templatePart.setTemplatePartType(TemplateType.MAIN);
 
             em.persist(templatePart);
             hierarchy.getTemplateParts().add(templatePart);
 
-            // compressed parameter is numeric in DB, but boolean in entity
+            // compressed parameter is numeric in DB, but boolean in entity, so we use native query for insertion
             String templatePartContentId = EntityIdGenerator.generateId();
             em.createNativeQuery(
                     "INSERT INTO TEMPLATE_PART_CONTENT " +
@@ -185,31 +183,31 @@ public class TemplateDBHelper {
         em.getTransaction().begin();
 
         for (TemplatePartContent content : hierarchy.getTemplatePartContents()) {
-            TemplatePartContent managed = em.contains(content) ? content : em.find(TemplatePartContent.class, content.getId());
-            if (managed != null) {
-                em.remove(managed);
+            TemplatePartContent managedTemplatePartContent = em.contains(content) ? content : em.find(TemplatePartContent.class, content.getId());
+            if (managedTemplatePartContent != null) {
+                em.remove(managedTemplatePartContent);
             }
         }
 
         for (TemplateTemplatePart ttp : hierarchy.getTemplateTemplateParts()) {
-            TemplateTemplatePart managed = em.contains(ttp) ? ttp : em.find(TemplateTemplatePart.class, ttp.getId());
-            if (managed != null) {
-                em.remove(managed);
+            TemplateTemplatePart managedTemplateTemplatePart = em.contains(ttp) ? ttp : em.find(TemplateTemplatePart.class, ttp.getId());
+            if (managedTemplateTemplatePart != null) {
+                em.remove(managedTemplateTemplatePart);
             }
         }
 
         for (TemplatePart part : hierarchy.getTemplateParts()) {
-            TemplatePart managed = em.contains(part) ? part : em.find(TemplatePart.class, part.getId());
-            if (managed != null) {
-                em.remove(managed);
+            TemplatePart managedTemplatePart = em.contains(part) ? part : em.find(TemplatePart.class, part.getId());
+            if (managedTemplatePart != null) {
+                em.remove(managedTemplatePart);
             }
         }
 
         for (Template template : hierarchy.getTemplates()) {
             if (template != null) {
-                Template managed = em.contains(template) ? template : em.find(Template.class, template.getId());
-                if (managed != null) {
-                    em.remove(managed);
+                Template managedTemplate = em.contains(template) ? template : em.find(Template.class, template.getId());
+                if (managedTemplate != null) {
+                    em.remove(managedTemplate);
                 }
             }
         }
