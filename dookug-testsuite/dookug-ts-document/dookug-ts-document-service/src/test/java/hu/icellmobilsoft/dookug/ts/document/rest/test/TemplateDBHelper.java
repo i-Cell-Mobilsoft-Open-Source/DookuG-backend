@@ -173,7 +173,12 @@ public class TemplateDBHelper {
     }
 
     /**
-     * Deletes a previously created template hierarchy in the correct order.
+     * Deletes the entire template hierarchy created by
+     * {@link #createTemplateHierarchy(String, TemplateEngine, GeneratorEngine, List, List, byte[], OffsetDateTime, OffsetDateTime)} or
+     * {@link #createTemplateHierarchies(String, TemplateEngine, GeneratorEngine, List, List, byte[], OffsetDateTime, OffsetDateTime)}.
+     *
+     * @param hierarchy
+     *            template hierarchy to delete
      */
     public void deleteTemplateHierarchy(TemplateHierarchy hierarchy) {
         if (hierarchy == null) {

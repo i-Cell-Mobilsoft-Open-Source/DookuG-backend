@@ -162,6 +162,10 @@ public class TemplateQueryHelper {
         OffsetDateTime start = queryParams.getValidityStart();
         OffsetDateTime end = queryParams.getValidityEnd();
 
+        if (start == null || end == null) {
+            return;
+        }
+
         if (start.isAfter(end)) {
             throw new IllegalArgumentException("Validity start must not be after end.");
         }

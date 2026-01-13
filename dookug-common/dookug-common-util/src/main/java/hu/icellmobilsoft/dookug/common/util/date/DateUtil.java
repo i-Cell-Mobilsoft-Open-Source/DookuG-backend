@@ -37,6 +37,9 @@ public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil 
      * @return start of day
      */
     public static OffsetDateTime startOfDay(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
         return odt.toLocalDate().atStartOfDay().atOffset(odt.getOffset());
     }
 
@@ -48,6 +51,9 @@ public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil 
      * @return end of day
      */
     public static OffsetDateTime endOfDayInclusive(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
         return odt.toLocalDate().atTime(LocalTime.MAX).atOffset(odt.getOffset());
     }
 
@@ -59,6 +65,9 @@ public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil 
      * @return end of day exclusive
      */
     public static OffsetDateTime endOfDayExclusive(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
         return startOfDay(odt).plusDays(1);
     }
 
