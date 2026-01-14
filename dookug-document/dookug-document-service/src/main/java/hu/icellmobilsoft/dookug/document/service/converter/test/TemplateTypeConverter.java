@@ -23,8 +23,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
-import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
-import hu.icellmobilsoft.dookug.schemas.common._1_0.common.TemplateEngineType;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplateType;
 
 /**

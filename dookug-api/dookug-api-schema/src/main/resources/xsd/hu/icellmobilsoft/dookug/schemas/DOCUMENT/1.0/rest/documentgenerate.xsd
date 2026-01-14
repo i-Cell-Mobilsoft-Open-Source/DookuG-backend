@@ -24,6 +24,49 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="GeneratorEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Implementation of document generation according to a 3rd party library.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Generate engine not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PDF_BOX">
+                <xsd:annotation>
+                    <xsd:documentation>Apache - PDFBox</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SAXON">
+                <xsd:annotation>
+                    <xsd:documentation>SAXON</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TemplateEngineType">
+        <xsd:annotation>
+            <xsd:documentation>Implementation of template management using third-party technology.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="coffeeCommon:SimpleText15NotBlankType">
+            <xsd:enumeration value="NONE">
+                <xsd:annotation>
+                    <xsd:documentation>Template engine not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HANDLEBARS">
+                <xsd:annotation>
+                    <xsd:documentation>Extending Handlebars template syntax to include Mustache template syntax. More information:
+                        https://github.com/jknack/handlebars.java
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="ResponseFormatType">
         <xsd:annotation>
             <xsd:documentation>Response object format type</xsd:documentation>
@@ -333,12 +376,12 @@
             <xsd:documentation>Setting up generation type</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="generatorEngine" type="apiCommon:GeneratorEngineType">
+            <xsd:element name="generatorEngine" type="GeneratorEngineType">
                 <xsd:annotation>
                     <xsd:documentation>Generator library</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="templateEngine" type="apiCommon:TemplateEngineType">
+            <xsd:element name="templateEngine" type="TemplateEngineType">
                 <xsd:annotation>
                     <xsd:documentation>Template engine</xsd:documentation>
                 </xsd:annotation>

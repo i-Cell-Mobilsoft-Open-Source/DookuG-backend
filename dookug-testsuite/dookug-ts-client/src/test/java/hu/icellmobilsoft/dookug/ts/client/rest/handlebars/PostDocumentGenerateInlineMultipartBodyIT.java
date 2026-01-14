@@ -22,7 +22,7 @@ package hu.icellmobilsoft.dookug.ts.client.rest.handlebars;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import hu.icellmobilsoft.dookug.schemas.common._1_0.common.GeneratorEngineType;
+import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import jakarta.inject.Inject;
 
 import org.apache.commons.text.StringEscapeUtils;

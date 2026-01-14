@@ -4,12 +4,14 @@
             xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
             xmlns:apiCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
             xmlns:apiRestCommon="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"
+            xmlns:documentGenerate="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"
             targetNamespace="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"
             elementFormDefault="qualified">
 
     <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"/>
     <xsd:import namespace="http://common.dto.coffee.icellmobilsoft.hu/common"/>
     <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/rest/common"/>
+    <xsd:import namespace="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"/>
 
     <!-- SIMPLE TYPES -->
 
@@ -118,12 +120,12 @@
                     <xsd:documentation>Template description</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="templateEngine" type="apiCommon:TemplateEngineType">
+            <xsd:element name="templateEngine" type="documentGenerate:TemplateEngineType">
                 <xsd:annotation>
                     <xsd:documentation>Template engine</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="generatorEngine" type="apiCommon:GeneratorEngineType">
+            <xsd:element name="generatorEngine" type="documentGenerate:GeneratorEngineType">
                 <xsd:annotation>
                     <xsd:documentation>Document generator engine</xsd:documentation>
                 </xsd:annotation>
