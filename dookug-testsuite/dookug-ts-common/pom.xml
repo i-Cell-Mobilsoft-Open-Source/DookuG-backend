@@ -14,6 +14,7 @@
         <module>dookug-ts-common-base</module>
         <module>dookug-ts-common-rest</module>
         <module>dookug-ts-common-resources</module>
+        <module>dookug-ts-common-db</module>
 	</modules>
 
 	<dependencyManagement>

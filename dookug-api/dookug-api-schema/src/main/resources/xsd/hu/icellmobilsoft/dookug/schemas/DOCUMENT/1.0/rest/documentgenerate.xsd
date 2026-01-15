@@ -59,7 +59,7 @@
             </xsd:enumeration>
             <xsd:enumeration value="HANDLEBARS">
                 <xsd:annotation>
-                    <xsd:documentation>Extending Handlebars template syntax to include Mustache template syntax. More information: 
+                    <xsd:documentation>Extending Handlebars template syntax to include Mustache template syntax. More information:
                         https://github.com/jknack/handlebars.java
                     </xsd:documentation>
                 </xsd:annotation>
@@ -370,7 +370,7 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-        
+
     <xsd:complexType name="BaseGeneratorSetupType">
         <xsd:annotation>
             <xsd:documentation>Setting up generation type</xsd:documentation>
@@ -539,7 +539,7 @@
     </xsd:complexType>
 
     <!-- REQUEST/RESPONSE ELEMENTS -->
-    <xsd:element name="DocumentGenerateRequest"> 
+    <xsd:element name="DocumentGenerateRequest">
         <xsd:annotation>
             <xsd:documentation>Document generation request</xsd:documentation>
         </xsd:annotation>
@@ -550,7 +550,7 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="DocumentGenerateWithTemplatesRequest"> 
+    <xsd:element name="DocumentGenerateWithTemplatesRequest">
         <xsd:annotation>
             <xsd:documentation>Document generation with templates request</xsd:documentation>
         </xsd:annotation>
@@ -561,7 +561,7 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="StoredTemplateDocumentGenerateRequest"> 
+    <xsd:element name="StoredTemplateDocumentGenerateRequest">
         <xsd:annotation>
             <xsd:documentation>Document generation using templates stored in the module request</xsd:documentation>
         </xsd:annotation>

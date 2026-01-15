@@ -30,6 +30,31 @@ import hu.icellmobilsoft.coffee.dto.url.BaseServicePath;
 public class ServicePath extends BaseServicePath {
 
     /**
+     * {@value #TEST}
+     */
+    public static final String TEST = "/test";
+
+    /**
+     * {@value #DOCUMENT}
+     */
+    public static final String DOCUMENT = "/dookug/document";
+
+    /**
+     * {@value #STORED_TEMPLATE}
+     */
+    public static final String STORED_TEMPLATE = "/storedTemplate";
+
+    /**
+     * {@value #METADATA}
+     */
+    public static final String METADATA = "/metadata";
+
+    /**
+     * {@value #METADATA_QUERY}
+     */
+    public static final String METADATA_QUERY = METADATA + QUERY;
+
+    /**
      * Query parameter name for compressed content indication
      */
     public static final String PARAM_RESPONSE_CONTENT_GZIPPED = "responseContentGzipped";
