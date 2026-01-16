@@ -28,11 +28,6 @@ package hu.icellmobilsoft.dookug.api.url;
 public class TemplatePath extends ServicePath {
 
     /**
-     * {@value #TEST_DOCUMENT}
-     */
-    public static final String TEST_DOCUMENT = TEST + DOCUMENT;
-
-    /**
      * {@value #TEST_DOCUMENT_STORED_TEMPLATE}
      */
     public static final String TEST_DOCUMENT_STORED_TEMPLATE = TEST_DOCUMENT + STORED_TEMPLATE;
