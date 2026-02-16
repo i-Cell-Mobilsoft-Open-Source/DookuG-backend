@@ -30,14 +30,14 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
-import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
+
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
 /**
@@ -58,8 +58,8 @@ public interface IDocumentGenerateInlineTest {
     /**
      * REST interface definition for document generation by multipart form input
      *
-     * @param form
-     *            multipart form input
+     * @param input
+     *            multipart input
      * @param responseContentGzipped
      *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
@@ -76,7 +76,7 @@ public interface IDocumentGenerateInlineTest {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form,
+    Response postDocumentGenerateMultipart(MultipartFormDataInput input,
             @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
                     description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
             throws BaseException;

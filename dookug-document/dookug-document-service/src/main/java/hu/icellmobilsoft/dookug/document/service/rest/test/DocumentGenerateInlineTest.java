@@ -24,10 +24,11 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.dookug.api.rest.document.form.DocumentGenerateMultipartForm;
 import hu.icellmobilsoft.dookug.api.rest.test.IDocumentGenerateInlineTest;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
-import hu.icellmobilsoft.dookug.document.service.action.DocumentGenerateAction;
+import hu.icellmobilsoft.dookug.document.service.action.DocumentGenerateInlineTestMultipartAction;
 
 /**
  * Document generate inline service rest implementation
@@ -39,17 +40,16 @@ import hu.icellmobilsoft.dookug.document.service.action.DocumentGenerateAction;
 public class DocumentGenerateInlineTest extends BaseRestService implements IDocumentGenerateInlineTest {
 
     @Inject
-    private DocumentGenerateAction documentGenerateAction;
+    private DocumentGenerateInlineTestMultipartAction documentGenerateInlineTestMultipartAction;
 
     @Override
-    public Response postDocumentGenerateMultipart(DocumentGenerateMultipartForm form, Boolean responseContentGzipped) throws BaseException {
-        saveGeneratorSetup(form);
+    public Response postDocumentGenerateMultipart(MultipartFormDataInput input, Boolean responseContentGzipped) throws BaseException {
         return wrapPathParam2(
-                documentGenerateAction::postDocumentGenerate,
-                form,
+                documentGenerateInlineTestMultipartAction::postDocumentGenerateMultipart,
+                input,
                 responseContentGzipped,
                 "postDocumentGenerateMultipart",
-                "form",
+                "input",
                 "responseContentGzipped");
     }
 
