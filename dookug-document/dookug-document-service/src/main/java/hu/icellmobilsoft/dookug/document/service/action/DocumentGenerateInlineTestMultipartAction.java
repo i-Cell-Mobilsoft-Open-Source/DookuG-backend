@@ -39,10 +39,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import com.github.jknack.handlebars.HandlebarsException;
+import com.openhtmltopdf.util.XRRuntimeException;
+
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
@@ -57,6 +59,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Inli
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ParametersDataType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.ResponseFormatType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
+import net.sf.saxon.s9api.SaxonApiException;
 
 /**
  * Test endpoint action for inline multipart generation.
@@ -69,17 +72,18 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
 
     private static final Pattern FILENAME_PATTERN = Pattern.compile("filename=\"?([^\";]+)\"?");
 
-    private final List<String> ACCEPTED_TEMPLATE_EXTENSIONS = List.of("txt", "html", "xslt");
     private final String EXTENSION_JSON = "json";
     private final String EXTENSION_XML = "xml";
     private final String EXTENSION_XSLT = "xslt";
     private final String EXTENSION_HTML = "html";
     private final String EXTENSION_TXT = "txt";
+    private final List<String> ACCEPTED_TEMPLATE_EXTENSIONS = List.of(EXTENSION_TXT, EXTENSION_HTML, EXTENSION_XSLT);
 
     private static final String FORM_DATA_NAME_TEMPLATE = "TEMPLATE";
     private static final String FORM_DATA_NAME_PARAMETERS_TEMPLATE_ENGINE = "PARAMETERS_TEMPLATE_ENGINE";
     private static final String FORM_DATA_NAME_PARAMETERS_GENERATOR_ENGINE = "PARAMETERS_GENERATOR_ENGINE";
     private static final String FORM_DATA_NAME_SUBTEMPLATE = "SUBTEMPLATE";
+    private static final String FORM_DATA_NAME_TEMPLATE_LANGUAGE = "TEMPLATE_LANGUAGE";
 
     @Inject
     private TemplateContainer templateContainer;
@@ -103,8 +107,9 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
      */
     public Response postDocumentGenerateMultipart(MultipartFormDataInput input, Boolean responseContentGzipped) throws BaseException {
         if (input == null) {
-            throw new InvalidParameterException("input is null!");
+            throw new InvalidParameterException("MultipartFormDataInput is null!");
         }
+
         Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
 
         // template
@@ -132,18 +137,48 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         ResponseFormatType responseFormat = getResponseFormatType(templateRecord);
 
         // subtemplates
-        List<InputPart> subTemplates = handleSubTemplates(formDataMap, templateRecord);
+        handleSubTemplates(formDataMap, templateRecord);
 
         // Generator setup
+        InlineGeneratorSetupType generatorSetup = getGeneratorSetup(
+                generatorEngine,
+                templateEngine,
+                responseFormat,
+                templateRecord,
+                formDataMap,
+                templateEngineParamsPart,
+                generatorEngineParamsPart);
+
+        requestContainer.setGeneratorSetup(generatorSetup);
+
+        String templateName = toTemplateName(templateRecord.templateFileName());
+        templateData.setTemplateName(templateName);
+
+        templateContainer.addTemplate(new Template(templateName, readPartBytes(templateRecord.templatePart())), true);
+
+        try {
+            Document document = generateDocument(generatorSetup);
+            return ResponseUtil.getFileResponse(document, responseContentGzipped);
+        } catch (Exception e) {
+            throw wrapToReadableFault(e);
+        }
+    }
+
+    private InlineGeneratorSetupType getGeneratorSetup(GeneratorEngineType generatorEngine, TemplateEngineType templateEngine,
+            ResponseFormatType responseFormat, TemplateRecord templateRecord, Map<String, List<InputPart>> formDataMap,
+            InputPart templateEngineParamsPart, InputPart generatorEngineParamsPart) throws BaseException {
+
         InlineGeneratorSetupType generatorSetup = new InlineGeneratorSetupType();
         generatorSetup.setGeneratorEngine(generatorEngine);
         generatorSetup.setTemplateEngine(templateEngine);
         generatorSetup.setResponseFormat(responseFormat);
         generatorSetup.setDocumentStorageMethod(DocumentStorageMethodType.NONE);
 
-        // templateRecord language validation for xslt
+        // validation and set template language for xslt
         if (EXTENSION_XSLT.equals(templateRecord.templateExt())) {
-            String templateLanguage = StringUtils.trimToNull(readOptionalTextPart(formDataMap.get("TEMPLATE_LANGUAGE"), "TEMPLATE_LANGUAGE"));
+            String templateLanguage = StringUtils
+                    .trimToNull(readOptionalTextPart(formDataMap.get(FORM_DATA_NAME_TEMPLATE_LANGUAGE), FORM_DATA_NAME_TEMPLATE_LANGUAGE));
+
             if (templateLanguage == null) {
                 throw new InvalidParameterException("TEMPLATE_LANGUAGE: missing templateRecord language.");
             }
@@ -153,6 +188,7 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
             generatorSetup.setTemplateLanguage(templateLanguage);
         }
 
+        // set parameters data if any
         ParametersDataType parametersData = new ParametersDataType();
         if (templateEngineParamsPart != null) {
             parametersData.setTemplateParameters(readPartBytes(templateEngineParamsPart));
@@ -163,30 +199,16 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         if (parametersData.getTemplateParameters() != null || parametersData.getGeneratorParameters() != null) {
             generatorSetup.setParametersData(parametersData);
         }
-
-        requestContainer.setGeneratorSetup(generatorSetup);
-
-        String templateName = toTemplateName(templateRecord.templateFileName());
-        templateData.setTemplateName(templateName);
-
-        templateContainer.addTemplate(new Template(templateName, readPartBytes(templateRecord.templatePart())), true);
-        addSubTemplates(subTemplates, templateRecord.templateExt(), templateName);
-
-        try {
-            Document document = generateDocument(generatorSetup);
-            return ResponseUtil.getFileResponse(document, responseContentGzipped);
-        } catch (BaseException e) {
-            throw wrapToReadableFault(e, generatorSetup);
-        }
+        return generatorSetup;
     }
 
-    private List<InputPart> handleSubTemplates(Map<String, List<InputPart>> formDataMap, TemplateRecord templateRecord)
-            throws InvalidParameterException {
+    private void handleSubTemplates(Map<String, List<InputPart>> formDataMap, TemplateRecord templateRecord)
+            throws BaseException {
 
         List<InputPart> subTemplates = formDataMap.get(FORM_DATA_NAME_SUBTEMPLATE);
 
         if (CollectionUtils.isEmpty(subTemplates)) {
-            return subTemplates;
+            return;
         }
 
         for (InputPart part : subTemplates) {
@@ -208,9 +230,10 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
                                 FORM_DATA_NAME_SUBTEMPLATE,
                                 FORM_DATA_NAME_TEMPLATE));
             }
-        }
 
-        return subTemplates;
+            String name = toTemplateName(subFileName);
+            templateContainer.addTemplate(new Template(name, readPartBytes(part)), false);
+        }
     }
 
     private ResponseFormatType getResponseFormatType(TemplateRecord templateRecord) throws InvalidParameterException {
@@ -289,35 +312,15 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
     private record TemplateRecord(InputPart templatePart, String templateFileName, String templateExt) {
     }
 
-    private void addSubTemplates(List<InputPart> subTemplates, String templateExt, String mainTemplateName) throws BaseException {
-        if (CollectionUtils.isEmpty(subTemplates)) {
-            return;
-        }
-        if (templateExt.equals("xslt") || templateExt.equals("html")) {
-            // allow but template engine must handle multi templates, otherwise generation will fail with a readable error
-        }
-        for (int i = 0; i < subTemplates.size(); i++) {
-            InputPart part = subTemplates.get(i);
-            String subFileName = getFileName(part).orElse(MessageFormat.format("subtemplate_{0}.{1}", i + 1, templateExt));
-            String name = toTemplateName(subFileName);
-            if (StringUtils.equals(name, mainTemplateName)) {
-                name = name + "_" + (i + 1);
-            }
-            templateContainer.addTemplate(new Template(name, readPartBytes(part)), false);
-        }
-    }
-
-    private BusinessException wrapToReadableFault(BaseException e, InlineGeneratorSetupType setup) {
+    private TechnicalException wrapToReadableFault(Throwable e) {
         String message = e.getMessage();
-        if (setup != null && setup.getTemplateEngine() == TemplateEngineType.HANDLEBARS && StringUtils.containsIgnoreCase(message, "handlebars")) {
-            return new BusinessException(FaultType.TEMPLATE_ENGINE_ERROR, message, e);
+        if (e instanceof HandlebarsException) {
+            return new TechnicalException(FaultType.TEMPLATE_ENGINE_ERROR, message, e);
         }
-        if (setup != null && setup.getGeneratorEngine() != GeneratorEngineType.NONE
-                && (StringUtils.containsIgnoreCase(message, "pdf") || StringUtils.containsIgnoreCase(message, "xslt")
-                        || StringUtils.containsIgnoreCase(message, "pdfbox"))) {
-            return new BusinessException(FaultType.GENERATOR_ENGINE_ERROR, message, e);
+        if (e.getCause() instanceof XRRuntimeException || e.getCause() instanceof SaxonApiException) {
+            return new TechnicalException(FaultType.GENERATOR_ENGINE_ERROR, message, e);
         }
-        return new BusinessException(FaultType.DOCUMENT_GENERATION_ERROR, message, e);
+        return new TechnicalException(FaultType.DOCUMENT_GENERATION_ERROR, message, e);
     }
 
     private byte[] readPartBytes(InputPart part) throws BaseException {
@@ -346,7 +349,7 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
     private InputPart getSingleRequiredFilePart(List<InputPart> parts, String fieldName) throws BaseException {
         InputPart part = getSingleOptionalFilePart(parts, fieldName);
         if (part == null) {
-            throw new InvalidParameterException(MessageFormat.format("Missing file part: [{0}!]", fieldName));
+            throw new InvalidParameterException(MessageFormat.format("Missing file part: [{0}]!", fieldName));
         }
         return part;
     }
