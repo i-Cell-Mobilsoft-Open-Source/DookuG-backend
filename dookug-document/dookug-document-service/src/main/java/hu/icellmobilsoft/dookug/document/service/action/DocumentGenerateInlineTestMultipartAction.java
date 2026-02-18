@@ -31,8 +31,8 @@ import java.util.regex.Pattern;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,12 +40,11 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
+import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
-import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
-
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
@@ -69,6 +68,18 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Temp
 public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGenerateAction {
 
     private static final Pattern FILENAME_PATTERN = Pattern.compile("filename=\"?([^\";]+)\"?");
+
+    private final List<String> ACCEPTED_TEMPLATE_EXTENSIONS = List.of("txt", "html", "xslt");
+    private final String EXTENSION_JSON = "json";
+    private final String EXTENSION_XML = "xml";
+    private final String EXTENSION_XSLT = "xslt";
+    private final String EXTENSION_HTML = "html";
+    private final String EXTENSION_TXT = "txt";
+
+    private static final String FORM_DATA_NAME_TEMPLATE = "TEMPLATE";
+    private static final String FORM_DATA_NAME_PARAMETERS_TEMPLATE_ENGINE = "PARAMETERS_TEMPLATE_ENGINE";
+    private static final String FORM_DATA_NAME_PARAMETERS_GENERATOR_ENGINE = "PARAMETERS_GENERATOR_ENGINE";
+    private static final String FORM_DATA_NAME_SUBTEMPLATE = "SUBTEMPLATE";
 
     @Inject
     private TemplateContainer templateContainer;
@@ -96,69 +107,45 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         }
         Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
 
-        InputPart templatePart = getSingleRequiredFilePart(formDataMap.get("TEMPLATE"), "TEMPLATE");
-        String templateFileName = getFileName(templatePart).orElse("template");
-        String templateExt = getExtension(templateFileName)
-                .orElseThrow(() -> new InvalidParameterException("TEMPLATE: missing file extension!"));
+        // template
+        TemplateRecord templateRecord = handleTemplate(formDataMap);
 
-        if (!List.of("txt", "html", "xslt").contains(templateExt)) {
-            throw new InvalidParameterException("TEMPLATE: only .html, .xslt or .txt template can be specified.");
-        }
+        // template engine parameters
+        InputPart templateEngineParamsPart = handleEngineParameters(
+                formDataMap,
+                FORM_DATA_NAME_PARAMETERS_TEMPLATE_ENGINE,
+                EXTENSION_JSON);
 
-        InputPart templateEngineParamsPart = getSingleOptionalFilePart(formDataMap.get("PARAMETERS_TEMPLATE_ENGINE"), "PARAMETERS_TEMPLATE_ENGINE");
-        if (templateEngineParamsPart != null) {
-            String paramsFileName = getFileName(templateEngineParamsPart).orElse("parameters.json");
-            String paramsExt = getExtension(paramsFileName).orElse(StringUtils.EMPTY);
-            if (!"json".equals(paramsExt)) {
-                throw new InvalidParameterException("PARAMETERS_TEMPLATE_ENGINE: only .json template parameter file can be specified.");
-            }
-        }
+        // generator engine parameters
+        InputPart generatorEngineParamsPart = handleEngineParameters(
+                formDataMap,
+                FORM_DATA_NAME_PARAMETERS_GENERATOR_ENGINE,
+                EXTENSION_XML);
 
-        InputPart generatorEngineParamsPart = getSingleOptionalFilePart(formDataMap.get("PARAMETERS_GENERATOR_ENGINE"), "PARAMETERS_GENERATOR_ENGINE");
-        if (generatorEngineParamsPart != null) {
-            String paramsFileName = getFileName(generatorEngineParamsPart).orElse("parameters.xml");
-            String paramsExt = getExtension(paramsFileName).orElse(StringUtils.EMPTY);
-            if (!"xml".equals(paramsExt)) {
-                throw new InvalidParameterException("PARAMETERS_GENERATOR_ENGINE: only .xml generator parameter file can be specified.");
-            }
-        }
-
-        GeneratorEngineType generatorEngine = switch (templateExt) {
-        case "txt" -> GeneratorEngineType.NONE;
-        case "html" -> GeneratorEngineType.PDF_BOX;
-        case "xslt" -> GeneratorEngineType.SAXON;
-        default -> throw new InvalidParameterException("Unsupported TEMPLATE extension: [" + templateExt + "]");
-        };
-
-        ResponseFormatType responseFormat = switch (templateExt) {
-        case "txt" -> ResponseFormatType.STRING;
-        case "html", "xslt" -> ResponseFormatType.PDF;
-        default -> throw new InvalidParameterException("Unsupported TEMPLATE extension: [" + templateExt + "]");
-        };
-
+        // template engine type
         TemplateEngineType templateEngine = templateEngineParamsPart != null ? TemplateEngineType.HANDLEBARS : TemplateEngineType.NONE;
 
-        List<InputPart> subTemplates = formDataMap.get("SUBTEMPLATE");
-        if (CollectionUtils.isNotEmpty(subTemplates)) {
-            for (InputPart part : subTemplates) {
-                String subFileName = getFileName(part).orElse("subtemplate");
-                String subExt = getExtension(subFileName).orElse(StringUtils.EMPTY);
-                if (!templateExt.equals(subExt)) {
-                    throw new InvalidParameterException("SUBTEMPLATE: the file extensions of the template parts must match the extension of the main template.");
-                }
-            }
-        }
+        // generator engine type
+        GeneratorEngineType generatorEngine = getGeneratorEngineType(templateRecord);
 
+        // response format type
+        ResponseFormatType responseFormat = getResponseFormatType(templateRecord);
+
+        // subtemplates
+        List<InputPart> subTemplates = handleSubTemplates(formDataMap, templateRecord);
+
+        // Generator setup
         InlineGeneratorSetupType generatorSetup = new InlineGeneratorSetupType();
         generatorSetup.setGeneratorEngine(generatorEngine);
         generatorSetup.setTemplateEngine(templateEngine);
         generatorSetup.setResponseFormat(responseFormat);
         generatorSetup.setDocumentStorageMethod(DocumentStorageMethodType.NONE);
 
-        if ("xslt".equals(templateExt)) {
+        // templateRecord language validation for xslt
+        if (EXTENSION_XSLT.equals(templateRecord.templateExt())) {
             String templateLanguage = StringUtils.trimToNull(readOptionalTextPart(formDataMap.get("TEMPLATE_LANGUAGE"), "TEMPLATE_LANGUAGE"));
             if (templateLanguage == null) {
-                throw new InvalidParameterException("TEMPLATE_LANGUAGE: missing template language.");
+                throw new InvalidParameterException("TEMPLATE_LANGUAGE: missing templateRecord language.");
             }
             if (templateLanguage.length() > 30) {
                 throw new InvalidParameterException("TEMPLATE_LANGUAGE: max 30 characters.");
@@ -179,11 +166,11 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
 
         requestContainer.setGeneratorSetup(generatorSetup);
 
-        String templateName = toTemplateName(templateFileName);
+        String templateName = toTemplateName(templateRecord.templateFileName());
         templateData.setTemplateName(templateName);
 
-        templateContainer.addTemplate(new Template(templateName, readPartBytes(templatePart)), true);
-        addSubTemplates(subTemplates, templateExt, templateName);
+        templateContainer.addTemplate(new Template(templateName, readPartBytes(templateRecord.templatePart())), true);
+        addSubTemplates(subTemplates, templateRecord.templateExt(), templateName);
 
         try {
             Document document = generateDocument(generatorSetup);
@@ -191,6 +178,115 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         } catch (BaseException e) {
             throw wrapToReadableFault(e, generatorSetup);
         }
+    }
+
+    private List<InputPart> handleSubTemplates(Map<String, List<InputPart>> formDataMap, TemplateRecord templateRecord)
+            throws InvalidParameterException {
+
+        List<InputPart> subTemplates = formDataMap.get(FORM_DATA_NAME_SUBTEMPLATE);
+
+        if (CollectionUtils.isEmpty(subTemplates)) {
+            return subTemplates;
+        }
+
+        for (InputPart part : subTemplates) {
+
+            String subFileName = getFileName(part).orElseThrow(
+                    () -> new InvalidParameterException(
+                            MessageFormat.format(
+                                    "Missing filename from Content-Disposition header for form-data: [{0}]!",
+                                    FORM_DATA_NAME_SUBTEMPLATE)));
+
+            String subExt = getExtension(subFileName).orElseThrow(
+                    () -> new InvalidParameterException(
+                            MessageFormat.format("Missing file extension for form-data: [{0}]!", FORM_DATA_NAME_SUBTEMPLATE)));
+
+            if (!templateRecord.templateExt().equals(subExt)) {
+                throw new InvalidParameterException(
+                        MessageFormat.format(
+                                "The file extensions of the [{0}] parts must match the extension of the main [{1}].",
+                                FORM_DATA_NAME_SUBTEMPLATE,
+                                FORM_DATA_NAME_TEMPLATE));
+            }
+        }
+
+        return subTemplates;
+    }
+
+    private ResponseFormatType getResponseFormatType(TemplateRecord templateRecord) throws InvalidParameterException {
+        return switch (templateRecord.templateExt()) {
+            case EXTENSION_TXT -> ResponseFormatType.STRING;
+            case EXTENSION_HTML, EXTENSION_XSLT -> ResponseFormatType.PDF;
+            default -> throw new InvalidParameterException(
+                    MessageFormat.format("Unsupported extension: [{0}] for: [{1}]", templateRecord.templateExt(), FORM_DATA_NAME_TEMPLATE));
+        };
+    }
+
+    private GeneratorEngineType getGeneratorEngineType(TemplateRecord templateRecord) throws InvalidParameterException {
+        return switch (templateRecord.templateExt()) {
+            case EXTENSION_TXT -> GeneratorEngineType.NONE;
+            case EXTENSION_HTML -> GeneratorEngineType.PDF_BOX;
+            case EXTENSION_XSLT -> GeneratorEngineType.SAXON;
+            default -> throw new InvalidParameterException(
+                    MessageFormat.format("Unsupported extension: [{0}] for: [{1}]", templateRecord.templateExt(), FORM_DATA_NAME_TEMPLATE));
+        };
+    }
+
+    private InputPart handleEngineParameters(Map<String, List<InputPart>> formDataMap, String formDataNameParameters,
+            String requiredFileExtension) throws BaseException {
+
+        InputPart engineParamsPart = getSingleOptionalFilePart(
+                formDataMap.get(formDataNameParameters),
+                formDataNameParameters);
+
+        if (engineParamsPart == null) {
+            return null;
+        }
+
+        String paramsFileName = getFileName(engineParamsPart).orElseThrow(
+                () -> new InvalidParameterException(
+                        MessageFormat.format(
+                                "Missing filename from Content-Disposition header for form-data: [{0}]!",
+                                formDataNameParameters)));
+
+        String paramsExt = getExtension(paramsFileName).orElseThrow(
+                () -> new InvalidParameterException(
+                        MessageFormat.format("Missing file extension for form-data: [{0}]!", formDataNameParameters)));
+
+        if (!requiredFileExtension.equals(paramsExt)) {
+            throw new InvalidParameterException(
+                    MessageFormat.format(
+                            "Only [{0}] parameter file can be specified for from-data: [{1}]!",
+                            requiredFileExtension,
+                            formDataNameParameters));
+        }
+
+        return engineParamsPart;
+    }
+
+    private TemplateRecord handleTemplate(Map<String, List<InputPart>> formDataMap) throws BaseException {
+        List<InputPart> templateInputParts = formDataMap.get(FORM_DATA_NAME_TEMPLATE);
+        InputPart templatePart = getSingleRequiredFilePart(templateInputParts, FORM_DATA_NAME_TEMPLATE);
+        String templateFileName = getFileName(templatePart).orElseThrow(
+                () -> new InvalidParameterException(
+                        MessageFormat.format("Missing filename from Content-Disposition header for form-data: [{0}]!", FORM_DATA_NAME_TEMPLATE)));
+
+        String templateExt = getExtension(templateFileName)
+                .orElseThrow(
+                        () -> new InvalidParameterException(
+                                MessageFormat.format("Missing file extension for form-data: [{0}]!", FORM_DATA_NAME_TEMPLATE)));
+
+        if (!ACCEPTED_TEMPLATE_EXTENSIONS.contains(templateExt)) {
+            throw new InvalidParameterException(
+                    MessageFormat.format(
+                            "Only [{0}] extensions are accepted for form-data: [{1}]",
+                            ACCEPTED_TEMPLATE_EXTENSIONS,
+                            FORM_DATA_NAME_TEMPLATE));
+        }
+        return new TemplateRecord(templatePart, templateFileName, templateExt);
+    }
+
+    private record TemplateRecord(InputPart templatePart, String templateFileName, String templateExt) {
     }
 
     private void addSubTemplates(List<InputPart> subTemplates, String templateExt, String mainTemplateName) throws BaseException {
@@ -241,7 +337,7 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
             throw new InvalidParameterException(fieldName + ": only one value can be specified.");
         }
         try {
-            return parts.get(0).getBody(String.class, null);
+            return parts.get(0).getBodyAsString();
         } catch (Exception e) {
             throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "Error while reading multipart text input!", e);
         }
@@ -250,7 +346,7 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
     private InputPart getSingleRequiredFilePart(List<InputPart> parts, String fieldName) throws BaseException {
         InputPart part = getSingleOptionalFilePart(parts, fieldName);
         if (part == null) {
-            throw new InvalidParameterException(fieldName + ": missing file part!");
+            throw new InvalidParameterException(MessageFormat.format("Missing file part: [{0}!]", fieldName));
         }
         return part;
     }
@@ -260,7 +356,7 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
             return null;
         }
         if (parts.size() > 1) {
-            throw new InvalidParameterException(fieldName + ": only one file can be specified.");
+            throw new InvalidParameterException(MessageFormat.format("Only one file can be specified for part: [{0}]!", fieldName));
         }
         return parts.get(0);
     }

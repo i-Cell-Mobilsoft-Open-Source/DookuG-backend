@@ -98,8 +98,7 @@ public interface IDocumentGenerateInlineInternalRest {
      */
     @Operation(summary = "Generates document based on the template sent in the request, and returns it.",
             description = "The request must include the data related to the template and the document generation process:\n\n" +
-                    "* It is possible to process multiple, hierarchically ordered templates, which can be used for " +
-                    "HTML-based document generation.\n" +
+                    "* It is possible to process multiple, hierarchically ordered templates.\n" +
                     "* Template parameters are received as key-value pairs (generatorSetup/parameters) or in JSON structure " +
                     "in base64binary format (generatorSetup/parametersData).\n" +
                     "* A PDF can also be generated, optionally with an electronic signature. To enable this, the name of " +

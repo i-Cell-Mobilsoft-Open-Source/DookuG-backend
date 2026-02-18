@@ -19,23 +19,23 @@
  */
 package hu.icellmobilsoft.dookug.api.rest.test;
 
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import hu.icellmobilsoft.coffee.dto.exception.BaseException;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifier;
 import hu.icellmobilsoft.coffee.rest.log.annotation.LogSpecifiers;
 import hu.icellmobilsoft.coffee.rest.log.annotation.enumeration.LogSpecifierTarget;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.api.dto.constants.IOpenapiConstants;
 import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
 
@@ -66,27 +66,11 @@ public interface IDocumentGenerateInlineTest {
      *             on error
      */
     @Operation(summary = "Generates document based on the template sent in a multipart request, and returns it.",
-            description = "The request must include the data related to the template and the document generation process:\n\n" +
-                    "* Multiple hierarchically ordered templates can be processed using the Handlebars template engine.\n" +
-                    "* Template parameters are received as a JSON file\n" +
-                    "* SAXON generator parameters are received as an XML file\n" +
-                    "* PDF files are generated without an electronic signature.\n\n" +
-                    "The multipart request must contain the following parts:\n\n" +
-                    "* `TEMPLATE`: the main template file (required).\n" +
-                    "** Accepted extensions: `.txt`, `.html`, `.xslt`\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation and the response filename is based on this.\n" +
-                    "* `SUBTEMPLATE`: partial template files (optional, multiple parts allowed).\n" +
-                    "** Accepted extensions: `.txt`, `.html`, `.xslt` (should be the same as the TEMPLATE's)\n" +
-                    "** Each input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this and should match the partial name in the template case sensitively.\n" +
-                    "* `TEMPLATE_LANGUAGE`: Required only if the TEMPLATE file extension is `.xslt`\n" +
-                    "* `PARAMETERS_TEMPLATE_ENGINE`: `.json` file containing the template engine parameters (optional)\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this.\n" +
-                    "* `PARAMETERS_GENERATOR_ENGINE`: `.xml` file containing the generator parameters (optional)\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this.")
+            description = "The request must include the data related to the template and the document generation process:\n\n"
+                    + "* Multiple hierarchically ordered templates can be processed using the Handlebars template engine.\n"
+                    + "* Template parameters are received as a JSON file\n"
+                    + "* SAXON generator parameters are received as an XML file\n"
+                    + "* PDF files are generated without an electronic signature.")
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
