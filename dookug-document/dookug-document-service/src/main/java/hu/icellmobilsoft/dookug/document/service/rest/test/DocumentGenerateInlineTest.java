@@ -28,7 +28,7 @@ import hu.icellmobilsoft.dookug.api.rest.test.IDocumentGenerateInlineTest;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
-import hu.icellmobilsoft.dookug.document.service.action.DocumentGenerateInlineTestMultipartAction;
+import hu.icellmobilsoft.dookug.document.service.action.test.DocumentGenerateInlineTestMultipartAction;
 
 /**
  * Document generate inline service rest implementation
