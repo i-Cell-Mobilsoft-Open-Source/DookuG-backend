@@ -239,3 +239,23 @@ Ordering (ASC/DESC) can be specified for each sorting parameter individually:
 * validityEnd
 
 XSLT (generator_engine=saxon) templates are grouped in the response based on their name and validity.
+
+[[generateDocInline]]
+=== Document Generation
+
+[source,text]
+----
+POST /test/dookug/document/generate/inline/multipart
+----
+
+Generates a document based on the provided multipart form data.
+
+[options="header",cols="1,3"]
+|===
+|Input Part  |Description
+|TEMPLATE (file)  |Required, 1 file: the template file to be used for document generation
+|SUBTEMPLATE (file) |Optional, can be multiple: template files to be used as template parts
+|TEMPLATE_LANGUAGE (string) |Optional, but required if the template is xslt: the language of the template
+|PARAMETERS_TEMPLATE_ENGINE (file) |Optional, 1 file, accepted extension: json
+|PARAMETERS_GENERATOR_ENGINE (file) |Optional, 1 file, accepted extension: xml
+|===
