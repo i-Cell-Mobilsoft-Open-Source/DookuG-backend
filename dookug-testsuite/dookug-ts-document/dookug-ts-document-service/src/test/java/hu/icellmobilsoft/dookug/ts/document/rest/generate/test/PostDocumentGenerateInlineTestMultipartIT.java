@@ -57,7 +57,7 @@ class PostDocumentGenerateInlineTestMultipartIT extends AbstractGenerateDocument
     private String documentBaseUri;
 
     @Test
-    @DisplayName("Generate STRING with .txt template")
+    @DisplayName("Generate PDF with .html template")
     void generateStringTxtTemplate() throws BaseException {
         IDocumentGenerateInlineTestMultipartRestClient client = RestClientBuilder.newBuilder()
                 .baseUri(URI.create(documentBaseUri))
@@ -69,6 +69,9 @@ class PostDocumentGenerateInlineTestMultipartIT extends AbstractGenerateDocument
         ByteArrayInputStream partial1InputStream = new ByteArrayInputStream(FileUtil.readFileFromResource("pdfbox/pdfbox_partial_1.html").getBytes());
         ByteArrayInputStream partial2InputStream = new ByteArrayInputStream(FileUtil.readFileFromResource("pdfbox/pdfbox_partial_2.html").getBytes());
         ByteArrayInputStream templateParameters = new ByteArrayInputStream(FileUtil.readFileFromResource("pdfbox/pdfbox_with_partials_template_parameters.json").getBytes());
+
+        output.addFormData("TEMPLATE", templateInputStream, jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE,
+                "pdfbox_with_partials_template.html");
 
         output.addFormData("TEMPLATE", templateInputStream, jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE,
                 "pdfbox_with_partials_template.html");

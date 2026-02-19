@@ -81,21 +81,17 @@ public class GeneratorSetupHelper {
         generatorSetup.setResponseFormat(responseFormat);
         generatorSetup.setDocumentStorageMethod(DocumentStorageMethodType.NONE);
 
-        // validation and set template language for xslt
+        // validate and set template language for xslt
         if (GeneratorConstants.EXTENSION_XSLT.equals(templateRecord.templateExt())) {
-            String templateLanguage = StringUtils
-                    .trimToNull(
-                            inputPartHelper
-                                    .readOptionalTextPart(
-                                            formDataMap.get(GeneratorConstants.FORM_DATA_NAME_TEMPLATE_LANGUAGE),
-                                            GeneratorConstants.FORM_DATA_NAME_TEMPLATE_LANGUAGE));
+            String templateLanguage = inputPartHelper
+                    .readOptionalTextPart(
+                            formDataMap.get(GeneratorConstants.FORM_DATA_NAME_TEMPLATE_LANGUAGE),
+                            GeneratorConstants.FORM_DATA_NAME_TEMPLATE_LANGUAGE);
 
             if (templateLanguage == null) {
-                throw new InvalidParameterException("TEMPLATE_LANGUAGE: missing templateRecord language.");
+                throw new InvalidParameterException("Missing form-data TEMPLATE_LANGUAGE for xslt template!");
             }
-            if (templateLanguage.length() > 30) {
-                throw new InvalidParameterException("TEMPLATE_LANGUAGE: max 30 characters.");
-            }
+
             generatorSetup.setTemplateLanguage(templateLanguage);
         }
 

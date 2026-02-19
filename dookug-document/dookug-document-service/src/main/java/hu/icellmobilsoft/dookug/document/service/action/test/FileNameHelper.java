@@ -93,19 +93,13 @@ public class FileNameHelper {
      * @return template name
      */
     protected String toTemplateName(String filename) {
-        if (StringUtils.isBlank(filename)) {
-            return "template";
-        }
-        String name = filename;
-        int slash = Math.max(name.lastIndexOf('/'), name.lastIndexOf('\\'));
-        int dot = name.lastIndexOf('.');
-        if (slash >= 0) {
-            name = name.substring(slash + 1);
-        }
+
+        int dot = filename.lastIndexOf('.');
+
         if (dot > 0) {
-            name = name.substring(0, dot);
+            filename = filename.substring(0, dot);
         }
-        name = name.trim();
-        return StringUtils.isBlank(name) ? "template" : name;
+
+        return filename.trim();
     }
 }
