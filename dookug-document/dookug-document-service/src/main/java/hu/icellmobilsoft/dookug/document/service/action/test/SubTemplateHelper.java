@@ -89,7 +89,7 @@ public class SubTemplateHelper {
             if (!templateRecord.templateExt().equals(subExt)) {
                 throw new InvalidParameterException(
                         MessageFormat.format(
-                                "The file extensions of the [{0}] parts must match the extension of the main [{1}].",
+                                "The file extensions of the [{0}] parts must match the extension of the main [{1}]!",
                                 GeneratorConstants.FORM_DATA_NAME_SUBTEMPLATE,
                                 GeneratorConstants.FORM_DATA_NAME_TEMPLATE));
             }

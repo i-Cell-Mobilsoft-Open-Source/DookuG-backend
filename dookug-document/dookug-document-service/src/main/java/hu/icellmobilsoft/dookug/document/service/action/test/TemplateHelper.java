@@ -56,8 +56,11 @@ public class TemplateHelper {
      *             if an error occurs while processing the template or if validation fails
      */
     protected TemplateRecord handleTemplate(Map<String, List<InputPart>> formDataMap) throws BaseException {
+
         List<InputPart> templateInputParts = formDataMap.get(GeneratorConstants.FORM_DATA_NAME_TEMPLATE);
+
         InputPart templatePart = inputPartHelper.getSingleRequiredFilePart(templateInputParts, GeneratorConstants.FORM_DATA_NAME_TEMPLATE);
+
         String templateFileName = fileNameHelper.getFileName(templatePart)
                 .orElseThrow(
                         () -> new InvalidParameterException(
@@ -74,10 +77,11 @@ public class TemplateHelper {
         if (!GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS.contains(templateExt)) {
             throw new InvalidParameterException(
                     MessageFormat.format(
-                            "Only [{0}] extensions are accepted for form-data: [{1}]",
+                            "Only [{0}] extensions are accepted for form-data: [{1}]!",
                             GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS,
                             GeneratorConstants.FORM_DATA_NAME_TEMPLATE));
         }
+
         return new TemplateRecord(templatePart, templateFileName, templateExt);
     }
 }

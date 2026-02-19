@@ -77,7 +77,7 @@ public class InputPartHelper {
             return null;
         }
         if (parts.size() > 1) {
-            throw new InvalidParameterException(fieldName + ": only one value can be specified.");
+            throw new InvalidParameterException(MessageFormat.format("Only one value can be specified for part: [{0}]!", fieldName));
         }
         try {
             return parts.get(0).getBodyAsString();
