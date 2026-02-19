@@ -65,12 +65,8 @@ public interface IDocumentGenerateInlineTest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generates document based on the template sent in a multipart request, and returns it.",
-            description = "The request must include the data related to the template and the document generation process:\n\n"
-                    + "* Multiple hierarchically ordered templates can be processed using the Handlebars template engine.\n"
-                    + "* Template parameters are received as a JSON file\n"
-                    + "* SAXON generator parameters are received as an XML file\n"
-                    + "* PDF files are generated without an electronic signature.")
+    @Operation(summary = IOpenapiConstants.Operation.Summary.TEST_DOCUMENT_GENERATE_INLINE,
+            description = IOpenapiConstants.Operation.Description.TEST_DOCUMENT_GENERATE_INLINE)
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)

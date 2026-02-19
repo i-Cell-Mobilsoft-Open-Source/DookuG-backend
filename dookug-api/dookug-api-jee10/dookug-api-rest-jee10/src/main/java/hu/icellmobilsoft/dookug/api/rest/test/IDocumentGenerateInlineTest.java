@@ -65,28 +65,8 @@ public interface IDocumentGenerateInlineTest {
      * @throws BaseException
      *             on error
      */
-    @Operation(summary = "Generates document based on the template sent in a multipart request, and returns it.",
-            description = "The request must include the data related to the template and the document generation process:\n\n" +
-                    "* Multiple hierarchically ordered templates can be processed using the Handlebars template engine.\n" +
-                    "* Template parameters are received as a JSON file\n" +
-                    "* SAXON generator parameters are received as an XML file\n" +
-                    "* PDF files are generated without an electronic signature.\n\n" +
-                    "The multipart request must contain the following parts:\n\n" +
-                    "* `TEMPLATE`: the main template file (required).\n" +
-                    "** Accepted extensions: `.txt`, `.html`, `.xslt`\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation and the response filename is based on this.\n" +
-                    "* `SUBTEMPLATE`: partial template files (optional, multiple parts allowed).\n" +
-                    "** Accepted extensions: `.txt`, `.html`, `.xslt` (should be the same as the TEMPLATE's)\n" +
-                    "** Each input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this and should match the partial name in the template case sensitively.\n" +
-                    "* `TEMPLATE_LANGUAGE`: Required only if the TEMPLATE file extension is `.xslt`\n" +
-                    "* `PARAMETERS_TEMPLATE_ENGINE`: `.json` file containing the template engine parameters (optional)\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this.\n" +
-                    "* `PARAMETERS_GENERATOR_ENGINE`: `.xml` file containing the generator parameters (optional)\n" +
-                    "** The input part's Content-Disposition header should contain the filename with the extension. " +
-                    "Validation is based on this.")
+    @Operation(summary = IOpenapiConstants.Operation.Summary.TEST_DOCUMENT_GENERATE_INLINE,
+            description = IOpenapiConstants.Operation.Description.TEST_DOCUMENT_GENERATE_INLINE)
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
