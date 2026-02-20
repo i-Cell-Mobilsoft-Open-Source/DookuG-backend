@@ -91,13 +91,11 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
      *
      * @param input
      *            multipart input
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return generated document
      * @throws BaseException
      *             on error
      */
-    public Response postDocumentGenerateMultipart(MultipartFormDataInput input, Boolean responseContentGzipped) throws BaseException {
+    public Response postDocumentGenerateMultipart(MultipartFormDataInput input) throws BaseException {
         if (input == null) {
             throw new InvalidParameterException("MultipartFormDataInput is null!");
         }
@@ -150,10 +148,18 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
 
         try {
             Document document = generateDocument(generatorSetup);
-            return ResponseUtil.getFileResponse(document, responseContentGzipped);
+            return ResponseUtil.getFileResponse(document, getIsResponseContentGzipped(formDataMap));
         } catch (Exception e) {
             throw wrapToReadableFault(e);
         }
+    }
+
+    private boolean getIsResponseContentGzipped(Map<String, List<InputPart>> formDataMap) throws BaseException {
+        String responseContentGzipped = inputPartHelper
+                .readOptionalTextPart(
+                        formDataMap.get(GeneratorConstants.FORM_DATA_NAME_RESPONSE_CONTENT_GZIPPED),
+                        GeneratorConstants.FORM_DATA_NAME_RESPONSE_CONTENT_GZIPPED);
+        return Boolean.parseBoolean(responseContentGzipped);
     }
 
     private ResponseFormatType getResponseFormatType(TemplateRecord templateRecord) throws InvalidParameterException {

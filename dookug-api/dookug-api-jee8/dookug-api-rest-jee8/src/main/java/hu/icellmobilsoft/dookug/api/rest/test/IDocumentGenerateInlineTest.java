@@ -59,8 +59,6 @@ public interface IDocumentGenerateInlineTest {
      *
      * @param input
      *            multipart input
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -75,8 +73,6 @@ public interface IDocumentGenerateInlineTest {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateMultipart(MultipartFormDataInput input,
-            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
-                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
+    Response postDocumentGenerateMultipart(MultipartFormDataInput input)
             throws BaseException;
 }
