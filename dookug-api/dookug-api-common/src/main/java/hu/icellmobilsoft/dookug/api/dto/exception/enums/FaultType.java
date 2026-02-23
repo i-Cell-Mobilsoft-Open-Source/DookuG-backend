@@ -119,4 +119,19 @@ public enum FaultType {
      */
     PDF_SIGN_FAILED,
 
+    /**
+     * Document generation failed (unprocessable input)
+     */
+    DOCUMENT_GENERATION_ERROR,
+
+    /**
+     * Template engine failed (e.g. Handlebars compile/apply)
+     */
+    TEMPLATE_ENGINE_ERROR,
+
+    /**
+     * Generator engine failed (e.g. SAXON/PDF_BOX transformation)
+     */
+    GENERATOR_ENGINE_ERROR,
+
 }

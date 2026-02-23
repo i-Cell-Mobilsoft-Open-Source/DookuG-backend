@@ -6,6 +6,7 @@
 * Liquibase installer image upgrade *2.1.0* -> *2.2.0-SNAPSHOT*
 * New WebAppDevTool endpoints:
 ** xref:../service/document.adoc#listTemplateMetadata[Template Metadata Retrieval]
+** xref:../service/document.adoc#generateDocInline[Document Generation]
 
 == Migration
 

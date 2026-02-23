@@ -40,6 +40,11 @@ public class ServicePath extends BaseServicePath {
     public static final String DOCUMENT = "/dookug/document";
 
     /**
+     * {@value #TEST_DOCUMENT}
+     */
+    public static final String TEST_DOCUMENT = TEST + DOCUMENT;
+
+    /**
      * {@value #STORED_TEMPLATE}
      */
     public static final String STORED_TEMPLATE = "/storedTemplate";
