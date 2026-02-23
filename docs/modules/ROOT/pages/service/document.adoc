@@ -258,4 +258,5 @@ Generates a document based on the provided multipart form data.
 |TEMPLATE_LANGUAGE (string) |Optional, but required if the template is xslt: the language of the template
 |PARAMETERS_TEMPLATE_ENGINE (file) |Optional, 1 file, accepted extension: json
 |PARAMETERS_GENERATOR_ENGINE (file) |Optional, 1 file, accepted extension: xml
+|RESPONSE_CONTENT_GZIPPED (string) |Optional, if true, the response content will be GZIP compressed
 |===

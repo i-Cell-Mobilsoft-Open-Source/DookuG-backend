@@ -48,8 +48,6 @@ public interface IDocumentGenerateInlineTestMultipartRestClient {
      *
      * @param multipart
      *            multipart form-data payload
-     * @param responseContentGzipped
-     *            if true, the response content will be GZIP compressed
      * @return response
      * @throws BaseException
      *             on error
@@ -58,6 +56,5 @@ public interface IDocumentGenerateInlineTestMultipartRestClient {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     @Path(DocumentGeneratePath.MULTIPART)
-    Response postDocumentGenerateMultipart(MultipartFormDataOutput multipart,
-            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) Boolean responseContentGzipped) throws BaseException;
+    Response postDocumentGenerateMultipart(MultipartFormDataOutput multipart) throws BaseException;
 }

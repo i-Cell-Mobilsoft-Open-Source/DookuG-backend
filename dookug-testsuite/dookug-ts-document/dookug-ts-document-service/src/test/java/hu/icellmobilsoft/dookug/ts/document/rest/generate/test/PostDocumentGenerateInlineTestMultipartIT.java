@@ -26,6 +26,7 @@ import java.net.URI;
 import hu.icellmobilsoft.dookug.ts.common.constants.DocumentServiceTestConstant;
 import hu.icellmobilsoft.roaster.common.util.FileUtil;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -85,7 +86,9 @@ class PostDocumentGenerateInlineTestMultipartIT extends AbstractGenerateDocument
         output.addFormData("PARAMETERS_TEMPLATE_ENGINE", templateParameters, jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE,
                 "pdfbox_with_partials_template_parameters.json");
 
-        try (Response response = client.postDocumentGenerateMultipart(output, false)) {
+//        output.addFormData("RESPONSE_CONTENT_GZIPPED", "true", MediaType.TEXT_PLAIN_TYPE);
+
+        try (Response response = client.postDocumentGenerateMultipart(output)) {
             Assertions.assertEquals(200, response.getStatus());
             String filename = getFilename(response);
             Assertions.assertNotNull(filename);

@@ -83,4 +83,9 @@ public interface GeneratorConstants {
      * Form data field name for template language (e.g., the template engine to use, such as "freemarker" or "velocity")
      */
     String FORM_DATA_NAME_TEMPLATE_LANGUAGE = "TEMPLATE_LANGUAGE";
+
+    /**
+     * Form data field name for response content Gzipped option (If true, the response content will be GZIP compressed)
+     */
+    String FORM_DATA_NAME_RESPONSE_CONTENT_GZIPPED = "RESPONSE_CONTENT_GZIPPED";
 }
