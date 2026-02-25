@@ -19,22 +19,12 @@
  */
 package hu.icellmobilsoft.dookug.common.rest.exception;
 
-import java.text.MessageFormat;
-
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Alternative;
-import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptor;
-import jakarta.xml.bind.JAXBException;
 
-import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseExceptionResultType;
-import hu.icellmobilsoft.coffee.dto.common.commonservice.FunctionCodeType;
-import hu.icellmobilsoft.coffee.dto.exception.RestClientResponseException;
-import hu.icellmobilsoft.coffee.rest.cdi.BaseApplicationContainer;
 import hu.icellmobilsoft.coffee.rest.exception.DefaultExceptionMessageTranslator;
-import hu.icellmobilsoft.coffee.rest.projectstage.ProjectStage;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 
 /**
  * Exception translator implementation for exception throwing
@@ -47,67 +37,4 @@ import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 @Priority(Interceptor.Priority.APPLICATION + 10)
 public class ExceptionMessageTranslator extends DefaultExceptionMessageTranslator {
 
-    @Inject
-    private BaseApplicationContainer baseApplicationContainer;
-
-    @Inject
-    private ProjectStage projectStage;
-
-    /** {@inheritDoc} */
-    @Override
-    public void addCommonInfo(BaseExceptionResultType dto, Exception e, Enum<?> faultType) {
-        boolean putExceptionToResponse = !projectStage.isProductionStage();
-        if (putExceptionToResponse) {
-            if (e instanceof JAXBException) {
-                dto.setException(getLinkedExceptionLocalizedMessage((JAXBException) e));
-            } else {
-                dto.setException(e.getLocalizedMessage());
-            }
-
-            if (e.getCause() != null) {
-                var causedBy = new BaseExceptionResultType();
-                addCausedByInfo(causedBy, e.getCause(), faultType);
-                dto.setCausedBy(causedBy);
-            }
-
-            dto.setClassName(e.getClass().getName());
-        }
-        dto.setFaultType(faultType.name());
-        dto.setFuncCode(FunctionCodeType.ERROR);
-
-        // A localized response is needed according to the fault type
-        String localizedMessage = getLocalizedMessage(faultType);
-
-        if (!projectStage.isProductionStage()) {
-            // if not in production stage, add exception message to localized fault type message if it contains a placeholder
-            String message = MessageFormat.format(localizedMessage, e.getLocalizedMessage());
-            dto.setMessage(message);
-        } else {
-            dto.setMessage(localizedMessage);
-        }
-
-        if (e instanceof RestClientResponseException) {
-            var restClientResponseException = (RestClientResponseException) e;
-            dto.setService(restClientResponseException.getService());
-        } else {
-            dto.setService(baseApplicationContainer.getCoffeeAppName());
-        }
-    }
-
-    private void addCausedByInfo(BaseExceptionResultType dto, Throwable t, Enum<?> faultType) {
-        dto.setClassName(t.getClass().getName());
-        dto.setMessage(t.getLocalizedMessage());
-        if (t instanceof BaseException) {
-            dto.setFaultType(((BaseException) t).getFaultTypeEnum().name());
-        } else {
-            dto.setFaultType(faultType.name());
-        }
-        dto.setFuncCode(FunctionCodeType.ERROR);
-
-        if (t.getCause() != null) {
-            var causedBy = new BaseExceptionResultType();
-            addCausedByInfo(causedBy, t.getCause(), faultType);
-            dto.setCausedBy(causedBy);
-        }
-    }
 }
