@@ -23,6 +23,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -55,12 +57,14 @@ public class EngineParametersHelper {
      *            Name of the form data field for engine parameters
      * @param requiredFileExtension
      *            Required file extension for the engine parameter file (e.g., "json")
+     * @param extensionFaultType
+     *            FaultType to use in case of invalid file extension
      * @return InputPart of the engine parameter file, or null if not provided
      * @throws BaseException
      *             if an error occurs while processing the engine parameters or if validation fails
      */
     protected InputPart handleEngineParameters(Map<String, List<InputPart>> formDataMap, String formDataNameParameters,
-            String requiredFileExtension) throws BaseException {
+            String requiredFileExtension, FaultType extensionFaultType) throws BaseException {
 
         InputPart engineParamsPart = inputPartHelper.getSingleOptionalFilePart(
                 formDataMap.get(formDataNameParameters),
@@ -83,7 +87,8 @@ public class EngineParametersHelper {
                                 MessageFormat.format("Missing file extension for form-data: [{0}]!", formDataNameParameters)));
 
         if (!requiredFileExtension.equals(paramsExt)) {
-            throw new InvalidParameterException(
+            throw new BusinessException(
+                    extensionFaultType,
                     MessageFormat.format(
                             "Only [{0}] parameter file can be specified for from-data: [{1}]!",
                             requiredFileExtension,

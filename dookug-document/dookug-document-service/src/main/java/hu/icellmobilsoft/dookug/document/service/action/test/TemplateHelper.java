@@ -23,6 +23,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -75,7 +77,8 @@ public class TemplateHelper {
                                 MessageFormat.format("Missing file extension for form-data: [{0}]!", GeneratorConstants.FORM_DATA_NAME_TEMPLATE)));
 
         if (!GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS.contains(templateExt)) {
-            throw new InvalidParameterException(
+            throw new BusinessException(
+                    FaultType.INVALID_TEMPLATE_EXTENSION,
                     MessageFormat.format(
                             "Only [{0}] extensions are accepted for form-data: [{1}]!",
                             GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS,

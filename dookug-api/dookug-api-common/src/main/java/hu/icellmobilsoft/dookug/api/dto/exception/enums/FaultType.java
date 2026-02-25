@@ -134,4 +134,28 @@ public enum FaultType {
      */
     GENERATOR_ENGINE_ERROR,
 
+    /**
+     * Invalid template extension
+     */
+    INVALID_TEMPLATE_EXTENSION,
+
+    /**
+     * Invalid template engine parameters
+     */
+    INVALID_TEMPLATE_ENGINE_PARAMETERS_EXTENSION,
+
+    /**
+     * Invalid generator engine parameters
+     */
+    INVALID_GENERATOR_ENGINE_PARAMETERS_EXTENSION,
+
+    /**
+     * Missing TEMPLATE_LANGUAGE
+     */
+    MISSING_TEMPLATE_LANGUAGE,
+
+    /**
+     * Invalid subtemplate extension
+     */
+    INVALID_SUB_TEMPLATE_EXTENSION,
 }

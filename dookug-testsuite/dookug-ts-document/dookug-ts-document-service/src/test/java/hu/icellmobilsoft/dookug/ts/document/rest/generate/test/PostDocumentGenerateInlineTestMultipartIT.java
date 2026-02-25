@@ -81,7 +81,7 @@ class PostDocumentGenerateInlineTestMultipartIT extends AbstractGenerateDocument
                 "PARTIAL_2.html");
 
         output.addFormData("PARAMETERS_TEMPLATE_ENGINE", templateParameters, jakarta.ws.rs.core.MediaType.APPLICATION_OCTET_STREAM_TYPE,
-                "pdfbox_with_partials_template_parameters.json");
+                "pdfbox_with_partials_template_parameters.asdf");
 
 //        output.addFormData("RESPONSE_CONTENT_GZIPPED", "true", MediaType.TEXT_PLAIN_TYPE);
 
