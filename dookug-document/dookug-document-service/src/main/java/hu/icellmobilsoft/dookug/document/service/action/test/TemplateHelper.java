@@ -23,8 +23,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
-import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -32,6 +30,8 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 
 /**
  * Helper for handling the main template in document generation

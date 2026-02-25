@@ -158,4 +158,9 @@ public enum FaultType {
      * Invalid subtemplate extension
      */
     INVALID_SUB_TEMPLATE_EXTENSION,
+
+    /**
+     * Too many files
+     */
+    TOO_MANNY_FILES,
 }

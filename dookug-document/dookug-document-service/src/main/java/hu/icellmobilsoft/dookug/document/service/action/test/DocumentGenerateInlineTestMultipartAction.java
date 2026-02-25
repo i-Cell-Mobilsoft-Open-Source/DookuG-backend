@@ -23,7 +23,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
@@ -36,7 +35,7 @@ import com.openhtmltopdf.util.XRRuntimeException;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
