@@ -79,13 +79,12 @@ public class ExceptionMessageTranslator extends DefaultExceptionMessageTranslato
         String localizedMessage = getLocalizedMessage(faultType);
 
         if (!projectStage.isProductionStage()) {
+            // if not in production stage, add exception message to localized fault type message if it contains a placeholder
             String message = MessageFormat.format(localizedMessage, e.getLocalizedMessage());
             dto.setMessage(message);
         } else {
             dto.setMessage(localizedMessage);
         }
-
-
 
         if (e instanceof RestClientResponseException) {
             var restClientResponseException = (RestClientResponseException) e;
