@@ -32,7 +32,9 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 
 /**
  * Helper for reading multipart form data
@@ -121,7 +123,9 @@ public class InputPartHelper {
             return null;
         }
         if (parts.size() > 1) {
-            throw new InvalidParameterException(MessageFormat.format("Only one file can be specified for part: [{0}]!", fieldName));
+            throw new BusinessException(
+                    FaultType.TOO_MANNY_FILES,
+                    MessageFormat.format("Only one file can be specified for part: [{0}]!", fieldName));
         }
         return parts.get(0);
     }

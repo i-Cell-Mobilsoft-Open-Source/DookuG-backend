@@ -31,6 +31,8 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 
@@ -87,7 +89,8 @@ public class SubTemplateHelper {
                                             .format("Missing file extension for form-data: [{0}]!", GeneratorConstants.FORM_DATA_NAME_SUBTEMPLATE)));
 
             if (!templateRecord.templateExt().equals(subExt)) {
-                throw new InvalidParameterException(
+                throw new BusinessException(
+                        FaultType.INVALID_SUB_TEMPLATE_EXTENSION,
                         MessageFormat.format(
                                 "The file extensions of the [{0}] parts must match the extension of the main [{1}]!",
                                 GeneratorConstants.FORM_DATA_NAME_SUBTEMPLATE,

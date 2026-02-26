@@ -25,11 +25,11 @@ import java.util.Map;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
-import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentStorageMethodType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.GeneratorEngineType;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.InlineGeneratorSetupType;
@@ -89,7 +89,7 @@ public class GeneratorSetupHelper {
                             GeneratorConstants.FORM_DATA_NAME_TEMPLATE_LANGUAGE);
 
             if (templateLanguage == null) {
-                throw new InvalidParameterException("Missing form-data TEMPLATE_LANGUAGE for xslt template!");
+                throw new BusinessException(FaultType.MISSING_TEMPLATE_LANGUAGE, "Missing form-data TEMPLATE_LANGUAGE for xslt template!");
             }
 
             generatorSetup.setTemplateLanguage(templateLanguage);

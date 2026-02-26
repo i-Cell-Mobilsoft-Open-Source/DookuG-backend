@@ -30,6 +30,8 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 
 /**
  * Helper for handling the main template in document generation
@@ -75,7 +77,8 @@ public class TemplateHelper {
                                 MessageFormat.format("Missing file extension for form-data: [{0}]!", GeneratorConstants.FORM_DATA_NAME_TEMPLATE)));
 
         if (!GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS.contains(templateExt)) {
-            throw new InvalidParameterException(
+            throw new BusinessException(
+                    FaultType.INVALID_TEMPLATE_EXTENSION,
                     MessageFormat.format(
                             "Only [{0}] extensions are accepted for form-data: [{1}]!",
                             GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS,

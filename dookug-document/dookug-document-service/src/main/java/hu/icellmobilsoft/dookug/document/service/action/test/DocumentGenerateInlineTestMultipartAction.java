@@ -35,7 +35,7 @@ import com.openhtmltopdf.util.XRRuntimeException;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
-import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.Template;
@@ -109,13 +109,15 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         InputPart templateEngineParamsPart = engineParametersHelper.handleEngineParameters(
                 formDataMap,
                 GeneratorConstants.FORM_DATA_NAME_PARAMETERS_TEMPLATE_ENGINE,
-                GeneratorConstants.EXTENSION_JSON);
+                GeneratorConstants.EXTENSION_JSON,
+                FaultType.INVALID_TEMPLATE_ENGINE_PARAMETERS_EXTENSION);
 
         // generator engine parameters
         InputPart generatorEngineParamsPart = engineParametersHelper.handleEngineParameters(
                 formDataMap,
                 GeneratorConstants.FORM_DATA_NAME_PARAMETERS_GENERATOR_ENGINE,
-                GeneratorConstants.EXTENSION_XML);
+                GeneratorConstants.EXTENSION_XML,
+                FaultType.INVALID_GENERATOR_ENGINE_PARAMETERS_EXTENSION);
 
         // template engine type
         TemplateEngineType templateEngine = templateEngineParamsPart != null ? TemplateEngineType.HANDLEBARS : TemplateEngineType.NONE;
@@ -187,14 +189,14 @@ public class DocumentGenerateInlineTestMultipartAction extends BaseDocumentGener
         };
     }
 
-    private TechnicalException wrapToReadableFault(Exception e) {
+    private BusinessException wrapToReadableFault(Exception e) {
         String message = e.getMessage();
         if (e instanceof HandlebarsException) {
-            return new TechnicalException(FaultType.TEMPLATE_ENGINE_ERROR, message, e);
+            return new BusinessException(FaultType.TEMPLATE_ENGINE_ERROR, message, e);
         }
         if (e.getCause() instanceof XRRuntimeException || e.getCause() instanceof SaxonApiException) {
-            return new TechnicalException(FaultType.GENERATOR_ENGINE_ERROR, message, e);
+            return new BusinessException(FaultType.GENERATOR_ENGINE_ERROR, message, e);
         }
-        return new TechnicalException(FaultType.DOCUMENT_GENERATION_ERROR, message, e);
+        return new BusinessException(FaultType.DOCUMENT_GENERATION_ERROR, message, e);
     }
 }
