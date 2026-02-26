@@ -67,4 +67,14 @@ public interface TemplateRepository extends EntityRepository<Template, String>, 
             + " (?3 BETWEEN t.validityStart AND t.validityEnd OR (t.validityStart < ?3 AND t.validityEnd is null))")
     String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate);
 
+    @Query("""
+        SELECT count(t) FROM Template t 
+        WHERE t.name = ?1 AND t.language = ?2
+        AND t.validityStart = ?3 AND t.validityEnd = ?4""")
+    long countByNameAndLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityStart, OffsetDateTime validityEnd);
+
+    @Query("""
+        SELECT count(t) FROM Template t 
+        WHERE t.name = ?1 AND t.validityStart = ?3 AND t.validityEnd = ?4""")
+    long countByNameAndValidity(String templateName, OffsetDateTime validityStart, OffsetDateTime validityEnd);
 }

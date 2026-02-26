@@ -33,6 +33,11 @@ public class TemplatePath extends ServicePath {
     public static final String TEST_DOCUMENT_STORED_TEMPLATE = TEST_DOCUMENT + STORED_TEMPLATE;
 
     /**
+     * {@value #TEST_DOCUMENT_STORED_TEMPLATE_GROUP}
+     */
+    public static final String TEST_DOCUMENT_STORED_TEMPLATE_GROUP = TEST_DOCUMENT + STORED_TEMPLATE_GROUP;
+
+    /**
      * {@value #PARAM_NAME}
      */
     public static final String PARAM_NAME = "name";

@@ -24,10 +24,10 @@ import java.time.OffsetDateTime;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.jpa.service.BaseService;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.document.service.repository.TemplateRepository;
 
@@ -96,4 +96,31 @@ public class TemplateService extends BaseService<Template> {
                 "validityDate");
     }
 
+    public long countByNameAndLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityStart,
+            OffsetDateTime validityEnd) throws BaseException {
+        return wrapValidated(
+                templateRepository::countByNameAndLanguageAndValidity,
+                templateName,
+                templateLanguage,
+                validityStart,
+                validityEnd,
+                "countByNameAndLanguageAndValidity",
+                "templateName",
+                "templateLanguage",
+                "validityStart",
+                "validityEnd");
+    }
+
+    public long countByNameAndValidity(String templateName, OffsetDateTime validityStart,
+            OffsetDateTime validityEnd) throws BaseException {
+        return wrapValidated(
+                templateRepository::countByNameAndValidity,
+                templateName,
+                validityStart,
+                validityEnd,
+                "countByNameAndLanguageAndValidity",
+                "templateName",
+                "validityStart",
+                "validityEnd");
+    }
 }
