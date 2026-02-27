@@ -21,11 +21,13 @@ package hu.icellmobilsoft.dookug.document.service.action.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
@@ -33,11 +35,13 @@ import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseRequestType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 
 /**
  * Helper for reading multipart form data
@@ -47,6 +51,9 @@ import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
  */
 @ApplicationScoped
 public class InputPartHelper {
+
+    @Inject
+    private JaxbTool jaxbTool;
 
     /**
      * Read bytes from multipart form data
@@ -158,8 +165,31 @@ public class InputPartHelper {
     }
 
     /**
-     * Get single required JSON request part from multipart form data and unmarshall it into the specified request class
+     * Get single required JSON request part from multipart form data and unmarshall it into the specified request class, then validates it
      * 
+     * @param parts
+     *            List of InputPart containing the JSON body
+     * @param requestClass
+     *            Class of the request object to be created from the JSON content
+     * @param fieldName
+     *            Name of the field for error messages
+     * @return An instance of the specified request class populated with data from the JSON content of the InputPart, never null
+     * @param <REQUEST>
+     *            Type of the request object, must extend BaseRequestType
+     * @throws BaseException
+     *             if the JSON part is missing, if multiple values are present, or if an error occurs while reading the InputPart or unmarshalling the
+     *             JSON content
+     */
+    protected <REQUEST extends BaseRequestType> REQUEST getAndValidateSingleRequiredRequestPart(List<InputPart> parts, Class<REQUEST> requestClass,
+            String fieldName) throws BaseException {
+        REQUEST request = getSingleRequiredRequestPart(parts, requestClass, fieldName);
+        String xml = jaxbTool.marshalXML(request, XsdConstants.SUPER_XSD_PATH);
+        return jaxbTool.unmarshalXML(requestClass, xml.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Get single required JSON request part from multipart form data and unmarshall it into the specified request class
+     *
      * @param parts
      *            List of InputPart containing the JSON body
      * @param requestClass
@@ -198,7 +228,6 @@ public class InputPartHelper {
         try {
             String bodyAsString = inputPart.getBodyAsString();
             return JsonUtil.toObject(bodyAsString, requestClass);
-            // TODO jaxb validation?
         } catch (IOException e) {
             throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, e.getMessage());
         }

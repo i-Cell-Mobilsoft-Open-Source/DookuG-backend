@@ -35,6 +35,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.jpa.helper.TransactionHelper;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
@@ -48,6 +49,8 @@ import hu.icellmobilsoft.dookug.document.service.service.TemplateService;
 import hu.icellmobilsoft.dookug.document.service.service.TemplateTemplatePartService;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupResponse;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartType;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartTypeType;
 
 /**
  * Stored template group action
@@ -83,6 +86,9 @@ public class StoredTemplateGroupAction extends BaseAction {
     @Inject
     private TemplateHelper templateHelper;
 
+    @Inject
+    private TransactionHelper transactionHelper;
+
     /**
      * Creates templates group
      * 
@@ -103,30 +109,21 @@ public class StoredTemplateGroupAction extends BaseAction {
         String extension = validateTemplates(templatePart);
 
         List<String> templateFileIds = inputPartHelper.readAllTextParts(formDataMap.get(FORM_DATA_NAME_TEMPLATE_FILE_ID));
-        if (templateFileIds.size() != templatePart.size()) {
-            throw new BusinessException(
-                    CoffeeFaultType.INVALID_INPUT,
-                    MessageFormat.format(
-                            "The number of [{0}] and [{1}] form-data parts must be the same!",
-                            FORM_DATA_NAME_TEMPLATE,
-                            FORM_DATA_NAME_TEMPLATE_FILE_ID));
-        }
+        Map<String, byte[]> filesByFileIds = createFileMap(templatePart, templateFileIds);
 
         // validate TEMPLATE_DATA
-        CreateTemplateGroupRequest request = inputPartHelper.getSingleRequiredRequestPart(
+        CreateTemplateGroupRequest request = inputPartHelper.getAndValidateSingleRequiredRequestPart(
                 formDataMap.get(FORM_DATA_NAME_TEMPLATE_DATA),
                 CreateTemplateGroupRequest.class,
                 FORM_DATA_NAME_TEMPLATE_DATA);
-        validateTemplatePartListSize(request, templatePart);
-        
+        validateTemplatePartList(request, templateFileIds);
 
         // check if template already exists
         checkTemplateExists(request, extension);
 
         // create and save entities
-        Map<String, byte[]> filesByFileIds = createFileMap(templatePart);
         TemplateGroupRecord templateGroup = templateGroupMapper.createTemplateGroup(request, extension, filesByFileIds);
-        saveEntities(templateGroup);
+        transactionHelper.executeWithTransaction(() -> saveEntities(templateGroup));
 
         // create response
         List<String> templateIds = templateGroup.templates().stream().map(Template::getId).toList();
@@ -136,11 +133,23 @@ public class StoredTemplateGroupAction extends BaseAction {
 
         return response;
     }
-    
-    private void validateTemplatePartListSize(CreateTemplateGroupRequest request, List<InputPart> templatePart) throws BaseException {
+
+    private void validateTemplatePartList(CreateTemplateGroupRequest request, List<String> fileIds) throws BaseException {
+
         if (request.getTemplatePartList() == null || CollectionUtils.isEmpty(request.getTemplatePartList().getTemplatePart())
-                || templatePart.size() != request.getTemplatePartList().getTemplatePart().size()) {
-            throw new InvalidParameterException("The number of template files and template part definitions must be the same!");
+                || !CollectionUtils.isEqualCollection(
+                        request.getTemplatePartList().getTemplatePart().stream().map(TemplatePartType::getTemplateFileId).toList(),
+                        fileIds)) {
+            throw new InvalidParameterException(
+                    "The template part list in the request must contain the same fileIds as the uploaded template file ids!");
+        }
+
+        if (request.getTemplatePartList()
+                .getTemplatePart()
+                .stream()
+                .filter(tp -> tp.getTemplatePartData().getTemplatePartType() == TemplatePartTypeType.MAIN)
+                .count() != 1) {
+            throw new InvalidParameterException("Exactly one main template part must be specified in the template part list!");
         }
     }
 
@@ -159,12 +168,14 @@ public class StoredTemplateGroupAction extends BaseAction {
         }
     }
 
-    private Map<String, byte[]> createFileMap(List<InputPart> templatePart) throws BaseException {
+    private Map<String, byte[]> createFileMap(List<InputPart> templatePart, List<String> fileIds) throws BaseException {
+        if (templatePart.size() != fileIds.size()) {
+            throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "The number of template files must match the number of fileIds!");
+        }
         Map<String, byte[]> filesByFileIds = new HashMap<>(templatePart.size());
-        for (InputPart inputPart : templatePart) {
-            String fileName = templateHelper.getFileName(inputPart);
-            byte[] fileContent = inputPartHelper.readPartBytes(inputPart);
-            filesByFileIds.put(fileName, fileContent);
+        for (int i = 0; i < templatePart.size(); i++) {
+            byte[] fileContent = inputPartHelper.readPartBytes(templatePart.get(i));
+            filesByFileIds.put(fileIds.get(i), fileContent);
         }
         return filesByFileIds;
     }
@@ -185,7 +196,6 @@ public class StoredTemplateGroupAction extends BaseAction {
         }
 
         if (count != 0) {
-            // TODO http422 ALREADY_EXISTS
             throw new BusinessException(CoffeeFaultType.ALREADY_EXIST, "Template already exists!");
         }
     }
@@ -195,7 +205,7 @@ public class StoredTemplateGroupAction extends BaseAction {
             throw new InvalidParameterException("Languages is null or empty!");
         }
         if (!StringUtils.equals(extension, GeneratorConstants.EXTENSION_XSLT) && languages.size() > 1) {
-            throw new InvalidParameterException("Multiple languages can only be specified for XSLT templates!");
+            throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "Multiple languages can only be specified for XSLT templates!");
         }
     }
 

@@ -25,9 +25,7 @@ import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.model.base.generator.EntityIdGenerator;
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.tool.utils.enums.EnumUtil;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePart;
@@ -37,6 +35,7 @@ import hu.icellmobilsoft.dookug.common.model.template.enums.GeneratorEngine;
 import hu.icellmobilsoft.dookug.common.model.template.enums.TemplateEngine;
 import hu.icellmobilsoft.dookug.common.model.template.enums.TemplateType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupRequest;
+import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartDataType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartTypeType;
 
@@ -60,7 +59,7 @@ public class TemplateGroupMapper {
      *            map of fileId - file content
      * @return record containing the created entities
      */
-    public TemplateGroupRecord createTemplateGroup(CreateTemplateGroupRequest request, String extension, Map<String, byte[]> filesByFileIds) throws BaseException {
+    public TemplateGroupRecord createTemplateGroup(CreateTemplateGroupRequest request, String extension, Map<String, byte[]> filesByFileIds) {
         List<Template> templates = createTemplates(request, extension);
         TemplatePartsAndTemplatePartContents templatePartsAndTemplatePartContents = createTemplatePartsAndContents(
                 request.getTemplatePartList().getTemplatePart(),
@@ -100,8 +99,7 @@ public class TemplateGroupMapper {
             templatePart.setId(EntityIdGenerator.generateId());
             templatePart.setDescription(templatePartType.getTemplatePartData().getDescription());
             templatePart.setTemplatePartType(EnumUtil.convert(templatePartType.getTemplatePartData().getTemplatePartType(), TemplateType.class));
-            String key = templatePartType.getTemplatePartData().getTemplatePartType() == TemplatePartTypeType.MAIN ? generateMainKey(name)
-                    : templatePartType.getTemplatePartData().getKey();
+            String key = getKey(templatePartType.getTemplatePartData(), name);
             templatePart.setKey(key);
             templateParts.add(templatePart);
 
@@ -115,11 +113,14 @@ public class TemplateGroupMapper {
         return new TemplatePartsAndTemplatePartContents(templateParts, templatePartContents);
     }
 
-    private String generateMainKey(String name) {
-        return name + TemplateType.MAIN.name();
+    private String getKey(TemplatePartDataType templatePartDataType, String name) {
+        if (templatePartDataType.getTemplatePartType() == TemplatePartTypeType.MAIN) {
+            return name + TemplateType.MAIN.name();
+        }
+        return templatePartDataType.getKey();
     }
 
-    private List<Template> createTemplates(CreateTemplateGroupRequest request, String extension) throws BaseException {
+    private List<Template> createTemplates(CreateTemplateGroupRequest request, String extension) {
         List<Template> templates = new ArrayList<>();
         for (String language : request.getLanguage()) {
             Template template = new Template();
@@ -137,12 +138,12 @@ public class TemplateGroupMapper {
         return templates;
     }
 
-    private GeneratorEngine getGeneratorEngine(String extension) throws BaseException {
+    private GeneratorEngine getGeneratorEngine(String extension) {
         return switch (extension) {
-            case "TXT" -> GeneratorEngine.NONE;
-            case "HTML" -> GeneratorEngine.PDF_BOX;
-            case "XSLT" -> GeneratorEngine.SAXON;
-            default -> throw new InvalidParameterException("Unexpected value: " + extension);
+            case GeneratorConstants.EXTENSION_TXT -> GeneratorEngine.NONE;
+            case GeneratorConstants.EXTENSION_HTML -> GeneratorEngine.PDF_BOX;
+            case GeneratorConstants.EXTENSION_XSLT -> GeneratorEngine.SAXON;
+            default -> null;
         };
     }
 

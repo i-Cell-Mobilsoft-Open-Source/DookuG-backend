@@ -206,7 +206,7 @@
 
     <xsd:complexType name="TemplatePartType">
         <xsd:sequence>
-            <xsd:element name="templateFileId" type="coffeeCommon:EntityIdType">
+            <xsd:element name="templateFileId" type="coffeeCommon:SimpleText255NotBlankType">
                 <xsd:annotation>
                     <xsd:documentation>Template file id</xsd:documentation>
                 </xsd:annotation>

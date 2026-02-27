@@ -75,6 +75,6 @@ public interface TemplateRepository extends EntityRepository<Template, String>, 
 
     @Query("""
         SELECT count(t) FROM Template t 
-        WHERE t.name = ?1 AND t.validityStart = ?3 AND t.validityEnd = ?4""")
+        WHERE t.name = ?1 AND t.validityStart = ?2 AND t.validityEnd = ?3""")
     long countByNameAndValidity(String templateName, OffsetDateTime validityStart, OffsetDateTime validityEnd);
 }
