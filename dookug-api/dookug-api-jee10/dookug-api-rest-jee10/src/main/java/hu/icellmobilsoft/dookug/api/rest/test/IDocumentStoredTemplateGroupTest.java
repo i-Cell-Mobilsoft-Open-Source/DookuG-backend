@@ -44,6 +44,15 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTempla
 @Path(TemplatePath.TEST_DOCUMENT_STORED_TEMPLATE_GROUP)
 public interface IDocumentStoredTemplateGroupTest {
 
+    /**
+     * Creates a new template group.
+     *
+     * @param input
+     *            multipart form data input containing the template files, filed ids, and request json
+     * @return response containing the created template ids
+     * @throws hu.icellmobilsoft.coffee.dto.exception.BaseException
+     *             in case of any error during the creation of the template group
+     */
     @POST
     @Operation(summary = "Creates a new template group.",
             description = "Insert new template group to the TEMPLATE, TEMPLATE_PART, TEMPLATE_TEMPLATE_PART, TEMPLATE_PART_CONTENT tables.")

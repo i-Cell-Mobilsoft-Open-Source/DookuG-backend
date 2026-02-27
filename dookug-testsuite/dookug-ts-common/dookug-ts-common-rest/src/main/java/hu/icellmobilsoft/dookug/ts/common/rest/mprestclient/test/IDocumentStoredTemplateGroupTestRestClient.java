@@ -42,6 +42,15 @@ import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTempla
 @Path(TemplatePath.TEST_DOCUMENT_STORED_TEMPLATE_GROUP)
 public interface IDocumentStoredTemplateGroupTestRestClient {
 
+    /**
+     * Creates a new template group.
+     *
+     * @param multipart
+     *            multipart form data input containing the template files, filed ids, and request json
+     * @return response containing the created template ids
+     * @throws hu.icellmobilsoft.coffee.dto.exception.BaseException
+     *             in case of any error during the creation of the template group
+     */
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
