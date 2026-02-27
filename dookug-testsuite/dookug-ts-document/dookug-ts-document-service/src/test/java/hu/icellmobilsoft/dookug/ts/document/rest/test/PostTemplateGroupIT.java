@@ -113,14 +113,14 @@ class PostTemplateGroupIT extends BaseIT {
         templatePartType1.setTemplateFileId(FILE_ID_1);
         templatePartType1.setTemplatePartData(
                 new TemplatePartDataType().withTemplatePartType(TemplatePartTypeType.CONTENT)
-                        .withKey(RandomStringUtils.random(8))
+                        .withKey(RandomStringUtils.randomAlphabetic(8))
                         .withDescription("template part 1"));
 
         TemplatePartType templatePartType2 = new TemplatePartType();
         templatePartType2.setTemplateFileId(FILE_ID_2);
         templatePartType2.setTemplatePartData(
                 new TemplatePartDataType().withTemplatePartType(TemplatePartTypeType.CONTENT)
-                        .withKey(RandomStringUtils.random(8))
+                        .withKey(RandomStringUtils.randomAlphabetic(8))
                         .withDescription("template part 2"));
 
         CreateTemplateGroupRequest request = createTemplateGroupRequestBuilder
