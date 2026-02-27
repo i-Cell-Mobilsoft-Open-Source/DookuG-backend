@@ -39,8 +39,8 @@ import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
-import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
+import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
 import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 
 /**
