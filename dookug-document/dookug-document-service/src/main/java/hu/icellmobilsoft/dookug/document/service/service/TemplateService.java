@@ -96,6 +96,22 @@ public class TemplateService extends BaseService<Template> {
                 "validityDate");
     }
 
+    /**
+     * Counts the number of {@link Template} records by name, language and validity
+     * 
+     * @param templateName
+     *            Name of the template
+     * @param templateLanguage
+     *            language of template
+     * @param validityStart
+     *            Validity start of template
+     * @param validityEnd
+     *            Validity end of template
+     * @return Number of found {@link Template} records
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public long countByNameAndLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityStart,
             OffsetDateTime validityEnd) throws BaseException {
         return wrapValidated(
@@ -111,6 +127,20 @@ public class TemplateService extends BaseService<Template> {
                 "validityEnd");
     }
 
+    /**
+     * Counts the number of {@link Template} records by name and validity
+     *
+     * @param templateName
+     *            Name of the template
+     * @param validityStart
+     *            Validity start of template
+     * @param validityEnd
+     *            Validity end of template
+     * @return Number of found {@link Template} records
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public long countByNameAndValidity(String templateName, OffsetDateTime validityStart,
             OffsetDateTime validityEnd) throws BaseException {
         return wrapValidated(

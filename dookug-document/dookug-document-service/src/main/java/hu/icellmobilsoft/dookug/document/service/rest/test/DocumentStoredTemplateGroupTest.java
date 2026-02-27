@@ -30,6 +30,12 @@ import hu.icellmobilsoft.dookug.common.system.rest.rest.BaseRestService;
 import hu.icellmobilsoft.dookug.document.service.action.test.StoredTemplateGroupAction;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupResponse;
 
+/**
+ * Rest service for creating new template group with multipart form data request.
+ *
+ * @author levente.prehoda
+ * @since 2.2.0
+ */
 @Model
 public class DocumentStoredTemplateGroupTest extends BaseRestService implements IDocumentStoredTemplateGroupTest {
 
