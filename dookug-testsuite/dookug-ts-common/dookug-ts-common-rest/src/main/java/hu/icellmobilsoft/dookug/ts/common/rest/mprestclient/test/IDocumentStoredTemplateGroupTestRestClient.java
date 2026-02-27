@@ -48,7 +48,7 @@ public interface IDocumentStoredTemplateGroupTestRestClient {
      * @param multipart
      *            multipart form data input containing the template files, filed ids, and request json
      * @return response containing the created template ids
-     * @throws hu.icellmobilsoft.coffee.dto.exception.BaseException
+     * @throws BaseException
      *             in case of any error during the creation of the template group
      */
     @POST
