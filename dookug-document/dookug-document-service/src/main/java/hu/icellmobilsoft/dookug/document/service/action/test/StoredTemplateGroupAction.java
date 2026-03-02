@@ -42,11 +42,9 @@ import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePart;
 import hu.icellmobilsoft.dookug.common.model.template.TemplatePartContent;
 import hu.icellmobilsoft.dookug.common.model.template.TemplateTemplatePart;
+import hu.icellmobilsoft.dookug.common.system.jpa.service.BatchService;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
-import hu.icellmobilsoft.dookug.document.service.service.TemplatePartContentService;
-import hu.icellmobilsoft.dookug.document.service.service.TemplatePartService;
 import hu.icellmobilsoft.dookug.document.service.service.TemplateService;
-import hu.icellmobilsoft.dookug.document.service.service.TemplateTemplatePartService;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupRequest;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupResponse;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartType;
@@ -72,15 +70,6 @@ public class StoredTemplateGroupAction extends BaseAction {
     private TemplateService templateService;
 
     @Inject
-    private TemplatePartService templatePartService;
-
-    @Inject
-    private TemplatePartContentService templatePartContentService;
-
-    @Inject
-    private TemplateTemplatePartService templateTemplatePartService;
-
-    @Inject
     private TemplateGroupMapper templateGroupMapper;
 
     @Inject
@@ -88,6 +77,9 @@ public class StoredTemplateGroupAction extends BaseAction {
 
     @Inject
     private TransactionHelper transactionHelper;
+
+    @Inject
+    private BatchService batchService;
 
     /**
      * Creates templates group
@@ -154,18 +146,10 @@ public class StoredTemplateGroupAction extends BaseAction {
     }
 
     private void saveEntities(TemplateGroupRecord templateGroupRecord) throws BaseException {
-        for (Template template : templateGroupRecord.templates()) {
-            templateService.save(template);
-        }
-        for (TemplatePart templatePart : templateGroupRecord.templateParts()) {
-            templatePartService.save(templatePart);
-        }
-        for (TemplatePartContent templatePartContent : templateGroupRecord.templatePartContents()) {
-            templatePartContentService.save(templatePartContent);
-        }
-        for (TemplateTemplatePart templateTemplatePart : templateGroupRecord.templateTemplateParts()) {
-            templateTemplatePartService.save(templateTemplatePart);
-        }
+        batchService.batchInsertNative(templateGroupRecord.templates(), Template.class);
+        batchService.batchInsertNative(templateGroupRecord.templateParts(), TemplatePart.class);
+        batchService.batchInsertNative(templateGroupRecord.templatePartContents(), TemplatePartContent.class);
+        batchService.batchInsertNative(templateGroupRecord.templateTemplateParts(), TemplateTemplatePart.class);
     }
 
     private Map<String, byte[]> createFileMap(List<InputPart> templatePart, List<String> fileIds) throws BaseException {
