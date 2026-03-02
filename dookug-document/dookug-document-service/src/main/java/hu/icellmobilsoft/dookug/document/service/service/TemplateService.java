@@ -50,23 +50,27 @@ public class TemplateService extends BaseService<Template> {
      *            Name of the template
      * @param templateLanguage
      *            language of template
-     * @param validityDate
-     *            Validity of template
+     * @param referenceDateStart
+     *            reference date start of validity
+     * @param referenceDateEnd
+     *           reference date end of validity
      * @return Found {@link Template} record
      * @throws BaseException
      *             on error
      */
     @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
-    public Template findByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate) throws BaseException {
+    public Template findByNameLanguageAndReferenceDate(String templateName, String templateLanguage, OffsetDateTime referenceDateStart, OffsetDateTime referenceDateEnd) throws BaseException {
         return wrapValidated(
                 templateRepository::findByNameLanguageAndValidity,
                 templateName,
                 templateLanguage,
-                validityDate,
+                referenceDateStart,
+                referenceDateEnd,
                 "findByNameAndValidity",
                 "templateName",
                 "templateLanguage",
-                "validityDate");
+                "referenceDateStart",
+                "referenceDateEnd");
     }
 
     /**
@@ -76,24 +80,28 @@ public class TemplateService extends BaseService<Template> {
      *            Name of the template
      * @param templateLanguage
      *            language of template
-     * @param validityDate
-     *            Validity of template
+     * @param referenceDateStart
+     *            reference date start of validity
+     * @param referenceDateEnd
+     *           reference date end of validity
      * @return Found {@link Template} record
      * @throws BaseException
      *             on error
      */
     @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
-    public String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate)
+    public String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime referenceDateStart, OffsetDateTime referenceDateEnd)
             throws BaseException {
         return wrapValidated(
                 templateRepository::findTemplateIdByNameLanguageAndValidity,
                 templateName,
                 templateLanguage,
-                validityDate,
+                referenceDateStart,
+                referenceDateEnd,
                 "findTemplateIdByNameLanguageAndValidity",
                 "templateName",
                 "templateLanguage",
-                "validityDate");
+                "referenceDateStart",
+                "referenceDateEnd");
     }
 
 }

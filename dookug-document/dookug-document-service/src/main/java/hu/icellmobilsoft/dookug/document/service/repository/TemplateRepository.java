@@ -44,13 +44,17 @@ public interface TemplateRepository extends EntityRepository<Template, String>, 
      *            name of template
      * @param templateLanguage
      *            language of template
-     * @param validityDate
-     *            date of validity
+     * @param referenceDateStart
+     *            reference date start of validity
+     * @param referenceDateEnd
+     *           reference date end of validity
      * @return {@link Template} object
      */
-    @Query("SELECT t FROM Template t WHERE t.name = ?1 AND t.language=?2 AND "
-            + " (?3 BETWEEN t.validityStart AND t.validityEnd OR (t.validityStart < ?3 AND t.validityEnd is null))")
-    Template findByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate);
+    @Query("""
+            SELECT t FROM Template t 
+            WHERE t.name = ?1 AND t.language=?2
+            AND (t.validityStart < ?4 AND (t.validityEnd >= ?3 OR t.validityEnd IS NULL))""")
+    Template findByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime referenceDateStart, OffsetDateTime referenceDateEnd);
 
     /**
      * returns the template identifier
@@ -59,12 +63,15 @@ public interface TemplateRepository extends EntityRepository<Template, String>, 
      *            name of template
      * @param templateLanguage
      *            language of template
-     * @param validityDate
-     *            date of validity
+     * @param referenceDateStart
+     *            reference date start of validity
+     * @param referenceDateEnd
+     *           reference date end of validity
      * @return template identifier
      */
-    @Query("SELECT t.id FROM Template t WHERE t.name = ?1 AND t.language=?2 AND "
-            + " (?3 BETWEEN t.validityStart AND t.validityEnd OR (t.validityStart < ?3 AND t.validityEnd is null))")
-    String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityDate);
+    @Query("""
+            SELECT t.id FROM Template t WHERE t.name = ?1 AND t.language=?2
+            AND (t.validityStart < ?4 AND (t.validityEnd >= ?3 OR t.validityEnd IS NULL))""")
+    String findTemplateIdByNameLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime referenceDateStart, OffsetDateTime referenceDateEnd);
 
 }

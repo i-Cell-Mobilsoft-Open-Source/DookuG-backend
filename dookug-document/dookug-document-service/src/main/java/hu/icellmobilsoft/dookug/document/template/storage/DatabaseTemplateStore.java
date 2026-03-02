@@ -21,6 +21,7 @@ package hu.icellmobilsoft.dookug.document.template.storage;
 
 import java.text.MessageFormat;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,11 +100,14 @@ public class DatabaseTemplateStore implements ITemplateStore {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "TemplateName, templateLanguage and validityDate are required!");
         }
 
+        OffsetDateTime referenceDateStart = validityDate.truncatedTo(ChronoUnit.DAYS);
+        OffsetDateTime referenceDateEnd = referenceDateStart.plusDays(1);
         String templateCacheKey = null;
         TemplateCacheItem templateCacheItem = null;
         boolean cacheEnabled = templateCache.isCacheEnabled();
         if (cacheEnabled) {
-            templateCacheKey = templateService.findTemplateIdByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
+            templateCacheKey = templateService
+                    .findTemplateIdByNameLanguageAndValidity(templateName, templateLanguage, referenceDateStart, referenceDateEnd);
             templateCacheItem = templateCache.getTemplateCacheItem(templateCacheKey);
         }
 
@@ -117,7 +121,7 @@ public class DatabaseTemplateStore implements ITemplateStore {
                                     .addTemplate(templatePartCacheItem.getTemplate(), templatePartCacheItem.isInitialTemplate()));
         } else {
             hu.icellmobilsoft.dookug.common.model.template.Template template = templateService
-                    .findByNameLanguageAndValidity(templateName, templateLanguage, validityDate);
+                    .findByNameLanguageAndReferenceDate(templateName, templateLanguage, referenceDateStart, referenceDateEnd);
 
             templateDataContainer.setTemplateId(template.getId());
             templateDataContainer.setTemplateName(template.getName());
