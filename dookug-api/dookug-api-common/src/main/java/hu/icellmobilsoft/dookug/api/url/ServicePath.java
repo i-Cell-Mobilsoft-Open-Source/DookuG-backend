@@ -50,6 +50,11 @@ public class ServicePath extends BaseServicePath {
     public static final String STORED_TEMPLATE = "/storedTemplate";
 
     /**
+     * {@value #STORED_TEMPLATE}
+     */
+    public static final String STORED_TEMPLATE_GROUP = "/storedTemplateGroup";
+
+    /**
      * {@value #METADATA}
      */
     public static final String METADATA = "/metadata";

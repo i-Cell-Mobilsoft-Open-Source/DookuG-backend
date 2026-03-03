@@ -63,19 +63,72 @@ public class TemplateHelper {
 
         InputPart templatePart = inputPartHelper.getSingleRequiredFilePart(templateInputParts, GeneratorConstants.FORM_DATA_NAME_TEMPLATE);
 
-        String templateFileName = fileNameHelper.getFileName(templatePart)
+        String templateFileName = getFileName(templatePart);
+        String templateExt = getFileExtension(templateFileName);
+        validateTemplateExtension(templateExt);
+
+        return new TemplateRecord(templatePart, templateFileName, templateExt);
+    }
+
+    /**
+     * Gets the name of the file from the InputPart
+     * 
+     * @param templatePart
+     *            InputPart containing the file
+     * @return the filename
+     * @throws BaseException
+     *             if the filename is missing from the Content-Disposition header or if an error occurs while retrieving it
+     */
+    protected String getFileName(InputPart templatePart) throws BaseException {
+        return fileNameHelper.getFileName(templatePart)
                 .orElseThrow(
                         () -> new InvalidParameterException(
                                 MessageFormat
                                         .format(
                                                 "Missing filename from Content-Disposition header for form-data: [{0}]!",
                                                 GeneratorConstants.FORM_DATA_NAME_TEMPLATE)));
+    }
 
-        String templateExt = fileNameHelper.getExtension(templateFileName)
+    /**
+     * Gets the file extension from the filename
+     * 
+     * @param templateFileName
+     *            the filename to extract the extension from
+     * @return the file extension
+     * @throws BaseException
+     *             if the file extension is missing from the filename or if an error occurs while retrieving it
+     */
+    protected String getFileExtension(String templateFileName) throws BaseException {
+        return fileNameHelper.getExtension(templateFileName)
                 .orElseThrow(
                         () -> new InvalidParameterException(
                                 MessageFormat.format("Missing file extension for form-data: [{0}]!", GeneratorConstants.FORM_DATA_NAME_TEMPLATE)));
+    }
 
+    /**
+     * Gets the file extension directly from the InputPart by first retrieving the filename and then extracting the extension
+     * 
+     * @param inputPart
+     *            InputPart containing the file to extract the extension from
+     * @return the file extension
+     * @throws BaseException
+     *             if the filename is missing from the Content-Disposition header, if the file extension is missing from the filename, or if an error
+     *             occurs while retrieving either of them
+     */
+    protected String getFileExtension(InputPart inputPart) throws BaseException {
+        return getFileExtension(getFileName(inputPart));
+    }
+
+    /**
+     * Validates that the file extension of the template is one of the accepted extensions defined in
+     * {@link GeneratorConstants#ACCEPTED_TEMPLATE_EXTENSIONS}
+     * 
+     * @param templateExt
+     *            the file extension to validate
+     * @throws BaseException
+     *             if the file extension is not in the list of accepted extensions
+     */
+    protected void validateTemplateExtension(String templateExt) throws BaseException {
         if (!GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS.contains(templateExt)) {
             throw new BusinessException(
                     FaultType.INVALID_TEMPLATE_EXTENSION,
@@ -84,7 +137,5 @@ public class TemplateHelper {
                             GeneratorConstants.ACCEPTED_TEMPLATE_EXTENSIONS,
                             GeneratorConstants.FORM_DATA_NAME_TEMPLATE));
         }
-
-        return new TemplateRecord(templatePart, templateFileName, templateExt);
     }
 }

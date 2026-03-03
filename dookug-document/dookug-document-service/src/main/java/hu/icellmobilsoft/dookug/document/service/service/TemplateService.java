@@ -24,10 +24,10 @@ import java.time.OffsetDateTime;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
 import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.jpa.service.BaseService;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.document.service.repository.TemplateRepository;
 
@@ -96,4 +96,61 @@ public class TemplateService extends BaseService<Template> {
                 "validityDate");
     }
 
+    /**
+     * Counts the number of {@link Template} records by name, language and validity
+     * 
+     * @param templateName
+     *            Name of the template
+     * @param templateLanguage
+     *            language of template
+     * @param validityStart
+     *            Validity start of template
+     * @param validityEnd
+     *            Validity end of template
+     * @return Number of found {@link Template} records
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
+    public long countByNameAndLanguageAndValidity(String templateName, String templateLanguage, OffsetDateTime validityStart,
+            OffsetDateTime validityEnd) throws BaseException {
+        return wrapValidated(
+                templateRepository::countByNameAndLanguageAndValidity,
+                templateName,
+                templateLanguage,
+                validityStart,
+                validityEnd,
+                "countByNameAndLanguageAndValidity",
+                "templateName",
+                "templateLanguage",
+                "validityStart",
+                "validityEnd");
+    }
+
+    /**
+     * Counts the number of {@link Template} records by name and validity
+     *
+     * @param templateName
+     *            Name of the template
+     * @param validityStart
+     *            Validity start of template
+     * @param validityEnd
+     *            Validity end of template
+     * @return Number of found {@link Template} records
+     * @throws BaseException
+     *             on error
+     */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
+    public long countByNameAndValidity(String templateName, OffsetDateTime validityStart,
+            OffsetDateTime validityEnd) throws BaseException {
+        return wrapValidated(
+                templateRepository::countByNameAndValidity,
+                templateName,
+                validityStart,
+                validityEnd,
+                "countByNameAndLanguageAndValidity",
+                "templateName",
+                "validityStart",
+                "validityEnd");
+    }
 }

@@ -21,20 +21,27 @@ package hu.icellmobilsoft.dookug.document.service.action.test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
+import hu.icellmobilsoft.coffee.dto.common.commonservice.BaseRequestType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
+import hu.icellmobilsoft.coffee.rest.validation.xml.JaxbTool;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
 import hu.icellmobilsoft.coffee.se.api.exception.TechnicalException;
+import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
 import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
+import hu.icellmobilsoft.dookug.common.dto.constant.XsdConstants;
 
 /**
  * Helper for reading multipart form data
@@ -44,6 +51,9 @@ import hu.icellmobilsoft.dookug.api.dto.exception.enums.FaultType;
  */
 @ApplicationScoped
 public class InputPartHelper {
+
+    @Inject
+    private JaxbTool jaxbTool;
 
     /**
      * Read bytes from multipart form data
@@ -89,6 +99,30 @@ public class InputPartHelper {
     }
 
     /**
+     * Reads all text parts from multipart form data
+     * 
+     * @param parts
+     *            List of InputPart
+     * @return List of String values of the text parts, empty list if no parts are present
+     * @throws BaseException
+     *             if an error occurs while reading any of the input streams
+     */
+    protected List<String> readAllTextParts(List<InputPart> parts) throws BaseException {
+        if (CollectionUtils.isEmpty(parts)) {
+            return new ArrayList<>();
+        }
+        List<String> bodyStrings = new ArrayList<>();
+        for (InputPart part : parts) {
+            try {
+                bodyStrings.add(part.getBodyAsString());
+            } catch (IOException e) {
+                throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, "Error while reading multipart text input!", e);
+            }
+        }
+        return bodyStrings;
+    }
+
+    /**
      * Get single required file part from multipart form data
      *
      * @param parts
@@ -128,5 +162,74 @@ public class InputPartHelper {
                     MessageFormat.format("Only one file can be specified for part: [{0}]!", fieldName));
         }
         return parts.get(0);
+    }
+
+    /**
+     * Get single required JSON request part from multipart form data and unmarshall it into the specified request class, then validates it
+     * 
+     * @param parts
+     *            List of InputPart containing the JSON body
+     * @param requestClass
+     *            Class of the request object to be created from the JSON content
+     * @param fieldName
+     *            Name of the field for error messages
+     * @return An instance of the specified request class populated with data from the JSON content of the InputPart, never null
+     * @param <REQUEST>
+     *            Type of the request object, must extend BaseRequestType
+     * @throws BaseException
+     *             if the JSON part is missing, if multiple values are present, or if an error occurs while reading the InputPart or unmarshalling the
+     *             JSON content
+     */
+    protected <REQUEST extends BaseRequestType> REQUEST getAndValidateSingleRequiredRequestPart(List<InputPart> parts, Class<REQUEST> requestClass,
+            String fieldName) throws BaseException {
+        REQUEST request = getSingleRequiredRequestPart(parts, requestClass, fieldName);
+        String xml = jaxbTool.marshalXML(request, XsdConstants.SUPER_XSD_PATH);
+        return jaxbTool.unmarshalXML(requestClass, xml.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Get single required JSON request part from multipart form data and unmarshall it into the specified request class
+     *
+     * @param parts
+     *            List of InputPart containing the JSON body
+     * @param requestClass
+     *            Class of the request object to be created from the JSON content
+     * @param fieldName
+     *            Name of the field for error messages
+     * @return An instance of the specified request class populated with data from the JSON content of the InputPart, never null
+     * @param <REQUEST>
+     *            Type of the request object, must extend BaseRequestType
+     * @throws BaseException
+     *             if the JSON part is missing, if multiple values are present, or if an error occurs while reading the InputPart or unmarshalling the
+     *             JSON content
+     */
+    protected <REQUEST extends BaseRequestType> REQUEST getSingleRequiredRequestPart(List<InputPart> parts, Class<REQUEST> requestClass,
+            String fieldName) throws BaseException {
+        if (CollectionUtils.isEmpty(parts) || parts.size() > 1) {
+            throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "Only one value can be specified for part: [" + fieldName + "]!");
+        }
+        return unmarshallJsonRequest(parts.get(0), requestClass);
+    }
+
+    /**
+     * Unmarshalls JSON content from the given InputPart into an instance of the specified request class
+     * 
+     * @param inputPart
+     *            InputPart containing the JSON body to be unmarshalled
+     * @param requestClass
+     *            Class of the request object to be created from the JSON content
+     * @return An instance of the specified request class populated with data from the JSON content of the InputPart
+     * @param <REQUEST>
+     *            Type of the request object, must extend BaseRequestType
+     * @throws BaseException
+     *             if an error occurs while reading the InputPart or unmarshalling the JSON content
+     */
+    protected <REQUEST extends BaseRequestType> REQUEST unmarshallJsonRequest(InputPart inputPart, Class<REQUEST> requestClass) throws BaseException {
+        try {
+            String bodyAsString = inputPart.getBodyAsString();
+            return JsonUtil.toObject(bodyAsString, requestClass);
+        } catch (IOException e) {
+            throw new TechnicalException(CoffeeFaultType.OPERATION_FAILED, e.getMessage());
+        }
     }
 }

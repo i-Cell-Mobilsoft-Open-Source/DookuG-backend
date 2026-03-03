@@ -26,6 +26,14 @@
             <groupId>hu.icellmobilsoft.dookug</groupId>
             <artifactId>dookug-model</artifactId>
         </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.frappee</groupId>
+            <artifactId>frappee-hibernate-batch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hu.icellmobilsoft.frappee</groupId>
+            <artifactId>frappee-hibernate-util-cdi</artifactId>
+        </dependency>
 
 		<!-- TEST -->
 		<dependency>
@@ -36,5 +44,5 @@
 			<groupId>hu.icellmobilsoft.roaster</groupId>
 			<artifactId>roaster-common-util</artifactId>
 		</dependency>
-	</dependencies>
+    </dependencies>
 </project>

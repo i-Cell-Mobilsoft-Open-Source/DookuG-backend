@@ -53,6 +53,39 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="TemplatePartTypeType">
+        <xsd:annotation>
+            <xsd:documentation></xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="MAIN">
+                <xsd:annotation>
+                    <xsd:documentation>MAIN</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CONTENT">
+                <xsd:annotation>
+                    <xsd:documentation>CONTENT</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FOOTER">
+                <xsd:annotation>
+                    <xsd:documentation>FOOTER</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HEADER">
+                <xsd:annotation>
+                    <xsd:documentation>HEADER</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OTHER">
+                <xsd:annotation>
+                    <xsd:documentation>OTHER</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <!-- COMPLEX TYPES -->
 
     <xsd:complexType name="TemplateQueryOrderType">
@@ -158,6 +191,44 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:complexType name="TemplatePartType">
+        <xsd:sequence>
+            <xsd:element name="templateFileId" type="coffeeCommon:SimpleText255NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Template file id</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templatePartData" type="TemplatePartDataType">
+                <xsd:annotation>
+                    <xsd:documentation>Template part data</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TemplatePartDataType">
+        <xsd:annotation>
+            <xsd:documentation></xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="description" type="coffeeCommon:SimpleText1024NotBlankType">
+                <xsd:annotation>
+                    <xsd:documentation>Description</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="templatePartType" type="TemplatePartTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>Template type. Possible values: HEADER, CONTENT, FOOTER, MAIN, OTHER</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="key" type="coffeeCommon:SimpleText255NotBlankType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Template key. For template engine.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
     <!-- ELEMENTS -->
 
     <xsd:element name="TemplateQueryParams">
@@ -190,6 +261,70 @@
         </xsd:complexContent>
     </xsd:complexType>
 
+    <xsd:complexType name="CreateTemplateGroupRequestType">
+        <xsd:annotation>
+            <xsd:documentation></xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseRequestType">
+                <xsd:sequence>
+                    <xsd:element name="name" type="coffeeCommon:SimpleText255NotBlankType">
+                        <xsd:annotation>
+                            <xsd:documentation>Template name</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="description" type="coffeeCommon:SimpleText1024NotBlankType">
+                        <xsd:annotation>
+                            <xsd:documentation>Description</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="templateEngine" type="documentGenerate:TemplateEngineType">
+                        <xsd:annotation>
+                            <xsd:documentation>Template engine. Possible values: HANDLEBARS, NONE</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="language" type="documentGenerate:TemplateLanguageType" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Template language</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="validityStart" type="coffeeCommon:TimestampType">
+                        <xsd:annotation>
+                            <xsd:documentation>Validity start</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="validityEnd" type="coffeeCommon:TimestampType" minOccurs="0">
+                        <xsd:annotation>
+                            <xsd:documentation>Validity end</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="templatePartList" type="TemplatePartType" minOccurs="1" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Template parts</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="CreateTemplateGroupResponseType">
+        <xsd:annotation>
+            <xsd:documentation>Creating template group response type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="apiRestCommon:BaseResponseType">
+                <xsd:sequence>
+                    <xsd:element name="templateId" type="coffeeCommon:EntityIdType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation>Generated primary key (PK)</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
     <!-- REQUEST/RESPONSE ELEMENTS -->
 
     <xsd:element name="TemplateQueryResponse">
@@ -199,6 +334,28 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="TemplateQueryResponseType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="CreateTemplateGroupRequest">
+        <xsd:annotation>
+            <xsd:documentation>Creating template group request</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="CreateTemplateGroupRequestType"/>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="CreateTemplateGroupResponse">
+        <xsd:annotation>
+            <xsd:documentation>Creating template group response</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="CreateTemplateGroupResponseType"/>
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>

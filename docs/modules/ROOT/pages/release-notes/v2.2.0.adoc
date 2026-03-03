@@ -7,6 +7,7 @@
 * New WebAppDevTool endpoints:
 ** xref:../service/document.adoc#listTemplateMetadata[Template Metadata Retrieval]
 ** xref:../service/document.adoc#generateDocInline[Document Generation]
+** xref:../service/document.adoc#storeTemplateGroup[Storing New Template Group]
 
 == Migration
 

@@ -110,6 +110,11 @@ public interface IOpenapiConstants {
              * {@value #TEST_DOCUMENT_GENERATE_INLINE}
              */
             String TEST_DOCUMENT_GENERATE_INLINE = "Generates document based on the template sent in a multipart request, and returns it.";
+
+            /**
+             * {@value TEST_STORE_TEMPLATE_GROUP}
+             */
+            String TEST_STORE_TEMPLATE_GROUP = "Creates a new template group.";
         }
 
         /**
@@ -142,6 +147,21 @@ public interface IOpenapiConstants {
                     "* `PARAMETERS_GENERATOR_ENGINE`: `.xml` file containing the generator parameters (optional)\n" +
                     "  * The input part's Content-Disposition header should contain the filename with the extension. " +
                     "Validation is based on this.";
+
+            /**
+             * {@value TEST_STORE_TEMPLATE_GROUP}
+             */
+            String TEST_STORE_TEMPLATE_GROUP = "Insert new template group to the TEMPLATE, TEMPLATE_PART, TEMPLATE_TEMPLATE_PART, TEMPLATE_PART_CONTENT tables.\n"
+                    +
+                    "The multipart request must contain the following parts:\n" +
+                    "* `TEMPLATE`: the files that the template consists of\n" +
+                    "   * At least one file is required\n" +
+                    "   * Accepted extensions: .txt, .html, .xslt (All files must have the same extension)\n" +
+                    "   * The Content-Disposition header should contain the filename with the extension for each template file\n" +
+                    " * `TEMPLATE_FILE_ID`: The identifiers of the template files. Every file must have an identifier. Must be ordered as the files they refer to.'\n"
+                    +
+                    " * `TEMPLATE_DATA`: A `CreateTemplateGroupRequest` in JSON format containing the data of the template and the template parts.\n" +
+                    "Example request can be found in the documentation";
         }
     }
 }
