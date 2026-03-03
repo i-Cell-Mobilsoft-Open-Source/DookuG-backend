@@ -276,5 +276,51 @@ Insert new template group to the TEMPLATE, TEMPLATE_PART, TEMPLATE_TEMPLATE_PART
 |Input Part  |Description
 |TEMPLATE (file)  |Required, at least 1 file: the template parts. Accepted extensions: html, txt, xslt. All files must have the same extension.
 |TEMPLATE_FILE_IDS (text) |Required, every file must have an identifier.
-|TEMPLATE_DATA (json) |Required, template data in json format. Must be schema valid.
+|TEMPLATE_DATA (json) |Required, `CreateTemplateGroupRequest` in json format. Must be schema valid.
 |===
+
+Example of `CreateTemplateGroupRequest`:
+[source, json]
+----
+{
+  "context": {
+    "requestId": "5AW57A5NHXVXV201",
+    "timestamp": "2026-03-03T09:38:19.307Z"
+  },
+  "description": "TnECMoJvIdtCndIu",
+  "language": [
+    "HU",
+    "EN",
+    "DE"
+  ],
+  "name": "test_template_group_GWMzotCv",
+  "templateEngine": "NONE",
+  "templatePartList": [
+    {
+      "templateFileId": "main_file_id",
+      "templatePartData": {
+        "description": "main template part",
+        "templatePartType": "MAIN"
+      }
+    },
+    {
+      "templateFileId": "file_id_1",
+      "templatePartData": {
+        "description": "template part 1",
+        "key": "fzfwHyQB",
+        "templatePartType": "CONTENT"
+      }
+    },
+    {
+      "templateFileId": "file_id_2",
+      "templatePartData": {
+        "description": "template part 2",
+        "key": "PeRAILUZ",
+        "templatePartType": "CONTENT"
+      }
+    }
+  ],
+  "validityEnd": "2027-03-03T00:00:00Z",
+  "validityStart": "2026-03-03T00:00:00Z"
+}
+----

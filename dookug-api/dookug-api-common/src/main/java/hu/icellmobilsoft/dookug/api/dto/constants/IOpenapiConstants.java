@@ -157,52 +157,11 @@ public interface IOpenapiConstants {
                     "* `TEMPLATE`: the files that the template consists of\n" +
                     "   * At least one file is required\n" +
                     "   * Accepted extensions: .txt, .html, .xslt (All files must have the same extension)\n" +
-                    "   * The Content-Disposition header should contain the filename with the extension for each template file" +
+                    "   * The Content-Disposition header should contain the filename with the extension for each template file\n" +
                     " * `TEMPLATE_FILE_ID`: The identifiers of the template files. Every file must have an identifier. Must be ordered as the files they refer to.'\n"
                     +
-                    " * `TEMPLATE_DATA`: A `CreateTemplateGroupRequest` in JSON format containing the data of the template and the template parts." +
-                    " Example request:" +
-                    "{\n" +
-                    "  \"context\": {\n" +
-                    "    \"requestId\": \"5AW57A5NHXVXV201\",\n" +
-                    "    \"timestamp\": \"2026-03-03T09:38:19.307Z\"\n" +
-                    "  },\n" +
-                    "  \"description\": \"TnECMoJvIdtCndIu\",\n" +
-                    "  \"language\": [\n" +
-                    "    \"HU\",\n" +
-                    "    \"EN\",\n" +
-                    "    \"DE\"\n" +
-                    "  ],\n" +
-                    "  \"name\": \"test_template_group_GWMzotCv\",\n" +
-                    "  \"templateEngine\": \"NONE\",\n" +
-                    "  \"templatePartList\": [\n" +
-                    "    {\n" +
-                    "      \"templateFileId\": \"main_file_id\",\n" +
-                    "      \"templatePartData\": {\n" +
-                    "        \"description\": \"main template part\",\n" +
-                    "        \"templatePartType\": \"MAIN\"\n" +
-                    "      }\n" +
-                    "    },\n" +
-                    "    {\n" +
-                    "      \"templateFileId\": \"file_id_1\",\n" +
-                    "      \"templatePartData\": {\n" +
-                    "        \"description\": \"template part 1\",\n" +
-                    "        \"key\": \"fzfwHyQB\",\n" +
-                    "        \"templatePartType\": \"CONTENT\"\n" +
-                    "      }\n" +
-                    "    },\n" +
-                    "    {\n" +
-                    "      \"templateFileId\": \"file_id_2\",\n" +
-                    "      \"templatePartData\": {\n" +
-                    "        \"description\": \"template part 2\",\n" +
-                    "        \"key\": \"PeRAILUZ\",\n" +
-                    "        \"templatePartType\": \"CONTENT\"\n" +
-                    "      }\n" +
-                    "    }\n" +
-                    "  ],\n" +
-                    "  \"validityEnd\": \"2027-03-03T00:00:00Z\",\n" +
-                    "  \"validityStart\": \"2026-03-03T00:00:00Z\"\n" +
-                    "}";
+                    " * `TEMPLATE_DATA`: A `CreateTemplateGroupRequest` in JSON format containing the data of the template and the template parts.\n" +
+                    "Example request can be found in the documentation";
         }
     }
 }
