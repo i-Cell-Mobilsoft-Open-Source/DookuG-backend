@@ -54,8 +54,8 @@ public interface IDocumentStoredTemplateGroupTest {
      *             in case of any error during the creation of the template group
      */
     @POST
-    @Operation(summary = "Creates a new template group.",
-            description = "Insert new template group to the TEMPLATE, TEMPLATE_PART, TEMPLATE_TEMPLATE_PART, TEMPLATE_PART_CONTENT tables.")
+    @Operation(summary = IOpenapiConstants.Operation.Summary.TEST_DOCUMENT_GENERATE_INLINE,
+            description = IOpenapiConstants.Operation.Description.TEST_DOCUMENT_GENERATE_INLINE)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(value = { MediaType.APPLICATION_XML, MediaType.TEXT_XML, MediaType.APPLICATION_JSON })
     CreateTemplateGroupResponse postStoredTemplateGroup(MultipartFormDataInput input) throws BaseException;

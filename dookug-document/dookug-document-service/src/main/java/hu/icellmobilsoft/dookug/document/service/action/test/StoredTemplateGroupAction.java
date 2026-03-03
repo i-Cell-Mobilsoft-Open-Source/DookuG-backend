@@ -98,7 +98,7 @@ public class StoredTemplateGroupAction extends BaseAction {
         // validate request format
         Map<String, List<InputPart>> formDataMap = input.getFormDataMap();
         List<InputPart> templatePart = formDataMap.get(FORM_DATA_NAME_TEMPLATE);
-        String extension = validateTemplates(templatePart);
+        String extension = validateTemplatesAndGetExtension(templatePart);
 
         List<String> templateFileIds = inputPartHelper.readAllTextParts(formDataMap.get(FORM_DATA_NAME_TEMPLATE_FILE_ID));
         Map<String, byte[]> filesByFileIds = createFileMap(templatePart, templateFileIds);
@@ -193,7 +193,7 @@ public class StoredTemplateGroupAction extends BaseAction {
         }
     }
 
-    private String validateTemplates(List<InputPart> templatePart) throws BaseException {
+    private String validateTemplatesAndGetExtension(List<InputPart> templatePart) throws BaseException {
         if (CollectionUtils.isEmpty(templatePart)) {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "At least one file is required!");
         }
