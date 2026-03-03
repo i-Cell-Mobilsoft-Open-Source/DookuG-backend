@@ -62,7 +62,7 @@ public class TemplateGroupMapper {
     public TemplateGroupRecord createTemplateGroup(CreateTemplateGroupRequest request, String extension, Map<String, byte[]> filesByFileIds) {
         List<Template> templates = createTemplates(request, extension);
         TemplatePartsAndTemplatePartContents templatePartsAndTemplatePartContents = createTemplatePartsAndContents(
-                request.getTemplatePartList().getTemplatePart(),
+                request.getTemplatePartList(),
                 request.getName(),
                 filesByFileIds);
         List<TemplateTemplatePart> templateTemplateParts = createTemplateTemplateParts(

@@ -128,16 +128,14 @@ public class StoredTemplateGroupAction extends BaseAction {
 
     private void validateTemplatePartList(CreateTemplateGroupRequest request, List<String> fileIds) throws BaseException {
 
-        if (request.getTemplatePartList() == null || CollectionUtils.isEmpty(request.getTemplatePartList().getTemplatePart())
-                || !CollectionUtils.isEqualCollection(
-                        request.getTemplatePartList().getTemplatePart().stream().map(TemplatePartType::getTemplateFileId).toList(),
-                        fileIds)) {
+        if (CollectionUtils.isEmpty(request.getTemplatePartList()) || !CollectionUtils.isEqualCollection(
+                request.getTemplatePartList().stream().map(TemplatePartType::getTemplateFileId).toList(),
+                fileIds)) {
             throw new InvalidParameterException(
                     "The template part list in the request must contain the same fileIds as the uploaded template file ids!");
         }
 
         if (request.getTemplatePartList()
-                .getTemplatePart()
                 .stream()
                 .filter(tp -> tp.getTemplatePartData().getTemplatePartType() == TemplatePartTypeType.MAIN)
                 .count() != 1) {

@@ -22,6 +22,8 @@ package hu.icellmobilsoft.dookug.ts.document.rest.test;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import jakarta.inject.Inject;
@@ -127,8 +129,8 @@ class PostTemplateGroupIT extends BaseIT {
                 .withName("test_template_group_" + RandomStringUtils.randomAlphabetic(8))
                 .withDescription(RandomStringUtils.randomAlphabetic(16))
                 .withLanguage(LANGUAGES)
-                .withValidityStart(OffsetDateTime.now())
-                .withValidityEnd(OffsetDateTime.now().plusYears(1))
+                .withValidityStart(OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.DAYS))
+                .withValidityEnd(OffsetDateTime.now(ZoneOffset.UTC).plusYears(1).truncatedTo(ChronoUnit.DAYS))
                 .withTemplateEngine(TemplateEngineType.NONE)
                 .withTemplatePartList(mainTemplatePartType, templatePartType1, templatePartType2)
                 .getDto();

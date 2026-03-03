@@ -27,7 +27,6 @@ import jakarta.enterprise.inject.Model;
 
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.TemplateEngineType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.CreateTemplateGroupRequest;
-import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartListType;
 import hu.icellmobilsoft.dookug.schemas.template._2_2.test.template.TemplatePartType;
 import hu.icellmobilsoft.dookug.ts.common.rest.DtoHelper;
 import hu.icellmobilsoft.roaster.api.dto.BaseBuilder;
@@ -154,7 +153,7 @@ public class CreateTemplateGroupRequestBuilder extends BaseBuilder<CreateTemplat
      * @return the create template group request builder
      */
     public CreateTemplateGroupRequestBuilder withTemplatePartList(Collection<TemplatePartType> values) {
-        getDto().setTemplatePartList(new TemplatePartListType().withTemplatePart(values));
+        getDto().withTemplatePartList(values);
         return this;
     }
 
@@ -166,7 +165,7 @@ public class CreateTemplateGroupRequestBuilder extends BaseBuilder<CreateTemplat
      * @return the create template group request builder
      */
     public CreateTemplateGroupRequestBuilder withTemplatePartList(TemplatePartType... values) {
-        getDto().setTemplatePartList(new TemplatePartListType().withTemplatePart(values));
+        getDto().withTemplatePartList(values);
         return this;
     }
 }
