@@ -8,6 +8,9 @@
 ** xref:../service/document.adoc#listTemplateMetadata[Template Metadata Retrieval]
 ** xref:../service/document.adoc#generateDocInline[Document Generation]
 ** xref:../service/document.adoc#storeTemplateGroup[Storing New Template Group]
+* Add steps to manual-docker-release action:
+** Use short SHA when computing image tag for SNAPSHOT builds
+** Update DEV and PRD manifests in module-deploy repository with the new image tag
 
 == Migration
 
