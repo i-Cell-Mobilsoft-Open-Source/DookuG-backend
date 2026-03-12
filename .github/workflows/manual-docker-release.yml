@@ -89,7 +89,7 @@ jobs:
 
     # Trigger deploy repo update
     - name: Update DEV manifest in deploy repo
-      if: github.ref == 'refs/heads/master-wf34'
+      if: github.ref == 'refs/heads/feature/test-argocd-deployment-setup'
       uses: peter-evans/repository-dispatch@v4
       with:
         token: ${{ secrets.DEPLOY_REPO_TOKEN }}
