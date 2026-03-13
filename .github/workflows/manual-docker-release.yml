@@ -82,6 +82,9 @@ jobs:
         workdir: etc/release
         set: |
           *.platform=${{ env.DOCKER_BAKE_PLATFORM }}
+          *.args.RELEASED_VERSION=${{ steps.tag.outputs.IMAGE_TAG }}
+          *.args.PROJECT_VERSION=${{ steps.getVersion.outputs.PROJECT_VERSION }}
+          *.args.SONATYPE_REPOSITORY=${{ secrets.SONATYPE_REPOSITORY }}
         push: true
         files: |
           release.docker-compose.yml
