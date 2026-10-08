@@ -84,7 +84,7 @@ class PostInlineSaxonXsltPdfTemplateIT extends AbstractGenerateDocumentIT {
                 .baseUri(URI.create(documentBaseUri))
                 .build(IDocumentGenerateInlineInternalRestClient.class);
         DocumentGenerateWithTemplatesRequest request = templatesRequestBuilder.fullFillSaxonXsltMultiTemplate();
-        Response response = client.postDocumentGenerateEntityBody(request);
+        Response response = client.postDocumentGenerateEntityBody(request, false);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);

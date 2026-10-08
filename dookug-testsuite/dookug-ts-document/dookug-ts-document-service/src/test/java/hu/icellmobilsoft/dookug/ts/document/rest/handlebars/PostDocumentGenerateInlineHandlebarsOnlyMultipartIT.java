@@ -80,7 +80,7 @@ class PostDocumentGenerateInlineHandlebarsOnlyMultipartIT extends AbstractGenera
 
         form.setRequest(documentGenerateRequestBuilder.parametersKeyValue());
 
-        Response response = client.postDocumentGenerateMultipart(form);
+        Response response = client.postDocumentGenerateMultipart(form, false);
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
         String replacedTemplate = StringEscapeUtils.unescapeXml(new String(responseStream.readAllBytes(), StandardCharsets.UTF_8));
@@ -101,7 +101,7 @@ class PostDocumentGenerateInlineHandlebarsOnlyMultipartIT extends AbstractGenera
 
         form.setRequest(documentGenerateRequestBuilder.parametersJson());
 
-        Response response = client.postDocumentGenerateMultipart(form);
+        Response response = client.postDocumentGenerateMultipart(form, false);
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
         String replacedTemplate = StringEscapeUtils.unescapeXml(new String(responseStream.readAllBytes(), StandardCharsets.UTF_8));
@@ -123,7 +123,7 @@ class PostDocumentGenerateInlineHandlebarsOnlyMultipartIT extends AbstractGenera
         form.setRequest(documentGenerateRequestBuilder.parametersJson());
         form.getRequest().getGeneratorSetup().setParametersData(null);
 
-        Response response = client.postDocumentGenerateMultipart(form);
+        Response response = client.postDocumentGenerateMultipart(form, false);
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();
         String replacedTemplate = new String(responseStream.readAllBytes(), StandardCharsets.UTF_8);

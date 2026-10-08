@@ -25,6 +25,8 @@ import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.jpa.service.BaseService;
 import hu.icellmobilsoft.dookug.common.model.template.Template;
 import hu.icellmobilsoft.dookug.common.model.template.TemplateTemplatePart;
@@ -51,6 +53,7 @@ public class TemplateTemplatePartService extends BaseService<TemplateTemplatePar
      * @throws BaseException
      *             on error
      */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public List<TemplateTemplatePart> findAllByTemplateId(String templateId) throws BaseException {
         return wrap(templateTemplatePartRepository::findAllByTemplateId, templateId, "findAllByTemplateId", "templateId");
     }

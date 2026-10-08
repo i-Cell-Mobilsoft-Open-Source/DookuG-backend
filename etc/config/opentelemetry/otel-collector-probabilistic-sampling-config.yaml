@@ -1,0 +1,43 @@
+extensions:
+  health_check:
+  pprof:
+    endpoint: 0.0.0.0:1777
+  zpages:
+    endpoint: 0.0.0.0:55679
+# https://opentelemetry.io/docs/collector/configuration/#receivers
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+processors:
+  #sima sampler, mint a ratio backend oldalon
+  probabilistic_sampler:
+    sampling_percentage: 100
+  batch:
+# https://opentelemetry.io/docs/collector/configuration/#exporters
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:1234"
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  logging:
+    loglevel: debug
+#  debug:
+#    verbosity: detailed
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [probabilistic_sampler]
+      exporters: [otlp/jaeger,logging]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      # https://github.com/open-telemetry/opentelemetry-collector-contrib/issues/26343
+      exporters: [prometheus]
+  extensions: [health_check, pprof, zpages]
+  
+  

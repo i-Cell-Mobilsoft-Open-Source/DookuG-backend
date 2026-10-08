@@ -23,6 +23,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -52,6 +53,8 @@ public interface IDocumentContentInternalRest {
      * 
      * @param documentId
      *            document entity unique identifier
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Document content output stream
      * @throws BaseException
      *             on error
@@ -64,5 +67,8 @@ public interface IDocumentContentInternalRest {
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
     Response getDocumentContent(@PathParam(DocumentGeneratePath.PARAM_ID) @Parameter(name = DocumentGeneratePath.PARAM_ID,
-            description = "Generated document ID") String documentId) throws BaseException;
+            description = "Generated document ID") String documentId,
+            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
+                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
+            throws BaseException;
 }

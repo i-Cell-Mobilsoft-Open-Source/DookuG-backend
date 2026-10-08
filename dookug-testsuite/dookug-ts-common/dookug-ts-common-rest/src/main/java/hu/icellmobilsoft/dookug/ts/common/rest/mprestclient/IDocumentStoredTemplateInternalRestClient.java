@@ -33,6 +33,6 @@ import hu.icellmobilsoft.dookug.api.url.DocumentGeneratePath;
  * @since 0.2.0
  */
 @RegisterRestClient
-@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
+@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STORED_TEMPLATE)
 public interface IDocumentStoredTemplateInternalRestClient extends IDocumentStoredTemplateInternalRest {
 }

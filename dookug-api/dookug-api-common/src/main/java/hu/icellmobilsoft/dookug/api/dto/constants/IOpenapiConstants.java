@@ -54,6 +54,11 @@ public interface IOpenapiConstants {
          * {@value #MAINTENANCE}
          */
         String MAINTENANCE = "Maintenance";
+
+        /**
+         * {@value #DEV_TOOLS}
+         */
+        String DEV_TOOLS = "WebAppDevTools";
     }
 
     /**
@@ -82,5 +87,81 @@ public interface IOpenapiConstants {
          * {@value #MAINTENANCE}
          */
         String MAINTENANCE = "Clearing internal state.";
+
+        /**
+         * {@value #DEV_TOOLS}
+         */
+        String DEV_TOOLS = "Internal endpoints supporting the web application. Enables template upload and document " +
+                "generation testing before committing templates to the service database. " +
+                "Not intended for external or production use.";
+    }
+
+    /**
+     * OpenAPI "Operation" constants
+     */
+    interface Operation {
+
+        /**
+         * OpenAPI "Summary" constants
+         */
+        interface Summary {
+
+            /**
+             * {@value #TEST_DOCUMENT_GENERATE_INLINE}
+             */
+            String TEST_DOCUMENT_GENERATE_INLINE = "Generates document based on the template sent in a multipart request, and returns it.";
+
+            /**
+             * {@value TEST_STORE_TEMPLATE_GROUP}
+             */
+            String TEST_STORE_TEMPLATE_GROUP = "Creates a new template group.";
+        }
+
+        /**
+         * OpenAPI "Description" constants
+         */
+        interface Description {
+
+            /**
+             * {@value #TEST_DOCUMENT_GENERATE_INLINE}
+             */
+            String TEST_DOCUMENT_GENERATE_INLINE = "The request must include the data related to the template and the document generation process:\n\n"
+                    +
+                    "* Multiple hierarchically ordered templates can be processed using the Handlebars template engine.\n" +
+                    "* Template parameters are received as a JSON file\n" +
+                    "* SAXON generator parameters are received as an XML file\n" +
+                    "* PDF files are generated without an electronic signature.\n\n" +
+                    "The multipart request must contain the following parts:\n\n" +
+                    "* `TEMPLATE`: the main template file (required).\n" +
+                    "  * Accepted extensions: `.txt`, `.html`, `.xslt`\n" +
+                    "  * The input part's Content-Disposition header should contain the filename with the extension. " +
+                    "Validation and the response filename is based on this.\n" +
+                    "* `SUBTEMPLATE`: partial template files (optional, multiple parts allowed).\n" +
+                    "  * Accepted extensions: `.txt`, `.html`, `.xslt` (should be the same as the TEMPLATE's)\n" +
+                    "  * Each input part's Content-Disposition header should contain the filename with the extension. " +
+                    "Validation is based on this and should match the partial name in the template case sensitively.\n" +
+                    "* `TEMPLATE_LANGUAGE`: Required only if the TEMPLATE file extension is `.xslt`\n" +
+                    "* `PARAMETERS_TEMPLATE_ENGINE`: `.json` file containing the template engine parameters (optional)\n" +
+                    "  * The input part's Content-Disposition header should contain the filename with the extension. " +
+                    "Validation is based on this.\n" +
+                    "* `PARAMETERS_GENERATOR_ENGINE`: `.xml` file containing the generator parameters (optional)\n" +
+                    "  * The input part's Content-Disposition header should contain the filename with the extension. " +
+                    "Validation is based on this.";
+
+            /**
+             * {@value TEST_STORE_TEMPLATE_GROUP}
+             */
+            String TEST_STORE_TEMPLATE_GROUP = "Insert new template group to the TEMPLATE, TEMPLATE_PART, TEMPLATE_TEMPLATE_PART, TEMPLATE_PART_CONTENT tables.\n"
+                    +
+                    "The multipart request must contain the following parts:\n" +
+                    "* `TEMPLATE`: the files that the template consists of\n" +
+                    "   * At least one file is required\n" +
+                    "   * Accepted extensions: .txt, .html, .xslt (All files must have the same extension)\n" +
+                    "   * The Content-Disposition header should contain the filename with the extension for each template file\n" +
+                    " * `TEMPLATE_FILE_ID`: The identifiers of the template files. Every file must have an identifier. Must be ordered as the files they refer to.'\n"
+                    +
+                    " * `TEMPLATE_DATA`: A `CreateTemplateGroupRequest` in JSON format containing the data of the template and the template parts.\n" +
+                    "Example request can be found in the documentation";
+        }
     }
 }

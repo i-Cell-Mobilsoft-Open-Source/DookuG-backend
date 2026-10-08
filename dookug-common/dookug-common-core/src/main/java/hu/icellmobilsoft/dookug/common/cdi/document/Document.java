@@ -27,7 +27,7 @@ package hu.icellmobilsoft.dookug.common.cdi.document;
  */
 public class Document {
 
-    private final String documentId;
+    private String documentId;
     private final String documentFormat;
     private final byte[] content;
     private final String documentStatus;
@@ -49,6 +49,22 @@ public class Document {
      */
     public Document(String documentId, String documentFormat, byte[] content, String documentStatus) {
         this.documentId = documentId;
+        this.documentFormat = documentFormat;
+        this.content = content;
+        this.documentStatus = documentStatus;
+    }
+
+    /**
+     * default constructor
+     * 
+     * @param documentFormat
+     *            the format
+     * @param content
+     *            content as byte array
+     * @param documentStatus
+     *            status of document
+     */
+    public Document(String documentFormat, byte[] content, String documentStatus) {
         this.documentFormat = documentFormat;
         this.content = content;
         this.documentStatus = documentStatus;

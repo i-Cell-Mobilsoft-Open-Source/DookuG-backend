@@ -53,6 +53,7 @@ public abstract class AbstractBaseDookugClient {
     private TemplateEngineType templateEngineType = TemplateEngineType.HANDLEBARS;
     private ResponseFormatType responseFormatType = ResponseFormatType.PDF;
     private String templateLanguage = "HU";
+    private boolean responseContentGzipped = false;
 
     private DocumentStorageMethodType documentStorageMethodType = DocumentStorageMethodType.NONE;
     private String digitalSignatureProfile;
@@ -92,11 +93,11 @@ public abstract class AbstractBaseDookugClient {
         if (response == null) {
             return null;
         }
-        String headerContentDispostition = response.getHeaderString(HttpHeaders.CONTENT_DISPOSITION);
-        if (StringUtils.isBlank(headerContentDispostition)) {
+        String headerContentDisposition = response.getHeaderString(HttpHeaders.CONTENT_DISPOSITION);
+        if (StringUtils.isBlank(headerContentDisposition)) {
             return null;
         }
-        Matcher m = FILENAME_PATTERN.matcher(headerContentDispostition);
+        Matcher m = FILENAME_PATTERN.matcher(headerContentDisposition);
         if (m.find()) {
             return m.group(1);
         }
@@ -207,4 +208,17 @@ public abstract class AbstractBaseDookugClient {
         this.digitalSignatureProfile = digitalSignatureProfile;
     }
 
+    /**
+     * @return the responseContentGzipped
+     */
+    public boolean isResponseContentGzipped() {
+        return responseContentGzipped;
+    }
+
+    /**
+     * @param responseContentGzipped the responseContentGzipped to set
+     */
+    public void setResponseContentGzipped(boolean responseContentGzipped) {
+        this.responseContentGzipped = responseContentGzipped;
+    }
 }

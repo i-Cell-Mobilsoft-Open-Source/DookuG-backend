@@ -1,7 +1,7 @@
-<xsd:schema 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
-    xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common" 
+    xmlns:coffeeCommon="http://common.dto.coffee.icellmobilsoft.hu/common"
     targetNamespace="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/common"
     elementFormDefault="qualified" attributeFormDefault="unqualified">
 

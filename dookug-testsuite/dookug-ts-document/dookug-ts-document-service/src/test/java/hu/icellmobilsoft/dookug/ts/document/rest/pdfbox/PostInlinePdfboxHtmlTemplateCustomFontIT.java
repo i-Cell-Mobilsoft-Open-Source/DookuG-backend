@@ -94,7 +94,7 @@ class PostInlinePdfboxHtmlTemplateCustomFontIT extends AbstractGenerateDocumentI
                         new TemplateType().withTemplateName("pdfbox_template")
                                 .withTemplateContent(template.getBytes(StandardCharsets.UTF_8))
                                 .withInitial(true));
-        Response response = client.postDocumentGenerateEntityBody(request);
+        Response response = client.postDocumentGenerateEntityBody(request, false);
 
         Assertions.assertEquals(200, response.getStatus());
         InputStream responseStream = (InputStream) response.getEntity();

@@ -21,15 +21,14 @@ package hu.icellmobilsoft.dookug.document.service.action;
 
 import jakarta.enterprise.inject.Model;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
-import hu.icellmobilsoft.coffee.rest.utils.ResponseUtil;
+import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.cdi.StorageMethodQualifier;
 import hu.icellmobilsoft.dookug.common.cdi.document.Document;
 import hu.icellmobilsoft.dookug.common.cdi.template.ITemplateStore;
+import hu.icellmobilsoft.dookug.common.system.rest.util.ResponseUtil;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.DocumentMetadataResponse;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateDocumentGenerateRequest;
 import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.StoredTemplateGeneratorSetupType;
@@ -48,18 +47,20 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      * 
      * @param request
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Generated PDF
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
-    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request) throws BaseException {
+    public Response postStoredTemplateDocumentGenerate(StoredTemplateDocumentGenerateRequest request, Boolean responseContentGzipped)
+            throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
-
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
-        return ResponseUtil.getFileResponse(document.getContent(), document.getFilename(), MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseUtil.getFileResponse(document, responseContentGzipped);
     }
 
     /**
@@ -69,13 +70,12 @@ public class StoredTemplateDocumentGenerateAction extends BaseDocumentGenerateAc
      *            {@link StoredTemplateDocumentGenerateRequest} Request dto
      * @return {@link DocumentMetadataResponse}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
     public DocumentMetadataResponse postStoredTemplateDocumentGenerateMetadata(StoredTemplateDocumentGenerateRequest request) throws BaseException {
         if (request == null) {
             throw new InvalidParameterException("StoredTemplateDocumentGenerateRequest cannot be empty!");
         }
-
         Document document = generateAndGetDocument(request.getGeneratorSetup());
 
         return toDocumentMetadataResponse(document, request.getContext());

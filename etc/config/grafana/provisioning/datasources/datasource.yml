@@ -7,7 +7,19 @@ datasources:
     uid: dookugprometheus
     url: http://prometheus:9090
 
+  - name: prometheus
+    type: prometheus
+    access: proxy
+    uid: fixeduid
+    url: http://prometheus:9090
+
   - name: jaeger
     type: jaeger
     access: proxy
+    url: http://jaeger:16686
+    
+  - name: jaeger
+    type: jaeger
+    access: proxy
+    uid: fixedjaegeruid
     url: http://jaeger:16686

@@ -1,0 +1,13 @@
+roaster:
+  hibernate:
+    defaultPU:
+      jdbc:
+        driver: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/dookug_db?currentSchema=dookug
+        user: postgres
+        password: postgres
+      hibernate:
+        default_schema: dookug
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true

@@ -80,7 +80,7 @@ class PostInlinePdfboxHtmlTemplateIT extends AbstractGenerateDocumentIT {
                 .add(new TemplateType().withTemplateName("pdfbox_template").withTemplateContent(template.getBytes(StandardCharsets.UTF_8)));
         request.getGeneratorSetup().setDigitalSignatureProfile(documentGenerateWithTemplatesRequestBuilder.getDigitalSignatureProfile());
 
-        Response response = client.postDocumentGenerateEntityBody(request);
+        Response response = client.postDocumentGenerateEntityBody(request, false);
         Assertions.assertEquals(200, response.getStatus());
         String filename = getFilename(response);
         Assertions.assertNotNull(filename);
@@ -104,7 +104,7 @@ class PostInlinePdfboxHtmlTemplateIT extends AbstractGenerateDocumentIT {
                 .add(new TemplateType().withTemplateName("pdfbox_template").withTemplateContent(template.getBytes(StandardCharsets.UTF_8)));
 
         try {
-            client.postDocumentGenerateEntityBody(request);
+            client.postDocumentGenerateEntityBody(request, false);
             Assertions.fail(DocumentServiceTestConstant.EXPECTED_500);
         } catch (RestClientResponseException e) {
             Assertions.assertTrue(

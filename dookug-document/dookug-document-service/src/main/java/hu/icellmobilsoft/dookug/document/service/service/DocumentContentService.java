@@ -22,6 +22,8 @@ package hu.icellmobilsoft.dookug.document.service.service;
 import jakarta.enterprise.inject.Model;
 import jakarta.inject.Inject;
 
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.dookug.common.model.template.Document;
 import hu.icellmobilsoft.dookug.common.model.template.DocumentContent;
@@ -49,6 +51,7 @@ public class DocumentContentService extends BaseService<DocumentContent> {
      * @throws BaseException
      *             if DB error occurs
      */
+    @Traced(component = SpanAttribute.Database.COMPONENT, kind = SpanAttribute.Database.KIND, dbType = SpanAttribute.Database.DB_TYPE)
     public DocumentContent findByDocumentId(String documentId) throws BaseException {
         return wrap(documentContentRepository::findByDocumentId, documentId, "findByDocumentId", "documentId");
     }

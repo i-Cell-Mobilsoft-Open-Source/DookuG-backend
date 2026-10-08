@@ -19,11 +19,56 @@
  */
 package hu.icellmobilsoft.dookug.common.util.date;
 
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+
 /**
  * Date util.
  *
  * @author imre.scheffer
  */
 public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil {
+
+    /**
+     * Start of day: 00:00 at the same offset
+     *
+     * @param odt
+     *            offset date time
+     * @return start of day
+     */
+    public static OffsetDateTime startOfDay(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
+        return odt.toLocalDate().atStartOfDay().atOffset(odt.getOffset());
+    }
+
+    /**
+     * End of day (inclusive upper bound): same day at 23:59:59.999999999 at the same offset
+     *
+     * @param odt
+     *            offset date time
+     * @return end of day
+     */
+    public static OffsetDateTime endOfDayInclusive(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
+        return odt.toLocalDate().atTime(LocalTime.MAX).atOffset(odt.getOffset());
+    }
+
+    /**
+     * End of day (exclusive upper bound): start of next day at the same offset
+     *
+     * @param odt
+     *            offset date time
+     * @return end of day exclusive
+     */
+    public static OffsetDateTime endOfDayExclusive(OffsetDateTime odt) {
+        if (odt == null) {
+            return null;
+        }
+        return startOfDay(odt).plusDays(1);
+    }
 
 }

@@ -15,9 +15,6 @@
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/stream/common"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/COMMON/1.0/stream/common.xsd" />
 
-    <public publicId="http://schemas.dookug.icellmobilsoft.hu/COMMON/1.0/config/evict"
-        uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/COMMON/1.0/config/evict.xsd" />
-
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentgenerate"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/documentgenerate.xsd" />
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/documentsign"
@@ -25,5 +22,8 @@
 
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/generator/saxon.xsd" />
+
+    <public publicId="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"
+            uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/TEMPLATE/2.2/test/template.xsd"/>
 
 </catalog>

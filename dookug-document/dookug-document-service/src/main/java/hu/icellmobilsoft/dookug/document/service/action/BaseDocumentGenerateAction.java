@@ -39,12 +39,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import hu.icellmobilsoft.coffee.cdi.trace.annotation.Traced;
+import hu.icellmobilsoft.coffee.cdi.trace.constants.SpanAttribute;
 import hu.icellmobilsoft.coffee.dto.common.commonservice.ContextType;
 import hu.icellmobilsoft.coffee.dto.exception.InvalidParameterException;
 import hu.icellmobilsoft.coffee.dto.exception.enums.CoffeeFaultType;
 import hu.icellmobilsoft.coffee.se.api.exception.BaseException;
 import hu.icellmobilsoft.coffee.se.api.exception.BusinessException;
-import hu.icellmobilsoft.coffee.se.util.string.RandomUtil;
 import hu.icellmobilsoft.coffee.tool.utils.compress.GZIPUtil;
 import hu.icellmobilsoft.coffee.tool.utils.date.DateUtil;
 import hu.icellmobilsoft.coffee.tool.utils.json.JsonUtil;
@@ -61,6 +62,7 @@ import hu.icellmobilsoft.dookug.common.cdi.template.Template;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateContainer;
 import hu.icellmobilsoft.dookug.common.cdi.template.TemplateDataContainer;
 import hu.icellmobilsoft.dookug.common.model.template.enums.DocumentStatus;
+import hu.icellmobilsoft.dookug.common.rest.cdi.RequestContainer;
 import hu.icellmobilsoft.dookug.common.system.rest.action.BaseAction;
 import hu.icellmobilsoft.dookug.common.util.filename.FileUtil;
 import hu.icellmobilsoft.dookug.document.service.converter.DocumentConverter;
@@ -91,6 +93,9 @@ public class BaseDocumentGenerateAction extends BaseAction {
     private DocumentConverter documentConverter;
 
     @Inject
+    private RequestContainer requestContainer;
+
+    @Inject
     @ConfigProperty(name = ConfigKeys.Interface.DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED,
             defaultValue = ConfigKeys.Interface.DOOKUG_SERVICE_INTERFACE_PARAMETERSDATA_GZIPPED_DEFAULT)
     private boolean parametersDataGzipped;
@@ -102,8 +107,9 @@ public class BaseDocumentGenerateAction extends BaseAction {
      *            the generator configuration
      * @return the {@link Document}
      * @throws BaseException
-     *             on error
+     *             if any error occurs
      */
+    @Traced(component = SpanAttribute.COMPONENT_KEY, kind = SpanAttribute.INTERNAL)
     protected Document generateDocument(BaseGeneratorSetupType generatorSetup) throws BaseException {
         validateSetup(generatorSetup);
 
@@ -207,7 +213,7 @@ public class BaseDocumentGenerateAction extends BaseAction {
     }
 
     private Document createDocument(BaseGeneratorSetupType generatorSetup, byte[] content) throws BaseException {
-        Document document = new Document(RandomUtil.generateId(), generatorSetup.getResponseFormat().name(), content, DocumentStatus.DONE.name());
+        Document document = new Document(generatorSetup.getResponseFormat().name(), content, DocumentStatus.DONE.name());
         document.setStorageType(generatorSetup.getDocumentStorageMethod().name());
         document.setFilename(
                 FileUtil.createFilename(
@@ -218,6 +224,7 @@ public class BaseDocumentGenerateAction extends BaseAction {
         return document;
     }
 
+    @Traced(component = SpanAttribute.COMPONENT_KEY, kind = SpanAttribute.INTERNAL)
     private Document saveDocument(BaseGeneratorSetupType generatorSetup, byte[] content) throws BaseException {
         IDocumentStore iDocumentStore = CDI.current()
                 .select(IDocumentStore.class, new StorageMethodQualifier.Literal(generatorSetup.getDocumentStorageMethod().name()))
