@@ -43,7 +43,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
  * @since 0.2.0
  */
 @Tag(name = IOpenapiConstants.Tag.QUERY, description = IOpenapiConstants.Description.QUERY)
-@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
+@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STORED_TEMPLATE)
 public interface IDocumentStoredTemplateInternalRest {
 
     /**

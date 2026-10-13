@@ -47,7 +47,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Stor
  * @since 0.1.0
  */
 @Tag(name = IOpenapiConstants.Tag.DOCUMENT_GENERATE, description = IOpenapiConstants.Description.DOCUMENT_GENERATE)
-@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE)
+@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STORED_TEMPLATE)
 public interface IDocumentGenerateStoredTemplateInternalRest {
 
     /**

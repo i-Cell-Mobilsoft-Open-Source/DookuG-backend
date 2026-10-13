@@ -45,15 +45,28 @@ public class DocumentGenerateInlineInternalRest extends BaseRestService implemen
     private DocumentGenerateAction documentGenerateAction;
 
     @Override
-    public Response postDocumentGenerateMultipart(DocumentGenerateMultipartForm form) throws BaseException {
+    public Response postDocumentGenerateMultipart(DocumentGenerateMultipartForm form, Boolean responseContentGzipped) throws BaseException {
         saveGeneratorSetup(form);
-        return wrapPathParam1(documentGenerateAction::postDocumentGenerate, form, "postDocumentGenerateMultipart", "form");
+        return wrapPathParam2(
+                documentGenerateAction::postDocumentGenerate,
+                form,
+                responseContentGzipped,
+                "postDocumentGenerateMultipart",
+                "form",
+                "responseContentGzipped");
     }
 
     @Override
-    public Response postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request) throws BaseException {
+    public Response postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request, Boolean responseContentGzipped)
+            throws BaseException {
         saveGeneratorSetup(request);
-        return wrapPathParam1(documentGenerateAction::postDocumentGenerate, request, "postDocumentGenerateEntityBody", "request");
+        return wrapPathParam2(
+                documentGenerateAction::postDocumentGenerate,
+                request,
+                responseContentGzipped,
+                "postDocumentGenerateEntityBody",
+                "request",
+                "responseContentGzipped");
     }
 
     @Override

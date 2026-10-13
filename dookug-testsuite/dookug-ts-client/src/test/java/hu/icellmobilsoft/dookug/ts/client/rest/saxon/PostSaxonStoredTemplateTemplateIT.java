@@ -19,7 +19,6 @@
  */
 package hu.icellmobilsoft.dookug.ts.client.rest.saxon;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -57,7 +56,7 @@ class PostSaxonStoredTemplateTemplateIT extends AbstractGenerateDocumentIT {
 
     @Test
     @DisplayName("input xslt template, output pdf")
-    void inputHtmlTest() throws BaseException, IOException {
+    void inputHtmlTest() throws BaseException {
         client.setTemplateEngineType(TemplateEngineType.NONE);
         client.setGeneratorEngineType(GeneratorEngineType.SAXON);
         client.setResponseFormatType(ResponseFormatType.PDF);

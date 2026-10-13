@@ -45,7 +45,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Docu
  */
 @RegisterRestClient(configKey = ConfigKeys.Client.DOOKUG_CLIENT_DOCUMENT)
 @RegisterProvider(CustomJsonbContextResolver.class)
-@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STOREDTEMPLATE)
+@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_STORED_TEMPLATE)
 public interface IDocumentStoredTemplateInternalRest extends AutoCloseable {
 
     /**

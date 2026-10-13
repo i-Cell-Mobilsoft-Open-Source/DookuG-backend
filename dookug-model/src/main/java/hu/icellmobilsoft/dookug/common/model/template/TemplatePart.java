@@ -65,22 +65,6 @@ public class TemplatePart extends AbstractIdentifiedAuditEntity {
     private String description;
 
     /**
-     * Template engine
-     */
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "TEMPLATE_ENGINE", length = 30, nullable = false)
-    private TemplateEngine templateEngine;
-
-    /**
-     * Generator engine
-     */
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "GENERATOR_ENGINE", length = 30, nullable = false)
-    private GeneratorEngine generatorEngine;
-
-    /**
      * Type of template
      */
     @NotNull
@@ -124,44 +108,6 @@ public class TemplatePart extends AbstractIdentifiedAuditEntity {
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * Getter of templateEngine
-     * 
-     * @return templateEngine
-     */
-    public TemplateEngine getTemplateEngine() {
-        return templateEngine;
-    }
-
-    /**
-     * Setter of templateEngine
-     * 
-     * @param templateEngine
-     *            templateEngine
-     */
-    public void setTemplateEngine(TemplateEngine templateEngine) {
-        this.templateEngine = templateEngine;
-    }
-
-    /**
-     * Getter of generatorEngine
-     * 
-     * @return generatorEngine
-     */
-    public GeneratorEngine getGeneratorEngine() {
-        return generatorEngine;
-    }
-
-    /**
-     * Setter of generatorEngine
-     * 
-     * @param generatorEngine
-     *            generatorEngine
-     */
-    public void setGeneratorEngine(GeneratorEngine generatorEngine) {
-        this.generatorEngine = generatorEngine;
     }
 
     /**

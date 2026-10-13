@@ -26,4 +26,7 @@
     <public publicId="http://schemas.dookug.icellmobilsoft.hu/DOCUMENT/1.0/rest/generator/saxon"
         uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/DOCUMENT/1.0/rest/generator/saxon.xsd" />
 
+    <public publicId="http://schemas.dookug.icellmobilsoft.hu/TEMPLATE/2.2/test/template"
+            uri="maven:hu.icellmobilsoft.dookug:dookug-api-schema:jar::!/xsd/hu/icellmobilsoft/dookug/schemas/TEMPLATE/2.2/test/template.xsd"/>
+
 </catalog>

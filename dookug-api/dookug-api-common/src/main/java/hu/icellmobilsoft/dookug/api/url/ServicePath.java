@@ -35,13 +35,38 @@ public class ServicePath extends BaseServicePath {
     public static final String TEST = "/test";
 
     /**
-     * {@value #EVICT}
+     * {@value #DOCUMENT}
      */
-    public static final String EVICT = "/evict";
+    public static final String DOCUMENT = "/dookug/document";
 
     /**
-     * {@value #SYSTEM_EVICT}
+     * {@value #TEST_DOCUMENT}
      */
-    public static final String SYSTEM_EVICT = SYSTEM + EVICT;
+    public static final String TEST_DOCUMENT = TEST + DOCUMENT;
+
+    /**
+     * {@value #STORED_TEMPLATE}
+     */
+    public static final String STORED_TEMPLATE = "/storedTemplate";
+
+    /**
+     * {@value #STORED_TEMPLATE}
+     */
+    public static final String STORED_TEMPLATE_GROUP = "/storedTemplateGroup";
+
+    /**
+     * {@value #METADATA}
+     */
+    public static final String METADATA = "/metadata";
+
+    /**
+     * {@value #METADATA_QUERY}
+     */
+    public static final String METADATA_QUERY = METADATA + QUERY;
+
+    /**
+     * Query parameter name for compressed content indication
+     */
+    public static final String PARAM_RESPONSE_CONTENT_GZIPPED = "responseContentGzipped";
 
 }

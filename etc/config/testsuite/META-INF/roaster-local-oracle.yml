@@ -1,0 +1,13 @@
+roaster:
+  hibernate:
+    defaultPU:
+      jdbc:
+        driver: oracle.jdbc.OracleDriver
+        url: jdbc:oracle:thin:@module-dookug-oracle:1521/xepdb1?oracle.net.disableOob=true
+        user: dookug
+        password: developer
+      hibernate:
+        default_schema: dookug
+        dialect: org.hibernate.dialect.OracleDialect
+        show_sql: true
+        format_sql: true

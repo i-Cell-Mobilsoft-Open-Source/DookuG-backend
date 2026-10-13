@@ -4,8 +4,13 @@
         <dependencies>
             <module name="org.apache.commons.io" />
             <module name="org.apache.commons.codec" />
+            
+            <!-- they are not included in the baseimage we are using -->
+            <!-- 
             <module name="org.apache.commons.beanutils" />
             <module name="org.apache.commons.collections" />
+            -->
+            
             <!--module name="org.apache.commons.lang3" /-->
             <module name="org.apache.httpcomponents" />
             <module name="com.google.guava" />

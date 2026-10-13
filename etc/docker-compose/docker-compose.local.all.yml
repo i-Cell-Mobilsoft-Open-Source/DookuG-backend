@@ -38,32 +38,11 @@ services:
       service: module-dookug-postgredb
 
   # run liquibase main to add objects
-  dookug-liquibase-pg-step_1:
+  dookug-liquibase-pg:
     profiles: ["pg"]
     extends:
       file: ./docker-compose.local.postgredb.yml
-      service: dookug-liquibase-pg-step_1
-
-  # add partition manager
-  dookug-pg_tools-step_01B:
-    profiles: ["pg"]
-    extends:
-      file: ./docker-compose.local.postgredb.yml
-      service: dookug-pg_tools-step_01B
-
-  # run liquibase 2
-  dookug-liquibase-pg-step_2:
-    profiles: ["pg"]
-    extends:
-      file: ./docker-compose.local.postgredb.yml
-      service: dookug-liquibase-pg-step_2
-
-  # add sample data
-  dookug-liquibase-pg-sample-data:
-    profiles: ["pg"]
-    extends:
-      file: ./docker-compose.local.postgredb.yml
-      service: dookug-liquibase-pg-sample-data
+      service: dookug-liquibase
 
   ######### SERVICE (ORACLE) #########
   dookug-document-service-oracle:
@@ -92,7 +71,7 @@ services:
       LOGSTASH_HOST: tcp:graylog
       LOGSTASH_PORT: 12201
     depends_on:
-      dookug-liquibase-pg-sample-data:
+      dookug-liquibase-pg:
         condition: service_completed_successfully
       graylog:
           condition: service_healthy

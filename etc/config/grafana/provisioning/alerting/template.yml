@@ -1,0 +1,18 @@
+# config file version
+apiVersion: 1
+
+# List of templates to import or update
+templates:
+  # <int> organization ID, default = 1
+  - orgId: 1
+    # <string, required> name of the template, must be unique
+    name: my_first_template
+    # <string, required> content of the template
+    template: |
+      {{ define "my_first_template" }}
+      {{ $num_alerts := len .Alerts }}
+      {{ range $index, $alert := .Alerts }}
+      This is alert {{ $index }} out of {{ $num_alerts }}
+      {{ index .Annotations "summary" }}
+      {{ end }}
+      {{ end }}

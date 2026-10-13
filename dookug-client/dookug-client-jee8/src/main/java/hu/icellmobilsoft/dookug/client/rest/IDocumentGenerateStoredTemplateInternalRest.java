@@ -23,9 +23,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -49,7 +51,7 @@ import hu.icellmobilsoft.dookug.schemas.document._1_0.rest.documentgenerate.Stor
  */
 @RegisterRestClient(configKey = ConfigKeys.Client.DOOKUG_CLIENT_DOCUMENT)
 @RegisterProvider(CustomJsonbContextResolver.class)
-@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STOREDTEMPLATE)
+@Path(DocumentGeneratePath.INTERNAL_DOCUMENT_GENERATE_STORED_TEMPLATE)
 public interface IDocumentGenerateStoredTemplateInternalRest extends AutoCloseable {
 
     /**
@@ -62,6 +64,8 @@ public interface IDocumentGenerateStoredTemplateInternalRest extends AutoCloseab
      * 
      * @param request
      *            structured input
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -71,7 +75,9 @@ public interface IDocumentGenerateStoredTemplateInternalRest extends AutoCloseab
     @Produces(value = { MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM })
     @LogSpecifiers({ @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postStoredTemplateDocumentGenerate(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) StoredTemplateDocumentGenerateRequest request)
+    Response postStoredTemplateDocumentGenerate(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) StoredTemplateDocumentGenerateRequest request,
+            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
+                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
             throws BaseException;
 
     /**

@@ -90,7 +90,10 @@ public class DatabaseDocumentStore implements IDocumentStore {
             databaseDocument = documentService.findById(documentId, hu.icellmobilsoft.dookug.common.model.template.Document.class);
         }
         DocumentContent documentContent = documentContentService.findByDocumentId(documentId);
-        Document document = new Document(documentContent.getDocumentId(), databaseDocument.getFormat(), documentContent.getContent(),
+        Document document = new Document(
+                documentContent.getDocumentId(),
+                databaseDocument.getFormat(),
+                documentContent.getContent(),
                 databaseDocument.getStatus().name());
         document.setFilename(databaseDocument.getFilename());
         document.setStorageType(databaseDocument.getStorageType());
@@ -145,13 +148,20 @@ public class DatabaseDocumentStore implements IDocumentStore {
 
     private hu.icellmobilsoft.dookug.common.model.template.Document fillDocument(String format) throws BaseException {
         hu.icellmobilsoft.dookug.common.model.template.Document databaseDocument = new hu.icellmobilsoft.dookug.common.model.template.Document();
-        databaseDocument.setId(RandomUtil.generateId());
         if (EnumUtils.isValidEnumIgnoreCase(ResponseFormatType.class, format)) {
-            databaseDocument.setFilename(FileUtil.createFilename(databaseDocument.getId(), templateContainer.getTemplateName(),
-                    ResponseFormatType.fromValue(format), OffsetDateTime.now().withOffsetSameInstant(ZoneOffset.UTC)));
+            databaseDocument.setFilename(
+                    FileUtil.createFilename(
+                            databaseDocument.getId(),
+                            templateContainer.getTemplateName(),
+                            ResponseFormatType.fromValue(format),
+                            OffsetDateTime.now().withOffsetSameInstant(ZoneOffset.UTC)));
         } else {
-            databaseDocument.setFilename(FileUtil.createFilename(databaseDocument.getId(), templateContainer.getTemplateName(), format,
-                    OffsetDateTime.now().withOffsetSameInstant(ZoneOffset.UTC)));
+            databaseDocument.setFilename(
+                    FileUtil.createFilename(
+                            databaseDocument.getId(),
+                            templateContainer.getTemplateName(),
+                            format,
+                            OffsetDateTime.now().withOffsetSameInstant(ZoneOffset.UTC)));
         }
         databaseDocument.setFormat(format);
         databaseDocument.setStorageType(QualifierConstants.StorageMethodType.DATABASE);
@@ -161,7 +171,10 @@ public class DatabaseDocumentStore implements IDocumentStore {
     }
 
     private Document createDocument(DocumentContent documentContent, hu.icellmobilsoft.dookug.common.model.template.Document databaseDocument) {
-        Document document = new Document(documentContent.getDocumentId(), databaseDocument.getFormat(), documentContent.getContent(),
+        Document document = new Document(
+                documentContent.getDocumentId(),
+                databaseDocument.getFormat(),
+                documentContent.getContent(),
                 databaseDocument.getStatus().name());
         document.setFilename(databaseDocument.getFilename());
         document.setStorageType(databaseDocument.getStorageType());

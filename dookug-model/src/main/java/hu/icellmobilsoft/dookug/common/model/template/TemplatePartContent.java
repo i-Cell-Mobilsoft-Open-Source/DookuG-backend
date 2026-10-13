@@ -19,15 +19,15 @@
  */
 package hu.icellmobilsoft.dookug.common.model.template;
 
-import java.time.OffsetDateTime;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import hu.icellmobilsoft.coffee.model.base.javatime.AbstractIdentifiedAuditEntity;
+import hu.icellmobilsoft.dookug.common.model.template.annotation.BooleanToNumberConverter;
 
 /**
  * Table entity of template blob data
@@ -65,6 +65,7 @@ public class TemplatePartContent extends AbstractIdentifiedAuditEntity {
      */
     @NotNull
     @Column(name = "COMPRESSED", nullable = false)
+    @Convert(converter = BooleanToNumberConverter.class)
     private boolean compressed;
 
     /**

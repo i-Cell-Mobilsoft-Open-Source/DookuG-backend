@@ -86,15 +86,18 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * 
      * @param request
      *            request object
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
      */
-    protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request) throws BaseException {
+    protected GeneratedDocumentDto postDocumentGenerateEntityBody(DocumentGenerateWithTemplatesRequest request, Boolean responseContentGzipped)
+            throws BaseException {
         try {
             request.getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
             request.getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
-            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateEntityBody(request);
+            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateEntityBody(request, responseContentGzipped);
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
             response.setInputStream((InputStream) serviceResponse.getEntity());
@@ -111,15 +114,17 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      * 
      * @param request
      *            request object
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
      */
-    protected GeneratedDocumentDto postDocumentGenerateMultipart(DocumentGenerateMultipartForm request) throws BaseException {
+    protected GeneratedDocumentDto postDocumentGenerateMultipart(DocumentGenerateMultipartForm request, Boolean responseContentGzipped) throws BaseException {
         try {
             request.getRequest().getGeneratorSetup().setDocumentStorageMethod(getDocumentStorageMethodType());
             request.getRequest().getGeneratorSetup().setDigitalSignatureProfile(getDigitalSignatureProfile());
-            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateMultipart(request);
+            Response serviceResponse = iDocumentGenerateInlineInternalRest.postDocumentGenerateMultipart(request, responseContentGzipped);
 
             GeneratedDocumentDto response = new GeneratedDocumentDto();
             response.setInputStream((InputStream) serviceResponse.getEntity());
@@ -227,13 +232,15 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *            parameter list used by generation
      * @param parametersData
      *            the complex parameter type which can be built by the {@link ParametersDataBuilder}
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto} object with the response
      * @throws BaseException
      *             if any error occurs
      */
     public GeneratedDocumentDto postStoredTemplateDocumentGenerate(String templateName, String templateLanguage,
             OffsetDateTime templateValidity, TemplateStorageMethodType templateStorageMethodType, Collection<ParameterType> parameters,
-            ParametersDataType parametersData) throws BaseException {
+            ParametersDataType parametersData, Boolean responseContentGzipped) throws BaseException {
         if (StringUtils.isBlank(templateName) || templateStorageMethodType == null) {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "templateName, storageMethodType are required!");
         }
@@ -245,7 +252,8 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
                     templateName,
                     templateLanguage,
                     templateValidity);
-            Response serviceResponse = iDocumentGenerateStoredTemplateInternalRest.postStoredTemplateDocumentGenerate(request);
+            Response serviceResponse = iDocumentGenerateStoredTemplateInternalRest
+                    .postStoredTemplateDocumentGenerate(request, responseContentGzipped);
 
             return convertResponseToDto(serviceResponse);
         } catch (ProcessingException e) {
@@ -258,17 +266,19 @@ public abstract class AbstractDookugClient extends AbstractBaseDookugClient {
      *
      * @param documentId
      *            document identifier
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return {@link GeneratedDocumentDto}
      * @throws BaseException
      *             if any error occurs
      */
-    public GeneratedDocumentDto getDocumentContent(String documentId) throws BaseException {
+    public GeneratedDocumentDto getDocumentContent(String documentId, Boolean responseContentGzipped) throws BaseException {
         if (StringUtils.isBlank(documentId)) {
             throw new BusinessException(CoffeeFaultType.INVALID_INPUT, "Document id is required!");
         }
 
         try {
-            Response response = iDocumentContentInternalRest.getDocumentContent(documentId);
+            Response response = iDocumentContentInternalRest.getDocumentContent(documentId, responseContentGzipped);
             return convertResponseToDto(response);
         } catch (ProcessingException e) {
             throw newDookugClientException(e);

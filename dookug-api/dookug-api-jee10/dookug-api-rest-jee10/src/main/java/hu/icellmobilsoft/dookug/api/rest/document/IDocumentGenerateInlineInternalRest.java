@@ -23,10 +23,12 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
@@ -62,6 +64,8 @@ public interface IDocumentGenerateInlineInternalRest {
      * 
      * @param form
      *            multipart form input
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
@@ -76,21 +80,25 @@ public interface IDocumentGenerateInlineInternalRest {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form) throws BaseException;
+    Response postDocumentGenerateMultipart(@MultipartForm DocumentGenerateMultipartForm form,
+            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
+                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
+            throws BaseException;
 
     /**
      * REST interface definition for document generation by structured input
      * 
      * @param request
      *            structured input
+     * @param responseContentGzipped
+     *            if true, the response content will be GZIP compressed
      * @return Generated document content output stream
      * @throws BaseException
      *             on error
      */
     @Operation(summary = "Generates document based on the template sent in the request, and returns it.",
             description = "The request must include the data related to the template and the document generation process:\n\n" +
-                    "* It is possible to process multiple, hierarchically ordered templates, which can be used for " +
-                    "HTML-based document generation.\n" +
+                    "* It is possible to process multiple, hierarchically ordered templates.\n" +
                     "* Template parameters are received as key-value pairs (generatorSetup/parameters) or in JSON structure " +
                     "in base64binary format (generatorSetup/parametersData).\n" +
                     "* A PDF can also be generated, optionally with an electronic signature. To enable this, the name of " +
@@ -106,7 +114,9 @@ public interface IDocumentGenerateInlineInternalRest {
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_REQUEST, maxEntityLogSize = LOG_ENTITY_SIZE),
             @LogSpecifier(target = LogSpecifierTarget.RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG),
             @LogSpecifier(target = LogSpecifierTarget.CLIENT_RESPONSE, maxEntityLogSize = LogSpecifier.NO_LOG) })
-    Response postDocumentGenerateEntityBody(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentGenerateWithTemplatesRequest request)
+    Response postDocumentGenerateEntityBody(@ValidateXML(xsdPath = XsdConstants.SUPER_XSD_PATH) DocumentGenerateWithTemplatesRequest request,
+            @QueryParam(DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED) @Parameter(name = DocumentGeneratePath.PARAM_RESPONSE_CONTENT_GZIPPED,
+                    description = "If true, the response content will be GZIP compressed") Boolean responseContentGzipped)
             throws BaseException;
 
     /**
