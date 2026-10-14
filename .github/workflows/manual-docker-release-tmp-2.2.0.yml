@@ -17,7 +17,7 @@ jobs:
   docker-build:
     runs-on: ubuntu-latest
     # Only allow manual runs from this release branch.
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/release/dookug-2.2.x'
+    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'release/dookug-2.2.x'
 
     steps:
       - name: Checkout dookug-2.2.0 tag
