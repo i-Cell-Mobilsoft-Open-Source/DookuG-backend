@@ -1,4 +1,4 @@
-name: manual-docker-release-tmp-2.2.0
+name: manual-docker-release
 
 env:
   GPG_KEY_ID_GITHUB_TECHUSER: '${{ secrets.GPG_KEY_ID_GITHUB_TECHUSER }}'
@@ -6,79 +6,112 @@ env:
   DOCKER_BAKE_PLATFORM: linux/amd64,linux/arm64
 
 on:
+  push:
+    tags:
+      - dookug-*
   workflow_dispatch:
     inputs:
       comment:
+        # Friendly description to be shown in the UI instead of 'name'
         description: 'Comment for release'
-        default: 'Temporary workflow to release docker image 2.2.0'
+        # Default value if no value is explicitly provided
+        default: 'Start docker release from WEB UI'
+        # Input has to be provided for the workflow to run
         required: true
 
 jobs:
   docker-build:
     runs-on: ubuntu-latest
-    # Only allow manual runs from this release branch.
-    if: github.event_name == 'workflow_dispatch'
+    # run only on main or tags
+    if: >
+      ((github.ref_name == 'main' && contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro","cserhatit","jhamrak","plevente011230"]', github.actor)) 
+      || ((github.event_name == 'push' || github.event_name == 'workflow_dispatch') && startsWith(github.ref, 'refs/tags/'))
+      || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master-wf34' && contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro","cserhatit","jhamrak","plevente011230","5p3ctr3oo7021"]', github.actor)))
 
     steps:
-      - name: Checkout dookug-2.2.0 tag
-        uses: actions/checkout@v4
-        with:
-          ref: refs/tags/dookug-2.2.0
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - id: getVersion
-        name: getVersion into POM_XML_PROJECT_VERSION variable
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libxml2-utils
-          PROJECT_VERSION=$(echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /)
-          echo "PROJECT_VERSION=${PROJECT_VERSION}" >> "$GITHUB_OUTPUT"
+    # Get version from POM_XML_PROJECT_VERSION
+    - id: getVersion
+      name: getVersion into POM_XML_PROJECT_VERSION variable
+      run: |
+        sudo apt-get update
+        sudo apt-get install libxml2-utils
+        PROJECT_VERSION=`echo -e 'setns x=http://maven.apache.org/POM/4.0.0\ncat /x:project/x:version/text()' | xmllint --shell pom.xml | grep -v /`
+        echo "PROJECT_VERSION=${PROJECT_VERSION}" >> $GITHUB_OUTPUT
 
-      - id: tag
-        name: Force image tag to 2.2.0
-        run: |
-          IMAGE_TAG="2.2.0"
-          echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
-          echo "Tag => ${IMAGE_TAG}"
+    # Compute tag with short SHA
+    - id: tag
+      name: Compute image tag
+      run: |
+        SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+        PROJECT_VERSION="${{ steps.getVersion.outputs.PROJECT_VERSION }}"
+        if [[ "$PROJECT_VERSION" == *"SNAPSHOT"* ]]; then
+          IMAGE_TAG="${PROJECT_VERSION}-${SHORT_SHA}"
+        else
+          IMAGE_TAG="${PROJECT_VERSION}"
+        fi
+        echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+        echo "Tag => ${IMAGE_TAG}"
 
-      - id: prepare
-        name: Set RELEASED_VERSION into etc/release/.env
-        run: |
-          echo "RELEASED_VERSION=${{ steps.tag.outputs.IMAGE_TAG }}" >> etc/release/.env
+    # Set RELEASED_VERSION
+    - id: prepare
+      name: Set RELEASED_VERSION into etc/release/.env
+      run: |
+        echo "RELEASED_VERSION=${{ steps.tag.outputs.IMAGE_TAG }}" >> etc/release/.env
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+    # https://github.com/docker/setup-qemu-action
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+    # https://github.com/docker/setup-buildx-action
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v3
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
+    # build multiplatform docker images
+    - name: docker buildx bake
+      uses: docker/bake-action@v5
+      with:
+        workdir: etc/release
+        set: |
+          *.platform=${{ env.DOCKER_BAKE_PLATFORM }}
+          *.args.POM_VERSION=${{ steps.getVersion.outputs.PROJECT_VERSION }}
+        push: true
+        files: |
+          release.docker-compose.yml
+        targets: dookug-rest-service-oracle-release,dookug-rest-service-postgres-release
 
-      - name: docker buildx bake
-        uses: docker/bake-action@v5
-        with:
-          workdir: etc/release
-          set: |
-            *.platform=${{ env.DOCKER_BAKE_PLATFORM }}
-            *.args.POM_VERSION=2.2.0
-          push: true
-          files: |
-            release.docker-compose.yml
-          targets: dookug-rest-service-oracle-release,dookug-rest-service-postgres-release
-
-      # force PRD manifest update (because this run is branch-based workflow_dispatch)
-      - name: Update PRD manifest in deploy repo
-        uses: peter-evans/repository-dispatch@v4
-        with:
-          token: ${{ secrets.DEPLOY_REPO_TOKEN }}
-          repository: i-Cell-Mobilsoft-Open-Source/module-deploy
-          event-type: update-prd-image
-          client-payload: |
-            {
-              "image": "${{ steps.tag.outputs.IMAGE_TAG }}",
-              "moduleType": "dookug-document-service"
-            }
+    # Trigger deploy repo update
+    - name: Update DEV manifest in deploy repo
+      if: github.ref == 'refs/heads/master-wf34'
+      uses: peter-evans/repository-dispatch@v4
+      with:
+        token: ${{ secrets.DEPLOY_REPO_TOKEN }}
+        repository: i-Cell-Mobilsoft-Open-Source/module-deploy
+        event-type: update-dev-image
+        client-payload: |
+          {
+            "image": "${{ steps.tag.outputs.IMAGE_TAG }}",
+            "moduleType": "dookug-document-service"
+          }
+  
+    - name: Update PRD manifest in deploy repo
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: peter-evans/repository-dispatch@v4
+      with:
+        token: ${{ secrets.DEPLOY_REPO_TOKEN }}
+        repository: i-Cell-Mobilsoft-Open-Source/module-deploy
+        event-type: update-prd-image
+        client-payload: |
+          {
+            "image": "${{ steps.tag.outputs.IMAGE_TAG }}",
+            "moduleType": "dookug-document-service"
+          }
