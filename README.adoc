@@ -22,7 +22,7 @@ Brief overview:
 .Service (jar, war)
 - Java 17+
 - Java EE 10
-- Wildfly 27.0.1.Final
+- Wildfly 39.0.1.Final
 
 == Services
 

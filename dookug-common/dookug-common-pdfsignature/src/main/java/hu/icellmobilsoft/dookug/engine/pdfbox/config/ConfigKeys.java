@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.engine.pdfbox.config;
 
-import hu.icellmobilsoft.coffee.module.configdoc.ConfigDoc;
+import hu.icellmobilsoft.coffee.module.docgen.config.ConfigDoc;
 
 /**
  * Configuration keys used in the Pdf engine

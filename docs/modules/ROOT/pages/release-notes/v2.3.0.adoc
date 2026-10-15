@@ -1,0 +1,12 @@
+= v2.3.0
+
+== Changes / updates
+
+* icell base image upgrade 1.5.0 -> 2.1.0
+** WildFly 34 -> 39 upgrade
+** JRE 17 -> 21 upgrade
+* Coffee 2.11.0 -> 2.14.0 upgrade
+
+== Migration
+
+Changes are backwards compatible, doesn't need any migration.

@@ -15,9 +15,9 @@
         <version.apache.deltaspike>1.9.6</version.apache.deltaspike>
         <version.org.eclipse.microprofile>4.1</version.org.eclipse.microprofile>
 
-        <version.io.smallrye.config>3.0.0</version.io.smallrye.config>
+        <version.io.smallrye.config>3.13.4</version.io.smallrye.config>
 
-        <version.org.apache.commons.commons-text>1.10.0</version.org.apache.commons.commons-text>
+        <version.org.apache.commons.commons-text>1.15.0</version.org.apache.commons.commons-text>
 
         <version.com.github.jknack.handlebars>4.4.0</version.com.github.jknack.handlebars>
         <version.com.openhtmltopdf.openhtmltopdf-pdfbox>1.0.10</version.com.openhtmltopdf.openhtmltopdf-pdfbox>
@@ -39,7 +39,7 @@
             </dependency>
             <dependency>
                 <groupId>hu.icellmobilsoft.dookug</groupId>
-                <artifactId>dookug-bom-wf-26</artifactId>
+                <artifactId>dookug-bom-wf-39</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
