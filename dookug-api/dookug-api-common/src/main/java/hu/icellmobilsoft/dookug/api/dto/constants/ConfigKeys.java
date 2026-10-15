@@ -19,7 +19,7 @@
  */
 package hu.icellmobilsoft.dookug.api.dto.constants;
 
-import hu.icellmobilsoft.coffee.module.configdoc.ConfigDoc;
+import hu.icellmobilsoft.coffee.module.docgen.config.ConfigDoc;
 
 /**
  * Application config keys

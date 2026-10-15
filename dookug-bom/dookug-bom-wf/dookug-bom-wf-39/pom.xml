@@ -7,54 +7,44 @@
     </parent>
 
     <name>${project.artifactId}</name>
-    <artifactId>dookug-bom-wf-34</artifactId>
+    <artifactId>dookug-bom-wf-39</artifactId>
     <packaging>pom</packaging>
 
     <properties>
-        <version.org.wildfly.bom.wildfly-ee>34.0.1.Final</version.org.wildfly.bom.wildfly-ee>
+        <version.org.wildfly.bom.wildfly-ee>39.0.1.Final</version.org.wildfly.bom.wildfly-ee>
 
         <!-- from wildfly-ee import-->
         <version.org.jboss.logging.jboss-logging>3.6.1.Final</version.org.jboss.logging.jboss-logging>
-        <version.commons-codec>1.17.1</version.commons-codec>
         <version.commons-io>2.16.1</version.commons-io>
         <version.commons-collections>3.2.2</version.commons-collections>
-        <version.commons-beanutils>1.9.4</version.commons-beanutils>
-        <version.org.hibernate.orm>6.6.1.Final</version.org.hibernate.orm>
+        <version.commons-beanutils>1.11.0</version.commons-beanutils>
+        <version.org.hibernate.orm>6.6.40.Final</version.org.hibernate.orm>
         
         <version.org.jboss.resteasy>6.2.11.Final</version.org.jboss.resteasy>
 
         <!-- from wildfly-microprofile import-->
         <version.org.eclipse.microprofile.config>3.1</version.org.eclipse.microprofile.config>
         <version.org.eclipse.microprofile.health>4.0.1</version.org.eclipse.microprofile.health>
-        <version.io.micrometer>1.12.4</version.io.micrometer>
-        <version.org.eclipse.microprofile.openapi>3.1.2</version.org.eclipse.microprofile.openapi>
-        <version.io.opentelemetry>1.29.0</version.io.opentelemetry>
-        <version.org.eclipse.microprofile.rest.client>3.0.1</version.org.eclipse.microprofile.rest.client>
+        <version.io.micrometer>1.15.7</version.io.micrometer>
+        <version.org.eclipse.microprofile.openapi>4.1.1</version.org.eclipse.microprofile.openapi>
+        <version.io.opentelemetry>1.48.0</version.io.opentelemetry>
+        <version.org.eclipse.microprofile.rest.client>4.0</version.org.eclipse.microprofile.rest.client>
 
-        <!-- smallrye-reactive-messaging-api override and include in this WF version
-        <version.org.eclipse.microprofile.reactive.messaging>3.0</version.org.eclipse.microprofile.reactive.messaging -->
-        <version.io.smallrye.reactive.smallrye-reactive-messaging-api>4.24.0</version.io.smallrye.reactive.smallrye-reactive-messaging-api>
-
-        <version.org.eclipse.microprofile.reactive-streams-operators>3.0.1</version.org.eclipse.microprofile.reactive-streams-operators>
         <version.org.apache.kafka>3.5.1</version.org.apache.kafka>
-        <version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>4.24.0</version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>
-        <version.io.vertx.vertx-core>4.5.10</version.io.vertx.vertx-core>
+        <version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>4.35.0</version.io.smallrye.reactive.smallrye-reactive-messaging-kafka-api>
+        <version.io.vertx.vertx-core>4.5.32</version.io.vertx.vertx-core>
 
         <!-- from org.wildfly.bom:wildfly-ee-with-tools -->
         <version.com.h2database>2.2.224</version.com.h2database>
-        <version.io.smallrye.config>3.9.1</version.io.smallrye.config>
-        <version.io.smallrye.common.smallrye-common-constraint>2.5.0</version.io.smallrye.common.smallrye-common-constraint>
+        <version.io.smallrye.config>3.13.4</version.io.smallrye.config>
 
         <!-- benne van, de nem a bom-ban -->
-        <version.commons-lang3>3.15.0</version.commons-lang3>
+        <version.commons-lang3>3.19.0</version.commons-lang3>
         <version.com.google.guava.guava>33.0.0-jre</version.com.google.guava.guava>
-        <version.com.google.code.gson>2.8.9</version.com.google.code.gson>
-        <version.org.yaml.snakeyaml>2.4</version.org.yaml.snakeyaml>
-        <!-- BUG https://issues.redhat.com/browse/WFLY-20058 -->
-        <version.io.netty>4.1.115.Final</version.io.netty>
+        <version.io.netty>4.1.137.Final</version.io.netty>
 
-        <version.org.bouncycastle>1.78.1</version.org.bouncycastle>
-        
+        <version.org.bouncycastle.bcpkix>1.85</version.org.bouncycastle.bcpkix>
+        <version.org.bouncycastle.bcprov>1.85.2</version.org.bouncycastle.bcprov>
     </properties>
 
     <dependencyManagement>
@@ -86,12 +76,6 @@
                 <groupId>org.jboss.logging</groupId>
                 <artifactId>jboss-logging</artifactId>
                 <version>${version.org.jboss.logging.jboss-logging}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-codec</groupId>
-                <artifactId>commons-codec</artifactId>
-                <version>${version.commons-codec}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -170,26 +154,6 @@
                 <scope>provided</scope>
                 <version>${version.io.micrometer}</version>
             </dependency>
-            <!-- https://github.com/eclipse/microprofile-reactive-messaging/issues/10 -->
-            <!-- FYI: wildfly-27.0.1.Final https://github.com/wildfly/wildfly/blob/27.x/microprofile/galleon-common/src/main/resources/modules/system/layers/base/org/eclipse/microprofile/reactive-messaging/api/main/module.xml#L27 -->
-            <!-- dependency>
-                <groupId>org.eclipse.microprofile.reactive.messaging</groupId>
-                <artifactId>microprofile-reactive-messaging-api</artifactId>
-                <scope>provided</scope>
-                <version>${version.org.eclipse.microprofile.reactive.messaging}</version>
-            </dependency -->
-            <dependency>
-                <groupId>io.smallrye.reactive</groupId>
-                <artifactId>smallrye-reactive-messaging-api</artifactId>
-                <scope>provided</scope>
-                <version>${version.io.smallrye.reactive.smallrye-reactive-messaging-api}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.microprofile.reactive-streams-operators</groupId>
-                <artifactId>microprofile-reactive-streams-operators-api</artifactId>
-                <scope>provided</scope>
-                <version>${version.org.eclipse.microprofile.reactive-streams-operators}</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
@@ -231,12 +195,6 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>${version.com.google.code.gson}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config</artifactId>
                 <version>${version.io.smallrye.config}</version>
@@ -246,18 +204,6 @@
                 <groupId>io.smallrye.config</groupId>
                 <artifactId>smallrye-config-common</artifactId>
                 <version>${version.io.smallrye.config}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.smallrye.common</groupId>
-                <artifactId>smallrye-common-constraint</artifactId>
-                <version>${version.io.smallrye.common.smallrye-common-constraint}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>${version.org.yaml.snakeyaml}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -327,13 +273,13 @@
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk18on</artifactId>
-                <version>${version.org.bouncycastle}</version>
+                <version>${version.org.bouncycastle.bcpkix}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk18on</artifactId>
-                <version>${version.org.bouncycastle}</version>
+                <version>${version.org.bouncycastle.bcprov}</version>
                 <scope>provided</scope>
             </dependency>
 
