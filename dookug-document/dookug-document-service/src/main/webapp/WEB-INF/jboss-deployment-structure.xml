@@ -14,7 +14,6 @@
             <!--module name="org.apache.commons.lang3" /-->
             <module name="org.apache.httpcomponents" />
             <module name="com.google.guava" />
-            <module name="com.google.code.gson" />
             <!-- io.smallrye.config:smallrye-config-source-yaml miatt kell -->
             <module name="io.smallrye.common.classloader" />
             <module name="org.yaml.snakeyaml" />

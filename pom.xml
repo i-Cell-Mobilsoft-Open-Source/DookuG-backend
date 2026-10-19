@@ -19,11 +19,12 @@
     <inceptionYear>2023</inceptionYear>
 
     <properties>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.scm.id>icell-github-server</project.scm.id>
         <sonar.junit.reportPaths>${surefire.reportsDir}, ${failsafe.reportsDir}</sonar.junit.reportPaths>
         <sonar.jacoco.reportPaths>${jacoco.ut.execution.data.file}, ${jacoco.it.execution.data.file}</sonar.jacoco.reportPaths>
         <version.hu.icellmobilsoft.coffee.ee8>1.16.0</version.hu.icellmobilsoft.coffee.ee8>
-        <version.hu.icellmobilsoft.coffee.ee10>2.11.0</version.hu.icellmobilsoft.coffee.ee10>
+        <version.hu.icellmobilsoft.coffee.ee10>2.14.0</version.hu.icellmobilsoft.coffee.ee10>
         <version.hu.icellmobilsoft.frappee>2.0.0</version.hu.icellmobilsoft.frappee>
     </properties>
 
@@ -107,7 +108,7 @@
                 <plugin>
                     <groupId>io.smallrye</groupId>
                     <artifactId>smallrye-open-api-maven-plugin</artifactId>
-                    <version>3.13.0</version>
+                    <version>4.2.3</version>
                     <executions>
                         <execution>
                             <goals>

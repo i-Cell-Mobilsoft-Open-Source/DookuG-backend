@@ -40,7 +40,7 @@ public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil 
         if (odt == null) {
             return null;
         }
-        return odt.toLocalDate().atStartOfDay().atOffset(odt.getOffset());
+        return odt.with(LocalTime.MIN);
     }
 
     /**
@@ -54,7 +54,7 @@ public class DateUtil extends hu.icellmobilsoft.coffee.tool.utils.date.DateUtil 
         if (odt == null) {
             return null;
         }
-        return odt.toLocalDate().atTime(LocalTime.MAX).atOffset(odt.getOffset());
+        return odt.with(LocalTime.MAX);
     }
 
     /**

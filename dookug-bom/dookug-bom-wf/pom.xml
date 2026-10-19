@@ -11,9 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>dookug-bom-wf-26</module>
-        <module>dookug-bom-wf-27</module>
-        <module>dookug-bom-wf-34</module>
+        <module>dookug-bom-wf-39</module>
     </modules>
     
 </project>

@@ -19,7 +19,7 @@
             in child modules! -->
         <dependency>
             <groupId>hu.icellmobilsoft.coffee</groupId>
-            <artifactId>coffee-module-configdoc</artifactId>
+            <artifactId>coffee-module-docgen-config</artifactId>
             <version>${version.hu.icellmobilsoft.coffee}</version>
             <optional>true</optional>
         </dependency>

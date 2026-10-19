@@ -13,7 +13,6 @@
 	<modules>
 		<module>dookug-common-core</module>
 		<module>dookug-common-health</module>
-		<module>dookug-common-metrics</module>
 		<module>dookug-common-util</module>
 		<module>dookug-common-rest-jee</module>
 		<module>dookug-common-system-rest</module>
