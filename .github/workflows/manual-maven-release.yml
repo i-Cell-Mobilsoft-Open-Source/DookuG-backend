@@ -29,6 +29,11 @@ jobs:
     if: contains('["rombow","czenczl","petrenyi-mark","speter555","bucherarnold","mate-biro","cserhatit","jhamrak"]', github.actor)
 
     steps:
+      - name: Set up Maven 3.9.16
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.16
+
       #import gpg key with passphrase
       #- name: Import GPG key
       #  uses: crazy-max/ghaction-import-gpg@v6
