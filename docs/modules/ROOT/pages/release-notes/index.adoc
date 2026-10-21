@@ -10,4 +10,4 @@ include::v2.0.0.adoc[leveloffset=+1]
 include::v2.1.0.adoc[leveloffset=+1]
 include::v2.2.0.adoc[leveloffset=+1]
 include::v2.3.0.adoc[leveloffset=+1]
-
+include::v2.4.0.adoc[leveloffset=+1]
