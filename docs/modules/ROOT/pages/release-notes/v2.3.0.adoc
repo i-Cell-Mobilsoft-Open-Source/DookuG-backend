@@ -6,6 +6,7 @@
 ** WildFly 34 -> 39 upgrade
 ** JRE 17 -> 21 upgrade
 * Coffee 2.11.0 -> 2.14.0 upgrade
+* Parent POM 1.5.0 -> 1.6.0 upgrade
 
 == Migration
 
